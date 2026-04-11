@@ -8,10 +8,10 @@ This document describes the technical structure of the Kadıköy parcel locker (
 
 We formulate parcel locker placement as an urban multi-objective optimization problem. From a candidate set of grid-based locations within Kadıköy, the algorithm aims to select an optimal subset that balances:
 
-- **Accessibility**: maximize service convenience / reach (e.g., demand coverage, proximity-based service quality).
-- **Equity**: improve fairness of service distribution across neighborhoods (avoid over-serving some areas while under-serving others).
+- **Accessibility**: maximize service convenience and reach (e.g., demand-weighted mean distance).
+- **Equity**: improve fairness of service distribution across neighborhoods (minimize the variance of accessibility between neighborhoods).
 
-The optimization is planned to produce **Pareto-optimal** solutions using SPEA2.
+The optimization produces a **Pareto-optimal** set of solutions using SPEA2, eliminating the need for subjective weighted-sum aggregations.
 
 ---
 
@@ -22,9 +22,10 @@ The optimization is planned to produce **Pareto-optimal** solutions using SPEA2.
 
 **What it stores (typical fields):**
 - Spatial coordinates: `lat`, `lon`
-- Demand proxy: `weightedPopulation` (derived from neighborhood population normalization)
-- POI counts around the candidate (e.g., ATM, bank, hospital, school, etc.)
-- Existing locker proximity/count features (if available in the CSV)
+- Base Demand: `weightedPopulation` (derived from neighborhood population)
+- POI Features: `poiScore` (0-1 score representing urban attractiveness)
+- **Final Demand:** `demandFinal` (the ultimate metric combining population and POIs, used by the GA)
+- Existing locker proximity/count features (if available)
 
 **Notes:**
 - `toString()` is used for debugging / inspection.
@@ -43,17 +44,17 @@ The optimization is planned to produce **Pareto-optimal** solutions using SPEA2.
 - `getAllCandidates()`
 - `getAllCandidateIds()`
 
-**Why this matters:** Fitness calculations and GA operators often require quick access to candidate attributes by ID.
+**Why this matters:** Fitness calculations and GA operators require fast, constant-time access to candidate attributes by ID during millions of evaluations.
 
 ---
 
 ### `CsvLoader.java`
-**Purpose:** Loads candidate data from `candidate_points.csv` into the system.
+**Purpose:** Loads candidate data from the enriched CSV (`candidate_points_enriched.csv`) into the system.
 
 **Responsibilities:**
 - Parse CSV rows into `CandidatePoint` objects
 - Convert types safely (String → int/double)
-- Read flags such as `isForbidden` (if present) and handle them consistently
+- Read flags such as `isForbidden` and map the new `demand_final` column.
 
 ---
 
@@ -61,16 +62,14 @@ The optimization is planned to produce **Pareto-optimal** solutions using SPEA2.
 **Purpose:** Represents a single GA individual (solution candidate).
 
 **Chromosome representation:**
-- A list/array of candidate IDs (or indices) representing chosen locker locations.
+- A list/array of `k` candidate IDs (or indices) representing chosen locker locations.
 
 **Fitness representation:**
-- In the SPEA2 context, “fitness” is not a single scalar objective. The class structure is intended to support:
-  - dominance / strength calculations
-  - raw fitness
-  - density estimation
-  - multi-objective values (Accessibility, Equity) stored separately
-
-> Note: If the current code uses a placeholder scalar `fitness`, it should later be refactored to store objective vectors + SPEA2-specific values.
+- In the SPEA2 context, "fitness" is not a single scalar. The class stores:
+  - Dominance / strength calculations
+  - Raw fitness
+  - Density estimation (k-th nearest neighbor distance in objective space)
+  - Objective vectors: `accessibilityScore` and `equityScore` stored separately.
 
 ---
 
@@ -78,10 +77,10 @@ The optimization is planned to produce **Pareto-optimal** solutions using SPEA2.
 **Purpose:** Creates the initial population for the evolutionary run.
 
 **Typical logic:**
-- Randomly select `k` candidate locations per individual
-- Use `Collections.shuffle()` or equivalent to ensure diversity
+- Randomly select `k` candidate locations per individual.
+- Use `Collections.shuffle()` or equivalent to ensure diversity.
 
-**Why this matters:** Initial diversity helps SPEA2 explore different trade-offs early.
+**Why this matters:** Initial diversity helps SPEA2 explore different trade-offs across the Pareto front early in the run.
 
 ---
 
@@ -92,7 +91,7 @@ The optimization is planned to produce **Pareto-optimal** solutions using SPEA2.
 1. Load candidates using `CsvLoader`
 2. Store candidates in `CandidateRepository`
 3. Initialize population with `PopulationInitializer`
-4. Start the optimization loop (SPEA2 steps)
+4. Start the optimization loop (SPEA2 evaluation, environmental selection, mating selection, variation)
 
 ---
 
@@ -100,78 +99,71 @@ The optimization is planned to produce **Pareto-optimal** solutions using SPEA2.
 
 1. **Main** calls **CsvLoader** → produces **CandidatePoint** objects  
 2. **CandidateRepository** stores them → provides O(1) lookup by ID  
-3. **PopulationInitializer** uses repository IDs to create **Individuals**  
-4. During evaluation, **Individuals** access candidate attributes via **CandidateRepository**
+3. **PopulationInitializer** uses repository IDs to create **Individuals** 4. During evaluation, **Individuals** access candidate attributes (specifically `demandFinal`) via **CandidateRepository** to calculate spatial distances.
 
 ---
 
 ## 4) Technical Details & Implementation Notes
 
-### 4.1 Demand Representation
-- `weightedPopulation` is currently the primary demand proxy for each candidate.
-- It is computed externally (QGIS pipeline) and stored in the CSV.
-- If neighborhood-level normalization is used, it should be documented in the data pipeline guide.
+### 4.1 Data-Driven Demand Representation (EWM Integration)
+Demand is not treated as a simple population metric. To account for the attractiveness of urban facilities (POIs) without subjective bias (e.g., avoiding arbitrary AHP weights), we utilize the **Entropy Weight Method (EWM)**. 
+
+A preprocessing Python script (`scripts/prepare_demand.py`) generates the final demand for the GA:
+1. **`baseDemand`**: The starting demographic weight (currently `weighted_population`).
+2. **`poi_score`**: An objective 0-1 score derived from EWM, which assigns weights based on the spatial information variance of each POI category (e.g., Universities receive higher weights than standard bus stops).
+3. **`demand_final`**: The ultimate weight for each candidate, computed as:
+   `w_i = baseDemand_i * (1 + λ * poi_score_i)`
+   *(where λ is a sensitivity parameter controlling the "pull" of POIs).*
+
+**Important:** The Java GA strictly uses `demand_final` for all objective calculations. It does not interact with raw POI counts.
 
 ---
 
-### 4.2 Fitness Objectives (Planned)
+### 4.2 Fitness Objectives (SPEA2)
 
-> The current structure supports multi-objective evaluation, but objective implementations may still be placeholders depending on the current sprint.
+#### Objective 1: Accessibility (Minimize)
+The demand-weighted mean distance from all demand points to their nearest selected locker.
+- Evaluates how efficiently the locker network serves the population, weighted heavily towards areas with high `demand_final`.
 
-#### Accessibility (Objective 1)
-Typical approaches may include:
-- POI-based accessibility proxies (counts within 300m)
-- distance-based coverage models
-- methods such as **2SFCA (Two-Step Floating Catchment Area)** if capacity/demand structure is modeled
-
-#### Equity (Objective 2)
-Measures how fairly service is distributed across neighborhoods, such as:
-- variance / std. deviation of coverage between neighborhoods
-- worst-served neighborhood minimization
-- Gini-like inequality measures (optional)
+#### Objective 2: Equity (Minimize)
+The variance of the mean accessibility distances across different neighborhoods.
+- Ensures that service quality does not disproportionately favor a single highly-populated district at the complete expense of peripheral neighborhoods.
 
 ---
 
-### 4.3 Genetic Operators (Planned)
+### 4.3 Genetic Operators
 
-Even if the current code has not implemented all operators yet, the chromosome design supports:
-
-- **Selection:** binary tournament selection (SPEA2-compatible)
-- **Crossover:** single-point / uniform crossover on ID lists
-- **Mutation:** replace one chosen ID with another valid candidate ID
-
-> Constraint handling (e.g., uniqueness, forbiddens, minimum spacing) should be enforced during crossover/mutation repair.
+- **Selection:** Binary tournament selection (comparing SPEA2 fitness values).
+- **Crossover:** Single-point or uniform crossover on ID lists, ensuring no duplicate IDs exist within a single chromosome.
+- **Mutation:** Replace one chosen locker ID with a randomly selected valid candidate ID.
+- **Constraint Handling:** `isForbidden` areas are filtered out before initialization.
 
 ---
 
 ## 5) Distance Matrix Artifacts (External Precomputation)
 
-To enable fast distance-based evaluation (overlap/coverage/dispersion), we generate a precomputed distance matrix:
+To enable fast distance-based evaluation, we utilize a precomputed distance matrix generated via Python:
 
 - `kadikoy_distance_meters_nxn.npy` — distances between candidates (meters)
 - `kadikoy_candidate_ids_sorted.npy` — ID ordering used by the matrix
 - `kadikoy_index_map.csv` — idx ↔ id ↔ lon/lat mapping for debug/pinning
-- See: `data/GA_Input_Artifacts_Guide.md` for details
+- See: `data/kadikoy_ARTIFACTS_GUIDE.md` for details
 
 **Important concept:**
-- The distance matrix is indexed by **idx (0..N-1)**, not raw candidate ID.
-- Mapping is done via `ids[idx]`.
+- The distance matrix is indexed by **idx (0..N-1)**, not the raw candidate ID.
+- Mapping is done via `ids[idx] = candidateID`.
 
 ---
 
 ## 6) Current Status vs Next Steps
 
-**Implemented / available**
+**Implemented / Available:**
 - Candidate ingestion (CSV → CandidatePoint → Repository)
 - Initial population generation
 - Distance matrix artifacts produced and versioned
+- POI Weighting via Entropy Weight Method (EWM) and `demand_final` generation (Python pipeline)
 
-**Next steps**
-- Implement objective computations (Accessibility, Equity)
-- Implement SPEA2 pipeline (strength, raw fitness, density, archive handling)
-- Integrate distance matrix into evaluation efficiently (idx mapping)
-- Output: Pareto set solutions → map pins via `kadikoy_index_map.csv`
-
----
-
-This guide reflects the current project architecture and is intended to be updated after each major change.
+**Next Steps:**
+- Update `CandidatePoint.java` and `CsvLoader.java` to ingest the new `demand_final` column.
+- Implement the mathematical objective computations (Accessibility and Equity) in Java using the distance matrix.
+- Complete the SPEA2 pipeline logic (archive truncation, strength calculations, density estimation).
