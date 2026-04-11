@@ -22,12 +22,8 @@ public class CsvLoader {
 
             String[] parts = line.split(",");
 
-            // Mapping based on data/candidate_points.csv:
-            // fid: 0, id: 1, left: 2, top: 3, right: 4, bottom: 5, row_index: 6, col_index: 7,
-            // Mahalle_Name_Turkish: 8, Mahalle_Name_English: 9, population_mahalle: 10,
-            // poi_atm: 11, poi_bank: 12, poi_hospital: 13, poi_school: 14, poi_university: 15,
-            // poi_post_office: 16, poi_transport: 17, poi_bus_stop: 18,
-            // lon: 19, lat: 20, is_forbidden: 21, locker_count: 22, grid_count_by_mahalle: 23, population_candidate: 24
+            // Mapping based on enriched candidate_points.csv:
+            // fid:0, id:1, ..., population_candidate:24, poi_score:25, demand_final:26
 
             CandidatePoint candidate = new CandidatePoint(
                     Integer.parseInt(parts[1].trim()),    // id
@@ -48,7 +44,8 @@ public class CsvLoader {
                     Integer.parseInt(parts[22].trim()),   // lockerCount
                     Integer.parseInt(parts[23].trim()),   // gridCountByMahalle
                     Double.parseDouble(parts[24].trim()), // population (candidate population)
-                    Double.parseDouble(parts[26].trim())  // demandScore (new field)
+                    Double.parseDouble(parts[25].trim()), // poiScore (YENİ)
+                    Double.parseDouble(parts[26].trim())  // demandScore (demand_final)
             );
 
             repository.addCandidate(candidate);

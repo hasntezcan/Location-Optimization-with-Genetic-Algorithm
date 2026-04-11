@@ -24,7 +24,8 @@ public class CandidatePoint {
 
     private int gridCountByMahalle;
     private double population;
-    private double demandScore;
+    private double poiScore;    
+    private double demandScore; 
 
     public CandidatePoint() {
     }
@@ -47,6 +48,7 @@ public class CandidatePoint {
                           int lockerCount,
                           int gridCountByMahalle,
                           double population,
+                          double poiScore,
                           double demandScore) {
         this.id = id;
         this.mahalleNameTurkish = mahalleNameTurkish;
@@ -66,6 +68,7 @@ public class CandidatePoint {
         this.lockerCount = lockerCount;
         this.gridCountByMahalle = gridCountByMahalle;
         this.population = population;
+        this.poiScore = poiScore;
         this.demandScore = demandScore;
     }
 
@@ -213,6 +216,14 @@ public class CandidatePoint {
         this.population = population;
     }
 
+    public double getPoiScore() {
+        return poiScore;
+    }
+
+    public void setPoiScore(double poiScore) {
+        this.poiScore = poiScore;
+    }
+
     public double getDemandScore() {
         return demandScore;
     }
@@ -226,22 +237,8 @@ public class CandidatePoint {
         return "CandidatePoint{" +
                 "id=" + id +
                 ", mahalleNameTurkish='" + mahalleNameTurkish + '\'' +
-                ", mahalleNameEnglish='" + mahalleNameEnglish + '\'' +
-                ", mahallePopulation=" + mahallePopulation +
-                ", poiAtm=" + poiAtm +
-                ", poiBank=" + poiBank +
-                ", poiHospital=" + poiHospital +
-                ", poiSchool=" + poiSchool +
-                ", poiUniversity=" + poiUniversity +
-                ", poiPostOffice=" + poiPostOffice +
-                ", poiTransport=" + poiTransport +
-                ", poiBusStop=" + poiBusStop +
-                ", lon=" + lon +
-                ", lat=" + lat +
-                ", isForbidden=" + isForbidden +
-                ", lockerCount=" + lockerCount +
-                ", gridCountByMahalle=" + gridCountByMahalle +
                 ", population=" + population +
+                ", poiScore=" + poiScore +
                 ", demandScore=" + demandScore +
                 '}';
     }
