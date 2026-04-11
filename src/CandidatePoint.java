@@ -5,7 +5,7 @@ public class CandidatePoint {
     private String mahalleNameTurkish;
     private String mahalleNameEnglish;
 
-    private int population;
+    private int mahallePopulation;
 
     private int poiAtm;
     private int poiBank;
@@ -23,7 +23,8 @@ public class CandidatePoint {
     private int lockerCount;
 
     private int gridCountByMahalle;
-    private double weightedPopulation;
+    private double population;
+    private double demandScore;
 
     public CandidatePoint() {
     }
@@ -31,7 +32,7 @@ public class CandidatePoint {
     public CandidatePoint(int id,
                           String mahalleNameTurkish,
                           String mahalleNameEnglish,
-                          int population,
+                          int mahallePopulation,
                           int poiAtm,
                           int poiBank,
                           int poiHospital,
@@ -45,11 +46,12 @@ public class CandidatePoint {
                           boolean isForbidden,
                           int lockerCount,
                           int gridCountByMahalle,
-                          double weightedPopulation) {
+                          double population,
+                          double demandScore) {
         this.id = id;
         this.mahalleNameTurkish = mahalleNameTurkish;
         this.mahalleNameEnglish = mahalleNameEnglish;
-        this.population = population;
+        this.mahallePopulation = mahallePopulation;
         this.poiAtm = poiAtm;
         this.poiBank = poiBank;
         this.poiHospital = poiHospital;
@@ -63,7 +65,8 @@ public class CandidatePoint {
         this.isForbidden = isForbidden;
         this.lockerCount = lockerCount;
         this.gridCountByMahalle = gridCountByMahalle;
-        this.weightedPopulation = weightedPopulation;
+        this.population = population;
+        this.demandScore = demandScore;
     }
 
     public int getId() {
@@ -90,12 +93,12 @@ public class CandidatePoint {
         this.mahalleNameEnglish = mahalleNameEnglish;
     }
 
-    public int getPopulation() {
-        return population;
+    public int getMahallePopulation() {
+        return mahallePopulation;
     }
 
-    public void setPopulation(int population) {
-        this.population = population;
+    public void setMahallePopulation(int mahallePopulation) {
+        this.mahallePopulation = mahallePopulation;
     }
 
     public int getPoiAtm() {
@@ -202,12 +205,20 @@ public class CandidatePoint {
         this.gridCountByMahalle = gridCountByMahalle;
     }
 
-    public double getWeightedPopulation() {
-        return weightedPopulation;
+    public double getPopulation() {
+        return population;
     }
 
-    public void setWeightedPopulation(double weightedPopulation) {
-        this.weightedPopulation = weightedPopulation;
+    public void setPopulation(double population) {
+        this.population = population;
+    }
+
+    public double getDemandScore() {
+        return demandScore;
+    }
+
+    public void setDemandScore(double demandScore) {
+        this.demandScore = demandScore;
     }
 
     @Override
@@ -216,7 +227,7 @@ public class CandidatePoint {
                 "id=" + id +
                 ", mahalleNameTurkish='" + mahalleNameTurkish + '\'' +
                 ", mahalleNameEnglish='" + mahalleNameEnglish + '\'' +
-                ", population=" + population +
+                ", mahallePopulation=" + mahallePopulation +
                 ", poiAtm=" + poiAtm +
                 ", poiBank=" + poiBank +
                 ", poiHospital=" + poiHospital +
@@ -230,7 +241,8 @@ public class CandidatePoint {
                 ", isForbidden=" + isForbidden +
                 ", lockerCount=" + lockerCount +
                 ", gridCountByMahalle=" + gridCountByMahalle +
-                ", weightedPopulation=" + weightedPopulation +
+                ", population=" + population +
+                ", demandScore=" + demandScore +
                 '}';
     }
 }
