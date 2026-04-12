@@ -4,8 +4,8 @@ import type { Locker } from "@/lib/types";
 
 type LockerStripProps = {
   lockers: Locker[];
-  selectedLockerId: string;
-  onSelectLocker: (locker: Locker) => void;
+  selectedLockerId: string | null;
+  onSelectLocker: (locker: Locker | null) => void;
 };
 
 export function LockerStrip({
@@ -21,7 +21,7 @@ export function LockerStrip({
         return (
           <button
             key={locker.id}
-            onClick={() => onSelectLocker(locker)}
+            onClick={() => onSelectLocker(isSelected ? null : locker)}
             className={`group relative min-w-[190px] overflow-hidden rounded-[24px] border px-4 py-4 text-left transition duration-300 ${
               isSelected
                 ? "border-slate-900/80 bg-[linear-gradient(135deg,#0f172a_0%,#172554_48%,#0f172a_100%)] text-white shadow-[0_16px_32px_rgba(15,23,42,0.18)]"

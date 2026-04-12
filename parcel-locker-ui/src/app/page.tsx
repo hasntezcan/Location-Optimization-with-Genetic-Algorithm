@@ -107,12 +107,8 @@ export default function HomePage() {
     }
 
     setSelectedLocker((prev) => {
-      if (!prev) return lockersForDisplay[0];
-
-      return (
-        lockersForDisplay.find((locker) => locker.id === prev.id) ??
-        lockersForDisplay[0]
-      );
+      if (!prev) return null;
+      return lockersForDisplay.find((locker) => locker.id === prev.id) ?? null;
     });
   }, [lockersForDisplay]);
 
@@ -122,6 +118,7 @@ export default function HomePage() {
     setActiveLockerCount(clamped);
     setCurrentGenerationIndex(0);
     setIsPlaying(false);
+    setSelectedLocker(null);
   };
 
   const handleNextGeneration = () => {
@@ -135,33 +132,33 @@ export default function HomePage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,_#ffffff_0%,_#f8fafc_45%,_#eef2f7_100%)] px-4 py-6 text-slate-900 sm:px-6 lg:px-8">
+    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,_#ffffff_0%,_#f8fafc_45%,_#eef2f7_100%)] px-4 py-4 text-slate-900 sm:px-5 lg:px-6">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[8%] top-[6%] h-56 w-56 rounded-full bg-sky-100/50 blur-3xl" />
-        <div className="absolute right-[10%] top-[12%] h-72 w-72 rounded-full bg-indigo-100/40 blur-3xl" />
-        <div className="absolute bottom-[8%] left-[22%] h-64 w-64 rounded-full bg-cyan-100/30 blur-3xl" />
+        <div className="absolute left-[8%] top-[6%] h-40 w-40 rounded-full bg-sky-100/50 blur-3xl" />
+        <div className="absolute right-[10%] top-[10%] h-56 w-56 rounded-full bg-indigo-100/40 blur-3xl" />
+        <div className="absolute bottom-[8%] left-[22%] h-52 w-52 rounded-full bg-cyan-100/30 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto flex max-w-[1550px] flex-col gap-6">
-        <header className="rounded-[36px] border border-white/60 bg-white/65 px-6 py-10 shadow-[0_10px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl sm:px-10">
+      <div className="relative mx-auto flex max-w-[1500px] flex-col gap-4">
+        <header className="rounded-[30px] border border-white/60 bg-white/65 px-6 py-7 shadow-[0_10px_32px_rgba(15,23,42,0.05)] backdrop-blur-xl sm:px-8 sm:py-8">
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
-            <span className="inline-flex items-center rounded-full border border-slate-200/70 bg-white/80 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500 shadow-sm">
+            <span className="inline-flex items-center rounded-full border border-slate-200/70 bg-white/80 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.28em] text-slate-500 shadow-sm">
               Parcel Locker Dashboard
             </span>
 
-            <h1 className="mt-5 text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl lg:text-[52px] lg:leading-[1.05]">
               Locker placement panel
             </h1>
 
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:text-[15px]">
               Control the locker count, inspect parcel locker positions on the map, and review
               the selected locker&apos;s location details in a cleaner decision-support interface.
             </p>
           </div>
         </header>
 
-        <section className="rounded-[36px] border border-white/60 bg-white/55 p-4 shadow-[0_12px_40px_rgba(15,23,42,0.06)] backdrop-blur-xl sm:p-5">
-          <div className="rounded-[28px] border border-slate-200/50 bg-white/50 p-3 sm:p-4">
+        <section className="rounded-[30px] border border-white/60 bg-white/55 p-3 shadow-[0_12px_32px_rgba(15,23,42,0.05)] backdrop-blur-xl sm:p-4">
+          <div className="rounded-[24px] border border-slate-200/50 bg-white/50 p-2.5 sm:p-3">
             <LockerStrip
               lockers={lockersForDisplay}
               selectedLockerId={selectedLocker?.id ?? ""}
@@ -169,8 +166,8 @@ export default function HomePage() {
             />
           </div>
 
-          <div className="mt-5 grid min-h-[720px] grid-cols-12 gap-5">
-            <div className="col-span-12 lg:col-span-3">
+          <div className="mt-4 grid grid-cols-12 gap-4 lg:min-h-[calc(100vh-290px)]">
+            <div className="col-span-12 lg:col-span-3 lg:h-[calc(100vh-290px)]">
               <ControlPanel
                 lockerCount={inputLockerCount}
                 onLockerCountChange={setInputLockerCount}
@@ -187,8 +184,8 @@ export default function HomePage() {
               />
             </div>
 
-            <div className="col-span-12 lg:col-span-6">
-              {selectedLocker && currentGeneration ? (
+            <div className="col-span-12 lg:col-span-6 lg:h-[calc(100vh-290px)]">
+              {currentGeneration ? (
                 <LockerMap
                   candidates={candidates}
                   boundary={boundary}
@@ -199,20 +196,20 @@ export default function HomePage() {
                   previousGeneration={previousGeneration}
                 />
               ) : (
-                <div className="flex h-full min-h-[520px] items-center justify-center rounded-[30px] border border-white/60 bg-white/55 p-6 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+                <div className="flex h-full min-h-[420px] items-center justify-center rounded-[30px] border border-white/60 bg-white/55 p-6 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl">
                   <p className="text-sm text-slate-500">Loading generation data...</p>
                 </div>
               )}
             </div>
 
-            <div className="col-span-12 lg:col-span-3">
+            <div className="col-span-12 lg:col-span-3 lg:h-[calc(100vh-290px)]">
               {selectedLocker && currentGeneration ? (
                 <LockerDetailPanel
                   locker={selectedLocker}
                   generation={currentGeneration}
                 />
               ) : (
-                <div className="flex h-full min-h-[320px] items-center justify-center rounded-[30px] border border-white/60 bg-white/55 p-6 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+                <div className="flex h-full min-h-[320px] items-center justify-center rounded-[30px] border border-white/60 bg-white/55 p-6 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl lg:h-[calc(100vh-290px)]">
                   <p className="text-sm text-slate-500">No locker selected yet.</p>
                 </div>
               )}

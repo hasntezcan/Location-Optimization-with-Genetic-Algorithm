@@ -16,9 +16,13 @@ import type {
   Locker,
 } from "@/lib/types";
 
-function FlyToLocker({ locker }: { locker: Locker }) {
+function FlyToLocker({ locker }: { locker: Locker | null }) {
   const map = useMap();
-  map.flyTo([locker.lat, locker.lng], 14, { duration: 1.1 });
+
+  if (locker) {
+    map.flyTo([locker.lat, locker.lng], 14, { duration: 1.1 });
+  }
+
   return null;
 }
 
@@ -26,8 +30,8 @@ type LockerMapProps = {
   candidates: CandidatePoint[];
   boundary: GeoJSON.FeatureCollection | null;
   lockers: Locker[];
-  selectedLocker: Locker;
-  onSelectLocker: (locker: Locker) => void;
+  selectedLocker: Locker | null;
+  onSelectLocker: (locker: Locker | null) => void;
   currentGeneration: GenerationSnapshot;
   previousGeneration: GenerationSnapshot | null;
 };
@@ -63,17 +67,19 @@ export function LockerMap({
           </p>
         </div>
 
-        <div className="absolute bottom-4 right-4 z-[600] rounded-2xl border border-white/70 bg-white/72 px-4 py-3 shadow-[0_10px_25px_rgba(15,23,42,0.08)] backdrop-blur-xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-            Active selection
-          </p>
-          <p className="mt-1 text-sm font-semibold text-slate-900">
-            {selectedLocker.name}
-          </p>
-          <p className="mt-1 text-xs text-slate-600">
-            {selectedLocker.neighborhood}
-          </p>
-        </div>
+        {selectedLocker ? (
+          <div className="absolute bottom-4 right-4 z-[600] rounded-2xl border border-white/70 bg-white/72 px-4 py-3 shadow-[0_10px_25px_rgba(15,23,42,0.08)] backdrop-blur-xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+              Active selection
+            </p>
+            <p className="mt-1 text-sm font-semibold text-slate-900">
+              {selectedLocker.name}
+            </p>
+            <p className="mt-1 text-xs text-slate-600">
+              {selectedLocker.neighborhood}
+            </p>
+          </div>
+        ) : null}
 
         <MapContainer
           center={[40.9833, 29.0667]}
@@ -147,7 +153,7 @@ export function LockerMap({
           })}
 
           {lockers.map((locker, index) => {
-            const isSelected = locker.id === selectedLocker.id;
+            const isSelected = locker.id === selectedLocker?.id;
             const existedBefore = previousIds.has(locker.id);
 
             return (
@@ -159,7 +165,11 @@ export function LockerMap({
                 eventHandlers={{ click: () => onSelectLocker(locker) }}
                 pathOptions={{
                   color: isSelected ? "#020617" : "#1e3a8a",
-                  fillColor: isSelected ? "#020617" : existedBefore ? "#2563eb" : "#7c3aed",
+                  fillColor: isSelected
+                    ? "#020617"
+                    : existedBefore
+                    ? "#2563eb"
+                    : "#7c3aed",
                   fillOpacity: 0.95,
                   weight: isSelected ? 3 : 2,
                 }}
@@ -199,7 +209,9 @@ export function LockerMap({
                           State
                         </p>
                         <p className="mt-1 text-sm font-medium text-slate-800">
-                          {existedBefore ? "Persisting from previous generation" : "New in this generation"}
+                          {existedBefore
+                            ? "Persisting from previous generation"
+                            : "New in this generation"}
                         </p>
                       </div>
 
