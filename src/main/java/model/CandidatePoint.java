@@ -1,3 +1,5 @@
+package model;
+
 /**
  * Represents a candidate grid point that can be selected as a locker location.
  * Stores neighborhood information, point-of-interest counts, coordinates, and
@@ -29,8 +31,8 @@ public class CandidatePoint {
 
     private int gridCountByMahalle;
     private double population;
-    private double poiScore;    
-    private double demandScore; 
+    private double poiScore;
+    private double demandScore;
 
     /**
      * Creates an empty candidate point.

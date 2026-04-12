@@ -1,3 +1,8 @@
+package io;
+
+import model.CandidatePoint;
+import model.CandidateRepository;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -68,7 +73,7 @@ public class CsvLoader {
                     Integer.parseInt(parts[22].trim()),   // lockerCount
                     Integer.parseInt(parts[23].trim()),   // gridCountByMahalle
                     Double.parseDouble(parts[24].trim()), // population (candidate population)
-                    Double.parseDouble(parts[25].trim()), // poiScore (YENİ)
+                    Double.parseDouble(parts[25].trim()), // poiScore
                     Double.parseDouble(parts[26].trim())  // demandScore (demand_final)
             );
 

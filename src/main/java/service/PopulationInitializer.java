@@ -1,3 +1,7 @@
+package service;
+
+import model.Individual;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -5,8 +9,9 @@ import java.util.Random;
 
 /**
  * Creates the initial population for the genetic algorithm.
- * Each generated {@link Individual} contains a random chromosome made of
- * unique candidate point IDs.
+ *
+ * <p>Each generated {@link Individual} contains a random chromosome made of
+ * unique candidate point IDs.</p>
  */
 public class PopulationInitializer {
 
@@ -21,17 +26,18 @@ public class PopulationInitializer {
 
     /**
      * Initializes a population with randomly generated individuals.
-     * Each individual contains exactly {@code k} candidate IDs selected from the
-     * given candidate ID list without duplicates inside the same chromosome.
+     *
+     * <p>Each individual contains exactly {@code k} candidate IDs selected from
+     * the given candidate ID list without duplicates inside the same chromosome.</p>
      *
      * @param candidateIds available candidate point IDs
      * @param k number of selected candidate points in each chromosome
      * @param populationSize number of individuals to create
      * @return initialized population
      * @throws IllegalArgumentException if {@code candidateIds} is null or empty,
-     *                                  {@code k} is not positive,
-     *                                  {@code populationSize} is not positive,
-     *                                  or {@code k} is greater than the number of candidate IDs
+     *                                  if {@code k} is not positive,
+     *                                  if {@code populationSize} is not positive,
+     *                                  or if {@code k} is greater than the number of candidate IDs
      */
     public List<Individual> initializePopulation(List<Integer> candidateIds, int k, int populationSize) {
         if (candidateIds == null || candidateIds.isEmpty()) {
@@ -61,8 +67,8 @@ public class PopulationInitializer {
     }
 
     /**
-     * Generates a random chromosome by shuffling the available candidate IDs and
-     * taking the first {@code k} IDs.
+     * Generates a random chromosome by shuffling the available candidate IDs
+     * and taking the first {@code k} IDs.
      *
      * @param candidateIds available candidate point IDs
      * @param k number of selected candidate points in the chromosome

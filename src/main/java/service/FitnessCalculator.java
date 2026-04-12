@@ -1,7 +1,20 @@
+package service;
+
+import model.CandidatePoint;
+import model.CandidateRepository;
+import model.Individual;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Computes raw objective values for individuals in the parcel locker
+ * optimization problem.
+ *
+ * <p>This class is responsible only for problem-specific objective evaluation.
+ * It does not perform SPEA2 dominance, density, archive handling, or selection.</p>
+ */
 public class FitnessCalculator {
 
     private final double[][] distanceMatrix;
@@ -9,6 +22,17 @@ public class FitnessCalculator {
     private final double totalSystemDemand;
     private final double beta;
 
+    /**
+     * Creates a fitness calculator with the given distance matrix,
+     * candidate repository, and distance-decay exponent.
+     *
+     * @param distanceMatrix precomputed candidate-to-candidate distance matrix
+     * @param repository candidate repository synchronized with the matrix indexing
+     * @param beta distance-decay exponent
+     * @throws IllegalArgumentException if the matrix or repository is invalid,
+     *                                  or if {@code beta <= 0}
+     * @throws IllegalStateException if the total system demand is not positive
+     */
     public FitnessCalculator(double[][] distanceMatrix, CandidateRepository repository, double beta) {
         if (distanceMatrix == null || distanceMatrix.length == 0) {
             throw new IllegalArgumentException("Distance matrix cannot be null or empty.");
@@ -30,12 +54,23 @@ public class FitnessCalculator {
         }
     }
 
+    /**
+     * Computes the total system demand across all candidate grid points.
+     *
+     * @return total demand
+     */
     private double calculateTotalDemand() {
         return repository.getAllCandidatesSorted().stream()
                 .mapToDouble(CandidatePoint::getDemandScore)
                 .sum();
     }
 
+    /**
+     * Validates that the given individual exists and has a non-empty chromosome.
+     *
+     * @param individual individual to validate
+     * @throws IllegalArgumentException if the individual or chromosome is invalid
+     */
     private void validateIndividual(Individual individual) {
         if (individual == null) {
             throw new IllegalArgumentException("Individual cannot be null.");
@@ -46,8 +81,14 @@ public class FitnessCalculator {
     }
 
     /**
-     * Finds the nearest selected locker for a given grid and returns the distance cost:
-     * distance^beta
+     * Finds the nearest selected locker for the given grid point and returns
+     * the corresponding distance cost {@code distance^beta}.
+     *
+     * @param grid demand grid point
+     * @param lockerIds selected locker candidate IDs
+     * @return distance cost to the nearest selected locker
+     * @throws IllegalStateException if a grid or locker ID cannot be mapped
+     *                               to a matrix index
      */
     private double findDistanceCostToNearestLocker(CandidatePoint grid, List<Integer> lockerIds) {
         int gridIndex = repository.getIndexById(grid.getId());
@@ -72,7 +113,14 @@ public class FitnessCalculator {
         return Math.pow(minDistance, beta);
     }
 
-    // f1: Accessibility (minimize)
+    /**
+     * Evaluates the first objective value (f1), representing accessibility.
+     *
+     * <p>The objective is the demand-weighted average distance cost from all
+     * demand grid points to their nearest selected locker.</p>
+     *
+     * @param individual individual to evaluate
+     */
     public void evaluateF1(Individual individual) {
         validateIndividual(individual);
 
@@ -89,18 +137,22 @@ public class FitnessCalculator {
         individual.setObjective1(f1Score);
     }
 
-    // f2: Equity (minimize)
-    // Variance of mahalle-level weighted mean accessibility costs
+    /**
+     * Evaluates the second objective value (f2), representing equity.
+     *
+     * <p>This objective is computed as the variance of mahalle-level weighted
+     * mean accessibility costs. Lower values indicate more even service quality
+     * across neighborhoods.</p>
+     *
+     * @param individual individual to evaluate
+     */
     public void evaluateF2(Individual individual) {
         validateIndividual(individual);
 
         List<CandidatePoint> allGrids = repository.getAllCandidatesSorted();
         List<Integer> lockerIds = individual.getChromosome();
 
-        // mahalle -> Σ(demand * distanceCost)
         Map<String, Double> mahalleWeightedCostSum = new HashMap<>();
-
-        // mahalle -> Σ(demand)
         Map<String, Double> mahalleDemandSum = new HashMap<>();
 
         for (CandidatePoint grid : allGrids) {
@@ -116,7 +168,6 @@ public class FitnessCalculator {
             mahalleDemandSum.merge(mahalle, demand, Double::sum);
         }
 
-        // mahalle -> weighted mean cost
         Map<String, Double> mahalleMeanCost = new HashMap<>();
         for (String mahalle : mahalleWeightedCostSum.keySet()) {
             double weightedCostSum = mahalleWeightedCostSum.get(mahalle);
@@ -145,11 +196,22 @@ public class FitnessCalculator {
         individual.setObjective2(variance);
     }
 
+    /**
+     * Evaluates both raw objectives of a single individual.
+     *
+     * @param individual individual to evaluate
+     */
     public void evaluateObjectives(Individual individual) {
         evaluateF1(individual);
         evaluateF2(individual);
     }
 
+    /**
+     * Evaluates both raw objectives of all individuals in the population.
+     *
+     * @param population population to evaluate
+     * @throws IllegalArgumentException if the population is null
+     */
     public void evaluatePopulationObjectives(List<Individual> population) {
         if (population == null) {
             throw new IllegalArgumentException("Population cannot be null.");
