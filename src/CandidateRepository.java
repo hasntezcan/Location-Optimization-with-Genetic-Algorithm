@@ -3,10 +3,10 @@ import java.util.*;
 public class CandidateRepository {
     // 1. For direct access via ID (Fast lookup)
     private final Map<Integer, CandidatePoint> candidateMap = new HashMap<>();
-    
+
     // 2. Map ID to matrix index (Crucial for GA performance during fitness evaluation)
     private final Map<Integer, Integer> idToIndexMap = new HashMap<>();
-    
+
     // 3. Map matrix index to object (Maintains identical order with the Python distance matrix)
     private List<CandidatePoint> sortedCandidates = new ArrayList<>();
 
@@ -19,15 +19,20 @@ public class CandidateRepository {
      * It synchronizes the Java objects with the Python-generated distance matrix indexing.
      */
     public void finalizeRepository() {
+        if (candidateMap.isEmpty()) {
+            throw new IllegalStateException("Cannot finalize repository: no candidates loaded.");
+        }
+
         // Populate the list and sort by ID ascending (Matches Python's sorting logic)
         this.sortedCandidates = new ArrayList<>(candidateMap.values());
         this.sortedCandidates.sort(Comparator.comparingInt(CandidatePoint::getId));
 
         // Establish the ID -> Index mapping for O(1) translation
+        idToIndexMap.clear();
         for (int i = 0; i < sortedCandidates.size(); i++) {
             idToIndexMap.put(sortedCandidates.get(i).getId(), i);
         }
-        
+
         System.out.println("Repository finalized and synchronized with distance matrix. Total points: " + sortedCandidates.size());
     }
 
@@ -61,7 +66,7 @@ public class CandidateRepository {
     }
 
     public int size() {
-        return sortedCandidates.size();
+        return candidateMap.size();
     }
 
     @Override

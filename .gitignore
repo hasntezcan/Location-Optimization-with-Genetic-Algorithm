@@ -8,3 +8,14 @@ __pycache__/
 
 # (opsiyonel) local env
 .venv/
+
+# Maven
+target/
+pom.xml.releaseBackup
+pom.xml.tagNameHolder
+pom.xml.nextSnapshot
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/
+.flattened-pom.xml
