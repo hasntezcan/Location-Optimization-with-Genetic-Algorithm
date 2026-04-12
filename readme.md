@@ -1,27 +1,116 @@
-# Smart City Service Location Recommendation System
+# Location Optimization with Genetic Algorithm
 
-A data-driven decision support system that recommends optimal locations for urban services (such as parcel lockers, emergency shelters, etc.) using spatial data analysis. It replaces intuition-based planning with a structured, reproducible, and extensible geographic pipeline.
+This project prepares spatial candidate data and uses Java genetic algorithm
+components to explore parcel locker placement in Kadikoy.
 
-## ⚙️ Project Pipeline
+The current codebase has two main parts:
 
-The system follows a 6-step spatial analysis workflow:
+- Python scripts for demand preparation and POI weighting.
+- Java classes for loading candidate points, initializing populations, and
+  evaluating the accessibility objective.
 
-1. **Data Collection:** Gathers base geographic and urban datasets from OpenStreetMap (OSM), population censuses, and road networks.
-2. **Map Preparation:** Cleans and organizes GIS layers to define the study area and extract relevant geometries (points, lines, polygons).
-3. **Spatial Feature Extraction:** Calculates meaningful metrics for the environment, such as proximity to roads, POI density, and neighborhood characteristics.
-4. **Candidate Generation:** Discretizes the study area into evaluable candidate locations (grids or points) for consistent comparison.
-5. **Evaluation & Scoring:** Applies objective criteria and optimization algorithms to score candidate areas based on the extracted spatial features.
-6. **Recommendation Output:** Generates ranked candidate lists and map-based visualizations to support final planning decisions.
+The intended optimization approach is SPEA2, but the full SPEA2 loop is still in
+progress.
 
-## 🎯 Current Focus & Goals
+## Repository Structure
 
-The primary goal is to build a **robust spatial data pipeline** rather than just producing a one-off map. Currently, the focus is on:
-- Establishing a clean, modular codebase.
-- Ensuring smooth data flow from raw OSM extraction to final algorithmic evaluation.
-- Preparing the system architecture to easily integrate new decision layers and advanced multi-objective optimization models.
+```text
+data/       Candidate CSV files and distance matrix artifacts
+scripts/    Python demand preparation scripts
+src/        Java optimization model and GA classes
+guide.md    Technical guide for the Java/data architecture
+```
 
-## 🛠️ Tech Stack
+Useful guides:
 
-- **Language:** Python
-- **Geospatial Tools:** QGIS, OpenStreetMap (OSM)
-- **Data Processing:** Pandas, NumPy, and spatial analysis libraries
+- `guide.md`: current Java architecture, data flow, status, and next steps.
+- `scripts/guide.md`: Python demand preparation workflow.
+- `data/kadikoy_ARTIFACTS_GUIDE.md`: generated distance matrix artifact notes.
+
+## Data Flow
+
+Main input:
+
+```text
+data/candidate_points.csv
+```
+
+The CSV is expected to include candidate IDs, neighborhood names, POI counts,
+coordinates, forbidden flags, existing locker counts, `population_candidate`,
+`poi_score`, and `demand_final`.
+
+Demand preparation uses:
+
+```text
+demand_final = population_candidate * (1 + lambda * poi_score)
+```
+
+`CsvLoader.java` maps CSV columns by fixed positions, so keep the CSV column
+order stable unless the loader is updated too.
+
+## Python Scripts
+
+Inspect current POI weights:
+
+```bash
+python3 scripts/calculate_poi_weights.py
+```
+
+Regenerate `poi_score` and `demand_final`:
+
+```bash
+python3 scripts/prepare_demand.py
+```
+
+`prepare_demand.py` writes back to `data/candidate_points.csv`. Keep a backup
+before rerunning it if you need to preserve prior values.
+
+## Java Usage
+
+Compile:
+
+```bash
+javac src/*.java
+```
+
+Run the current entry point:
+
+```bash
+java -cp src Main
+```
+
+Current `Main.java` behavior:
+
+1. Loads `data/candidate_points.csv`.
+2. Finalizes the repository and ID-to-index mapping.
+3. Creates an initial population with `k = 5` and `populationSize = 100`.
+4. Prints generated individuals.
+
+It does not yet run the full SPEA2 optimization loop.
+
+## Implemented
+
+- Candidate data model: `CandidatePoint`.
+- CSV loading: `CsvLoader`.
+- Candidate repository and distance matrix index mapping: `CandidateRepository`.
+- Individual representation with objective and SPEA2-related fields:
+  `Individual`.
+- Random initial population generation: `PopulationInitializer`.
+- F1 accessibility objective calculation: `FitnessCalculator.evaluateF1(...)`.
+- EWM-based demand preparation scripts.
+
+## Pending Work
+
+- Load the distance matrix into Java or convert it to a Java-friendly format.
+- Implement `FitnessCalculator.evaluateF2(...)` for equity.
+- Add SPEA2 dominance, raw fitness, density, archive handling, selection,
+  crossover, and mutation.
+- Decide how forbidden candidates should be filtered or penalized during
+  initialization and optimization.
+
+## Notes
+
+- Distance matrix artifacts live under `data/`.
+- The matrix uses sorted candidate positions, not raw candidate IDs.
+- `CandidateRepository.finalizeRepository()` builds the ID-to-index mapping that
+  keeps Java evaluation aligned with the matrix order.

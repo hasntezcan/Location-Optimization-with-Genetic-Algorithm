@@ -1,37 +1,95 @@
-# Scripts Guide: Data Pipeline
+# Scripts Guide: Demand Preparation
 
-This folder contains Python scripts to process urban data before running the Java optimization.
+This folder contains the Python scripts that prepare demand-related columns before
+running the Java genetic algorithm.
 
-## 📂 Data Flow
-1. **Input:** `data/candidate_points.csv` (Raw population & POI data)
-2. **Output:** `data/candidate_points.csv` (Processed data with final demand scores)
+## Data Flow
 
----
+Input file:
 
-## 🐍 Script Functions
+```text
+data/candidate_points.csv
+```
 
-### 1. `prepare_demand.py` (Main Pipeline)
-Calculates the final importance (demand) for each candidate location.
-- **POI Weighting:** Uses the **Entropy Weight Method (EWM)** to objectively decide which POIs (University, Transport, etc.) are more important based on their distribution.
-- **Interactive λ (Lambda):** Prompts the user to set the POI influence (0.0 to 1.0).
-- **Output Columns:** Adds `poi_score` and `demand_final` to the new CSV.
+Main output:
 
-### 2. `calculate_poi_weights.py` (Analysis)
-Shows the percentage importance of each POI category. Used to verify the EWM results.
+```text
+data/candidate_points.csv
+```
 
----
+`prepare_demand.py` writes back to the same CSV file. Keep a backup before
+rerunning it if you need to preserve the previous `poi_score` and `demand_final`
+values.
 
-## 🧮 Calculation Logic
+## Scripts
 
-The final demand used by the Genetic Algorithm is calculated as:
-**`demand_final = population_candidate * (1 + lambda * poi_score)`**
+### `prepare_demand.py`
 
-- **Lambda = 0.5 (Balanced):** Recommended for general scenarios.
-- **Lambda = 1.0 (Aggressive):** High priority for urban activity hubs.
+Main demand preparation script.
 
----
+What it does:
 
-## 🚀 Usage
-Run the pipeline from the project root:
+- Reads `data/candidate_points.csv`.
+- Finds POI columns by the `poi_` prefix.
+- Calculates POI weights with the Entropy Weight Method.
+- Prompts for the lambda parameter.
+- Updates `poi_score`.
+- Updates `demand_final`.
+- Saves the result back to `data/candidate_points.csv`.
+
+Run it from the project root:
+
 ```bash
 python3 scripts/prepare_demand.py
+```
+
+### `calculate_poi_weights.py`
+
+Read-only analysis script for checking the current POI weights.
+
+What it does:
+
+- Reads `data/candidate_points.csv`.
+- Finds POI columns by the `poi_` prefix.
+- Prints the calculated Entropy Weight Method weights.
+- Does not write to the CSV file.
+
+Run it from the project root:
+
+```bash
+python3 scripts/calculate_poi_weights.py
+```
+
+## Calculation
+
+The final demand value used by the Java optimization code is:
+
+```text
+demand_final = population_candidate * (1 + lambda * poi_score)
+```
+
+Lambda controls how strongly POI attractiveness affects demand:
+
+- `0.0`: no POI influence; demand follows `population_candidate`.
+- `0.5`: balanced POI influence.
+- `1.0`: stronger priority for urban activity hubs.
+
+## Important Notes
+
+- Both scripts detect POI columns with `col.startswith("poi_")`.
+- If `candidate_points.csv` already contains a generated `poi_score` column, it
+  also matches the `poi_` prefix. Use a clean CSV or remove generated columns
+  before recalculating if you only want raw POI categories in the weighting step.
+- `prepare_demand.py` overwrites `data/candidate_points.csv`; use
+  `data/candidate_points_backup.csv` or another backup when needed.
+- The Java `CsvLoader` currently maps CSV fields by fixed column positions. Do
+  not reorder the CSV columns unless you also update the loader mapping.
+
+## Recommended Workflow
+
+1. Start from a clean `data/candidate_points.csv`.
+2. Run `python3 scripts/calculate_poi_weights.py` to inspect POI weights.
+3. Run `python3 scripts/prepare_demand.py`.
+4. Enter the lambda value when prompted.
+5. Confirm that `poi_score` and `demand_final` exist in the CSV.
+6. Run the Java optimization pipeline.
