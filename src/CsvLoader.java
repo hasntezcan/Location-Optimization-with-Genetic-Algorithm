@@ -2,8 +2,32 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Loads candidate point data from CSV files into a {@link CandidateRepository}.
+ * The loader expects the enriched candidate points CSV format used by the
+ * location optimization model.
+ */
 public class CsvLoader {
 
+    /**
+     * Creates a CSV loader instance.
+     */
+    public CsvLoader() {
+    }
+
+    /**
+     * Reads candidate points from the given CSV file and adds them to the repository.
+     * The first line is treated as a header and skipped. Empty lines are ignored.
+     *
+     * <p>The method maps values by fixed column positions from the enriched
+     * {@code candidate_points.csv} structure, including candidate id,
+     * neighborhood names, population fields, POI counts, coordinates,
+     * forbidden status, locker count, and demand scores.</p>
+     *
+     * @param filePath path of the CSV file to load
+     * @param repository repository that receives the loaded candidate points
+     * @throws IOException if the CSV file cannot be opened or read
+     */
     public void loadCandidates(String filePath, CandidateRepository repository) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
 
