@@ -10,7 +10,7 @@ public class Main {
 
         try {
             loader.loadCandidates("data/candidate_points.csv", repository);
-
+            repository.finalizeRepository();
             System.out.println("Total candidates loaded: " + repository.size());
 
             int k = 5;
