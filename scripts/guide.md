@@ -4,7 +4,7 @@ This folder contains Python scripts to process urban data before running the Jav
 
 ## 📂 Data Flow
 1. **Input:** `data/candidate_points.csv` (Raw population & POI data)
-2. **Output:** `data/candidate_points_enriched.csv` (Processed data with final demand scores)
+2. **Output:** `data/candidate_points.csv` (Processed data with final demand scores)
 
 ---
 
