@@ -7,6 +7,7 @@ import algorithm.Variation;
 import algorithm.helper.Dominance;
 import algorithm.helper.Pareto;
 import algorithm.helper.Truncation;
+import config.GAParameters;
 import io.CsvLoader;
 import io.DistanceMatrixLoader;
 import model.CandidateRepository;
@@ -72,18 +73,18 @@ public class Main {
                     distanceMatrix.length + " x " + distanceMatrix[0].length
             );
 
-            // 3. Current GA / SPEA2 parameters
-            int k = 5;
-            int populationSize = 100;
-            int archiveSize = 50;
-            int maxGenerations = 30;
-            double beta = 2.0;
-            double crossoverRate = 0.9;
-            double mutationRate = 0.1;
+            // 3. GA / SPEA2 parameters from central configuration
+            int k = GAParameters.K;
+            int populationSize = GAParameters.POPULATION_SIZE;
+            int archiveSize = GAParameters.ARCHIVE_SIZE;
+            int maxGenerations = GAParameters.MAX_GENERATIONS;
+            double beta = GAParameters.BETA;
+            double crossoverRate = GAParameters.CROSSOVER_RATE;
+            double mutationRate = GAParameters.MUTATION_RATE;
 
             // Hypervolume reference point in normalized space
-            double referenceObjective1 = 1.1;
-            double referenceObjective2 = 1.1;
+            double referenceObjective1 = GAParameters.REFERENCE_POINT_F1;
+            double referenceObjective2 = GAParameters.REFERENCE_POINT_F2;
 
             // 4. Initialize population
             List<Integer> candidateIds = repository.getAllCandidateIds();
@@ -183,9 +184,18 @@ public class Main {
 
                 archive = survivor.run(evaluated, archiveSize);
 
+                double bestF1 = archive.stream()
+                        .mapToDouble(ind -> ind.getObjective1())
+                        .min().orElse(Double.NaN);
+                double bestF2 = archive.stream()
+                        .mapToDouble(ind -> ind.getObjective2())
+                        .min().orElse(Double.NaN);
+
                 System.out.println("Generation " + generation + " completed.");
                 System.out.println("Population size: " + population.size());
                 System.out.println("Archive size   : " + archive.size());
+                System.out.printf("  Best f1      : %.6f%n", bestF1);
+                System.out.printf("  Best f2      : %.6f%n", bestF2);
                 System.out.println("--------------------------------------------");
             }
 

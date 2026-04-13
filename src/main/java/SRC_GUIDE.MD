@@ -51,27 +51,28 @@ Current logic is based on a gravity-style accessibility formulation.
 
 In practice, for each demand point:
 - the nearest selected locker is found
-- distance penalty is applied using a distance-decay exponent `beta`
+- distance is converted from metres to **kilometres** before applying the decay exponent
+- distance penalty is applied using `beta` (currently `beta = 2`)
 - weighted demand contribution is accumulated
 
 Current implementation note:
-- distances are currently read from a precomputed **distance matrix**
-- `beta = 2` is being used in experiments
-- current `f1` values can become numerically large, especially because distance penalties are strong
+- distances are read from a precomputed **distance matrix** stored in metres
+- the conversion to kilometres happens inside `FitnessCalculator.findDistanceCostToNearestLocker`
+- this keeps `f1` values in a numerically manageable range (typically single-digit to low double-digit)
 
 ### Objective 2: Equity (`f2`)
 Current logic measures inter-neighborhood inequality.
 
-At the moment:
-- neighborhood-level accessibility values are aggregated
-- equity is represented using **variance across neighborhood means**
+The implementation:
+- aggregates neighborhood-level weighted mean accessibility costs
+- computes the **coefficient of variation (CV)** across neighborhoods
+- CV = `standardDeviation / mean`, which is a **dimensionless ratio**
 
-Important note:
-- this objective can become **very large**
-- because variance grows at squared scale
-- this has already created normalization and hypervolume interpretation issues
-
-This is one of the main areas planned for revision.
+Why CV was chosen:
+- it is independent of the distance unit (metres vs kilometres does not affect the result)
+- it produces values in a bounded, interpretable range (typically 0 to 2)
+- it avoids the squared-scale explosion that variance caused in earlier iterations
+- it is widely used in inequality measurement literature
 
 ---
 
@@ -103,6 +104,7 @@ Current code is organized roughly like this:
 - `app`
 - `algorithm`
 - `algorithm.helper`
+- `config`
 - `io`
 - `model`
 - `service`
@@ -136,10 +138,12 @@ It should:
 
 ### Important current behavior
 `Main` currently also:
+- reads all parameters from `config.GAParameters`
 - stores an initial archive snapshot
 - stores a final archive snapshot
 - tracks global raw objective bounds across generations
 - applies post-hoc normalization for archive comparison and HV computation
+- logs per-generation diagnostics (best f1, best f2)
 
 ### Future direction
 `Main` should remain thin.
@@ -265,20 +269,19 @@ This is one of the most important classes.
 ### Current state
 This class is where the **problem-specific objective definitions live**.
 
-### Important note
-This is also the most likely place where future methodological revisions will happen.
+### Distance handling
+The precomputed distance matrix stores values in **metres**.
+`findDistanceCostToNearestLocker` converts distances to **kilometres** before applying `beta`.
+This keeps objective values in a manageable numerical range.
 
-Why:
-- `f1` can become very large depending on distance treatment
-- `f2` currently uses variance and can explode in magnitude
-- hypervolume difficulties may partially come from objective scaling behavior defined here
+### Equity metric
+`f2` uses the **coefficient of variation (CV)** of mahalle-level weighted mean accessibility costs.
+CV = `standardDeviation / mean` → dimensionless, bounded, and independent of distance unit.
 
-### Expected future revisions
-Likely future experiments:
-- rescaling distance before applying `beta`
-- revisiting `f2` definition
-- testing standard deviation / coefficient of variation / Gini as equity alternatives
-- improving interpretability of raw objective ranges
+### Possible future experiments
+- testing alternative equity metrics (Gini, MAD)
+- adjusting `beta` value
+- experimenting with different demand weighting schemes
 
 ---
 
@@ -440,6 +443,14 @@ Generates offspring.
 - chromosome repair
 - uniqueness control inside chromosomes
 
+### Crossover design
+The crossover operator uses **shared-gene priority recombination**:
+- genes present in both parents are guaranteed to appear in both children
+- remaining chromosome slots are filled from parent-exclusive genes in shuffled order
+- a repair step ensures correctness and handles edge cases
+
+This approach preserves proven gene combinations while maintaining diversity.
+
 ### Important note
 The chromosome represents a set of selected points, so repair logic matters.
 
@@ -541,38 +552,31 @@ This means the project already has a functioning end-to-end optimization pipelin
 
 # 11. Known Issues and Open Questions
 
-This section is critical.
+This section tracks remaining concerns and resolved items.
 
 ---
 
-## 11.1 Objective scaling still needs revision
-The biggest current technical concern is not the GA loop itself, but the **objective behavior**.
+## 11.1 Objective scaling — RESOLVED
 
 ### `f1`
-`f1` may still be numerically too large because:
-- distance penalties are strong
-- distance units may still create inflated values
+Previously `f1` used raw metre distances, causing values in the millions.
+Now distances are converted to kilometres before applying `beta`.
+This brings `f1` into a manageable single-digit to low double-digit range.
 
 ### `f2`
-`f2` is currently the bigger concern.
-Using variance over already-large accessibility values can create very wide spreads.
-
-This can:
-- distort assessment
-- make hypervolume hard to interpret
-- create large min-max gaps
+Previously `f2` used variance, which grew at squared scale and caused very wide spreads.
+Now `f2` uses **coefficient of variation (CV)**, a dimensionless ratio typically in the 0–2 range.
+This resolved the normalization and hypervolume interpretation issues.
 
 ---
 
 ## 11.2 Hypervolume sensitivity
-Even after fixing comparability across generations, initial HV has still sometimes appeared too high.
+After the objective scaling fixes, HV should produce more meaningful comparisons.
 
-This suggests:
-- archive quality may already be decent even in generation 0
-- or more likely, the objective space still has large outlier-driven spreads
-
-This is not only an HV problem.
-It is also a clue that objective definitions may need refinement.
+Monitoring notes:
+- initial HV ratio should no longer appear artificially close to 1.0
+- final HV improvement should be clearly visible
+- if HV sensitivity is still too low, the normalization window may need further refinement
 
 ---
 
@@ -585,12 +589,13 @@ Still, this distinction should always be kept in mind when editing the project.
 
 ---
 
-## 11.4 Need for better generation-level diagnostics
-Right now the run prints archive contents and summary information.
+## 11.4 Generation-level diagnostics — PARTIALLY RESOLVED
 
-Still useful future diagnostics would be:
+Now implemented:
 - best `f1` per generation
 - best `f2` per generation
+
+Still useful future diagnostics:
 - number of unique archive individuals
 - number of non-dominated archive individuals
 - hypervolume trend over generations
@@ -600,51 +605,38 @@ These will be especially important for the future web UI.
 
 ---
 
-# 12. Planned Next Steps
-
-These are the most important technical next steps.
+# 12. Completed Steps and Remaining Next Steps
 
 ---
 
-## 12.1 Revisit `f1` scale
-Investigate whether distance should be rescaled before exponentiation.
-
-Possible direction:
-- use kilometers instead of raw meters
-- or otherwise scale distance before applying `beta`
-
-Goal:
-- keep meaning the same
-- reduce objective inflation
+## 12.1 ~~Revisit `f1` scale~~ — DONE
+Distance is now converted from metres to kilometres before applying `beta`.
+This reduced `f1` values from ~1M to ~1, keeping the objective meaning the same.
 
 ---
 
-## 12.2 Revisit `f2` definition
-This is one of the main expected changes.
-
-Possible alternatives to variance:
-- standard deviation
-- coefficient of variation
-- mean absolute deviation
-- Gini coefficient
-
-If variance remains, it may still be necessary to:
-- change the scale of the underlying accessibility values
-- or transform the neighborhood-level values before variance calculation
+## 12.2 ~~Revisit `f2` definition~~ — DONE
+Variance was replaced with **coefficient of variation (CV)**.
+CV = `std / mean` → dimensionless, bounded, and independent of distance unit.
 
 ---
 
-## 12.3 Improve assessment reliability
-Hypervolume should remain the final quality metric, but its interpretation depends on objective behavior.
-
-After objective revisions:
-- rerun archive comparisons
-- check whether initial HV becomes more reasonable
-- verify that final HV improvement becomes clearer
+## 12.3 ~~Centralize configuration~~ — DONE
+All GA parameters are now defined in `config.GAParameters`.
+`Main` reads from that class instead of using hard-coded values.
 
 ---
 
-## 12.4 Add UI-oriented outputs later
+## 12.4 Improve assessment reliability
+Hypervolume should remain the final quality metric.
+
+Now that objectives are rescaled:
+- rerun archive comparisons to verify HV improvement is visible
+- monitor whether the normalization window is tight enough
+
+---
+
+## 12.5 Add UI-oriented outputs later
 The project will eventually feed a web UI.
 
 Future outputs likely needed:
@@ -670,6 +662,10 @@ Start with:
 Start with:
 - `service.FitnessCalculator`
 
+## If you want to change GA parameters
+Start with:
+- `config.GAParameters`
+
 ## If you want to change archive quality assessment
 Start with:
 - `service.ObjectiveNormalizer`
@@ -688,12 +684,27 @@ Start with:
 
 This codebase already contains a working SPEA2-style optimization engine for the Kadıköy locker placement problem.
 
-The architecture is now reasonably modular:
+The architecture is modular:
 - data layer
 - model layer
+- config layer
 - service layer
 - algorithm layer
 - orchestration layer
+
+The current state:
+
+- **algorithmic pipeline: implemented**
+- **archive mechanics: implemented**
+- **objective design: revised** (km-based f1, CV-based f2)
+- **configuration: centralized** in `config.GAParameters`
+- **diagnostics: per-generation** best f1/f2 logging
+- **crossover: improved** with shared-gene priority recombination
+- **assessment pipeline: functional** but may need further HV sensitivity tuning
+
+The main focus going forward is:
+
+> Validating that the revised objectives produce stable, interpretable results and tuning the assessment pipeline if needed.
 
 The main challenge is no longer “does the GA run?”
 It does.

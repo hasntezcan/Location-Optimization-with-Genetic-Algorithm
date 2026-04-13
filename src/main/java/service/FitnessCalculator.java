@@ -82,11 +82,15 @@ public class FitnessCalculator {
 
     /**
      * Finds the nearest selected locker for the given grid point and returns
-     * the corresponding distance cost {@code distance^beta}.
+     * the corresponding distance cost {@code (distance_km)^beta}.
+     *
+     * <p>The precomputed distance matrix stores values in metres. This method
+     * converts the distance to kilometres before applying the decay exponent
+     * so that objective values remain in a numerically manageable range.</p>
      *
      * @param grid demand grid point
      * @param lockerIds selected locker candidate IDs
-     * @return distance cost to the nearest selected locker
+     * @return distance cost to the nearest selected locker in kilometre-based units
      * @throws IllegalStateException if a grid or locker ID cannot be mapped
      *                               to a matrix index
      */
@@ -96,7 +100,7 @@ public class FitnessCalculator {
             throw new IllegalStateException("Grid ID not found in repository index map: " + grid.getId());
         }
 
-        double minDistance = Double.MAX_VALUE;
+        double minDistanceMetres = Double.MAX_VALUE;
 
         for (int lockerId : lockerIds) {
             int lockerIndex = repository.getIndexById(lockerId);
@@ -105,12 +109,13 @@ public class FitnessCalculator {
             }
 
             double currentDistance = distanceMatrix[gridIndex][lockerIndex];
-            if (currentDistance < minDistance) {
-                minDistance = currentDistance;
+            if (currentDistance < minDistanceMetres) {
+                minDistanceMetres = currentDistance;
             }
         }
 
-        return Math.pow(minDistance, beta);
+        double minDistanceKm = minDistanceMetres / 1000.0;
+        return Math.pow(minDistanceKm, beta);
     }
 
     /**
@@ -140,9 +145,11 @@ public class FitnessCalculator {
     /**
      * Evaluates the second objective value (f2), representing equity.
      *
-     * <p>This objective is computed as the variance of mahalle-level weighted
-     * mean accessibility costs. Lower values indicate more even service quality
-     * across neighborhoods.</p>
+     * <p>This objective is computed as the coefficient of variation (CV) of
+     * mahalle-level weighted mean accessibility costs. CV is defined as
+     * {@code standardDeviation / mean} and produces a dimensionless ratio
+     * that is independent of the distance unit. Lower values indicate more
+     * even service quality across neighborhoods.</p>
      *
      * @param individual individual to evaluate
      */
@@ -193,7 +200,12 @@ public class FitnessCalculator {
                 .average()
                 .orElse(0.0);
 
-        individual.setObjective2(variance);
+        double standardDeviation = Math.sqrt(variance);
+        double cv = (meanOfMahalleMeans > 0)
+                ? standardDeviation / meanOfMahalleMeans
+                : 0.0;
+
+        individual.setObjective2(cv);
     }
 
     /**

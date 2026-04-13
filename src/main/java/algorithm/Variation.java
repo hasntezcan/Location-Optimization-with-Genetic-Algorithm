@@ -107,9 +107,12 @@ public class Variation {
     /**
      * Performs crossover between two parent chromosomes and returns two children.
      *
-     * <p>This implementation uses set-union based recombination followed by
-     * repair. It keeps shared genes with high chance of survival and fills the
-     * remaining positions from the combined parent gene pool.</p>
+     * <p>This implementation uses shared-gene priority recombination. Genes
+     * that appear in both parents are guaranteed to be present in both
+     * children, preserving proven gene combinations. The remaining chromosome
+     * slots are filled from the parent-exclusive genes in shuffled order so
+     * that each child receives a different mix. A final repair step ensures
+     * correctness.</p>
      *
      * @param parent1 first parent chromosome
      * @param parent2 second parent chromosome
@@ -121,30 +124,48 @@ public class Variation {
                                           List<Integer> parent2,
                                           int chromosomeLength,
                                           List<Integer> candidateIds) {
-        Set<Integer> union = new HashSet<>(parent1);
-        union.addAll(parent2);
+        Set<Integer> set1 = new HashSet<>(parent1);
+        Set<Integer> set2 = new HashSet<>(parent2);
 
-        List<Integer> unionList = new ArrayList<>(union);
-        shuffle(unionList);
+        List<Integer> shared = new ArrayList<>();
+        List<Integer> exclusive = new ArrayList<>();
 
-        List<Integer> child1 = new ArrayList<>();
-        List<Integer> child2 = new ArrayList<>();
-
-        for (Integer gene : unionList) {
-            if (child1.size() < chromosomeLength) {
-                child1.add(gene);
+        for (Integer gene : set1) {
+            if (set2.contains(gene)) {
+                shared.add(gene);
             } else {
-                break;
+                exclusive.add(gene);
             }
         }
 
-        shuffle(unionList);
+        for (Integer gene : set2) {
+            if (!set1.contains(gene)) {
+                exclusive.add(gene);
+            }
+        }
 
-        for (Integer gene : unionList) {
-            if (child2.size() < chromosomeLength) {
-                child2.add(gene);
-            } else {
+        // Both children start with the shared genes
+        List<Integer> child1 = new ArrayList<>(shared);
+        List<Integer> child2 = new ArrayList<>(shared);
+
+        // Fill remaining slots from the exclusive gene pool
+        shuffle(exclusive);
+
+        for (Integer gene : exclusive) {
+            if (child1.size() < chromosomeLength) {
+                child1.add(gene);
+            }
+        }
+
+        shuffle(exclusive);
+
+        Set<Integer> child2Set = new HashSet<>(child2);
+        for (Integer gene : exclusive) {
+            if (child2.size() >= chromosomeLength) {
                 break;
+            }
+            if (child2Set.add(gene)) {
+                child2.add(gene);
             }
         }
 
