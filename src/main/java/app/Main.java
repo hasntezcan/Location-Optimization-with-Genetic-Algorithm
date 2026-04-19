@@ -17,24 +17,29 @@ import service.HypervolumeIndicator;
 import service.ObjectiveNormalizer;
 import service.PopulationInitializer;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Entry point of the location optimization project.
+ * Main SPEA2 workflow using FIXED assessment bounds from GAParameters.
  *
- * <p>This class runs the SPEA2 workflow and evaluates the initial and final
- * archives using hypervolume in a shared normalized objective space that is
- * built from all raw objective values observed across the full run.</p>
+ * Purpose:
+ * - run the optimization
+ * - keep initial and final archive snapshots
+ * - normalize both archives in the SAME fixed objective space
+ * - compute comparable hypervolume values
  */
 public class Main {
 
-    /**
-     * Runs the SPEA2 optimization workflow.
-     *
-     * @param args command-line arguments, currently unused
-     */
+    private static final Path OUTPUT_DIRECTORY = Paths.get("output");
+    private static final Path INITIAL_ARCHIVE_CSV = OUTPUT_DIRECTORY.resolve("initial_archive.csv");
+    private static final Path FINAL_ARCHIVE_CSV = OUTPUT_DIRECTORY.resolve("final_archive.csv");
+
     public static void main(String[] args) {
         long startTimeNs = System.nanoTime();
 
@@ -44,6 +49,8 @@ public class Main {
         DistanceMatrixLoader distanceMatrixLoader = new DistanceMatrixLoader();
 
         try {
+            Files.createDirectories(OUTPUT_DIRECTORY);
+
             // 1. Load candidate data
             csvLoader.loadCandidates("data/candidate_points.csv", repository);
             repository.finalizeRepository();
@@ -57,23 +64,23 @@ public class Main {
             if (distanceMatrix.length != repository.size()) {
                 throw new IllegalStateException(
                         "Distance matrix row count (" + distanceMatrix.length +
-                        ") does not match repository size (" + repository.size() + ")."
+                                ") does not match repository size (" + repository.size() + ")."
                 );
             }
 
             if (distanceMatrix[0].length != repository.size()) {
                 throw new IllegalStateException(
                         "Distance matrix column count (" + distanceMatrix[0].length +
-                        ") does not match repository size (" + repository.size() + ")."
+                                ") does not match repository size (" + repository.size() + ")."
                 );
             }
 
             System.out.println(
                     "Distance matrix loaded: " +
-                    distanceMatrix.length + " x " + distanceMatrix[0].length
+                            distanceMatrix.length + " x " + distanceMatrix[0].length
             );
 
-            // 3. GA / SPEA2 parameters from central configuration
+            // 3. Parameters
             int k = GAParameters.K;
             int populationSize = GAParameters.POPULATION_SIZE;
             int archiveSize = GAParameters.ARCHIVE_SIZE;
@@ -82,7 +89,13 @@ public class Main {
             double crossoverRate = GAParameters.CROSSOVER_RATE;
             double mutationRate = GAParameters.MUTATION_RATE;
 
-            // Hypervolume reference point in normalized space
+            // Fixed assessment bounds from GAParameters
+            double assessmentIdealF1 = GAParameters.ASSESSMENT_IDEAL_F1;
+            double assessmentNadirF1 = GAParameters.ASSESSMENT_NADIR_F1;
+            double assessmentIdealF2 = GAParameters.ASSESSMENT_IDEAL_F2;
+            double assessmentNadirF2 = GAParameters.ASSESSMENT_NADIR_F2;
+
+            // HV reference point in normalized space
             double referenceObjective1 = GAParameters.REFERENCE_POINT_F1;
             double referenceObjective2 = GAParameters.REFERENCE_POINT_F2;
 
@@ -125,26 +138,8 @@ public class Main {
                     referenceObjective2
             );
 
-            // 6. Global raw objective bounds for final assessment
-            double globalMinF1 = Double.POSITIVE_INFINITY;
-            double globalMaxF1 = Double.NEGATIVE_INFINITY;
-            double globalMinF2 = Double.POSITIVE_INFINITY;
-            double globalMaxF2 = Double.NEGATIVE_INFINITY;
-
-            // 7. Initial evaluation and archive creation
+            // 6. Initial evaluation and archive creation
             List<Individual> evaluated = evaluate.run(population, archive);
-            double[] updatedBounds = updateGlobalObjectiveBounds(
-                    globalMinF1,
-                    globalMaxF1,
-                    globalMinF2,
-                    globalMaxF2,
-                    evaluated
-            );
-            globalMinF1 = updatedBounds[0];
-            globalMaxF1 = updatedBounds[1];
-            globalMinF2 = updatedBounds[2];
-            globalMaxF2 = updatedBounds[3];
-
             archive = survivor.run(evaluated, archiveSize);
 
             List<Individual> initialArchiveSnapshot = deepCopyIndividuals(archive);
@@ -153,9 +148,7 @@ public class Main {
             System.out.println("Evaluated individual count: " + evaluated.size());
             System.out.println("Archive size: " + archive.size());
 
-            printArchive("INITIAL ARCHIVE", initialArchiveSnapshot);
-
-            // 8. Main SPEA2 loop
+            // 7. Main SPEA2 loop
             for (int generation = 1; generation <= maxGenerations; generation++) {
                 List<Individual> matingPool = selection.run(archive, populationSize);
 
@@ -169,27 +162,17 @@ public class Main {
                 );
 
                 evaluated = evaluate.run(population, archive);
-
-                updatedBounds = updateGlobalObjectiveBounds(
-                        globalMinF1,
-                        globalMaxF1,
-                        globalMinF2,
-                        globalMaxF2,
-                        evaluated
-                );
-                globalMinF1 = updatedBounds[0];
-                globalMaxF1 = updatedBounds[1];
-                globalMinF2 = updatedBounds[2];
-                globalMaxF2 = updatedBounds[3];
-
                 archive = survivor.run(evaluated, archiveSize);
 
                 double bestF1 = archive.stream()
-                        .mapToDouble(ind -> ind.getObjective1())
-                        .min().orElse(Double.NaN);
+                        .mapToDouble(Individual::getObjective1)
+                        .min()
+                        .orElse(Double.NaN);
+
                 double bestF2 = archive.stream()
-                        .mapToDouble(ind -> ind.getObjective2())
-                        .min().orElse(Double.NaN);
+                        .mapToDouble(Individual::getObjective2)
+                        .min()
+                        .orElse(Double.NaN);
 
                 System.out.println("Generation " + generation + " completed.");
                 System.out.println("Population size: " + population.size());
@@ -199,41 +182,53 @@ public class Main {
                 System.out.println("--------------------------------------------");
             }
 
-            // 9. Final archive snapshot
+            // 8. Final archive snapshot
             List<Individual> finalArchiveSnapshot = deepCopyIndividuals(archive);
 
-            printArchive("FINAL ARCHIVE", finalArchiveSnapshot);
-
-            // 10. Apply the same global normalization to both initial and final archives
+            // 9. Normalize initial and final archives in the SAME fixed objective space
             objectiveNormalizer.normalizePopulationObjectives(
                     initialArchiveSnapshot,
-                    globalMinF1,
-                    globalMaxF1,
-                    globalMinF2,
-                    globalMaxF2
+                    assessmentIdealF1,
+                    assessmentNadirF1,
+                    assessmentIdealF2,
+                    assessmentNadirF2
             );
 
             objectiveNormalizer.normalizePopulationObjectives(
                     finalArchiveSnapshot,
-                    globalMinF1,
-                    globalMaxF1,
-                    globalMinF2,
-                    globalMaxF2
+                    assessmentIdealF1,
+                    assessmentNadirF1,
+                    assessmentIdealF2,
+                    assessmentNadirF2
             );
 
-            // 11. Compute comparable hypervolume values
+            // 10. Export archives
+            writeArchiveCsv(initialArchiveSnapshot, INITIAL_ARCHIVE_CSV);
+            writeArchiveCsv(finalArchiveSnapshot, FINAL_ARCHIVE_CSV);
+
+            // 11. Compute hypervolume
             double initialHypervolume = hypervolumeIndicator.compute(initialArchiveSnapshot);
             double initialHypervolumeRatio = hypervolumeIndicator.computeRatio(initialArchiveSnapshot);
 
             double finalHypervolume = hypervolumeIndicator.compute(finalArchiveSnapshot);
             double finalHypervolumeRatio = hypervolumeIndicator.computeRatio(finalArchiveSnapshot);
 
-            // 12. Print assessment summary
-            System.out.println("============== GLOBAL ASSESSMENT BOUNDS ==============");
-            System.out.println("Global min f1 : " + globalMinF1);
-            System.out.println("Global max f1 : " + globalMaxF1);
-            System.out.println("Global min f2 : " + globalMinF2);
-            System.out.println("Global max f2 : " + globalMaxF2);
+            int initialNdCount = pareto.getNonDominated(initialArchiveSnapshot).size();
+            int finalNdCount = pareto.getNonDominated(finalArchiveSnapshot).size();
+
+            long endTimeNs = System.nanoTime();
+            double runtimeSeconds = (endTimeNs - startTimeNs) / 1_000_000_000.0;
+
+            // 12. Print summary
+            System.out.println("============== FIXED ASSESSMENT BOUNDS ==============");
+            System.out.println("Ideal f1 : " + assessmentIdealF1);
+            System.out.println("Nadir f1 : " + assessmentNadirF1);
+            System.out.println("Ideal f2 : " + assessmentIdealF2);
+            System.out.println("Nadir f2 : " + assessmentNadirF2);
+
+            System.out.println("============== NON-DOMINATED COUNTS ==============");
+            System.out.println("Initial ND count : " + initialNdCount);
+            System.out.println("Final ND count   : " + finalNdCount);
 
             System.out.println("============== HYPERVOLUME ==============");
             System.out.println("Reference point           : (" +
@@ -246,8 +241,9 @@ public class Main {
             System.out.println("Hypervolume improvement   : " + (finalHypervolume - initialHypervolume));
             System.out.println("HV ratio improvement      : " + (finalHypervolumeRatio - initialHypervolumeRatio));
 
-            long endTimeNs = System.nanoTime();
-            double runtimeSeconds = (endTimeNs - startTimeNs) / 1_000_000_000.0;
+            System.out.println("============== CSV EXPORT ==============");
+            System.out.println("Initial archive CSV : " + INITIAL_ARCHIVE_CSV.toAbsolutePath());
+            System.out.println("Final archive CSV   : " + FINAL_ARCHIVE_CSV.toAbsolutePath());
 
             System.out.println("============== RUNTIME ==============");
             System.out.println("Total runtime (seconds): " + runtimeSeconds);
@@ -262,53 +258,6 @@ public class Main {
         }
     }
 
-    /**
-     * Updates the global raw objective bounds using the given evaluated population.
-     *
-     * @param currentMinF1 current global minimum of objective 1
-     * @param currentMaxF1 current global maximum of objective 1
-     * @param currentMinF2 current global minimum of objective 2
-     * @param currentMaxF2 current global maximum of objective 2
-     * @param individuals evaluated individuals
-     * @return updated bounds in the order:
-     *         minF1, maxF1, minF2, maxF2
-     */
-    private static double[] updateGlobalObjectiveBounds(double currentMinF1,
-                                                        double currentMaxF1,
-                                                        double currentMinF2,
-                                                        double currentMaxF2,
-                                                        List<Individual> individuals) {
-        for (Individual individual : individuals) {
-            if (individual.getObjective1() == null || individual.getObjective2() == null) {
-                throw new IllegalStateException("Raw objectives must be assigned before updating bounds.");
-            }
-
-            double f1 = individual.getObjective1();
-            double f2 = individual.getObjective2();
-
-            if (f1 < currentMinF1) {
-                currentMinF1 = f1;
-            }
-            if (f1 > currentMaxF1) {
-                currentMaxF1 = f1;
-            }
-            if (f2 < currentMinF2) {
-                currentMinF2 = f2;
-            }
-            if (f2 > currentMaxF2) {
-                currentMaxF2 = f2;
-            }
-        }
-
-        return new double[]{currentMinF1, currentMaxF1, currentMinF2, currentMaxF2};
-    }
-
-    /**
-     * Creates deep copies of the given individuals.
-     *
-     * @param individuals individuals to copy
-     * @return deep-copied individual list
-     */
     private static List<Individual> deepCopyIndividuals(List<Individual> individuals) {
         List<Individual> copies = new ArrayList<>();
 
@@ -328,29 +277,37 @@ public class Main {
         return copies;
     }
 
-    /**
-     * Prints the contents of an archive.
-     *
-     * @param title title to print before the archive
-     * @param archive archive to print
-     */
-    private static void printArchive(String title, List<Individual> archive) {
-        System.out.println("============== " + title + " ==============");
+    private static void writeArchiveCsv(List<Individual> archive, Path outputPath) throws IOException {
+        try (BufferedWriter writer = Files.newBufferedWriter(outputPath)) {
+            writer.write("archive_index,chromosome,f1,f2,norm_f1,norm_f2,strength,raw_fitness,density,total_fitness");
+            writer.newLine();
 
-        for (int i = 0; i < archive.size(); i++) {
-            Individual individual = archive.get(i);
+            for (int i = 0; i < archive.size(); i++) {
+                Individual individual = archive.get(i);
 
-            System.out.println("Archive Individual #" + (i + 1));
-            System.out.println("Chromosome    : " + individual.getChromosome());
-            System.out.println("f1            : " + individual.getObjective1());
-            System.out.println("f2            : " + individual.getObjective2());
-            System.out.println("norm f1       : " + individual.getNormalizedObjective1());
-            System.out.println("norm f2       : " + individual.getNormalizedObjective2());
-            System.out.println("strength      : " + individual.getStrength());
-            System.out.println("raw fitness   : " + individual.getRawFitness());
-            System.out.println("density       : " + individual.getDensity());
-            System.out.println("total fitness : " + individual.getTotalFitness());
-            System.out.println("--------------------------------------------------");
+                writer.write((i + 1) + ",");
+                writer.write(joinChromosome(individual.getChromosome()) + ",");
+                writer.write(individual.getObjective1() + ",");
+                writer.write(individual.getObjective2() + ",");
+                writer.write(individual.getNormalizedObjective1() + ",");
+                writer.write(individual.getNormalizedObjective2() + ",");
+                writer.write(individual.getStrength() + ",");
+                writer.write(individual.getRawFitness() + ",");
+                writer.write(individual.getDensity() + ",");
+                writer.write(individual.getTotalFitness() + "");
+                writer.newLine();
+            }
         }
+    }
+
+    private static String joinChromosome(List<Integer> chromosome) {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < chromosome.size(); i++) {
+            if (i > 0) builder.append("|");
+            builder.append(chromosome.get(i));
+        }
+
+        return builder.toString();
     }
 }

@@ -114,3 +114,114 @@ It does not yet run the full SPEA2 optimization loop.
 - The matrix uses sorted candidate positions, not raw candidate IDs.
 - `CandidateRepository.finalizeRepository()` builds the ID-to-index mapping that
   keeps Java evaluation aligned with the matrix order.
+
+```
+Location-Optimization-with-Genetic-Algorithm
+├─ data
+│  ├─ candidate_points.csv
+│  ├─ candidate_points_backup.csv
+│  ├─ candidate_points_excel.xls
+│  ├─ kadikoy_ARTIFACTS_GUIDE.md
+│  ├─ kadikoy_candidate_ids_sorted.npy
+│  ├─ kadikoy_distance_meters_nxn.npy
+│  ├─ kadikoy_index_map.csv
+│  ├─ prepare_ga_inputs.py
+│  └─ raw
+│     ├─ bitirme.qgz
+│     ├─ candidate_points.csv
+│     ├─ candidate_points.gpkg
+│     ├─ candidate_points.qmd
+│     ├─ candidate_points_excel.qmd
+│     ├─ candidate_points_excel.xlsx
+│     ├─ cand_buf_300m_lockercnt.gpkg
+│     ├─ grid_100m_clipped.gpkg
+│     ├─ grid_with_forbidden_area.gpkg
+│     ├─ intersect.gpkg
+│     ├─ kadikoy.gpkg
+│     ├─ Kadikoy_Base.gpkg
+│     ├─ kadikoy_boundary.geojson
+│     ├─ lockers_32635.gpkg
+│     └─ pois_all_points.gpkg
+├─ frontend
+├─ guide.md
+├─ output
+│  ├─ archive_comparison.png
+│  ├─ archive_comparison_hv.png
+│  ├─ final_archive.csv
+│  └─ initial_archive.csv
+├─ parcel-locker-ui
+│  ├─ eslint.config.mjs
+│  ├─ next.config.ts
+│  ├─ package-lock.json
+│  ├─ package.json
+│  ├─ postcss.config.mjs
+│  ├─ public
+│  │  ├─ file.svg
+│  │  ├─ globe.svg
+│  │  ├─ mock
+│  │  │  ├─ candidate-points.json
+│  │  │  ├─ candidate_points.csv
+│  │  │  └─ kadikoy_boundary.geojson
+│  │  ├─ next.svg
+│  │  ├─ vercel.svg
+│  │  └─ window.svg
+│  ├─ README.md
+│  ├─ src
+│  │  ├─ app
+│  │  │  ├─ favicon.ico
+│  │  │  ├─ globals.css
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ components
+│  │  │  └─ dashboard
+│  │  │     ├─ control-panel.tsx
+│  │  │     ├─ locker-detail-panel.tsx
+│  │  │     ├─ locker-map.tsx
+│  │  │     └─ locker-strip.tsx
+│  │  ├─ lib
+│  │  │  ├─ ga-mock.ts
+│  │  │  ├─ mock-data.ts
+│  │  │  └─ types.ts
+│  │  └─ scripts
+│  │     └─ build_candidate_json.py
+│  └─ tsconfig.json
+├─ pom.xml
+├─ readme.md
+├─ scripts
+│  ├─ calculate_poi_weights.py
+│  ├─ guide.md
+│  ├─ plot_archives.py
+│  └─ prepare_demand.py
+└─ src
+   └─ main
+      └─ java
+         ├─ algorithm
+         │  ├─ Evaluate.java
+         │  ├─ helper
+         │  │  ├─ Dominance.java
+         │  │  ├─ Pareto.java
+         │  │  └─ Truncation.java
+         │  ├─ Selection.java
+         │  ├─ Survivor.java
+         │  └─ Variation.java
+         ├─ app
+         │  └─ Main.java
+         ├─ config
+         │  ├─ GAParameters.java
+         │  ├─ GAResult.java
+         │  └─ GAState.java
+         ├─ io
+         │  ├─ CsvLoader.java
+         │  └─ DistanceMatrixLoader.java
+         ├─ model
+         │  ├─ CandidatePoint.java
+         │  ├─ CandidateRepository.java
+         │  └─ Individual.java
+         ├─ service
+         │  ├─ FitnessCalculator.java
+         │  ├─ HypervolumeIndicator.java
+         │  ├─ ObjectiveNormalizer.java
+         │  └─ PopulationInitializer.java
+         └─ SRC_GUIDE.MD
+
+```

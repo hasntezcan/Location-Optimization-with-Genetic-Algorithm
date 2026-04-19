@@ -93,3 +93,62 @@ Lambda controls how strongly POI attractiveness affects demand:
 4. Enter the lambda value when prompted.
 5. Confirm that `poi_score` and `demand_final` exist in the CSV.
 6. Run the Java optimization pipeline.
+
+## Archive Plot and Hypervolume Assessment
+
+The project also includes a plotting workflow for comparing the **initial archive**
+and the **final archive** after a SPEA2 run.
+
+### What is plotted
+
+The archive comparison plot shows four panels:
+
+- Initial Archive - Raw Objective Space
+- Final Archive - Raw Objective Space
+- Initial Archive - Hypervolume Space
+- Final Archive - Hypervolume Space
+
+In these plots:
+
+- **Blue points** represent all archive individuals.
+- **Red points** represent the **non-dominated** individuals.
+- The dashed red line connects the non-dominated points.
+- In hypervolume space, the **orange X** is the hypervolume reference point.
+
+### Raw objective space
+
+In raw objective space, the solutions are plotted using their original objective
+values:
+
+- `f1`
+- `f2`
+
+This view is used to inspect the actual Pareto trade-off structure of the
+archive.
+
+### Hypervolume space
+
+In hypervolume space, the same archive is plotted after normalization.
+
+The purpose of this space is to compute and visualize the **2D hypervolume**
+indicator.
+
+### How normalization is done
+
+The initial archive and the final archive are compared in the **same normalized
+objective space**.
+
+This is done by first building a common assessment bound set:
+
+- `min_f1`
+- `max_f1`
+- `min_f2`
+- `max_f2`
+
+Then both archives are normalized using the same min-max transformation:
+
+```text
+norm_f1 = (f1 - min_f1) / (max_f1 - min_f1)
+norm_f2 = (f2 - min_f2) / (max_f2 - min_f2)
+
+
