@@ -45,4 +45,24 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- Run Parameter Analyzer: mvn compile exec:java -Panalyze -->
+        <profile>
+            <id>analyze</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <configuration>
+                            <mainClass>app.ParameterAnalyzer</mainClass>
+                            <cleanupDaemonThreads>false</cleanupDaemonThreads>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
