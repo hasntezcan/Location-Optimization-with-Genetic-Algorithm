@@ -6,13 +6,14 @@ import { promisify } from 'util';
 
 const execPromise = promisify(exec);
 
-// Absolute path to the project root (Location-Optimization-with-Genetic-Algorithm copy 2 trae)
-const PROJECT_ROOT = '/Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm copy 2 trae';
-const GA_PARAMETERS_PATH = path.join(PROJECT_ROOT, 'src/main/java/config/GAParameters.java');
-const PLOT_SCRIPT_PATH = path.join(PROJECT_ROOT, 'scripts/plot_archives.py');
-const PROCESS_SCRIPT_PATH = path.join(PROJECT_ROOT, 'parcel-locker-ui/src/scripts/process_ga_data.py');
-const OUTPUT_LATEST_PLOT_PATH = path.join(PROJECT_ROOT, 'output/archive_comparison_latest.png');
-const UI_LATEST_PLOT_PATH = path.join(PROJECT_ROOT, 'parcel-locker-ui/public/mock/archive_comparison_latest.png');
+const UI_ROOT = process.cwd();
+const PROJECT_ROOT = path.resolve(UI_ROOT, "..");
+
+const GA_PARAMETERS_PATH = path.join(PROJECT_ROOT, "src/main/java/config/GAParameters.java");
+const PLOT_SCRIPT_PATH = path.join(PROJECT_ROOT, "scripts/plot_archives.py");
+const PROCESS_SCRIPT_PATH = path.join(UI_ROOT, "src/scripts/process_ga_data.py");
+const OUTPUT_LATEST_PLOT_PATH = path.join(PROJECT_ROOT, "output/archive_comparison_latest.png");
+const UI_LATEST_PLOT_PATH = path.join(UI_ROOT, "public/mock/archive_comparison_latest.png");
 
 export async function POST(request: Request) {
   try {
