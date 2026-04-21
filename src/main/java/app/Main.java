@@ -185,22 +185,48 @@ public class Main {
             // 8. Final archive snapshot
             List<Individual> finalArchiveSnapshot = deepCopyIndividuals(archive);
 
-            // 9. Normalize initial and final archives in the SAME fixed objective space
+            // 8.5 Dynamically update assessment bounds based on only NON-DOMINATED solutions found
+            List<Individual> allSolutions = new ArrayList<>(initialArchiveSnapshot);
+            allSolutions.addAll(finalArchiveSnapshot);
+            List<Individual> nonDominatedSolutions = pareto.getNonDominated(allSolutions);
+
+            double dynamicMinF1 = nonDominatedSolutions.stream().mapToDouble(Individual::getObjective1).min().orElse(assessmentIdealF1);
+            double dynamicMaxF1 = nonDominatedSolutions.stream().mapToDouble(Individual::getObjective1).max().orElse(assessmentNadirF1);
+            double dynamicMinF2 = nonDominatedSolutions.stream().mapToDouble(Individual::getObjective2).min().orElse(assessmentIdealF2);
+            double dynamicMaxF2 = nonDominatedSolutions.stream().mapToDouble(Individual::getObjective2).max().orElse(assessmentNadirF2);
+
+            // Add 5% padding to avoid points being exactly at 0 or 1
+            double padding = 0.05;
+            double f1Range = dynamicMaxF1 - dynamicMinF1;
+            double f2Range = dynamicMaxF2 - dynamicMinF2;
+            
+            double paddedMinF1 = dynamicMinF1 - padding * f1Range;
+            double paddedMaxF1 = dynamicMaxF1 + padding * f1Range;
+            double paddedMinF2 = dynamicMinF2 - padding * f2Range;
+            double paddedMaxF2 = dynamicMaxF2 + padding * f2Range;
+
+            // 9. Normalize initial and final archives in the SAME dynamic objective space
             objectiveNormalizer.normalizePopulationObjectives(
                     initialArchiveSnapshot,
-                    assessmentIdealF1,
-                    assessmentNadirF1,
-                    assessmentIdealF2,
-                    assessmentNadirF2
+                    paddedMinF1,
+                    paddedMaxF1,
+                    paddedMinF2,
+                    paddedMaxF2
             );
 
             objectiveNormalizer.normalizePopulationObjectives(
                     finalArchiveSnapshot,
-                    assessmentIdealF1,
-                    assessmentNadirF1,
-                    assessmentIdealF2,
-                    assessmentNadirF2
+                    paddedMinF1,
+                    paddedMaxF1,
+                    paddedMinF2,
+                    paddedMaxF2
             );
+
+            System.out.println("============== DYNAMIC ASSESSMENT BOUNDS ==============");
+            System.out.println("Padded Min f1 : " + paddedMinF1);
+            System.out.println("Padded Max f1 : " + paddedMaxF1);
+            System.out.println("Padded Min f2 : " + paddedMinF2);
+            System.out.println("Padded Max f2 : " + paddedMaxF2);
 
             // 10. Export archives
             writeArchiveCsv(initialArchiveSnapshot, INITIAL_ARCHIVE_CSV);

@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
-OUTPUT_DIR = Path("..\\output")
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
 INITIAL_CSV = OUTPUT_DIR / "initial_archive.csv"
 FINAL_CSV = OUTPUT_DIR / "final_archive.csv"
 PLOT_PATH = OUTPUT_DIR / "archive_comparison_hv.png"
@@ -222,20 +222,26 @@ def main():
         "Final Archive - Raw Objective Space"
     )
 
+    # Hypervolume space normalization
+    # Instead of fixed reference point, use normalized bounds [0, 1.1]
+    # The reference point in normalized space is usually (1.1, 1.1)
+    ref_x = 1.1
+    ref_y = 1.1
+
     initial_front_hv, initial_hv, initial_hv_ratio = plot_hv_space(
         axes[1, 0],
         initial_df,
         "Initial Archive - Hypervolume Space",
-        REFERENCE_F1,
-        REFERENCE_F2
+        ref_x,
+        ref_y
     )
 
     final_front_hv, final_hv, final_hv_ratio = plot_hv_space(
         axes[1, 1],
         final_df,
         "Final Archive - Hypervolume Space",
-        REFERENCE_F1,
-        REFERENCE_F2
+        ref_x,
+        ref_y
     )
 
     summary = (
@@ -252,11 +258,20 @@ def main():
 
     plt.tight_layout(rect=[0, 0.04, 1, 0.96])
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    plt.savefig(PLOT_PATH, dpi=220, bbox_inches="tight")
-    plt.show()
 
-    print("=" * 60)
-    print(f"Plot saved to: {PLOT_PATH.resolve()}")
+    # Also save as latest for easy access
+    latest_path = OUTPUT_DIR / "archive_comparison_latest.png"
+    plt.savefig(latest_path, dpi=300, bbox_inches='tight')
+    # plt.show() # Commented out to avoid blocking in non-interactive environments
+
+    for candidate in OUTPUT_DIR.glob("archive_comparison_*.png"):
+        if candidate.name == "archive_comparison_latest.png":
+            continue
+        candidate.unlink(missing_ok=True)
+
+    print(f"============================================================")
+    print(f"Latest plot updated at: {latest_path}")
+    print(f"============================================================")
 
 
 if __name__ == "__main__":

@@ -26,6 +26,21 @@ export type CandidatePoint = {
   lockerCount: number;
 };
 
+export type ArchiveSolution = {
+  id: number;
+  lockers: GenerationLocker[];
+  isPareto?: boolean;
+  isBestF1?: boolean;
+  isBestF2?: boolean;
+  metrics: {
+    accessibility: number;
+    equity: number;
+    fitness: number;
+    norm_f1?: number;
+    norm_f2?: number;
+  };
+};
+
 export type GenerationSource = "elite" | "crossover" | "mutation";
 
 export type GenerationLocker = {

@@ -5,6 +5,12 @@ import { useState } from "react";
 type ControlPanelProps = {
   lockerCount: number;
   onLockerCountChange: (value: number) => void;
+  populationSize: number;
+  onPopulationSizeChange: (value: number) => void;
+  maxGenerations: number;
+  onMaxGenerationsChange: (value: number) => void;
+  mutationRate: number;
+  onMutationRateChange: (value: number) => void;
   onShowResults: () => void;
   currentGeneration: number;
   generationCount: number;
@@ -15,11 +21,21 @@ type ControlPanelProps = {
   onNextGeneration: () => void;
   onGenerationChange: (value: number) => void;
   onPlaybackSpeedChange: (value: number) => void;
+  isOptimizing?: boolean;
+  isCurrentSolutionPareto?: boolean;
+  isBestF1?: boolean;
+  isBestF2?: boolean;
 };
 
 export function ControlPanel({
   lockerCount,
   onLockerCountChange,
+  populationSize,
+  onPopulationSizeChange,
+  maxGenerations,
+  onMaxGenerationsChange,
+  mutationRate,
+  onMutationRateChange,
   onShowResults,
   currentGeneration,
   generationCount,
@@ -30,29 +46,31 @@ export function ControlPanel({
   onNextGeneration,
   onGenerationChange,
   onPlaybackSpeedChange,
+  isOptimizing = false,
+  isCurrentSolutionPareto = false,
+  isBestF1 = false,
+  isBestF2 = false,
 }: ControlPanelProps) {
-  const [populationSize, setPopulationSize] = useState(100);
-  const [archiveSize, setArchiveSize] = useState(50);
-  const [maxGenerations, setMaxGenerations] = useState(200);
-  const [crossoverRate, setCrossoverRate] = useState(0.9);
-  const [mutationRate, setMutationRate] = useState(0.05);
-  const [randomSeed, setRandomSeed] = useState(42);
-  const [lambdaValue, setLambdaValue] = useState(0.5);
-  const [beta, setBeta] = useState(2);
-  const [snapshotInterval, setSnapshotInterval] = useState(10);
 
-  const [tournamentSize, setTournamentSize] = useState(2);
-  const [excludeForbiddenPoints, setExcludeForbiddenPoints] = useState(true);
-  const [initializationMode, setInitializationMode] = useState("random");
-  const [fitnessScalingMode, setFitnessScalingMode] = useState("global");
-  const [distanceMatrixMode, setDistanceMatrixMode] = useState("precomputed");
+  const [localLockerCount, setLocalLockerCount] = useState<string>(lockerCount.toString());
 
-  const [referencePoint, setReferencePoint] = useState("1.1, 1.1");
-  const [useGlobalNormalization, setUseGlobalNormalization] = useState(true);
+  const handleLockerCountChange = (value: string) => {
+    setLocalLockerCount(value);
+    if (value !== "" && !isNaN(Number(value))) {
+      onLockerCountChange(Number(value));
+    }
+  };
 
-  const [snapshotIndividualType, setSnapshotIndividualType] = useState("best-archive");
-  const [simultaneousSolutions, setSimultaneousSolutions] = useState(1);
-  const [visualizationMode, setVisualizationMode] = useState("lockers-only");
+  const handleLockerCountBlur = () => {
+    if (localLockerCount === "" || isNaN(Number(localLockerCount))) {
+      setLocalLockerCount("1");
+      onLockerCountChange(1);
+    } else {
+      const val = Math.max(1, Math.min(50, Number(localLockerCount)));
+      setLocalLockerCount(val.toString());
+      onLockerCountChange(val);
+    }
+  };
 
   return (
     <aside className="flex h-full min-h-0 flex-col overflow-hidden rounded-[30px] border border-white/60 bg-white/55 p-4 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl lg:max-h-[calc(100vh-290px)]">
@@ -63,424 +81,198 @@ export function ControlPanel({
           </span>
 
           <h2 className="mt-3 text-[22px] font-semibold tracking-tight text-slate-900">
-            Parcel locker input
+            Archive Explorer
           </h2>
 
           <p className="mt-2 text-sm leading-6 text-slate-600">
-            Set the locker count and play the fake genetic algorithm generations.
+            Browse optimized solutions from the Pareto archive (Accessibility vs. Equity).
           </p>
         </div>
 
-        <div className="mt-6 rounded-[22px] border border-slate-200/50 bg-white/60 p-4">
-          <label
-            htmlFor="locker-count"
-            className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500"
-          >
-            Parcel locker count
-          </label>
-
-          <div className="mt-3 relative">
-            <input
-              id="locker-count"
-              type="number"
-              min={1}
-              max={100}
-              value={lockerCount}
-              onChange={(e) => onLockerCountChange(Number(e.target.value))}
-              className="h-12 w-full rounded-2xl border border-slate-200/70 bg-white/85 px-4 text-base font-medium text-slate-900 outline-none transition duration-300 placeholder:text-slate-400 focus:border-sky-300 focus:bg-white focus:shadow-[0_0_0_4px_rgba(125,211,252,0.18)]"
-            />
-          </div>
-        </div>
-
-        <button
-          onClick={onShowResults}
-          className="group relative mt-5 h-12 w-full overflow-hidden rounded-2xl border border-slate-900/80 bg-[linear-gradient(135deg,#0f172a_0%,#172554_45%,#0f172a_100%)] px-5 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(15,23,42,0.22)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_35px_rgba(15,23,42,0.28)]"
-        >
-          <span className="absolute inset-0 rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100">
-            <span className="button-beam absolute inset-[-2px] rounded-[18px]" />
-          </span>
-
-          <span className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.28),_transparent_45%)] opacity-70" />
-          <span className="relative z-10">Build fake generations</span>
-        </button>
-
-        <div className="mt-6 rounded-[22px] border border-slate-200/50 bg-gradient-to-br from-white/70 to-slate-50/80 p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-            Generation playback
-          </p>
-
-          <div className="mt-4 flex items-center gap-2">
-            <button
-              onClick={onPrevGeneration}
-              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700"
-            >
-              Prev
-            </button>
-
-            <button
-              onClick={onTogglePlayback}
-              className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white"
-            >
-              {isPlaying ? "Pause" : "Play"}
-            </button>
-
-            <button
-              onClick={onNextGeneration}
-              className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700"
-            >
-              Next
-            </button>
-          </div>
-
-          <div className="mt-4">
-            <div className="flex items-center justify-between text-xs font-medium text-slate-500">
-              <span>Generation</span>
-              <span>
-                {generationCount > 0 ? currentGeneration + 1 : 0} / {generationCount}
+          <div className="mt-8 space-y-6">
+          <div className="rounded-[22px] border border-slate-200/50 bg-white/60 p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Locker Count (k)
+              </label>
+              <span className="rounded-lg bg-indigo-600 px-2 py-1 text-[11px] font-bold text-white">
+                Active: {lockerCount}
               </span>
             </div>
-
-            <input
-              type="range"
-              min={0}
-              max={Math.max(generationCount - 1, 0)}
-              value={currentGeneration}
-              onChange={(e) => onGenerationChange(Number(e.target.value))}
-              className="mt-3 w-full"
-            />
+            <div className="mt-4 flex items-center gap-3">
+              <input
+                type="text"
+                value={localLockerCount}
+                onChange={(e) => handleLockerCountChange(e.target.value)}
+                onBlur={handleLockerCountBlur}
+                className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+              />
+                      <button
+                        onClick={onShowResults}
+                        disabled={isOptimizing}
+                        className={`h-10 whitespace-nowrap rounded-xl px-4 text-xs font-bold text-white shadow-md transition ${
+                          isOptimizing
+                            ? "bg-slate-400 cursor-not-allowed"
+                            : "bg-indigo-600 hover:bg-indigo-700"
+                        }`}
+                      >
+                        {isOptimizing ? "Optimizing..." : "Run Optimization"}
+                      </button>
+                    </div>
+                    <p className="mt-2 text-[10px] text-slate-400">
+                      * Changing parameters requires re-running the optimization.
+                    </p>
           </div>
 
-          <div className="mt-4">
-            <label className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-              Playback speed
-            </label>
+          <div className="rounded-[22px] border border-slate-200/50 bg-white/60 p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Current Solution
+              </label>
+              <div className="flex flex-wrap items-center justify-end gap-2">
+                {isBestF1 && (
+                  <span className="rounded-lg bg-blue-500 px-2 py-1 text-[10px] font-bold text-white shadow-sm">
+                    BEST DISTANCE
+                  </span>
+                )}
+                {isBestF2 && (
+                  <span className="rounded-lg bg-emerald-600 px-2 py-1 text-[10px] font-bold text-white shadow-sm">
+                    BEST COST
+                  </span>
+                )}
+                {isCurrentSolutionPareto && !isBestF1 && !isBestF2 && (
+                  <span className="rounded-lg bg-emerald-500 px-2 py-1 text-[10px] font-bold text-white animate-pulse">
+                    PARETO
+                  </span>
+                )}
+                <span className="rounded-lg bg-slate-900 px-2 py-1 text-[11px] font-bold text-white">
+                  #{currentGeneration + 1}
+                </span>
+              </div>
+            </div>
 
-            <select
-              value={playbackSpeed}
-              onChange={(e) => onPlaybackSpeedChange(Number(e.target.value))}
-              className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-            >
-              <option value={1200}>Slow</option>
-              <option value={700}>Normal</option>
-              <option value={350}>Fast</option>
-              <option value={180}>Stress test</option>
-            </select>
+            <div className="mt-4 flex items-center gap-3">
+              <button
+                onClick={onPrevGeneration}
+                disabled={currentGeneration === 0}
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50 disabled:opacity-50"
+              >
+                ←
+              </button>
+              
+              <input
+                type="range"
+                min={0}
+                max={generationCount - 1}
+                value={currentGeneration}
+                onChange={(e) => onGenerationChange(Number(e.target.value))}
+                className={`h-1.5 flex-1 cursor-pointer appearance-none rounded-full transition-colors ${
+                  isCurrentSolutionPareto ? "bg-emerald-200 accent-emerald-600" : "bg-slate-200 accent-slate-900"
+                }`}
+              />
+
+              <button
+                onClick={onNextGeneration}
+                disabled={currentGeneration === generationCount - 1}
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50 disabled:opacity-50"
+              >
+                →
+              </button>
+            </div>
+          </div>
+
+          <div className="rounded-[22px] border border-slate-200/50 bg-white/60 p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Playback Control
+              </label>
+              <button
+                onClick={onTogglePlayback}
+                className={`flex h-10 w-24 items-center justify-center rounded-xl text-xs font-bold transition ${
+                  isPlaying 
+                    ? "bg-rose-500 text-white shadow-[0_4px_12px_rgba(244,63,94,0.3)]" 
+                    : "bg-emerald-500 text-white shadow-[0_4px_12px_rgba(16,185,129,0.3)]"
+                }`}
+              >
+                {isPlaying ? "Stop" : "Auto-Play"}
+              </button>
+            </div>
+            
+            <div className="mt-4">
+              <div className="flex justify-between text-[10px] font-bold text-slate-400">
+                <span>Speed</span>
+                <span>{playbackSpeed}ms</span>
+              </div>
+              <input
+                type="range"
+                min={100}
+                max={2000}
+                step={100}
+                value={playbackSpeed}
+                onChange={(e) => onPlaybackSpeedChange(Number(e.target.value))}
+                className="mt-2 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-slate-200 accent-slate-900"
+              />
+            </div>
           </div>
         </div>
 
-        <div className="mt-6 rounded-[22px] border border-slate-200/50 bg-white/60 p-4">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Test area
-              </p>
-              <h3 className="mt-1.5 text-base font-semibold text-slate-900">
-                GA / SPEA2 parameters
-              </h3>
-            </div>
-            <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-              Mock inputs
-            </span>
-          </div>
+        <div className="mt-8 space-y-4">
+          <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 px-1">
+            Algorithm Parameters
+          </h3>
 
           <div className="mt-5 space-y-5">
-            <section>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Core parameters
-              </p>
-
-              <div className="mt-3 grid grid-cols-1 gap-3">
+            <div className="rounded-[22px] border border-slate-200/50 bg-white/60 p-4 shadow-sm">
+              <div className="space-y-4">
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Population size
+                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    Population Size
                   </label>
                   <input
                     type="number"
-                    min={1}
+                    min={10}
+                    max={500}
                     value={populationSize}
-                    onChange={(e) => setPopulationSize(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
+                    onChange={(e) => onPopulationSizeChange(Number(e.target.value))}
+                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Archive size
+                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    Max Generations
                   </label>
                   <input
                     type="number"
                     min={1}
-                    value={archiveSize}
-                    onChange={(e) => setArchiveSize(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Max generations
-                  </label>
-                  <input
-                    type="number"
-                    min={1}
+                    max={500}
                     value={maxGenerations}
-                    onChange={(e) => setMaxGenerations(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
+                    onChange={(e) => onMaxGenerationsChange(Number(e.target.value))}
+                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
                   />
                 </div>
 
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Crossover rate
+                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    Mutation Rate
                   </label>
-                  <input
-                    type="number"
-                    min={0}
-                    max={1}
-                    step={0.01}
-                    value={crossoverRate}
-                    onChange={(e) => setCrossoverRate(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Mutation rate
-                  </label>
-                  <input
-                    type="number"
-                    min={0}
-                    max={1}
-                    step={0.01}
-                    value={mutationRate}
-                    onChange={(e) => setMutationRate(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Random seed
-                  </label>
-                  <input
-                    type="number"
-                    value={randomSeed}
-                    onChange={(e) => setRandomSeed(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Lambda
-                  </label>
-                  <input
-                    type="number"
-                    min={0}
-                    max={1}
-                    step={0.01}
-                    value={lambdaValue}
-                    onChange={(e) => setLambdaValue(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Beta
-                  </label>
-                  <input
-                    type="number"
-                    min={0}
-                    step={0.1}
-                    value={beta}
-                    onChange={(e) => setBeta(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Snapshot interval
-                  </label>
-                  <input
-                    type="number"
-                    min={1}
-                    value={snapshotInterval}
-                    onChange={(e) => setSnapshotInterval(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  />
+                  <div className="mt-2 flex items-center gap-3">
+                    <input
+                      type="range"
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      value={mutationRate}
+                      onChange={(e) => onMutationRateChange(Number(e.target.value))}
+                      className="h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-slate-200 accent-indigo-600"
+                    />
+                    <span className="text-sm font-bold text-slate-700 w-10">
+                      {Math.round(mutationRate * 100)}%
+                    </span>
+                  </div>
                 </div>
               </div>
-            </section>
-
-            <section>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Advanced settings
-              </p>
-
-              <div className="mt-3 grid grid-cols-1 gap-3">
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Tournament size
-                  </label>
-                  <input
-                    type="number"
-                    min={2}
-                    value={tournamentSize}
-                    onChange={(e) => setTournamentSize(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Forbidden points
-                  </label>
-                  <select
-                    value={excludeForbiddenPoints ? "exclude" : "include"}
-                    onChange={(e) => setExcludeForbiddenPoints(e.target.value === "exclude")}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  >
-                    <option value="exclude">Exclude forbidden points</option>
-                    <option value="include">Include all points</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Initialization mode
-                  </label>
-                  <select
-                    value={initializationMode}
-                    onChange={(e) => setInitializationMode(e.target.value)}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  >
-                    <option value="random">Random</option>
-                    <option value="filtered">Filtered</option>
-                    <option value="seeded">Seeded</option>
-                    <option value="hybrid">Hybrid</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Fitness scaling
-                  </label>
-                  <select
-                    value={fitnessScalingMode}
-                    onChange={(e) => setFitnessScalingMode(e.target.value)}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  >
-                    <option value="global">Global normalization</option>
-                    <option value="local">Per-run normalization</option>
-                    <option value="none">No scaling</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Distance matrix mode
-                  </label>
-                  <select
-                    value={distanceMatrixMode}
-                    onChange={(e) => setDistanceMatrixMode(e.target.value)}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  >
-                    <option value="precomputed">Precomputed NxN matrix</option>
-                    <option value="decay">Decay matrix</option>
-                    <option value="runtime">Runtime calculation</option>
-                  </select>
-                </div>
-              </div>
-            </section>
-
-            <section>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Hypervolume settings
-              </p>
-
-              <div className="mt-3 grid grid-cols-1 gap-3">
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Reference point (W)
-                  </label>
-                  <input
-                    type="text"
-                    value={referencePoint}
-                    onChange={(e) => setReferencePoint(e.target.value)}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                    placeholder="1.1, 1.1"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Objective normalization
-                  </label>
-                  <select
-                    value={useGlobalNormalization ? "global" : "custom"}
-                    onChange={(e) => setUseGlobalNormalization(e.target.value === "global")}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  >
-                    <option value="global">Use global normalization</option>
-                    <option value="custom">Custom / flexible</option>
-                  </select>
-                </div>
-              </div>
-            </section>
-
-            <section>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Map animation settings
-              </p>
-
-              <div className="mt-3 grid grid-cols-1 gap-3">
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Snapshot individual type
-                  </label>
-                  <select
-                    value={snapshotIndividualType}
-                    onChange={(e) => setSnapshotIndividualType(e.target.value)}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  >
-                    <option value="best-archive">Best archive solution</option>
-                    <option value="pareto-sample">Pareto front sample</option>
-                    <option value="population-sample">Population sample</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Simultaneous solutions
-                  </label>
-                  <input
-                    type="number"
-                    min={1}
-                    value={simultaneousSolutions}
-                    onChange={(e) => setSimultaneousSolutions(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Visualization mode
-                  </label>
-                  <select
-                    value={visualizationMode}
-                    onChange={(e) => setVisualizationMode(e.target.value)}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700"
-                  >
-                    <option value="lockers-only">Lockers only</option>
-                    <option value="lockers-demand">Lockers + demand heat</option>
-                    <option value="lockers-coverage">Lockers + coverage area</option>
-                  </select>
-                </div>
-              </div>
-            </section>
+            </div>
           </div>
         </div>
       </div>

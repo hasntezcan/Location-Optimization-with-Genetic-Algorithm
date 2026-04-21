@@ -13,7 +13,7 @@ public class GAParameters {
     /**
      * Number of locker locations selected per chromosome.
      */
-    public static final int K = 5;
+    public static final int K = 8;
 
     /**
      * Number of individuals in the main population.
@@ -28,7 +28,7 @@ public class GAParameters {
     /**
      * Number of evolutionary generations to run.
      */
-    public static final int MAX_GENERATIONS = 30;
+    public static final int MAX_GENERATIONS = 500;
 
     /**
      * Distance-decay exponent used in the accessibility objective.

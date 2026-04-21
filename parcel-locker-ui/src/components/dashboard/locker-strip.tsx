@@ -6,12 +6,14 @@ type LockerStripProps = {
   lockers: Locker[];
   selectedLockerId: string | null;
   onSelectLocker: (locker: Locker | null) => void;
+  isPareto?: boolean;
 };
 
 export function LockerStrip({
   lockers,
   selectedLockerId,
   onSelectLocker,
+  isPareto,
 }: LockerStripProps) {
   return (
     <div className="flex gap-3 overflow-x-auto pb-2">
@@ -24,7 +26,9 @@ export function LockerStrip({
             onClick={() => onSelectLocker(isSelected ? null : locker)}
             className={`group relative min-w-[190px] overflow-hidden rounded-[24px] border px-4 py-4 text-left transition duration-300 ${
               isSelected
-                ? "border-slate-900/80 bg-[linear-gradient(135deg,#0f172a_0%,#172554_48%,#0f172a_100%)] text-white shadow-[0_16px_32px_rgba(15,23,42,0.18)]"
+                ? isPareto 
+                  ? "border-emerald-500 bg-[linear-gradient(135deg,#064e3b_0%,#065f46_48%,#064e3b_100%)] text-white shadow-[0_16px_32px_rgba(5,150,105,0.18)]"
+                  : "border-slate-900/80 bg-[linear-gradient(135deg,#0f172a_0%,#172554_48%,#0f172a_100%)] text-white shadow-[0_16px_32px_rgba(15,23,42,0.18)]"
                 : "border-white/70 bg-white/65 text-slate-900 shadow-[0_10px_24px_rgba(15,23,42,0.05)] backdrop-blur-xl hover:-translate-y-0.5 hover:border-sky-200 hover:bg-white/85 hover:shadow-[0_16px_30px_rgba(56,189,248,0.10)]"
             }`}
           >

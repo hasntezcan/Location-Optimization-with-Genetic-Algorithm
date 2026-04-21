@@ -12,7 +12,7 @@ import {
 import "leaflet/dist/leaflet.css";
 import type {
   CandidatePoint,
-  GenerationSnapshot,
+  ArchiveSolution,
   Locker,
 } from "@/lib/types";
 
@@ -32,8 +32,7 @@ type LockerMapProps = {
   lockers: Locker[];
   selectedLocker: Locker | null;
   onSelectLocker: (locker: Locker | null) => void;
-  currentGeneration: GenerationSnapshot;
-  previousGeneration: GenerationSnapshot | null;
+  currentGeneration: ArchiveSolution;
 };
 
 export function LockerMap({
@@ -43,12 +42,8 @@ export function LockerMap({
   selectedLocker,
   onSelectLocker,
   currentGeneration,
-  previousGeneration,
 }: LockerMapProps) {
   const activeIds = new Set(lockers.map((locker) => locker.id));
-  const previousIds = new Set(
-    previousGeneration?.lockers.map((locker) => locker.id) ?? []
-  );
 
   return (
     <div className="h-full rounded-[30px] border border-white/60 bg-white/55 p-3 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl">
@@ -57,11 +52,18 @@ export function LockerMap({
 
         <div className="absolute bottom-4 left-4 z-[600] rounded-2xl border border-white/70 bg-white/72 px-4 py-3 shadow-[0_10px_25px_rgba(15,23,42,0.08)] backdrop-blur-xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-            Active generation
+            Archive solution
           </p>
-          <p className="mt-1 text-sm font-semibold text-slate-900">
-            Generation {currentGeneration.generation + 1}
-          </p>
+          <div className="mt-1 flex items-center gap-2">
+            <p className="text-sm font-semibold text-slate-900">
+              Solution #{currentGeneration.id}
+            </p>
+            {currentGeneration.isPareto && (
+              <span className="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+                Pareto Front
+              </span>
+            )}
+          </div>
           <p className="mt-1 text-xs text-slate-600">
             {lockers.length} visible lockers
           </p>
@@ -90,7 +92,6 @@ export function LockerMap({
         >
           <Pane name="boundary" style={{ zIndex: 200 }} />
           <Pane name="candidates" style={{ zIndex: 300 }} />
-          <Pane name="previous" style={{ zIndex: 400 }} />
           <Pane name="active" style={{ zIndex: 500 }} />
 
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -112,9 +113,7 @@ export function LockerMap({
 
           {candidates.map((candidate) => {
             const isActive = activeIds.has(candidate.id);
-            const isPrevious = previousIds.has(candidate.id);
-
-            if (isActive || isPrevious) return null;
+            if (isActive) return null;
 
             return (
               <CircleMarker
@@ -132,29 +131,8 @@ export function LockerMap({
             );
           })}
 
-          {previousGeneration?.lockers.map((locker) => {
-            const stillActive = activeIds.has(locker.id);
-            if (stillActive) return null;
-
-            return (
-              <CircleMarker
-                key={`previous-${locker.id}`}
-                center={[locker.lat, locker.lng]}
-                radius={7}
-                pane="previous"
-                pathOptions={{
-                  color: "#cbd5e1",
-                  fillColor: "#cbd5e1",
-                  fillOpacity: 0.2,
-                  weight: 1,
-                }}
-              />
-            );
-          })}
-
           {lockers.map((locker, index) => {
             const isSelected = locker.id === selectedLocker?.id;
-            const existedBefore = previousIds.has(locker.id);
 
             return (
               <CircleMarker
@@ -165,11 +143,7 @@ export function LockerMap({
                 eventHandlers={{ click: () => onSelectLocker(locker) }}
                 pathOptions={{
                   color: isSelected ? "#020617" : "#1e3a8a",
-                  fillColor: isSelected
-                    ? "#020617"
-                    : existedBefore
-                    ? "#2563eb"
-                    : "#7c3aed",
+                  fillColor: isSelected ? "#020617" : "#2563eb",
                   fillOpacity: 0.95,
                   weight: isSelected ? 3 : 2,
                 }}
@@ -191,7 +165,7 @@ export function LockerMap({
                           Latitude
                         </p>
                         <p className="mt-1 text-sm font-medium text-slate-800">
-                          {locker.lat}
+                          {locker.lat.toFixed(6)}
                         </p>
                       </div>
 
@@ -200,18 +174,7 @@ export function LockerMap({
                           Longitude
                         </p>
                         <p className="mt-1 text-sm font-medium text-slate-800">
-                          {locker.lng}
-                        </p>
-                      </div>
-
-                      <div className="rounded-xl border border-slate-200/80 bg-slate-50/80 px-3 py-2">
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
-                          State
-                        </p>
-                        <p className="mt-1 text-sm font-medium text-slate-800">
-                          {existedBefore
-                            ? "Persisting from previous generation"
-                            : "New in this generation"}
+                          {locker.lng.toFixed(6)}
                         </p>
                       </div>
 
