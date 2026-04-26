@@ -1,198 +1,99 @@
 # Kadikoy Parcel Locker Placement Optimization Guide
 
-This document summarizes the current structure of the parcel locker placement
-optimization project. The project combines a Python data preparation pipeline
-with Java classes for candidate loading, population initialization, and fitness
-evaluation.
+This document summarizes how the project currently works and how the components connect. The project solves a **SPEA2-based** bi-objective optimization for parcel locker placement in **Kadikoy**.
 
-## Goal
+## Goal and Objectives
 
-The project models parcel locker placement as a multi-objective optimization
-problem for Kadikoy. The algorithm selects `k` candidate points from a larger
-grid-based candidate set.
+One solution (an individual) selects `k` locker locations (chromosome = a set of selected candidate IDs).
 
-Current objective direction:
+Two objectives are minimized:
 
-- Minimize accessibility cost: demand-weighted distance from demand points to
-  the nearest selected locker.
-- Minimize equity cost: planned objective for balancing service quality across
-  neighborhoods.
+### f1: Accessibility cost
+- For each demand grid point, the minimum distance to any selected locker is used.
+- The distance matrix is in metres; the evaluation converts to kilometres and applies the `beta` exponent.
 
-The intended optimization method is SPEA2, but the full SPEA2 loop is not yet
-implemented in the current Java code.
-
-## Data Pipeline
-
-Primary input:
+Summary form:
 
 ```text
-data/candidate_points.csv
+f1 = sum_i ( demand_i * (minDistKm_i ^ beta) ) / sum_i demand_i
 ```
 
-The CSV contains candidate IDs, neighborhood names, POI counts, coordinates,
-forbidden flags, existing locker counts, candidate population, `poi_score`, and
-`demand_final`.
+Implementation: [FitnessCalculator.evaluateF1](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/service/FitnessCalculator.java)
 
-Demand preparation scripts:
+### f2: Equity (fairness across neighborhoods)
+- For each neighborhood (mahalle), a demand-weighted mean accessibility cost is computed.
+- The **coefficient of variation** (CV = std / mean) across neighborhood means is used.
 
-- `scripts/calculate_poi_weights.py`: read-only helper that prints POI weights
-  calculated with the Entropy Weight Method.
-- `scripts/prepare_demand.py`: updates `poi_score` and `demand_final` in
-  `data/candidate_points.csv`.
+Implementation: [FitnessCalculator.evaluateF2](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/service/FitnessCalculator.java)
 
-Demand formula:
+## High-Level Flow
 
-```text
-demand_final = population_candidate * (1 + lambda * poi_score)
-```
+### 1) Data preparation (Python)
+- `scripts/prepare_demand.py` computes the `poi_score` and `demand_final` columns (overwrites the CSV).
+- Details: [scripts/guide.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/scripts/guide.md)
 
-See `scripts/guide.md` for the detailed Python workflow and overwrite notes.
+### 2) Artifacts (distance matrix)
+- `data/kadikoy_distance_meters_nxn.npy` is the distance matrix.
+- The indexing order is **candidate id ascending**.
+- The Java side maintains this alignment via [CandidateRepository.finalizeRepository](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/model/CandidateRepository.java).
+- Details: [kadikoy_ARTIFACTS_GUIDE.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/data/kadikoy_ARTIFACTS_GUIDE.md)
 
-## Java Components
+### 3) SPEA2 optimization (Java)
+Entry point: [app.Main](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/app/Main.java)
 
-### `CandidatePoint.java`
+Flow (summary):
+- Load CSV → finalize repository
+- Load NPY distance matrix
+- Initialize population (`PopulationInitializer`)
+- Evaluate (merge population + archive):
+  - objective evaluation ([FitnessCalculator](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/service/FitnessCalculator.java))
+  - normalization for SPEA2 internals ([ObjectiveNormalizer](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/service/ObjectiveNormalizer.java))
+  - strength/rawFitness/density/totalFitness ([Evaluate](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/algorithm/Evaluate.java))
+- Survivor (archive selection) ([Survivor](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/algorithm/Survivor.java))
+- Selection (binary tournament) ([Selection](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/algorithm/Selection.java))
+- Variation (crossover/mutation/repair) ([Variation](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/algorithm/Variation.java))
 
-Data model for one candidate grid point.
+## Normalization and Hypervolume
 
-Important fields:
-
-- `id`
-- `mahalleNameTurkish`
-- `mahalleNameEnglish`
-- `mahallePopulation`
-- POI counts such as `poiAtm`, `poiBank`, `poiHospital`, and `poiTransport`
-- Coordinates: `lon`, `lat`
-- `isForbidden`
-- `lockerCount`
-- `gridCountByMahalle`
-- `population`
-- `poiScore`
-- `demandScore`
-
-`demandScore` corresponds to the CSV `demand_final` value and is used by the
-fitness calculation.
-
-### `CsvLoader.java`
-
-Loads rows from `data/candidate_points.csv` and creates `CandidatePoint`
-objects.
-
-Important implementation detail:
-
-- The loader maps CSV fields by fixed column indexes.
-- If the CSV column order changes, the loader mapping must be updated too.
-
-### `CandidateRepository.java`
-
-Stores candidates and provides ID/index lookup for matrix-based evaluation.
-
-Key structures:
-
-- `candidateMap`: candidate ID to `CandidatePoint`.
-- `idToIndexMap`: candidate ID to distance matrix index.
-- `sortedCandidates`: candidates sorted by ID to match the matrix order.
-
-Call `finalizeRepository()` after loading all candidates. It sorts the
-candidates and builds the ID-to-index mapping used by `FitnessCalculator`.
-
-### `Individual.java`
-
-Represents one solution candidate in the genetic algorithm.
-
-Important fields:
-
-- `chromosome`: selected candidate IDs.
-- `objective1`: accessibility objective.
-- `objective2`: equity objective.
-- SPEA2-related fields: `strength`, `rawFitness`, `density`, `totalFitness`.
-
-### `PopulationInitializer.java`
-
-Creates the initial population.
+This project uses normalization in two different places:
+- **SPEA2 internal normalization**: inside `Evaluate`, the merged set is normalized to compute density.
+- **Run assessment normalization (archive export)**: `Main` normalizes the initial and final archive snapshots in the **same** objective space to compute comparable hypervolume.
 
 Current behavior:
+- `Main` derives dynamic min/max bounds from the **non-dominated** solutions found in both snapshots, applies a small padding, then normalizes both archives with these shared bounds.
+- Hypervolume is computed in normalized space with a fixed reference point (typically `(1.1, 1.1)`).
 
-- Validates candidate IDs, `k`, and population size.
-- Creates each chromosome by shuffling available candidate IDs.
-- Takes the first `k` IDs from the shuffled list.
-- Creates an `Individual` for each chromosome.
+Related code:
+- [Main](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/app/Main.java)
+- [HypervolumeIndicator](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/service/HypervolumeIndicator.java)
 
-### `FitnessCalculator.java`
+## Running
 
-Evaluates objective values using a distance matrix and the repository.
+### SPEA2 run
 
-Implemented:
-
-- `evaluateF1(...)`: calculates demand-weighted accessibility cost.
-
-Not yet implemented:
-
-- `evaluateF2(...)`: equity objective placeholder.
-
-The F1 score uses:
-
-```text
-sum(demandScore_i * minDistanceToSelectedLocker_i^beta) / totalSystemDemand
+```bash
+mvn -q compile exec:java
 ```
 
-### `Main.java`
+### Archive plot
 
-Current entry point.
+```bash
+python3 scripts/plot_archives.py
+```
 
-Current flow:
+### Hyperparameter grid search
 
-1. Create `CandidateRepository`, `CsvLoader`, and `PopulationInitializer`.
-2. Load `data/candidate_points.csv`.
-3. Call `repository.finalizeRepository()`.
-4. Set `k = 5` and `populationSize = 100`.
-5. Initialize the population.
-6. Print the generated individuals.
+For [ParameterAnalyzer](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/app/ParameterAnalyzer.java):
 
-The current `Main` does not yet run the full SPEA2 optimization loop.
+```bash
+mvn -q compile exec:java -Panalyze
+```
 
-## Distance Matrix Artifacts
+Output: `output/parameter_analysis_results.csv`
 
-Distance matrix files are stored under `data/`:
+## Related Guides
 
-- `data/kadikoy_distance_meters_nxn.npy`
-- `data/kadikoy_candidate_ids_sorted.npy`
-- `data/kadikoy_index_map.csv`
-- `data/kadikoy_ARTIFACTS_GUIDE.md`
-
-Important concept:
-
-- The matrix is indexed by sorted candidate position, not directly by candidate
-  ID.
-- `CandidateRepository.finalizeRepository()` creates the Java ID-to-index map
-  needed to use this matrix consistently.
-
-## Current Status
-
-Implemented:
-
-- Candidate CSV loading.
-- Candidate repository and matrix index mapping.
-- Initial population generation.
-- Individual representation with objective and SPEA2 fields.
-- F1 accessibility objective calculation.
-- Python demand preparation with EWM-based `poi_score` and `demand_final`.
-
-Pending:
-
-- Load the `.npy` distance matrix into Java or provide a Java-readable matrix
-  format.
-- Implement F2 equity objective.
-- Implement SPEA2 dominance, strength, raw fitness, density, archive handling,
-  selection, crossover, and mutation.
-- Filter or handle forbidden candidate points during population initialization
-  if they should not be selected.
-
-## Recommended Development Order
-
-1. Confirm that `data/candidate_points.csv` has the expected column order.
-2. Run `scripts/calculate_poi_weights.py` to inspect POI weighting.
-3. Run `scripts/prepare_demand.py` if demand columns need to be regenerated.
-4. Keep `CandidateRepository` sorting consistent with the distance matrix order.
-5. Add Java loading for the distance matrix.
-6. Complete `FitnessCalculator.evaluateF2(...)`.
-7. Implement the SPEA2 loop and genetic operators.
+- Java package guide: [SRC_GUIDE.MD](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/SRC_GUIDE.MD)
+- Python workflow: [scripts/guide.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/scripts/guide.md)
+- Distance matrix contract: [kadikoy_ARTIFACTS_GUIDE.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/data/kadikoy_ARTIFACTS_GUIDE.md)
+- UI dashboard: [parcel-locker-ui/README.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/parcel-locker-ui/README.md)

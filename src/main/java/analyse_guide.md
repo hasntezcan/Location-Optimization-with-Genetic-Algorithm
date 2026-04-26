@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document explains the **Hyperparameter Grid Search** framework implemented for the Kadıköy Parcel Locker SPEA2 optimization project. 
+This document explains the **Hyperparameter Grid Search** framework implemented for the Kadikoy Parcel Locker SPEA2 optimization project. 
 
 The primary goal of this analysis was to investigate two main concerns systematically:
 1. **Premature Convergence**: Did the genetic algorithm lose diversity too quickly or fail to explore? Was the shared-gene crossover operator too greedy, or was the mutation rate simply too low?

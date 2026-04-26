@@ -1,8 +1,12 @@
 # Parcel Locker UI
 
-A mock interactive dashboard for visualizing parcel locker placement results in Kadıköy.
+An interactive dashboard for exploring parcel locker placement results on a map (Kadikoy).
 
-This UI is part of a larger parcel-locker location optimization project. The current implementation is a **frontend prototype** built with **Next.js**, **React**, **Tailwind CSS**, and **React Leaflet**. It does **not** run the real optimization algorithm yet. Instead, it loads mock spatial data and simulates a fake generation-by-generation optimization flow so the team can explore interface behavior, map interaction, and result presentation.
+This UI can be used in two modes:
+- **Mock mode (default data flow)**: reads assets from `public/mock/` to quickly demo archive/solution navigation.
+- **Trigger real optimization (local/dev)**: calls `POST /api/run-ga` to run the Java SPEA2 optimizer from the project root, generate plots, and refresh UI assets.
+
+Tech stack: **Next.js**, **React**, **TypeScript**, **Tailwind CSS**, **React Leaflet**.
 
 ---
 
@@ -15,11 +19,12 @@ Its purpose is to let a user:
 - choose how many parcel lockers should be displayed
 - load mock candidate and boundary data
 - simulate a fake genetic-algorithm style generation sequence
+- optionally trigger a real SPEA2 run locally (via `POST /api/run-ga`)
 - inspect how selected lockers change across generations
 - explore the current result on a map
 - inspect the currently selected locker and generation metrics
 
-In short, this UI is a **presentation and interaction layer** for optimization results, not the real optimization engine itself.
+In short, this UI is a **presentation and interaction layer** for optimization results. The optimizer itself lives in the Java project root; the UI can optionally trigger it in local/dev mode.
 
 ---
 
@@ -112,7 +117,7 @@ The center panel contains an interactive map built with React Leaflet.
 The map shows four visual layers:
 
 #### Boundary
-The Kadıköy boundary is drawn from the GeoJSON file.
+The Kadikoy boundary is drawn from the GeoJSON file.
 
 #### Candidate points
 All candidate points that are neither active in the current generation nor visible in the previous generation are shown as very small gray markers.
@@ -175,19 +180,18 @@ This behavior keeps the UI stable during playback.
 
 ---
 
-## Important limitation
+## Real optimization (local/dev)
 
-This project currently uses a **mock optimizer**.
+When you trigger “Optimization” from the UI, `/api/run-ga` performs:
+- Updates a few parameters in `src/main/java/config/GAParameters.java` (`k`, optionally `populationSize`, `maxGenerations`, `mutationRate`)
+- Runs `mvn compile exec:java` (in the project root)
+- Runs `scripts/plot_archives.py` and produces `output/archive_comparison_latest.png`
+- Copies the latest plot into the UI public folder: `public/mock/archive_comparison_latest.png`
+- Regenerates the UI’s mock result assets from the GA outputs
 
-That means:
-
-- there is **no real genetic algorithm execution in the UI**
-- there is **no backend optimization service**
-- there is **no persistence layer**
-- there is **no real-time API**
-- accessibility, equity, and fitness values are **artificially generated for demonstration**
-
-So this repository should currently be understood as a **UI prototype for optimization result exploration**.
+This mode:
+- is not a production backend design; it is intended for local development/experiments
+- should not be deployed to production because it runs shell commands via `child_process.exec` on the server
 
 ---
 
@@ -210,9 +214,14 @@ parcel-locker-ui/
 │  └─ mock/
 │     ├─ candidate-points.json
 │     ├─ candidate_points.csv
+│     ├─ ga-results.json
+│     ├─ archive_comparison_latest.png
 │     └─ kadikoy_boundary.geojson
 ├─ src/
 │  ├─ app/
+│  │  ├─ api/
+│  │  │  └─ run-ga/
+│  │  │     └─ route.ts
 │  │  ├─ globals.css
 │  │  ├─ layout.tsx
 │  │  └─ page.tsx
@@ -228,6 +237,7 @@ parcel-locker-ui/
 │  │  └─ types.ts
 │  └─ scripts/
 │     └─ build_candidate_json.py
+│     └─ process_ga_data.py
 ├─ package.json
 ├─ package-lock.json
 ├─ tsconfig.json

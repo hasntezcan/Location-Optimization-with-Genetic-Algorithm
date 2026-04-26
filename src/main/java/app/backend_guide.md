@@ -7,17 +7,19 @@ This guide explains how the current Java optimization pipeline can be used by a 
 The frontend prototype already assumes a dashboard structure with:
 
 - parameter controls on the left
-- a central Kadıköy map
+- a central Kadikoy map
 - generation/result exploration in the middle
 - detail/statistics panels on the right
 
-At the moment, the frontend still uses mock optimization data. The backend's role will be to replace that fake data flow with real outputs from the Java optimization engine.
+The project currently includes a **local/dev integration path** where the UI can trigger the Java optimizer and refresh the UI data. A production-grade backend service is still a separate concern.
 
 ---
 
-## Current frontend expectation
+## Current frontend reality
 
-The current UI is not yet connected to the real optimizer. Instead, it simulates a generation-by-generation run and displays locker changes, generation metrics, and selected locker details on the map.
+The UI has two data paths:
+- mock data loading from `parcel-locker-ui/public/mock/`
+- a local/dev “run GA” endpoint that triggers the real optimizer and then regenerates the mock assets
 
 The frontend currently expects concepts like:
 
@@ -27,7 +29,7 @@ The frontend currently expects concepts like:
 - a selected solution / selected locker
 - map-friendly candidate and locker data
 
-This means the backend should eventually deliver optimization outputs in a generation-aware form, even if the first backend version is still file-based.
+Today, this is delivered by generating files and then transforming them into the UI’s expected JSON/CSV shapes.
 
 ---
 
@@ -47,9 +49,8 @@ The current `Main.java` does the following:
 8. stores:
    - initial archive snapshot
    - final archive snapshot
-9. normalizes both snapshots using fixed assessment bounds from `GAParameters`
-10. computes comparable hypervolume values
-11. exports archive CSV files
+9. normalizes both snapshots in the same objective space for comparable hypervolume
+10. exports archive CSV files
 
 So the optimizer is already capable of producing final optimization outputs, but it is not yet structured as a backend service.
 
@@ -78,18 +79,14 @@ It contains the same structure as the initial archive export.
 
 ## Current assessment logic
 
-The current pipeline uses **fixed assessment bounds** taken from `GAParameters`.
+The pipeline ensures that **initial** and **final** archive snapshots are normalized using the **same bounds** so that hypervolume is comparable.
 
-That means the initial archive and final archive are both normalized in the same predefined objective space.
-
-The current fixed values are conceptually:
-
-- ideal / lower bound for `f1`
-- nadir / upper bound for `f1`
-- ideal / lower bound for `f2`
-- nadir / upper bound for `f2`
-
-After normalization, hypervolume is computed using a fixed normalized reference point.
+Current `Main` behavior:
+- collects non-dominated solutions from both snapshots
+- derives dynamic min/max bounds from that set
+- applies a small padding
+- normalizes both archives with these shared bounds
+- computes hypervolume with a fixed reference point (e.g. `(1.1, 1.1)`)
 
 This is important for backend understanding because:
 
@@ -114,7 +111,7 @@ It is **not yet backend-shaped** in the following sense:
 - there is no generation summary file
 - there is no dedicated final Pareto front CSV
 - there is no machine-friendly JSON output
-- there is no API layer
+- there is no dedicated optimizer service (job queue, isolation, concurrency control, persistence)
 
 So the backend team should think of the current optimizer as a **batch computation engine** that already produces some useful files, but not yet a direct API-ready service.
 
@@ -135,6 +132,7 @@ Read these files:
 
 - `output/initial_archive.csv`
 - `output/final_archive.csv`
+- `output/archive_comparison_latest.png` (optional visualization)
 
 ### Step 4
 Parse:
@@ -167,7 +165,7 @@ Request body can contain future parameter fields such as:
 - `crossoverRate`
 - `mutationRate`
 
-For the first version, backend may still rely on fixed `GAParameters`.
+For the first version, backend can still rely on `GAParameters`, but production code should avoid editing source files at runtime.
 
 ### `GET /runs/latest/initial-archive`
 Return parsed rows from `initial_archive.csv`.
@@ -181,7 +179,7 @@ Return:
 - initial ND count
 - final ND count
 - hypervolume values
-- fixed assessment bounds
+- assessment bounds used for archive normalization
 
 These values are already printed by `Main`, but backend can later expose them in structured form.
 

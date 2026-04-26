@@ -1,227 +1,84 @@
 # Location Optimization with Genetic Algorithm
 
-This project prepares spatial candidate data and uses Java genetic algorithm
-components to explore parcel locker placement in Kadikoy.
+This project solves a **bi-objective** parcel locker location optimization problem for **Kadikoy** by selecting locker locations from a set of candidate points.
 
-The current codebase has two main parts:
+Core approach:
+- **SPEA2**-based multi-objective GA (Java)
+- Demand/POI score preparation and analysis (Python)
+- Result exploration dashboard (Next.js)
 
-- Python scripts for demand preparation and POI weighting.
-- Java classes for loading candidate points, initializing populations, and
-  evaluating the accessibility objective.
+## Quick Start
 
-The intended optimization approach is SPEA2, but the full SPEA2 loop is still in
-progress.
+Requirements:
+- Java 17
+- Maven
+- Python 3 (for demand scripts and plotting)
 
-## Repository Structure
+### 1) (Optional) Prepare demand
 
-```text
-data/       Candidate CSV files and distance matrix artifacts
-scripts/    Python demand preparation scripts
-src/        Java optimization model and GA classes
-guide.md    Technical guide for the Java/data architecture
-```
-
-Useful guides:
-
-- `guide.md`: current Java architecture, data flow, status, and next steps.
-- `scripts/guide.md`: Python demand preparation workflow.
-- `data/kadikoy_ARTIFACTS_GUIDE.md`: generated distance matrix artifact notes.
-
-## Data Flow
-
-Main input:
-
-```text
-data/candidate_points.csv
-```
-
-The CSV is expected to include candidate IDs, neighborhood names, POI counts,
-coordinates, forbidden flags, existing locker counts, `population_candidate`,
-`poi_score`, and `demand_final`.
-
-Demand preparation uses:
-
-```text
-demand_final = population_candidate * (1 + lambda * poi_score)
-```
-
-`CsvLoader.java` maps CSV columns by fixed positions, so keep the CSV column
-order stable unless the loader is updated too.
-
-## Python Scripts
-
-Inspect current POI weights:
-
-```bash
-python3 scripts/calculate_poi_weights.py
-```
-
-Regenerate `poi_score` and `demand_final`:
+To update the `poi_score` and `demand_final` columns:
 
 ```bash
 python3 scripts/prepare_demand.py
 ```
 
-`prepare_demand.py` writes back to `data/candidate_points.csv`. Keep a backup
-before rerunning it if you need to preserve prior values.
+Note: This script overwrites `data/candidate_points.csv`. See [scripts/guide.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/scripts/guide.md).
 
-## Java Usage
+### 2) Run the Java SPEA2 optimizer
 
-Compile:
-
-```bash
-javac src/*.java
-```
-
-Run the current entry point:
+Default entry point: [app.Main](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/app/Main.java)
 
 ```bash
-java -cp src Main
+mvn -q compile exec:java
 ```
 
-Current `Main.java` behavior:
+### 3) Generate archive plots
 
-1. Loads `data/candidate_points.csv`.
-2. Finalizes the repository and ID-to-index mapping.
-3. Creates an initial population with `k = 5` and `populationSize = 100`.
-4. Prints generated individuals.
-
-It does not yet run the full SPEA2 optimization loop.
-
-## Implemented
-
-- Candidate data model: `CandidatePoint`.
-- CSV loading: `CsvLoader`.
-- Candidate repository and distance matrix index mapping: `CandidateRepository`.
-- Individual representation with objective and SPEA2-related fields:
-  `Individual`.
-- Random initial population generation: `PopulationInitializer`.
-- F1 accessibility objective calculation: `FitnessCalculator.evaluateF1(...)`.
-- EWM-based demand preparation scripts.
-
-## Pending Work
-
-- Load the distance matrix into Java or convert it to a Java-friendly format.
-- Implement `FitnessCalculator.evaluateF2(...)` for equity.
-- Add SPEA2 dominance, raw fitness, density, archive handling, selection,
-  crossover, and mutation.
-- Decide how forbidden candidates should be filtered or penalized during
-  initialization and optimization.
-
-## Notes
-
-- Distance matrix artifacts live under `data/`.
-- The matrix uses sorted candidate positions, not raw candidate IDs.
-- `CandidateRepository.finalizeRepository()` builds the ID-to-index mapping that
-  keeps Java evaluation aligned with the matrix order.
-
+```bash
+python3 scripts/plot_archives.py
 ```
-Location-Optimization-with-Genetic-Algorithm
-├─ data
-│  ├─ candidate_points.csv
-│  ├─ candidate_points_backup.csv
-│  ├─ candidate_points_excel.xls
-│  ├─ kadikoy_ARTIFACTS_GUIDE.md
-│  ├─ kadikoy_candidate_ids_sorted.npy
-│  ├─ kadikoy_distance_meters_nxn.npy
-│  ├─ kadikoy_index_map.csv
-│  ├─ prepare_ga_inputs.py
-│  └─ raw
-│     ├─ bitirme.qgz
-│     ├─ candidate_points.csv
-│     ├─ candidate_points.gpkg
-│     ├─ candidate_points.qmd
-│     ├─ candidate_points_excel.qmd
-│     ├─ candidate_points_excel.xlsx
-│     ├─ cand_buf_300m_lockercnt.gpkg
-│     ├─ grid_100m_clipped.gpkg
-│     ├─ grid_with_forbidden_area.gpkg
-│     ├─ intersect.gpkg
-│     ├─ kadikoy.gpkg
-│     ├─ Kadikoy_Base.gpkg
-│     ├─ kadikoy_boundary.geojson
-│     ├─ lockers_32635.gpkg
-│     └─ pois_all_points.gpkg
-├─ frontend
-├─ guide.md
-├─ output
-│  ├─ archive_comparison.png
-│  ├─ archive_comparison_hv.png
-│  ├─ final_archive.csv
-│  └─ initial_archive.csv
-├─ parcel-locker-ui
-│  ├─ eslint.config.mjs
-│  ├─ next.config.ts
-│  ├─ package-lock.json
-│  ├─ package.json
-│  ├─ postcss.config.mjs
-│  ├─ public
-│  │  ├─ file.svg
-│  │  ├─ globe.svg
-│  │  ├─ mock
-│  │  │  ├─ candidate-points.json
-│  │  │  ├─ candidate_points.csv
-│  │  │  └─ kadikoy_boundary.geojson
-│  │  ├─ next.svg
-│  │  ├─ vercel.svg
-│  │  └─ window.svg
-│  ├─ README.md
-│  ├─ src
-│  │  ├─ app
-│  │  │  ├─ favicon.ico
-│  │  │  ├─ globals.css
-│  │  │  ├─ layout.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ components
-│  │  │  └─ dashboard
-│  │  │     ├─ control-panel.tsx
-│  │  │     ├─ locker-detail-panel.tsx
-│  │  │     ├─ locker-map.tsx
-│  │  │     └─ locker-strip.tsx
-│  │  ├─ lib
-│  │  │  ├─ ga-mock.ts
-│  │  │  ├─ mock-data.ts
-│  │  │  └─ types.ts
-│  │  └─ scripts
-│  │     └─ build_candidate_json.py
-│  └─ tsconfig.json
-├─ pom.xml
-├─ readme.md
-├─ scripts
-│  ├─ calculate_poi_weights.py
-│  ├─ guide.md
-│  ├─ plot_archives.py
-│  └─ prepare_demand.py
-└─ src
-   └─ main
-      └─ java
-         ├─ algorithm
-         │  ├─ Evaluate.java
-         │  ├─ helper
-         │  │  ├─ Dominance.java
-         │  │  ├─ Pareto.java
-         │  │  └─ Truncation.java
-         │  ├─ Selection.java
-         │  ├─ Survivor.java
-         │  └─ Variation.java
-         ├─ app
-         │  └─ Main.java
-         ├─ config
-         │  ├─ GAParameters.java
-         │  ├─ GAResult.java
-         │  └─ GAState.java
-         ├─ io
-         │  ├─ CsvLoader.java
-         │  └─ DistanceMatrixLoader.java
-         ├─ model
-         │  ├─ CandidatePoint.java
-         │  ├─ CandidateRepository.java
-         │  └─ Individual.java
-         ├─ service
-         │  ├─ FitnessCalculator.java
-         │  ├─ HypervolumeIndicator.java
-         │  ├─ ObjectiveNormalizer.java
-         │  └─ PopulationInitializer.java
-         └─ SRC_GUIDE.MD
 
+## Outputs
+
+The Java run produces the following under `output/`:
+- `initial_archive.csv`: archive snapshot after generation 0
+- `final_archive.csv`: archive snapshot after the final generation
+
+The plot script produces:
+- `output/archive_comparison_latest.png`
+
+## Inputs and Artifacts
+
+Main inputs:
+- `data/candidate_points.csv`
+- `data/kadikoy_distance_meters_nxn.npy`
+
+Important contract:
+- The distance matrix indexing order is **candidate id ascending**.
+- The Java side maintains this alignment via `CandidateRepository.finalizeRepository()`.
+
+See [kadikoy_ARTIFACTS_GUIDE.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/data/kadikoy_ARTIFACTS_GUIDE.md) for details.
+
+## Parameters
+
+Main parameters live in [GAParameters](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/config/GAParameters.java):
+- `K`, `POPULATION_SIZE`, `ARCHIVE_SIZE`, `MAX_GENERATIONS`
+- `BETA`, `CROSSOVER_RATE`, `MUTATION_RATE`
+- Hypervolume reference point and assessment settings
+
+## Hyperparameter Analysis
+
+Grid-search runner: [ParameterAnalyzer](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/app/ParameterAnalyzer.java)
+
+```bash
+mvn -q compile exec:java -Panalyze
 ```
+
+Output: `output/parameter_analysis_results.csv`
+
+## UI (Next.js)
+
+UI directory: [parcel-locker-ui](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/parcel-locker-ui)
+
+The UI can visualize mock assets, and in local/dev mode it can also trigger the Java run via `/api/run-ga`.
+See [parcel-locker-ui/README.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/parcel-locker-ui/README.md).

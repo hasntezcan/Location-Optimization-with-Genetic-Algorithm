@@ -152,3 +152,16 @@ norm_f1 = (f1 - min_f1) / (max_f1 - min_f1)
 norm_f2 = (f2 - min_f2) / (max_f2 - min_f2)
 
 
+### How to run the plot
+
+Run from the project root:
+
+```bash
+python3 scripts/plot_archives.py
+```
+
+The script writes the latest comparison image to:
+
+```text
+output/archive_comparison_latest.png
+```
