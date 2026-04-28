@@ -36,6 +36,8 @@ import java.util.List;
  */
 public class Main {
 
+    private static final boolean DEBUG_BOUNDS = true;
+
     private static final Path OUTPUT_DIRECTORY = Paths.get("output");
     private static final Path INITIAL_ARCHIVE_CSV = OUTPUT_DIRECTORY.resolve("initial_archive.csv");
     private static final Path FINAL_ARCHIVE_CSV = OUTPUT_DIRECTORY.resolve("final_archive.csv");
@@ -57,27 +59,23 @@ public class Main {
             System.out.println("Total candidates loaded: " + repository.size());
 
             // 2. Load distance matrix
-            double[][] distanceMatrix =
-                    distanceMatrixLoader.loadDistanceMatrix("data/kadikoy_distance_meters_nxn.npy");
+            double[][] distanceMatrix = distanceMatrixLoader.loadDistanceMatrix("data/kadikoy_distance_meters_nxn.npy");
 
             if (distanceMatrix.length != repository.size()) {
                 throw new IllegalStateException(
                         "Distance matrix row count (" + distanceMatrix.length +
-                                ") does not match repository size (" + repository.size() + ")."
-                );
+                                ") does not match repository size (" + repository.size() + ").");
             }
 
             if (distanceMatrix[0].length != repository.size()) {
                 throw new IllegalStateException(
                         "Distance matrix column count (" + distanceMatrix[0].length +
-                                ") does not match repository size (" + repository.size() + ")."
-                );
+                                ") does not match repository size (" + repository.size() + ").");
             }
 
             System.out.println(
                     "Distance matrix loaded: " +
-                            distanceMatrix.length + " x " + distanceMatrix[0].length
-            );
+                            distanceMatrix.length + " x " + distanceMatrix[0].length);
 
             // 3. Parameters
             int k = GAParameters.K;
@@ -91,17 +89,32 @@ public class Main {
 
             for (int i = 0; i < args.length; i++) {
                 switch (args[i]) {
-                    case "--k": k = Integer.parseInt(args[++i]); break;
-                    case "--populationSize": populationSize = Integer.parseInt(args[++i]); break;
-                    case "--maxGenerations": maxGenerations = Integer.parseInt(args[++i]); break;
-                    case "--mutationRate": mutationRate = Double.parseDouble(args[++i]); break;
-                    case "--crossoverRate": crossoverRate = Double.parseDouble(args[++i]); break;
-                    case "--archiveSize": archiveSize = Integer.parseInt(args[++i]); break;
-                    case "--randomSeed": randomSeed = Long.parseLong(args[++i]); break;
+                    case "--k":
+                        k = Integer.parseInt(args[++i]);
+                        break;
+                    case "--populationSize":
+                        populationSize = Integer.parseInt(args[++i]);
+                        break;
+                    case "--maxGenerations":
+                        maxGenerations = Integer.parseInt(args[++i]);
+                        break;
+                    case "--mutationRate":
+                        mutationRate = Double.parseDouble(args[++i]);
+                        break;
+                    case "--crossoverRate":
+                        crossoverRate = Double.parseDouble(args[++i]);
+                        break;
+                    case "--archiveSize":
+                        archiveSize = Integer.parseInt(args[++i]);
+                        break;
+                    case "--randomSeed":
+                        randomSeed = Long.parseLong(args[++i]);
+                        break;
                 }
             }
 
-            PopulationInitializer populationInitializer = (randomSeed != null) ? new PopulationInitializer(randomSeed) : new PopulationInitializer();
+            PopulationInitializer populationInitializer = (randomSeed != null) ? new PopulationInitializer(randomSeed)
+                    : new PopulationInitializer();
 
             // Fixed assessment bounds from GAParameters
             double assessmentIdealF1 = GAParameters.ASSESSMENT_IDEAL_F1;
@@ -116,17 +129,16 @@ public class Main {
             // 4. Initialize population
             System.out.println("STAGE Running Java GA");
             List<Integer> candidateIds = repository.getAllCandidateIds();
-            List<Individual> population =
-                    populationInitializer.initializePopulation(candidateIds, k, populationSize);
+            List<Individual> population = populationInitializer.initializePopulation(candidateIds, k, populationSize);
 
             List<Individual> archive = new ArrayList<>();
+            List<Individual> boundsPool = new ArrayList<>();
 
             System.out.println("Initial population created: " + population.size());
             System.out.println("Initial archive created: " + archive.size());
 
             // 5. Build dependencies
-            FitnessCalculator fitnessCalculator =
-                    new FitnessCalculator(distanceMatrix, repository, beta);
+            FitnessCalculator fitnessCalculator = new FitnessCalculator(distanceMatrix, repository, beta);
 
             ObjectiveNormalizer objectiveNormalizer = new ObjectiveNormalizer();
             Dominance dominance = new Dominance();
@@ -136,13 +148,11 @@ public class Main {
             Evaluate evaluate = new Evaluate(
                     fitnessCalculator,
                     objectiveNormalizer,
-                    dominance
-            );
+                    dominance);
 
             Survivor survivor = new Survivor(
                     pareto,
-                    truncation
-            );
+                    truncation);
 
             Selection selection = (randomSeed != null) ? new Selection(randomSeed) : new Selection();
             Variation variation = (randomSeed != null) ? new Variation(randomSeed) : new Variation();
@@ -150,14 +160,16 @@ public class Main {
             HypervolumeIndicator hypervolumeIndicator = new HypervolumeIndicator(
                     pareto,
                     referenceObjective1,
-                    referenceObjective2
-            );
+                    referenceObjective2);
 
             // 6. Initial evaluation and archive creation
             List<Individual> evaluated = evaluate.run(population, archive);
             archive = survivor.run(evaluated, archiveSize);
 
             List<Individual> initialArchiveSnapshot = deepCopyIndividuals(archive);
+            List<Individual> gen0Nd = pareto.getNonDominated(archive);
+            boundsPool.addAll(deepCopyIndividuals(gen0Nd));
+            logBoundsDebug(0, archive.size(), gen0Nd, boundsPool);
 
             System.out.println("Generation 0 completed.");
             System.out.println("Evaluated individual count: " + evaluated.size());
@@ -173,11 +185,13 @@ public class Main {
                         populationSize,
                         k,
                         crossoverRate,
-                        mutationRate
-                );
+                        mutationRate);
 
                 evaluated = evaluate.run(population, archive);
                 archive = survivor.run(evaluated, archiveSize);
+                List<Individual> genXNd = pareto.getNonDominated(archive);
+                boundsPool.addAll(deepCopyIndividuals(genXNd));
+                logBoundsDebug(generation, archive.size(), genXNd, boundsPool);
 
                 double bestF1 = archive.stream()
                         .mapToDouble(Individual::getObjective1)
@@ -201,48 +215,105 @@ public class Main {
             // 8. Final archive snapshot
             List<Individual> finalArchiveSnapshot = deepCopyIndividuals(archive);
 
-            // 8.5 Dynamically update assessment bounds based on only NON-DOMINATED solutions found
-            List<Individual> allSolutions = new ArrayList<>(initialArchiveSnapshot);
-            allSolutions.addAll(finalArchiveSnapshot);
-            List<Individual> nonDominatedSolutions = pareto.getNonDominated(allSolutions);
+            // 8.5 Dynamically update assessment bounds based on boundsPool
+            double dynamicMinF1 = boundsPool.stream().mapToDouble(Individual::getObjective1).min()
+                    .orElse(assessmentIdealF1);
+            double dynamicMaxF1 = boundsPool.stream().mapToDouble(Individual::getObjective1).max()
+                    .orElse(assessmentNadirF1);
+            double dynamicMinF2 = boundsPool.stream().mapToDouble(Individual::getObjective2).min()
+                    .orElse(assessmentIdealF2);
+            double dynamicMaxF2 = boundsPool.stream().mapToDouble(Individual::getObjective2).max()
+                    .orElse(assessmentNadirF2);
 
-            double dynamicMinF1 = nonDominatedSolutions.stream().mapToDouble(Individual::getObjective1).min().orElse(assessmentIdealF1);
-            double dynamicMaxF1 = nonDominatedSolutions.stream().mapToDouble(Individual::getObjective1).max().orElse(assessmentNadirF1);
-            double dynamicMinF2 = nonDominatedSolutions.stream().mapToDouble(Individual::getObjective2).min().orElse(assessmentIdealF2);
-            double dynamicMaxF2 = nonDominatedSolutions.stream().mapToDouble(Individual::getObjective2).max().orElse(assessmentNadirF2);
+            if (DEBUG_BOUNDS) {
+                double iMinF1 = initialArchiveSnapshot.stream().mapToDouble(Individual::getObjective1).min().orElse(Double.NaN);
+                double iMaxF1 = initialArchiveSnapshot.stream().mapToDouble(Individual::getObjective1).max().orElse(Double.NaN);
+                double iMinF2 = initialArchiveSnapshot.stream().mapToDouble(Individual::getObjective2).min().orElse(Double.NaN);
+                double iMaxF2 = initialArchiveSnapshot.stream().mapToDouble(Individual::getObjective2).max().orElse(Double.NaN);
+                
+                List<Individual> initialNd = pareto.getNonDominated(initialArchiveSnapshot);
+                double iNdMinF1 = initialNd.stream().mapToDouble(Individual::getObjective1).min().orElse(Double.NaN);
+                double iNdMaxF1 = initialNd.stream().mapToDouble(Individual::getObjective1).max().orElse(Double.NaN);
+                double iNdMinF2 = initialNd.stream().mapToDouble(Individual::getObjective2).min().orElse(Double.NaN);
+                double iNdMaxF2 = initialNd.stream().mapToDouble(Individual::getObjective2).max().orElse(Double.NaN);
 
-            // Add 5% padding to avoid points being exactly at 0 or 1
-            double padding = 0.05;
-            double f1Range = dynamicMaxF1 - dynamicMinF1;
-            double f2Range = dynamicMaxF2 - dynamicMinF2;
-            
-            double paddedMinF1 = dynamicMinF1 - padding * f1Range;
-            double paddedMaxF1 = dynamicMaxF1 + padding * f1Range;
-            double paddedMinF2 = dynamicMinF2 - padding * f2Range;
-            double paddedMaxF2 = dynamicMaxF2 + padding * f2Range;
+                double fMinF1 = finalArchiveSnapshot.stream().mapToDouble(Individual::getObjective1).min().orElse(Double.NaN);
+                double fMaxF1 = finalArchiveSnapshot.stream().mapToDouble(Individual::getObjective1).max().orElse(Double.NaN);
+                double fMinF2 = finalArchiveSnapshot.stream().mapToDouble(Individual::getObjective2).min().orElse(Double.NaN);
+                double fMaxF2 = finalArchiveSnapshot.stream().mapToDouble(Individual::getObjective2).max().orElse(Double.NaN);
+
+                List<Individual> finalNd = pareto.getNonDominated(finalArchiveSnapshot);
+                double fNdMinF1 = finalNd.stream().mapToDouble(Individual::getObjective1).min().orElse(Double.NaN);
+                double fNdMaxF1 = finalNd.stream().mapToDouble(Individual::getObjective1).max().orElse(Double.NaN);
+                double fNdMinF2 = finalNd.stream().mapToDouble(Individual::getObjective2).min().orElse(Double.NaN);
+                double fNdMaxF2 = finalNd.stream().mapToDouble(Individual::getObjective2).max().orElse(Double.NaN);
+
+                System.out.println("============== FINAL BOUNDS DEBUG ==============");
+                System.out.println("Bounds pool size: " + boundsPool.size());
+                System.out.println("Final ideal f1: " + dynamicMinF1);
+                System.out.println("Final nadir f1: " + dynamicMaxF1);
+                System.out.println("Final ideal f2: " + dynamicMinF2);
+                System.out.println("Final nadir f2: " + dynamicMaxF2);
+                System.out.println("Initial archive raw min/max f1/f2: " + iMinF1 + " / " + iMaxF1 + " / " + iMinF2 + " / " + iMaxF2);
+                System.out.println("Initial archive ND raw min/max f1/f2: " + iNdMinF1 + " / " + iNdMaxF1 + " / " + iNdMinF2 + " / " + iNdMaxF2);
+                System.out.println("Final archive raw min/max f1/f2: " + fMinF1 + " / " + fMaxF1 + " / " + fMinF2 + " / " + fMaxF2);
+                System.out.println("Final archive ND raw min/max f1/f2: " + fNdMinF1 + " / " + fNdMaxF1 + " / " + fNdMinF2 + " / " + fNdMaxF2);
+                System.out.println("===============================================");
+            }
 
             // 9. Normalize initial and final archives in the SAME dynamic objective space
             objectiveNormalizer.normalizePopulationObjectives(
                     initialArchiveSnapshot,
-                    paddedMinF1,
-                    paddedMaxF1,
-                    paddedMinF2,
-                    paddedMaxF2
-            );
+                    dynamicMinF1,
+                    dynamicMaxF1,
+                    dynamicMinF2,
+                    dynamicMaxF2);
 
             objectiveNormalizer.normalizePopulationObjectives(
                     finalArchiveSnapshot,
-                    paddedMinF1,
-                    paddedMaxF1,
-                    paddedMinF2,
-                    paddedMaxF2
-            );
+                    dynamicMinF1,
+                    dynamicMaxF1,
+                    dynamicMinF2,
+                    dynamicMaxF2);
 
-            System.out.println("============== DYNAMIC ASSESSMENT BOUNDS ==============");
-            System.out.println("Padded Min f1 : " + paddedMinF1);
-            System.out.println("Padded Max f1 : " + paddedMaxF1);
-            System.out.println("Padded Min f2 : " + paddedMinF2);
-            System.out.println("Padded Max f2 : " + paddedMaxF2);
+            if (DEBUG_BOUNDS) {
+                double iNormMinF1 = initialArchiveSnapshot.stream().mapToDouble(Individual::getNormalizedObjective1).min().orElse(Double.NaN);
+                double iNormMaxF1 = initialArchiveSnapshot.stream().mapToDouble(Individual::getNormalizedObjective1).max().orElse(Double.NaN);
+                double iNormMinF2 = initialArchiveSnapshot.stream().mapToDouble(Individual::getNormalizedObjective2).min().orElse(Double.NaN);
+                double iNormMaxF2 = initialArchiveSnapshot.stream().mapToDouble(Individual::getNormalizedObjective2).max().orElse(Double.NaN);
+
+                double fNormMinF1 = finalArchiveSnapshot.stream().mapToDouble(Individual::getNormalizedObjective1).min().orElse(Double.NaN);
+                double fNormMaxF1 = finalArchiveSnapshot.stream().mapToDouble(Individual::getNormalizedObjective1).max().orElse(Double.NaN);
+                double fNormMinF2 = finalArchiveSnapshot.stream().mapToDouble(Individual::getNormalizedObjective2).min().orElse(Double.NaN);
+                double fNormMaxF2 = finalArchiveSnapshot.stream().mapToDouble(Individual::getNormalizedObjective2).max().orElse(Double.NaN);
+                
+                List<Individual> initialNd = pareto.getNonDominated(initialArchiveSnapshot);
+                double iNdNormMinF1 = initialNd.stream().mapToDouble(Individual::getNormalizedObjective1).min().orElse(Double.NaN);
+                double iNdNormMaxF1 = initialNd.stream().mapToDouble(Individual::getNormalizedObjective1).max().orElse(Double.NaN);
+                double iNdNormMinF2 = initialNd.stream().mapToDouble(Individual::getNormalizedObjective2).min().orElse(Double.NaN);
+                double iNdNormMaxF2 = initialNd.stream().mapToDouble(Individual::getNormalizedObjective2).max().orElse(Double.NaN);
+
+                List<Individual> finalNd = pareto.getNonDominated(finalArchiveSnapshot);
+                double fNdNormMinF1 = finalNd.stream().mapToDouble(Individual::getNormalizedObjective1).min().orElse(Double.NaN);
+                double fNdNormMaxF1 = finalNd.stream().mapToDouble(Individual::getNormalizedObjective1).max().orElse(Double.NaN);
+                double fNdNormMinF2 = finalNd.stream().mapToDouble(Individual::getNormalizedObjective2).min().orElse(Double.NaN);
+                double fNdNormMaxF2 = finalNd.stream().mapToDouble(Individual::getNormalizedObjective2).max().orElse(Double.NaN);
+
+                System.out.println("============== NORMALIZED RANGES DEBUG ==============");
+                System.out.println("initialArchiveSnapshot normalized min/max f1/f2: " + iNormMinF1 + " / " + iNormMaxF1 + " / " + iNormMinF2 + " / " + iNormMaxF2);
+                System.out.println("finalArchiveSnapshot normalized min/max f1/f2: " + fNormMinF1 + " / " + fNormMaxF1 + " / " + fNormMinF2 + " / " + fNormMaxF2);
+                System.out.println("initial ND normalized min/max f1/f2: " + iNdNormMinF1 + " / " + iNdNormMaxF1 + " / " + iNdNormMinF2 + " / " + iNdNormMaxF2);
+                System.out.println("final ND normalized min/max f1/f2: " + fNdNormMinF1 + " / " + fNdNormMaxF1 + " / " + fNdNormMinF2 + " / " + fNdNormMaxF2);
+                System.out.println("=====================================================");
+            }
+
+            System.out.println(
+                    "============== DYNAMIC ASSESSMENT BOUNDS FROM GENERATION-WISE NON-DOMINATED ARCHIVES ==============");
+            System.out.println("Bounds pool size : " + boundsPool.size());
+            System.out.println("Ideal f1 : " + dynamicMinF1);
+            System.out.println("Nadir f1 : " + dynamicMaxF1);
+            System.out.println("Ideal f2 : " + dynamicMinF2);
+            System.out.println("Nadir f2 : " + dynamicMaxF2);
 
             // 10. Export archives
             writeArchiveCsv(initialArchiveSnapshot, INITIAL_ARCHIVE_CSV);
@@ -262,12 +333,6 @@ public class Main {
             double runtimeSeconds = (endTimeNs - startTimeNs) / 1_000_000_000.0;
 
             // 12. Print summary
-            System.out.println("============== FIXED ASSESSMENT BOUNDS ==============");
-            System.out.println("Ideal f1 : " + assessmentIdealF1);
-            System.out.println("Nadir f1 : " + assessmentNadirF1);
-            System.out.println("Ideal f2 : " + assessmentIdealF2);
-            System.out.println("Nadir f2 : " + assessmentNadirF2);
-
             System.out.println("============== NON-DOMINATED COUNTS ==============");
             System.out.println("Initial ND count : " + initialNdCount);
             System.out.println("Final ND count   : " + finalNdCount);
@@ -299,6 +364,21 @@ public class Main {
             System.out.println("Unexpected error: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private static void logBoundsDebug(int generation, int archiveSize, List<Individual> ndArchive, List<Individual> boundsPool) {
+        if (!DEBUG_BOUNDS) return;
+        double ndMinF1 = ndArchive.stream().mapToDouble(Individual::getObjective1).min().orElse(Double.NaN);
+        double ndMaxF1 = ndArchive.stream().mapToDouble(Individual::getObjective1).max().orElse(Double.NaN);
+        double ndMinF2 = ndArchive.stream().mapToDouble(Individual::getObjective2).min().orElse(Double.NaN);
+        double ndMaxF2 = ndArchive.stream().mapToDouble(Individual::getObjective2).max().orElse(Double.NaN);
+        double poolMinF1 = boundsPool.stream().mapToDouble(Individual::getObjective1).min().orElse(Double.NaN);
+        double poolMaxF1 = boundsPool.stream().mapToDouble(Individual::getObjective1).max().orElse(Double.NaN);
+        double poolMinF2 = boundsPool.stream().mapToDouble(Individual::getObjective2).min().orElse(Double.NaN);
+        double poolMaxF2 = boundsPool.stream().mapToDouble(Individual::getObjective2).max().orElse(Double.NaN);
+
+        System.out.printf("BOUNDS_DEBUG generation=%d archiveSize=%d ndSize=%d ndMinF1=%f ndMaxF1=%f ndMinF2=%f ndMaxF2=%f poolSize=%d poolMinF1=%f poolMaxF1=%f poolMinF2=%f poolMaxF2=%f%n",
+                generation, archiveSize, ndArchive.size(), ndMinF1, ndMaxF1, ndMinF2, ndMaxF2, boundsPool.size(), poolMinF1, poolMaxF1, poolMinF2, poolMaxF2);
     }
 
     private static List<Individual> deepCopyIndividuals(List<Individual> individuals) {
@@ -347,7 +427,8 @@ public class Main {
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < chromosome.size(); i++) {
-            if (i > 0) builder.append("|");
+            if (i > 0)
+                builder.append("|");
             builder.append(chromosome.get(i));
         }
 

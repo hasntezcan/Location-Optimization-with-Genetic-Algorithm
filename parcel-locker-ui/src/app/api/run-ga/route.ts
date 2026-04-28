@@ -96,6 +96,26 @@ export async function POST(request: Request) {
                      stage: 'Running Java GA',
                      log: trimmed
                    });
+                } else if (
+                  trimmed.startsWith('BOUNDS_DEBUG') ||
+                  trimmed.includes('BOUNDS DEBUG') ||
+                  trimmed.includes('ASSESSMENT BOUNDS') ||
+                  trimmed.includes('NORMALIZED RANGES') ||
+                  trimmed.includes('HYPERVOLUME') ||
+                  trimmed.includes('Total runtime') ||
+                  trimmed.includes('Bounds pool size') ||
+                  trimmed.includes('Initial archive') ||
+                  trimmed.includes('Final archive') ||
+                  trimmed.includes('ideal') ||
+                  trimmed.includes('nadir') ||
+                  trimmed.includes('Ideal') ||
+                  trimmed.includes('Nadir') ||
+                  trimmed.includes('Initial ND') ||
+                  trimmed.includes('Final ND') ||
+                  trimmed.includes('hypervolume')
+                ) {
+                   console.log(`[java] ${trimmed}`);
+                   sendEvent({ stage: 'Running Java GA', log: trimmed });
                 }
               }
             });
