@@ -55,6 +55,10 @@ export default function HomePage() {
   const [maxGenerations, setMaxGenerations] = useState(30);
   const [mutationRate, setMutationRate] = useState(0.1);
 
+  const [crossoverRate, setCrossoverRate] = useState(0.9);
+  const [archiveSize, setArchiveSize] = useState(100);
+  const [randomSeed, setRandomSeed] = useState("");
+
   const [, setActiveLockerCount] = useState(8);
 
   const [candidates, setCandidates] = useState<CandidatePoint[]>([]);
@@ -71,6 +75,12 @@ export default function HomePage() {
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error' | 'info', text: string } | null>(null);
   const [isPlotModalOpen, setIsPlotModalOpen] = useState(false);
   const [plotTimestamp, setPlotTimestamp] = useState(Date.now());
+
+  const [optimizationStage, setOptimizationStage] = useState("Starting");
+  const [optimizationGeneration, setOptimizationGeneration] = useState(0);
+  const [optimizationMaxGenerations, setOptimizationMaxGenerations] = useState(0);
+  const [optimizationProgress, setOptimizationProgress] = useState(0);
+  const [optimizationLogs, setOptimizationLogs] = useState<string[]>([]);
 
   const loadData = async () => {
     try {
@@ -155,7 +165,11 @@ export default function HomePage() {
     const clamped = Math.max(1, Math.min(inputLockerCount, 100));
     setInputLockerCount(clamped);
     setIsOptimizing(true);
-    setStatusMessage({ type: 'info', text: 'Optimization started. Please wait...' });
+    setStatusMessage(null);
+    setOptimizationStage("Starting");
+    setOptimizationGeneration(0);
+    setOptimizationProgress(0);
+    setOptimizationLogs([]);
     
     try {
       const response = await fetch("/api/run-ga", {
@@ -165,16 +179,63 @@ export default function HomePage() {
           k: clamped,
           populationSize,
           maxGenerations,
-          mutationRate
+          mutationRate,
+          crossoverRate,
+          archiveSize,
+          randomSeed: randomSeed ? parseInt(randomSeed, 10) : null
         }),
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.details || "Optimization failed");
+        throw new Error("Failed to start optimization stream");
       }
 
-      // Reload data after successful optimization
+      if (!response.body) {
+        throw new Error("No response body");
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const parts = buffer.split('\n\n');
+        buffer = parts.pop() || '';
+
+        for (const part of parts) {
+          if (part.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(part.slice(6));
+              
+              if (data.stage) setOptimizationStage(data.stage);
+              if (data.currentGeneration !== undefined) setOptimizationGeneration(data.currentGeneration);
+              if (data.maxGenerations !== undefined) setOptimizationMaxGenerations(data.maxGenerations);
+              if (data.progressPercent !== undefined) setOptimizationProgress(data.progressPercent);
+              
+              if (data.log || data.message) {
+                setOptimizationLogs(prev => [...prev, data.log || data.message].slice(-5));
+              }
+
+              if (data.error) {
+                throw new Error(data.error + (data.stderr ? `\n\n${data.stderr}` : ''));
+              }
+              
+              if (data.success) {
+                break;
+              }
+            } catch (e) {
+              if (e instanceof Error && e.message !== 'Unexpected end of JSON input') {
+                 throw e;
+              }
+            }
+          }
+        }
+      }
+
       await loadData();
       setPlotTimestamp(Date.now());
       
@@ -184,8 +245,6 @@ export default function HomePage() {
       setSelectedLocker(null);
       
       setStatusMessage({ type: 'success', text: `Optimization completed for k=${clamped}!` });
-      
-      // Clear success message after 5 seconds
       setTimeout(() => setStatusMessage(null), 5000);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
@@ -270,6 +329,12 @@ export default function HomePage() {
                 onMaxGenerationsChange={setMaxGenerations}
                 mutationRate={mutationRate}
                 onMutationRateChange={setMutationRate}
+                crossoverRate={crossoverRate}
+                onCrossoverRateChange={setCrossoverRate}
+                archiveSize={archiveSize}
+                onArchiveSizeChange={setArchiveSize}
+                randomSeed={randomSeed}
+                onRandomSeedChange={setRandomSeed}
                 onShowResults={handleShowResults}
                 currentGeneration={currentSolutionIndex}
                 generationCount={archiveSolutions.length}
@@ -287,7 +352,37 @@ export default function HomePage() {
               />
             </div>
 
-            <div className="col-span-12 lg:col-span-6 lg:h-[calc(100vh-290px)]">
+            <div className="col-span-12 lg:col-span-6 lg:h-[calc(100vh-290px)] relative">
+              {isOptimizing && (
+                <div className="absolute inset-0 z-[60] flex items-center justify-center bg-white/40 backdrop-blur-md rounded-[30px] p-6 animate-in fade-in duration-300">
+                  <div className="w-full max-w-md rounded-[24px] border border-white/60 bg-white/80 p-6 shadow-2xl backdrop-blur-xl">
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">Optimization Progress</h3>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-indigo-600 mb-6">{optimizationStage}</p>
+                    
+                    {optimizationMaxGenerations > 0 && (
+                      <div className="mb-6">
+                        <div className="flex justify-between text-xs font-bold text-slate-500 mb-2">
+                          <span>Generation {optimizationGeneration} / {optimizationMaxGenerations}</span>
+                          <span>{optimizationProgress}%</span>
+                        </div>
+                        <div className="h-2.5 w-full rounded-full bg-slate-200 overflow-hidden">
+                          <div 
+                            className="h-full bg-indigo-500 transition-all duration-300 rounded-full"
+                            style={{ width: `${optimizationProgress}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="rounded-xl bg-slate-900 p-3 text-[10px] font-mono text-emerald-400 h-24 overflow-hidden flex flex-col justify-end shadow-inner">
+                      {optimizationLogs.map((log, i) => (
+                        <div key={i} className="truncate">{log}</div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {currentSolution ? (
                 <LockerMap
                   candidates={candidates}

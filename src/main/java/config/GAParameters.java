@@ -3,17 +3,19 @@ package config;
 /**
  * Configuration parameters for the genetic algorithm.
  *
- * <p>This class stores all configurable constants used by the SPEA2
+ * <p>
+ * This class stores all configurable constants used by the SPEA2
  * optimization pipeline. Keeping them in a single location makes it
  * easy to adjust experiment settings without modifying algorithm or
- * orchestration logic.</p>
+ * orchestration logic.
+ * </p>
  */
 public class GAParameters {
 
     /**
      * Number of locker locations selected per chromosome.
      */
-    public static final int K = 8;
+    public static final int K = 5;
 
     /**
      * Number of individuals in the main population.
@@ -28,7 +30,7 @@ public class GAParameters {
     /**
      * Number of evolutionary generations to run.
      */
-    public static final int MAX_GENERATIONS = 500;
+    public static final int MAX_GENERATIONS = 200;
 
     /**
      * Distance-decay exponent used in the accessibility objective.

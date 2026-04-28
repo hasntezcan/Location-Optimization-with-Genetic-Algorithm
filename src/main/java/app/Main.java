@@ -45,7 +45,6 @@ public class Main {
 
         CandidateRepository repository = new CandidateRepository();
         CsvLoader csvLoader = new CsvLoader();
-        PopulationInitializer populationInitializer = new PopulationInitializer();
         DistanceMatrixLoader distanceMatrixLoader = new DistanceMatrixLoader();
 
         try {
@@ -88,6 +87,21 @@ public class Main {
             double beta = GAParameters.BETA;
             double crossoverRate = GAParameters.CROSSOVER_RATE;
             double mutationRate = GAParameters.MUTATION_RATE;
+            Long randomSeed = null;
+
+            for (int i = 0; i < args.length; i++) {
+                switch (args[i]) {
+                    case "--k": k = Integer.parseInt(args[++i]); break;
+                    case "--populationSize": populationSize = Integer.parseInt(args[++i]); break;
+                    case "--maxGenerations": maxGenerations = Integer.parseInt(args[++i]); break;
+                    case "--mutationRate": mutationRate = Double.parseDouble(args[++i]); break;
+                    case "--crossoverRate": crossoverRate = Double.parseDouble(args[++i]); break;
+                    case "--archiveSize": archiveSize = Integer.parseInt(args[++i]); break;
+                    case "--randomSeed": randomSeed = Long.parseLong(args[++i]); break;
+                }
+            }
+
+            PopulationInitializer populationInitializer = (randomSeed != null) ? new PopulationInitializer(randomSeed) : new PopulationInitializer();
 
             // Fixed assessment bounds from GAParameters
             double assessmentIdealF1 = GAParameters.ASSESSMENT_IDEAL_F1;
@@ -100,6 +114,7 @@ public class Main {
             double referenceObjective2 = GAParameters.REFERENCE_POINT_F2;
 
             // 4. Initialize population
+            System.out.println("STAGE Running Java GA");
             List<Integer> candidateIds = repository.getAllCandidateIds();
             List<Individual> population =
                     populationInitializer.initializePopulation(candidateIds, k, populationSize);
@@ -129,8 +144,8 @@ public class Main {
                     truncation
             );
 
-            Selection selection = new Selection();
-            Variation variation = new Variation();
+            Selection selection = (randomSeed != null) ? new Selection(randomSeed) : new Selection();
+            Variation variation = (randomSeed != null) ? new Variation(randomSeed) : new Variation();
 
             HypervolumeIndicator hypervolumeIndicator = new HypervolumeIndicator(
                     pareto,
@@ -174,6 +189,7 @@ public class Main {
                         .min()
                         .orElse(Double.NaN);
 
+                System.out.println("PROGRESS generation=" + generation + " max=" + maxGenerations);
                 System.out.println("Generation " + generation + " completed.");
                 System.out.println("Population size: " + population.size());
                 System.out.println("Archive size   : " + archive.size());
@@ -273,6 +289,7 @@ public class Main {
 
             System.out.println("============== RUNTIME ==============");
             System.out.println("Total runtime (seconds): " + runtimeSeconds);
+            System.out.println("STAGE Completed Java GA");
 
         } catch (IOException e) {
             System.out.println("I/O error: " + e.getMessage());

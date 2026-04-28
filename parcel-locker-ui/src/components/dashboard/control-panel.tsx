@@ -11,6 +11,12 @@ type ControlPanelProps = {
   onMaxGenerationsChange: (value: number) => void;
   mutationRate: number;
   onMutationRateChange: (value: number) => void;
+  crossoverRate: number;
+  onCrossoverRateChange: (value: number) => void;
+  archiveSize: number;
+  onArchiveSizeChange: (value: number) => void;
+  randomSeed: string;
+  onRandomSeedChange: (value: string) => void;
   onShowResults: () => void;
   currentGeneration: number;
   generationCount: number;
@@ -36,6 +42,12 @@ export function ControlPanel({
   onMaxGenerationsChange,
   mutationRate,
   onMutationRateChange,
+  crossoverRate,
+  onCrossoverRateChange,
+  archiveSize,
+  onArchiveSizeChange,
+  randomSeed,
+  onRandomSeedChange,
   onShowResults,
   currentGeneration,
   generationCount,
@@ -105,7 +117,8 @@ export function ControlPanel({
                 value={localLockerCount}
                 onChange={(e) => handleLockerCountChange(e.target.value)}
                 onBlur={handleLockerCountBlur}
-                className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                disabled={isOptimizing}
+                className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
               />
                       <button
                         onClick={onShowResults}
@@ -234,7 +247,8 @@ export function ControlPanel({
                     max={500}
                     value={populationSize}
                     onChange={(e) => onPopulationSizeChange(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                    disabled={isOptimizing}
+                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
                   />
                 </div>
 
@@ -248,7 +262,8 @@ export function ControlPanel({
                     max={500}
                     value={maxGenerations}
                     onChange={(e) => onMaxGenerationsChange(Number(e.target.value))}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+                    disabled={isOptimizing}
+                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
                   />
                 </div>
 
@@ -264,12 +279,63 @@ export function ControlPanel({
                       step={0.01}
                       value={mutationRate}
                       onChange={(e) => onMutationRateChange(Number(e.target.value))}
-                      className="h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-slate-200 accent-indigo-600"
+                      disabled={isOptimizing}
+                      className="h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-slate-200 accent-indigo-600 disabled:opacity-50"
                     />
                     <span className="text-sm font-bold text-slate-700 w-10">
                       {Math.round(mutationRate * 100)}%
                     </span>
                   </div>
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    Crossover Rate
+                  </label>
+                  <div className="mt-2 flex items-center gap-3">
+                    <input
+                      type="range"
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      value={crossoverRate}
+                      onChange={(e) => onCrossoverRateChange(Number(e.target.value))}
+                      disabled={isOptimizing}
+                      className="h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-slate-200 accent-indigo-600 disabled:opacity-50"
+                    />
+                    <span className="text-sm font-bold text-slate-700 w-10">
+                      {Math.round(crossoverRate * 100)}%
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    Archive Size
+                  </label>
+                  <input
+                    type="number"
+                    min={10}
+                    max={500}
+                    value={archiveSize}
+                    onChange={(e) => onArchiveSizeChange(Number(e.target.value))}
+                    disabled={isOptimizing}
+                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    Random Seed (Optional)
+                  </label>
+                  <input
+                    type="number"
+                    value={randomSeed}
+                    onChange={(e) => onRandomSeedChange(e.target.value)}
+                    placeholder="Auto (Random)"
+                    disabled={isOptimizing}
+                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+                  />
                 </div>
               </div>
             </div>

@@ -25,6 +25,13 @@ public class PopulationInitializer {
     }
 
     /**
+     * Creates a population initializer with a specific random seed.
+     */
+    public PopulationInitializer(long seed) {
+        this.random = new Random(seed);
+    }
+
+    /**
      * Initializes a population with randomly generated individuals.
      *
      * <p>Each individual contains exactly {@code k} candidate IDs selected from
