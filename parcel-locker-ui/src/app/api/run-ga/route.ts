@@ -84,12 +84,13 @@ export async function POST(request: Request) {
                 if (progressMatch) {
                   const currentGeneration = parseInt(progressMatch[1], 10);
                   const parsedMaxGenerations = parseInt(progressMatch[2], 10);
+                  const pct = Math.round((currentGeneration / parsedMaxGenerations) * 100);
                   sendEvent({
                     stage: 'Running Java GA',
                     currentGeneration,
                     maxGenerations: parsedMaxGenerations,
-                    progressPercent: Math.round((currentGeneration / parsedMaxGenerations) * 100),
-                    log: trimmed
+                    progressPercent: pct,
+                    log: `[Gen ${currentGeneration}/${parsedMaxGenerations}] Optimizing… ${pct}%`
                   });
                 } else if (trimmed.startsWith('STAGE')) {
                    sendEvent({

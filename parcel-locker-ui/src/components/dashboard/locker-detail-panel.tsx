@@ -91,7 +91,7 @@ export function LockerDetailPanel({
 
           <div className="rounded-[24px] border border-slate-200/50 bg-white/65 p-4 transition duration-300 hover:bg-white/80 hover:shadow-[0_10px_24px_rgba(15,23,42,0.05)]">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-              Equity (f2)
+              Inequity (f2)
             </p>
             <p className="mt-3 text-xl font-semibold tracking-tight text-slate-900">
               {solution.metrics.equity.toFixed(4)}

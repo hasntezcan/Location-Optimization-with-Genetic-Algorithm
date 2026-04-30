@@ -14,18 +14,76 @@ body,
   height: 100%;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* ── Leaflet ─────────────────────────────── */
 .leaflet-container {
   height: 100%;
   width: 100%;
   border-radius: 24px;
 }
 
+/* Compact & styled Leaflet popups */
+.leaflet-popup-content-wrapper {
+  border-radius: 16px !important;
+  padding: 0 !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.10) !important;
+  border: 1px solid rgba(226, 232, 240, 0.6) !important;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 10px 12px !important;
+  font-family: inherit !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+.leaflet-popup-tip {
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+}
+
+.leaflet-popup-close-button {
+  display: none !important;
+}
+
+/* ── Custom scrollbar ────────────────────── */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+/* ── Focus visible ───────────────────────── */
+*:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* ── Animations ──────────────────────────── */
 .button-beam {
   position: absolute;
   inset: 0;

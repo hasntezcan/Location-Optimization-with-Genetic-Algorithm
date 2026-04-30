@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 type ControlPanelProps = {
   lockerCount: number;
@@ -33,6 +33,45 @@ type ControlPanelProps = {
   isBestF2?: boolean;
 };
 
+/**
+ * Manages a text input backed by a numeric state.
+ * Prevents leading-zero glitch by storing raw text locally
+ * and only committing the parsed value on blur.
+ */
+function useNumericInput(
+  externalValue: number,
+  onChange: (v: number) => void,
+  min: number,
+  max: number
+) {
+  const [text, setText] = useState(externalValue.toString());
+
+  // Sync when external value changes (e.g. after optimization resets)
+  useEffect(() => {
+    setText(externalValue.toString());
+  }, [externalValue]);
+
+  const handleChange = (raw: string) => {
+    // Allow empty string for editing, strip non-numeric except leading minus
+    const cleaned = raw.replace(/[^0-9]/g, "");
+    setText(cleaned);
+  };
+
+  const handleBlur = () => {
+    if (text === "" || isNaN(Number(text))) {
+      const clamped = Math.max(min, Math.min(max, min));
+      setText(clamped.toString());
+      onChange(clamped);
+    } else {
+      const clamped = Math.max(min, Math.min(max, Number(text)));
+      setText(clamped.toString());
+      onChange(clamped);
+    }
+  };
+
+  return { text, handleChange, handleBlur };
+}
+
 export function ControlPanel({
   lockerCount,
   onLockerCountChange,
@@ -64,29 +103,14 @@ export function ControlPanel({
   isBestF2 = false,
 }: ControlPanelProps) {
 
-  const [localLockerCount, setLocalLockerCount] = useState<string>(lockerCount.toString());
-
-  const handleLockerCountChange = (value: string) => {
-    setLocalLockerCount(value);
-    if (value !== "" && !isNaN(Number(value))) {
-      onLockerCountChange(Number(value));
-    }
-  };
-
-  const handleLockerCountBlur = () => {
-    if (localLockerCount === "" || isNaN(Number(localLockerCount))) {
-      setLocalLockerCount("1");
-      onLockerCountChange(1);
-    } else {
-      const val = Math.max(1, Math.min(50, Number(localLockerCount)));
-      setLocalLockerCount(val.toString());
-      onLockerCountChange(val);
-    }
-  };
+  const lockerInput = useNumericInput(lockerCount, onLockerCountChange, 1, 50);
+  const popInput = useNumericInput(populationSize, onPopulationSizeChange, 10, 500);
+  const genInput = useNumericInput(maxGenerations, onMaxGenerationsChange, 1, 500);
+  const archInput = useNumericInput(archiveSize, onArchiveSizeChange, 10, 500);
 
   return (
     <aside className="flex h-full min-h-0 flex-col overflow-hidden rounded-[30px] border border-white/60 bg-white/55 p-4 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl lg:max-h-[calc(100vh-290px)]">
-      <div className="min-h-0 flex-1 overflow-y-auto pr-2">
+      <div className="min-h-0 flex-1 overflow-y-auto pr-2 custom-scrollbar">
         <div>
           <span className="inline-flex rounded-full border border-slate-200/70 bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">
             Controls
@@ -97,7 +121,7 @@ export function ControlPanel({
           </h2>
 
           <p className="mt-2 text-sm leading-6 text-slate-600">
-            Browse optimized solutions from the Pareto archive (Accessibility vs. Equity).
+            Browse optimized solutions from the Pareto archive (Accessibility vs. Inequity).
           </p>
         </div>
 
@@ -114,9 +138,10 @@ export function ControlPanel({
             <div className="mt-4 flex items-center gap-3">
               <input
                 type="text"
-                value={localLockerCount}
-                onChange={(e) => handleLockerCountChange(e.target.value)}
-                onBlur={handleLockerCountBlur}
+                inputMode="numeric"
+                value={lockerInput.text}
+                onChange={(e) => lockerInput.handleChange(e.target.value)}
+                onBlur={lockerInput.handleBlur}
                 disabled={isOptimizing}
                 className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
               />
@@ -145,12 +170,12 @@ export function ControlPanel({
               <div className="flex flex-wrap items-center justify-end gap-2">
                 {isBestF1 && (
                   <span className="rounded-lg bg-blue-500 px-2 py-1 text-[10px] font-bold text-white shadow-sm">
-                    BEST DISTANCE
+                    BEST ACCESSIBILITY
                   </span>
                 )}
                 {isBestF2 && (
                   <span className="rounded-lg bg-emerald-600 px-2 py-1 text-[10px] font-bold text-white shadow-sm">
-                    BEST COST
+                    BEST INEQUITY
                   </span>
                 )}
                 {isCurrentSolutionPareto && !isBestF1 && !isBestF2 && (
@@ -168,6 +193,7 @@ export function ControlPanel({
               <button
                 onClick={onPrevGeneration}
                 disabled={currentGeneration === 0}
+                aria-label="Previous solution"
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50 disabled:opacity-50"
               >
                 ←
@@ -187,6 +213,7 @@ export function ControlPanel({
               <button
                 onClick={onNextGeneration}
                 disabled={currentGeneration === generationCount - 1}
+                aria-label="Next solution"
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50 disabled:opacity-50"
               >
                 →
@@ -201,6 +228,7 @@ export function ControlPanel({
               </label>
               <button
                 onClick={onTogglePlayback}
+                aria-label={isPlaying ? "Stop playback" : "Start auto-play"}
                 className={`flex h-10 w-24 items-center justify-center rounded-xl text-xs font-bold transition ${
                   isPlaying 
                     ? "bg-rose-500 text-white shadow-[0_4px_12px_rgba(244,63,94,0.3)]" 
@@ -242,11 +270,11 @@ export function ControlPanel({
                     Population Size
                   </label>
                   <input
-                    type="number"
-                    min={10}
-                    max={500}
-                    value={populationSize}
-                    onChange={(e) => onPopulationSizeChange(Number(e.target.value))}
+                    type="text"
+                    inputMode="numeric"
+                    value={popInput.text}
+                    onChange={(e) => popInput.handleChange(e.target.value)}
+                    onBlur={popInput.handleBlur}
                     disabled={isOptimizing}
                     className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
                   />
@@ -257,11 +285,11 @@ export function ControlPanel({
                     Max Generations
                   </label>
                   <input
-                    type="number"
-                    min={1}
-                    max={500}
-                    value={maxGenerations}
-                    onChange={(e) => onMaxGenerationsChange(Number(e.target.value))}
+                    type="text"
+                    inputMode="numeric"
+                    value={genInput.text}
+                    onChange={(e) => genInput.handleChange(e.target.value)}
+                    onBlur={genInput.handleBlur}
                     disabled={isOptimizing}
                     className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
                   />
@@ -314,11 +342,11 @@ export function ControlPanel({
                     Archive Size
                   </label>
                   <input
-                    type="number"
-                    min={10}
-                    max={500}
-                    value={archiveSize}
-                    onChange={(e) => onArchiveSizeChange(Number(e.target.value))}
+                    type="text"
+                    inputMode="numeric"
+                    value={archInput.text}
+                    onChange={(e) => archInput.handleChange(e.target.value)}
+                    onBlur={archInput.handleBlur}
                     disabled={isOptimizing}
                     className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
                   />
@@ -329,9 +357,10 @@ export function ControlPanel({
                     Random Seed (Optional)
                   </label>
                   <input
-                    type="number"
+                    type="text"
+                    inputMode="numeric"
                     value={randomSeed}
-                    onChange={(e) => onRandomSeedChange(e.target.value)}
+                    onChange={(e) => onRandomSeedChange(e.target.value.replace(/[^0-9]/g, ""))}
                     placeholder="Auto (Random)"
                     disabled={isOptimizing}
                     className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
