@@ -116,7 +116,10 @@ export async function POST(request: Request) {
                   trimmed.includes('hypervolume')
                 ) {
                    console.log(`[java] ${trimmed}`);
-                   sendEvent({ stage: 'Running Java GA', log: trimmed });
+                   // Do NOT send verbose debug logs to the UI, keep them in terminal only
+                   if (!trimmed.includes('BOUNDS_DEBUG') && !trimmed.includes('BOUNDS DEBUG')) {
+                     sendEvent({ stage: 'Running Java GA', log: trimmed });
+                   }
                 }
               }
             });

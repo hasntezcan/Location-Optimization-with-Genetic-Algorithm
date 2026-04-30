@@ -59,13 +59,16 @@ body {
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 9999px;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
@@ -89,16 +92,14 @@ body {
   inset: 0;
   border-radius: inherit;
   padding: 1.5px;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    transparent 35deg,
-    rgba(125, 211, 252, 0.95) 95deg,
-    rgba(255, 255, 255, 0.9) 140deg,
-    rgba(96, 165, 250, 0.95) 180deg,
-    transparent 240deg,
-    transparent 360deg
-  );
+  background: conic-gradient(from 0deg,
+      transparent 0deg,
+      transparent 35deg,
+      rgba(125, 211, 252, 0.95) 95deg,
+      rgba(255, 255, 255, 0.9) 140deg,
+      rgba(96, 165, 250, 0.95) 180deg,
+      transparent 240deg,
+      transparent 360deg);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -111,6 +112,7 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

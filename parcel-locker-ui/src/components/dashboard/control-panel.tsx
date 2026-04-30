@@ -109,7 +109,7 @@ export function ControlPanel({
   const archInput = useNumericInput(archiveSize, onArchiveSizeChange, 10, 500);
 
   return (
-    <aside className="flex h-full min-h-0 flex-col overflow-hidden rounded-[30px] border border-white/60 bg-white/55 p-4 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl lg:max-h-[calc(100vh-290px)]">
+    <aside className="flex h-full flex-col overflow-hidden rounded-[30px] border border-slate-200/60 bg-white p-4 shadow-sm">
       <div className="min-h-0 flex-1 overflow-y-auto pr-2 custom-scrollbar">
         <div>
           <span className="inline-flex rounded-full border border-slate-200/70 bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">

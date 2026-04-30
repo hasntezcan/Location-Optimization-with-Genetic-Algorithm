@@ -288,25 +288,20 @@ export default function HomePage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,_#ffffff_0%,_#f8fafc_45%,_#eef2f7_100%)] px-4 py-4 text-slate-900 sm:px-5 lg:px-6">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[8%] top-[6%] h-40 w-40 rounded-full bg-sky-100/50 blur-3xl" />
-        <div className="absolute right-[10%] top-[10%] h-56 w-56 rounded-full bg-indigo-100/40 blur-3xl" />
-        <div className="absolute bottom-[8%] left-[22%] h-52 w-52 rounded-full bg-cyan-100/30 blur-3xl" />
-      </div>
+    <main className="relative min-h-screen bg-slate-50 px-4 py-4 text-slate-900 sm:px-5 lg:px-6">
 
       <div className="relative mx-auto flex max-w-[1500px] flex-col gap-4">
-        <header className="rounded-[30px] border border-white/60 bg-white/65 px-6 py-7 shadow-[0_10px_32px_rgba(15,23,42,0.05)] backdrop-blur-xl sm:px-8 sm:py-8">
+        <header className="rounded-[30px] border border-slate-200/60 bg-white px-6 py-5 shadow-sm sm:px-8 sm:py-6">
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
             <span className="inline-flex items-center rounded-full border border-slate-200/70 bg-white/80 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.28em] text-slate-500 shadow-sm">
               Parcel Locker Dashboard
             </span>
 
-            <h1 className="mt-4 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl lg:text-[52px] lg:leading-[1.05]">
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl lg:text-4xl lg:leading-[1.1]">
               Locker placement panel
             </h1>
 
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:text-[15px]">
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:text-[15px]">
               Control the locker count, inspect parcel locker positions on the map, and review
               the selected locker&apos;s location details in a cleaner decision-support interface.
             </p>
@@ -329,7 +324,7 @@ export default function HomePage() {
           </div>
         </header>
 
-        <section className="rounded-[30px] border border-white/60 bg-white/55 p-3 shadow-[0_12px_32px_rgba(15,23,42,0.05)] backdrop-blur-xl sm:p-4">
+        <section className="rounded-[30px] border border-slate-200/60 bg-white p-3 shadow-sm sm:p-4">
           <div className="rounded-[24px] border border-slate-200/50 bg-white/50 p-2.5 sm:p-3">
             <LockerStrip
               lockers={lockersForDisplay}
@@ -339,8 +334,8 @@ export default function HomePage() {
             />
           </div>
 
-          <div className="mt-4 grid grid-cols-12 gap-4 lg:min-h-[calc(100vh-290px)] transition-all duration-500">
-            <div className={`col-span-12 lg:h-[calc(100vh-290px)] transition-all duration-500 ${isFocusMode ? 'hidden' : 'lg:col-span-3'}`}>
+          <div className="mt-4 grid grid-cols-12 gap-4 lg:min-h-[calc(100vh-230px)] transition-all duration-500">
+            <div className={`col-span-12 lg:h-[calc(100vh-230px)] transition-all duration-500 ${isFocusMode ? 'hidden' : 'lg:col-span-3'}`}>
               <ControlPanel
                 lockerCount={inputLockerCount}
                 onLockerCountChange={setInputLockerCount}
@@ -373,9 +368,9 @@ export default function HomePage() {
               />
             </div>
 
-            <div className={`col-span-12 min-h-[350px] lg:h-[calc(100vh-290px)] relative transition-all duration-500 ${isFocusMode ? 'lg:col-span-7' : 'lg:col-span-6'}`}>
+            <div className={`col-span-12 min-h-[350px] lg:h-[calc(100vh-230px)] relative transition-all duration-500 ${isFocusMode ? 'lg:col-span-7' : 'lg:col-span-6'}`}>
               {isOptimizing && (
-                <div className="absolute inset-0 z-[60] flex items-center justify-center bg-white/40 backdrop-blur-md rounded-[30px] p-6 animate-in fade-in duration-300">
+                <div className="absolute inset-0 z-[60] flex items-center justify-center bg-white/60 backdrop-blur-sm rounded-[30px] p-6 animate-in fade-in duration-300">
                   <div className="w-full max-w-md rounded-[24px] border border-white/60 bg-white/80 p-6 shadow-2xl backdrop-blur-xl">
                     <h3 className="text-lg font-bold text-slate-900 mb-2">Optimization Progress</h3>
                     <p className="text-xs font-semibold uppercase tracking-widest text-indigo-600 mb-6">{optimizationStage}</p>
@@ -420,13 +415,13 @@ export default function HomePage() {
                   currentGeneration={currentSolution}
                 />
               ) : (
-                <div className="flex h-full min-h-[420px] items-center justify-center rounded-[30px] border border-white/60 bg-white/55 p-6 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+                <div className="flex h-full min-h-[420px] items-center justify-center rounded-[30px] border border-slate-200/60 bg-white p-6 shadow-sm">
                   <p className="text-sm text-slate-500">Loading solution data...</p>
                 </div>
               )}
             </div>
 
-            <div className={`col-span-12 lg:h-[calc(100vh-290px)] transition-all duration-500 ${isFocusMode ? 'lg:col-span-5' : 'lg:col-span-3'}`}>
+            <div className={`col-span-12 lg:h-[calc(100vh-230px)] transition-all duration-500 ${isFocusMode ? 'lg:col-span-5' : 'lg:col-span-3'}`}>
               {selectedLocker && currentSolution ? (
                 <LockerDetailPanel
                   locker={selectedLocker}
@@ -435,7 +430,7 @@ export default function HomePage() {
                 />
               ) : (
                 <div className="flex flex-col h-full gap-4 overflow-hidden">
-                  <div className={`flex min-h-[250px] rounded-[30px] border border-white/60 bg-white/55 p-4 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl overflow-hidden ${isFocusMode ? 'h-full' : 'h-1/2'}`}>
+                  <div className={`flex flex-col flex-1 min-h-0 rounded-[30px] border border-slate-200/60 bg-white p-4 shadow-sm overflow-hidden ${isFocusMode ? 'h-full' : ''}`}>
                     <div className="w-full h-full flex flex-col">
                       <div className="flex items-start justify-between mb-2 gap-1">
                         <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 shrink-0 leading-5">Pareto Front</span>
@@ -552,20 +547,20 @@ export default function HomePage() {
                     </div>
                   </div>
                   {!isFocusMode && (
-                    <div className="flex h-1/2 min-h-[250px] items-center justify-center rounded-[30px] border border-white/60 bg-white/55 p-2 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl overflow-hidden">
+                    <div className="flex flex-col flex-1 min-h-0 items-center justify-center rounded-[30px] border border-slate-200/60 bg-white p-2 shadow-sm overflow-hidden">
                       <div className="w-full h-full flex flex-col p-2">
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Static Analysis Plot</span>
                           <span className="text-[9px] text-indigo-600 font-semibold bg-indigo-50 px-1.5 py-0.5 rounded animate-pulse">Click to expand</span>
                         </div>
                         <div
-                          className="flex-1 relative rounded-xl overflow-hidden border border-slate-200 cursor-zoom-in group"
+                          className="flex-1 relative rounded-xl overflow-hidden border border-slate-200/60 bg-white cursor-zoom-in group"
                           onClick={() => setIsPlotModalOpen(true)}
                         >
                           <img
                             src={`/mock/archive_comparison_latest.png?t=${plotTimestamp}`}
                             alt="GA Analysis"
-                            className="absolute inset-0 w-full h-full object-contain bg-white transition-transform duration-300 group-hover:scale-105"
+                            className="absolute inset-0 w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
                             onError={(e) => {
                               (e.target as HTMLImageElement).style.display = 'none';
                             }}
