@@ -82,7 +82,7 @@ export default function HomePage() {
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error' | 'info', text: string } | null>(null);
   const [isPlotModalOpen, setIsPlotModalOpen] = useState(false);
-  const [plotTimestamp, setPlotTimestamp] = useState(Date.now());
+  const [plotTimestamp, setPlotTimestamp] = useState(0);
 
   const [optimizationStage, setOptimizationStage] = useState("Starting");
   const [optimizationGeneration, setOptimizationGeneration] = useState(0);
@@ -586,7 +586,7 @@ export default function HomePage() {
         <footer className="mt-4 rounded-[30px] border border-white/60 bg-white/55 px-6 py-4 shadow-[0_6px_20px_rgba(15,23,42,0.04)] backdrop-blur-xl">
           <div className="flex flex-col items-center justify-between gap-2 sm:flex-row">
             <p className="text-[11px] font-medium text-slate-400">
-              © {new Date().getFullYear()} Parcel Locker Optimization — CMPE 412 Project
+              © {new Date().getFullYear()} Parcel Locker Optimization — Capstone Project
             </p>
             <div className="flex items-center gap-4">
               <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-300">Multi-Objective GA</span>
