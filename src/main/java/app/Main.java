@@ -43,6 +43,7 @@ public class Main {
     private static final Path OUTPUT_DIRECTORY = Paths.get("output");
     private static final Path INITIAL_ARCHIVE_CSV = OUTPUT_DIRECTORY.resolve("initial_archive.csv");
     private static final Path FINAL_ARCHIVE_CSV = OUTPUT_DIRECTORY.resolve("final_archive.csv");
+    private static final Path RUN_METADATA_JSON = OUTPUT_DIRECTORY.resolve("run_metadata.json");
 
     public static void main(String[] args) {
         long startTimeNs = System.nanoTime();
@@ -134,6 +135,11 @@ public class Main {
             System.out.println("Random seed      : " + (randomSeed != null ? randomSeed : "none"));
             System.out.println("HV ref point     : (" + referenceObjective1 + ", " + referenceObjective2 + ")");
             System.out.println("========================================");
+
+            // Export run metadata so plot_archives.py can read actual parameters
+            long estimatedFunctionEvaluations = (long) populationSize * (maxGenerations + 1L);
+            writeRunMetadata(k, populationSize, archiveSize, maxGenerations, beta,
+                    crossoverRate, mutationRate, randomSeed, estimatedFunctionEvaluations);
 
             // 4. Initialize population
             System.out.println("STAGE Running Java GA");
@@ -263,6 +269,7 @@ public class Main {
             System.out.println("============== FINAL SUMMARY ==============");
             System.out.printf("Total runtime (s)            : %.2f%n", runtimeSeconds);
             System.out.println("Archive size                 : " + finalArchiveSnapshot.size());
+            System.out.printf("Est. function evaluations    : %,d%n", estimatedFunctionEvaluations);
             System.out.println("Initial ND count (raw)       : " + initialNdCount);
             System.out.println("Final ND count (raw)         : " + finalNdCount);
             System.out.printf("Best f1 improvement (%%)      : %s%n", formatPercent(bestF1Improvement));
@@ -290,6 +297,30 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Unexpected error: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    // -----------------------------------------------------------------------
+    // Metadata export
+    // -----------------------------------------------------------------------
+
+    private static void writeRunMetadata(int k, int populationSize, int archiveSize,
+                                          int maxGenerations, double beta,
+                                          double crossoverRate, double mutationRate,
+                                          Long randomSeed,
+                                          long estimatedFunctionEvaluations) throws IOException {
+        try (BufferedWriter writer = Files.newBufferedWriter(RUN_METADATA_JSON)) {
+            writer.write("{\n");
+            writer.write("  \"k\": " + k + ",\n");
+            writer.write("  \"populationSize\": " + populationSize + ",\n");
+            writer.write("  \"archiveSize\": " + archiveSize + ",\n");
+            writer.write("  \"maxGenerations\": " + maxGenerations + ",\n");
+            writer.write("  \"beta\": " + beta + ",\n");
+            writer.write("  \"crossoverRate\": " + crossoverRate + ",\n");
+            writer.write("  \"mutationRate\": " + mutationRate + ",\n");
+            writer.write("  \"randomSeed\": " + (randomSeed != null ? randomSeed : "null") + ",\n");
+            writer.write("  \"estimatedFunctionEvaluations\": " + estimatedFunctionEvaluations + "\n");
+            writer.write("}\n");
         }
     }
 

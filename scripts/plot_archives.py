@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import math
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -20,6 +21,42 @@ PLOT_PATH = OUTPUT_DIR / "archive_comparison_latest.png"
 
 REFERENCE_F1 = 1.1
 REFERENCE_F2 = 1.1
+
+# Fallback defaults when run_metadata.json is missing
+DEFAULT_POPULATION_SIZE = 100
+DEFAULT_MAX_GENERATIONS = 200
+
+
+# ---------------------------------------------------------------------------
+# Run metadata
+# ---------------------------------------------------------------------------
+
+def load_run_metadata() -> dict:
+    """Load run_metadata.json if present, otherwise return defaults."""
+    meta_path = OUTPUT_DIR / "run_metadata.json"
+    defaults = {
+        "populationSize": DEFAULT_POPULATION_SIZE,
+        "maxGenerations": DEFAULT_MAX_GENERATIONS,
+    }
+    try:
+        if meta_path.exists():
+            with open(meta_path, "r") as f:
+                data = json.load(f)
+            defaults.update(data)
+    except (json.JSONDecodeError, OSError):
+        pass  # fall back to defaults
+    return defaults
+
+
+def estimate_function_evaluations(metadata: dict) -> int:
+    """Return the estimated number of function evaluations for the run.
+    Uses pre-computed value from metadata if available, otherwise
+    calculates population_size * (max_generations + 1)."""
+    if "estimatedFunctionEvaluations" in metadata:
+        return int(metadata["estimatedFunctionEvaluations"])
+    pop = int(metadata.get("populationSize", DEFAULT_POPULATION_SIZE))
+    gen = int(metadata.get("maxGenerations", DEFAULT_MAX_GENERATIONS))
+    return pop * (gen + 1)
 
 
 # ---------------------------------------------------------------------------
@@ -300,6 +337,13 @@ def format_number(value) -> str:
     return f"{value}"
 
 
+def format_with_commas(value) -> str:
+    """Format an integer with thousands separators, or 'N/A'."""
+    if value is None:
+        return "N/A"
+    return f"{int(value):,}"
+
+
 def _format_coverage_percent(raw_fraction) -> str:
     """Convert a [0,1] coverage fraction to a display percentage string."""
     if raw_fraction is None or (isinstance(raw_fraction, float) and math.isnan(raw_fraction)):
@@ -317,15 +361,18 @@ def plot_metrics_panel(ax, metrics: dict):
     ax.set_title("Initial \u2192 Final Improvement Metrics")
 
     rows = [
-        ("Initial ND count",        format_number(metrics.get("initial_nd_count"))),
-        ("Final ND count",          format_number(metrics.get("final_nd_count"))),
-        ("ND count change",         format_number(metrics.get("nd_count_change"))),
-        ("Best f1 improvement",     format_percent(metrics.get("best_f1_improvement"))),
-        ("Best f2 improvement",     format_percent(metrics.get("best_f2_improvement"))),
-        ("Mean ND f1 improvement",  format_percent(metrics.get("mean_nd_f1_improvement"))),
-        ("Mean ND f2 improvement",  format_percent(metrics.get("mean_nd_f2_improvement"))),
-        ("C(Final, Initial)",       _format_coverage_percent(metrics.get("c_final_initial"))),
-        ("C(Initial, Final)",       _format_coverage_percent(metrics.get("c_initial_final"))),
+        ("Population size",          format_with_commas(metrics.get("population_size"))),
+        ("Max generations",          format_with_commas(metrics.get("max_generations"))),
+        ("Est. function evals",      format_with_commas(metrics.get("estimated_function_evaluations"))),
+        ("Initial ND count",         format_number(metrics.get("initial_nd_count"))),
+        ("Final ND count",           format_number(metrics.get("final_nd_count"))),
+        ("ND count change",          format_number(metrics.get("nd_count_change"))),
+        ("Best f1 improvement",      format_percent(metrics.get("best_f1_improvement"))),
+        ("Best f2 improvement",      format_percent(metrics.get("best_f2_improvement"))),
+        ("Mean ND f1 improvement",   format_percent(metrics.get("mean_nd_f1_improvement"))),
+        ("Mean ND f2 improvement",   format_percent(metrics.get("mean_nd_f2_improvement"))),
+        ("C(Final, Initial)",        _format_coverage_percent(metrics.get("c_final_initial"))),
+        ("C(Initial, Final)",        _format_coverage_percent(metrics.get("c_initial_final"))),
     ]
 
     table = ax.table(
@@ -385,6 +432,9 @@ def print_stats(stats: dict):
 def print_improvement_metrics(metrics: dict):
     """Print improvement metrics block to console."""
     print("============== INITIAL TO FINAL IMPROVEMENT ==============")
+    print(f"Population size              : {format_with_commas(metrics.get('population_size'))}")
+    print(f"Max generations              : {format_with_commas(metrics.get('max_generations'))}")
+    print(f"Estimated function evals     : {format_with_commas(metrics.get('estimated_function_evaluations'))}")
     print(f"Initial ND count             : {format_number(metrics.get('initial_nd_count'))}")
     print(f"Final ND count               : {format_number(metrics.get('final_nd_count'))}")
     print(f"ND count change              : {format_number(metrics.get('nd_count_change'))}")
@@ -411,8 +461,17 @@ def main():
     print_stats(initial_stats)
     print_stats(final_stats)
 
+    # Load run metadata (population size, generations, function evals)
+    run_meta = load_run_metadata()
+
     # Compute improvement metrics (ND-based, raw objectives + C-metric)
     metrics = compute_improvement_metrics(initial_df, final_df)
+
+    # Inject run metadata into metrics dict for panel/console display
+    metrics["population_size"] = int(run_meta.get("populationSize", DEFAULT_POPULATION_SIZE))
+    metrics["max_generations"] = int(run_meta.get("maxGenerations", DEFAULT_MAX_GENERATIONS))
+    metrics["estimated_function_evaluations"] = estimate_function_evaluations(run_meta)
+
     print_improvement_metrics(metrics)
 
     # -----------------------------------------------------------------------
@@ -466,6 +525,7 @@ def main():
         f"Best f2 impr: {format_percent(metrics.get('best_f2_improvement'))} | "
         f"Mean ND f1 impr: {format_percent(metrics.get('mean_nd_f1_improvement'))} | "
         f"Mean ND f2 impr: {format_percent(metrics.get('mean_nd_f2_improvement'))}\n"
+        f"Function evals: {format_with_commas(metrics.get('estimated_function_evaluations'))} | "
         f"C(Final,Initial): {c_fi_str} | "
         f"C(Initial,Final): {c_if_str} | "
         f"Final HV ratio: {final_hv_ratio:.4f} | "

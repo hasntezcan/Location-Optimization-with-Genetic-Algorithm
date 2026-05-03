@@ -3,52 +3,52 @@
     "id": 1,
     "lockers": [
       {
-        "id": "1404",
-        "lat": 40.9816607972166,
-        "lng": 29.0370875976579,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2406",
+        "lat": 40.9867670764903,
+        "lng": 29.0538865130539,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4660",
-        "lat": 40.966299772724,
-        "lng": 29.0900895388673,
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0397991637615367,
-      "equity": 0.37320305536257936,
-      "fitness": 0.4985532885812988,
-      "norm_f1": 0.6279146379560452,
-      "norm_f2": 0.06040334772931757
+      "accessibility": 0.9241910730601537,
+      "equity": 0.47540491780166966,
+      "fitness": 0.4931043995670545,
+      "norm_f1": 0.021955354031626653,
+      "norm_f2": 0.8111187834630141
     },
     "isPareto": true,
     "isBestF1": false,
@@ -58,52 +58,52 @@
     "id": 2,
     "lockers": [
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "3509",
-        "lat": 40.9657426022826,
-        "lng": 29.0710589526231,
+        "id": "2498",
+        "lat": 40.9687409570941,
+        "lng": 29.0545155863489,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4648",
+        "lat": 40.9771025043463,
+        "lng": 29.0904306294404,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9890753861880617,
-      "equity": 0.3861245470516678,
-      "fitness": 0.49842591289793176,
-      "norm_f1": 0.41300261551196077,
-      "norm_f2": 0.19757970695929425
+      "accessibility": 1.0860344474595114,
+      "equity": 0.385167473172522,
+      "fitness": 0.49533818360744186,
+      "norm_f1": 0.821208138907931,
+      "norm_f2": 0.021030263115930883
     },
     "isPareto": true,
     "isBestF1": false,
@@ -113,52 +113,52 @@
     "id": 3,
     "lockers": [
       {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3429",
-        "lat": 40.9729658562908,
-        "lng": 29.0700964764715,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4662",
-        "lat": 40.9644993152514,
-        "lng": 29.0900327084535,
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9602944864159707,
-      "equity": 0.39042423208374205,
-      "fitness": 0.49822253152465057,
-      "norm_f1": 0.29106056636507166,
-      "norm_f2": 0.2432257633688369
+      "accessibility": 0.9534093580447096,
+      "equity": 0.43859045800277685,
+      "fitness": 0.4978077937068638,
+      "norm_f1": 0.16624791917298043,
+      "norm_f2": 0.4887838349344619
     },
     "isPareto": true,
     "isBestF1": false,
@@ -168,52 +168,52 @@
     "id": 4,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2645",
-        "lat": 40.9659978421642,
-        "lng": 29.0568071104899,
+        "id": "2406",
+        "lat": 40.9867670764903,
+        "lng": 29.0538865130539,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4660",
-        "lat": 40.966299772724,
-        "lng": 29.0900895388673,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0233280036332586,
-      "equity": 0.3754508731263768,
-      "fitness": 0.49867683727157114,
-      "norm_f1": 0.5581278337291513,
-      "norm_f2": 0.08426649483876363
+      "accessibility": 0.9470683988473849,
+      "equity": 0.44309439137556245,
+      "fitness": 0.4964555684544624,
+      "norm_f1": 0.1349335121664685,
+      "norm_f2": 0.5282187509925412
     },
     "isPareto": true,
     "isBestF1": false,
@@ -223,52 +223,52 @@
     "id": 5,
     "lockers": [
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
+        "id": "2421",
+        "lat": 40.9732633688791,
+        "lng": 29.0534674861129,
+        "neighborhood": "Fenerbahçe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2840",
+        "lat": 40.9848393201152,
+        "lng": 29.0609586251056,
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3439",
-        "lat": 40.9639634587459,
-        "lng": 29.0698150262575,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0130612932649217,
-      "equity": 0.3802060832399125,
-      "fitness": 0.49881608253184356,
-      "norm_f1": 0.5146287176408268,
-      "norm_f2": 0.13474846909094892
+      "accessibility": 0.9686281998162972,
+      "equity": 0.41782037928824733,
+      "fitness": 0.4949042297007912,
+      "norm_f1": 0.24140516125147665,
+      "norm_f2": 0.3069280562552594
     },
     "isPareto": true,
     "isBestF1": false,
@@ -278,52 +278,52 @@
     "id": 6,
     "lockers": [
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "3439",
-        "lat": 40.9639634587459,
-        "lng": 29.0698150262575,
+        "id": "2352",
+        "lat": 40.9705837803094,
+        "lng": 29.0521959687122,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4732",
-        "lat": 40.9662782269977,
-        "lng": 29.0912771797305,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.007456054646892,
-      "equity": 0.3829904354811745,
-      "fitness": 0.4986703255351742,
-      "norm_f1": 0.49087983249642914,
-      "norm_f2": 0.16430754109752554
+      "accessibility": 0.9788071295208245,
+      "equity": 0.4029222558248727,
+      "fitness": 0.49483184134236136,
+      "norm_f1": 0.2916731314022266,
+      "norm_f2": 0.17648513013405873
     },
     "isPareto": true,
     "isBestF1": false,
@@ -333,107 +333,107 @@
     "id": 7,
     "lockers": [
       {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
+        "id": "2406",
+        "lat": 40.9867670764903,
+        "lng": 29.0538865130539,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2709",
+        "lat": 40.9731786098495,
+        "lng": 29.0582186515916,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3429",
-        "lat": 40.9729658562908,
-        "lng": 29.0700964764715,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9496829549845701,
-      "equity": 0.39081116755915757,
-      "fitness": 0.4990107934649434,
-      "norm_f1": 0.24610047486069137,
-      "norm_f2": 0.24733352438061257
+      "accessibility": 0.919745259858313,
+      "equity": 0.49697738453141643,
+      "fitness": 0.4897473572065812,
+      "norm_f1": 0.0,
+      "norm_f2": 1.0
     },
     "isPareto": true,
-    "isBestF1": false,
+    "isBestF1": true,
     "isBestF2": false
   },
   {
     "id": 8,
     "lockers": [
       {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
+        "id": "2406",
+        "lat": 40.9867670764903,
+        "lng": 29.0538865130539,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "3439",
-        "lat": 40.9639634587459,
-        "lng": 29.0698150262575,
+        "id": "2638",
+        "lat": 40.9722995715252,
+        "lng": 29.0570028887347,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4732",
-        "lat": 40.9662782269977,
-        "lng": 29.0912771797305,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0114784118652032,
-      "equity": 0.381868620740169,
-      "fitness": 0.4989461958779288,
-      "norm_f1": 0.5079221934193241,
-      "norm_f2": 0.15239819923480488
+      "accessibility": 0.9415994780510363,
+      "equity": 0.4555426008944133,
+      "fitness": 0.49458819923594105,
+      "norm_f1": 0.10792560904425745,
+      "norm_f2": 0.637211059896449
     },
     "isPareto": true,
     "isBestF1": false,
@@ -443,52 +443,52 @@
     "id": 9,
     "lockers": [
       {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
+        "id": "2406",
+        "lat": 40.9867670764903,
+        "lng": 29.0538865130539,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "3439",
-        "lat": 40.9639634587459,
-        "lng": 29.0698150262575,
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0170836504832328,
-      "equity": 0.37907631010584175,
-      "fitness": 0.4987753103804332,
-      "norm_f1": 0.5316710785637218,
-      "norm_f2": 0.12275463981669126
+      "accessibility": 0.9449631051738279,
+      "equity": 0.44398051332967103,
+      "fitness": 0.49642785639379394,
+      "norm_f1": 0.12453665880241992,
+      "norm_f2": 0.5359773348758284
     },
     "isPareto": true,
     "isBestF1": false,
@@ -498,52 +498,52 @@
     "id": 10,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3429",
-        "lat": 40.9729658562908,
-        "lng": 29.0700964764715,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9427566816366683,
-      "equity": 0.392661618077137,
-      "fitness": 0.49869232924754137,
-      "norm_f1": 0.21675448596934843,
-      "norm_f2": 0.266978165347723
+      "accessibility": 0.9695439732909346,
+      "equity": 0.4096627805681129,
+      "fitness": 0.49674797597296305,
+      "norm_f1": 0.24592764790028843,
+      "norm_f2": 0.23550288315927387
     },
     "isPareto": true,
     "isBestF1": false,
@@ -553,52 +553,52 @@
     "id": 11,
     "lockers": [
       {
-        "id": "1404",
-        "lat": 40.9816607972166,
-        "lng": 29.0370875976579,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "3509",
-        "lat": 40.9657426022826,
-        "lng": 29.0710589526231,
+        "id": "2498",
+        "lat": 40.9687409570941,
+        "lng": 29.0545155863489,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "2770",
+        "lat": 40.9830600751238,
+        "lng": 29.0597145854992,
+        "neighborhood": "Göztepe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4648",
+        "lat": 40.9771025043463,
+        "lng": 29.0904306294404,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9817728253193055,
-      "equity": 0.3901643972651745,
-      "fitness": 0.4980198812536812,
-      "norm_f1": 0.3820623306908614,
-      "norm_f2": 0.240467320669657
+      "accessibility": 1.0849840863211837,
+      "equity": 0.38608964480477376,
+      "fitness": 0.49554254252023194,
+      "norm_f1": 0.8160209999963144,
+      "norm_f2": 0.02910448577844317
     },
     "isPareto": true,
     "isBestF1": false,
@@ -608,52 +608,52 @@
     "id": 12,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2846",
-        "lat": 40.9794378634933,
-        "lng": 29.0607904145856,
-        "neighborhood": "Göztepe Mahallesi",
+        "id": "2498",
+        "lat": 40.9687409570941,
+        "lng": 29.0545155863489,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4071",
-        "lat": 40.9781747271571,
-        "lng": 29.0809562120359,
-        "neighborhood": "Sahrayıcedit Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4810",
-        "lat": 40.9608553028953,
-        "lng": 29.0922941501092,
+        "id": "4431",
+        "lat": 40.9780673212572,
+        "lng": 29.0868955029123,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
         "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.906475635389752,
-      "equity": 0.4572930473997457,
-      "fitness": 0.4810719708061528,
-      "norm_f1": 0.0630349997970577,
-      "norm_f2": 0.9531144396752311
+      "accessibility": 1.0513142932877317,
+      "equity": 0.38743348924115817,
+      "fitness": 0.4959405829873771,
+      "norm_f1": 0.6497449571983457,
+      "norm_f2": 0.04087073278026331
     },
     "isPareto": true,
     "isBestF1": false,
@@ -663,107 +663,107 @@
     "id": 13,
     "lockers": [
       {
-        "id": "1338",
-        "lat": 40.9763807868506,
-        "lng": 29.0351959389218,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4662",
-        "lat": 40.9644993152514,
-        "lng": 29.0900327084535,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4431",
+        "lat": 40.9780673212572,
+        "lng": 29.0868955029123,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.127619169957672,
-      "equity": 0.3675132895745183,
-      "fitness": 0.49276337167274514,
-      "norm_f1": 1.0,
-      "norm_f2": 0.0
+      "accessibility": 1.035336096668756,
+      "equity": 0.3932169222742941,
+      "fitness": 0.4969505081589277,
+      "norm_f1": 0.5708376915014173,
+      "norm_f2": 0.09150851476152354
     },
     "isPareto": true,
     "isBestF1": false,
-    "isBestF2": true
+    "isBestF2": false
   },
   {
     "id": 14,
     "lockers": [
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "3509",
-        "lat": 40.9657426022826,
-        "lng": 29.0710589526231,
+        "id": "2351",
+        "lat": 40.971484029718,
+        "lng": 29.0522238750713,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4732",
-        "lat": 40.9662782269977,
-        "lng": 29.0912771797305,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "2840",
+        "lat": 40.9848393201152,
+        "lng": 29.0609586251056,
+        "neighborhood": "Merdivenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4436",
+        "lat": 40.9735661764394,
+        "lng": 29.0867535947726,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9847853281800105,
-      "equity": 0.38870217183842387,
-      "fitness": 0.4984022411496787,
-      "norm_f1": 0.39482603074208256,
-      "norm_f2": 0.22494413145578857
+      "accessibility": 1.016939485944567,
+      "equity": 0.3993205002704054,
+      "fitness": 0.49537181719862766,
+      "norm_f1": 0.4799872479280437,
+      "norm_f2": 0.1449493776714745
     },
     "isPareto": true,
     "isBestF1": false,
@@ -773,52 +773,52 @@
     "id": 15,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1317",
+        "lat": 40.9951856271658,
+        "lng": 29.0363152070355,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
+        "id": "2840",
+        "lat": 40.9848393201152,
+        "lng": 29.0609586251056,
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4660",
-        "lat": 40.966299772724,
-        "lng": 29.0900895388673,
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0437284113551524,
-      "equity": 0.3689382085882261,
-      "fitness": 0.4975128593132024,
-      "norm_f1": 0.6445625018854282,
-      "norm_f2": 0.015127139126132838
+      "accessibility": 0.938208004922977,
+      "equity": 0.46686828038941125,
+      "fitness": 0.49586834372996913,
+      "norm_f1": 0.09117704363344308,
+      "norm_f2": 0.7363748758810813
     },
     "isPareto": true,
     "isBestF1": false,
@@ -828,52 +828,52 @@
     "id": 16,
     "lockers": [
       {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1317",
+        "lat": 40.9951856271658,
+        "lng": 29.0363152070355,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
+        "id": "2421",
+        "lat": 40.9732633688791,
+        "lng": 29.0534674861129,
         "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
+        "id": "2840",
+        "lat": 40.9848393201152,
+        "lng": 29.0609586251056,
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3509",
-        "lat": 40.9657426022826,
-        "lng": 29.0710589526231,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4732",
-        "lat": 40.9662782269977,
-        "lng": 29.0912771797305,
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9888076853983218,
-      "equity": 0.3876193821978272,
-      "fitness": 0.49841590387352,
-      "norm_f1": 0.411868391664978,
-      "norm_f2": 0.21344908550575994
+      "accessibility": 0.9361497797220293,
+      "equity": 0.4718329384480326,
+      "fitness": 0.49453574884509743,
+      "norm_f1": 0.08101263480382498,
+      "norm_f2": 0.7798437413358367
     },
     "isPareto": true,
     "isBestF1": false,
@@ -883,52 +883,52 @@
     "id": 17,
     "lockers": [
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
+        "id": "2351",
+        "lat": 40.971484029718,
+        "lng": 29.0522238750713,
+        "neighborhood": "Caddebostan Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2840",
+        "lat": 40.9848393201152,
+        "lng": 29.0609586251056,
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3429",
-        "lat": 40.9729658562908,
-        "lng": 29.0700964764715,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "4436",
+        "lat": 40.9735661764394,
+        "lng": 29.0867535947726,
+        "neighborhood": "19 Mayıs Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9456605977662588,
-      "equity": 0.3918511111973996,
-      "fitness": 0.498591438586963,
-      "norm_f1": 0.2290581139377955,
-      "norm_f2": 0.2583737111896082
+      "accessibility": 1.021690950478553,
+      "equity": 0.39864296374703617,
+      "fitness": 0.4960278396451893,
+      "norm_f1": 0.5034520408188442,
+      "norm_f2": 0.13901709721484268
     },
     "isPareto": true,
     "isBestF1": false,
@@ -938,107 +938,107 @@
     "id": 18,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2846",
-        "lat": 40.9794378634933,
-        "lng": 29.0607904145856,
-        "neighborhood": "Göztepe Mahallesi",
+        "id": "2406",
+        "lat": 40.9867670764903,
+        "lng": 29.0538865130539,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4071",
-        "lat": 40.9781747271571,
-        "lng": 29.0809562120359,
+        "id": "2638",
+        "lat": 40.9722995715252,
+        "lng": 29.0570028887347,
+        "neighborhood": "Caddebostan Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4735",
-        "lat": 40.9635775425909,
-        "lng": 29.091191887688,
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.8915980437469583,
-      "equity": 0.4617094889897946,
-      "fitness": 0.47950989846648406,
-      "norm_f1": 0.0,
-      "norm_f2": 1.0
+      "accessibility": 0.9199652423295,
+      "equity": 0.4855390147408433,
+      "fitness": 0.4932659264322811,
+      "norm_f1": 0.001086368863555479,
+      "norm_f2": 0.8998495059322908
     },
     "isPareto": true,
-    "isBestF1": true,
+    "isBestF1": false,
     "isBestF2": false
   },
   {
     "id": 19,
     "lockers": [
       {
-        "id": "1404",
-        "lat": 40.9816607972166,
-        "lng": 29.0370875976579,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2406",
+        "lat": 40.9867670764903,
+        "lng": 29.0538865130539,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3429",
-        "lat": 40.9729658562908,
-        "lng": 29.0700964764715,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "2638",
+        "lat": 40.9722995715252,
+        "lng": 29.0570028887347,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9359626968918642,
-      "equity": 0.39341632421256206,
-      "fitness": 0.49847130772408216,
-      "norm_f1": 0.18796899183210505,
-      "norm_f2": 0.2749902310160822
+      "accessibility": 0.9220705360030571,
+      "equity": 0.4847483026959137,
+      "fitness": 0.49362174984093876,
+      "norm_f1": 0.011483222227604076,
+      "norm_f2": 0.892926298918101
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1048,52 +1048,52 @@
     "id": 20,
     "lockers": [
       {
-        "id": "1338",
-        "lat": 40.9763807868506,
-        "lng": 29.0351959389218,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2352",
+        "lat": 40.9705837803094,
+        "lng": 29.0521959687122,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4660",
-        "lat": 40.966299772724,
-        "lng": 29.0900895388673,
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.1116272824791975,
-      "equity": 0.3679971784739236,
-      "fitness": 0.494213682898104,
-      "norm_f1": 0.9322438303078114,
-      "norm_f2": 0.005137032092685908
+      "accessibility": 0.9629601160622216,
+      "equity": 0.4327730943262732,
+      "fitness": 0.4958423512483941,
+      "norm_f1": 0.2134137050539654,
+      "norm_f2": 0.43784896772519033
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1103,52 +1103,52 @@
     "id": 21,
     "lockers": [
       {
-        "id": "1404",
-        "lat": 40.9816607972166,
-        "lng": 29.0370875976579,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2498",
+        "lat": 40.9687409570941,
+        "lng": 29.0545155863489,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3429",
-        "lat": 40.9729658562908,
-        "lng": 29.0700964764715,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4732",
-        "lat": 40.9662782269977,
-        "lng": 29.0912771797305,
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9350658644188695,
-      "equity": 0.3992102929841182,
-      "fitness": 0.4978199669069755,
-      "norm_f1": 0.18416919438433765,
-      "norm_f2": 0.33649981216184227
+      "accessibility": 0.9677404760165532,
+      "equity": 0.4324097560500613,
+      "fitness": 0.4953214741565432,
+      "norm_f1": 0.2370211960642729,
+      "norm_f2": 0.434667700766474
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1158,52 +1158,52 @@
     "id": 22,
     "lockers": [
       {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "3509",
-        "lat": 40.9657426022826,
-        "lng": 29.0710589526231,
+        "id": "2498",
+        "lat": 40.9687409570941,
+        "lng": 29.0545155863489,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4456",
+        "lat": 40.9555615578583,
+        "lng": 29.0861862833597,
+        "neighborhood": "Bostancı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4648",
+        "lat": 40.9771025043463,
+        "lng": 29.0904306294404,
+        "neighborhood": "19 Mayıs Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9930977434063729,
-      "equity": 0.38503666389957336,
-      "fitness": 0.49851345420439247,
-      "norm_f1": 0.4300449764348562,
-      "norm_f2": 0.18603058758030122
+      "accessibility": 1.1176438708659746,
+      "equity": 0.3841804106709495,
+      "fitness": 0.494617377464394,
+      "norm_f1": 0.9773091827703125,
+      "norm_f2": 0.012387877966810729
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1213,54 +1213,54 @@
     "id": 23,
     "lockers": [
       {
-        "id": "1338",
-        "lat": 40.9763807868506,
-        "lng": 29.0351959389218,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2352",
+        "lat": 40.9705837803094,
+        "lng": 29.0521959687122,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.121619904728999,
-      "equity": 0.3684886390020674,
-      "fitness": 46.493337962752406,
-      "norm_f1": 0.974581660019209,
-      "norm_f2": 0.010354445652835373
+      "accessibility": 0.9834565120373326,
+      "equity": 0.4021031607597355,
+      "fitness": 0.4949831886832169,
+      "norm_f1": 0.31463379901105204,
+      "norm_f2": 0.16931341100241143
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1268,54 +1268,54 @@
     "id": 24,
     "lockers": [
       {
-        "id": "1404",
-        "lat": 40.9816607972166,
-        "lng": 29.0370875976579,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2846",
-        "lat": 40.9794378634933,
-        "lng": 29.0607904145856,
-        "neighborhood": "Göztepe Mahallesi",
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4071",
-        "lat": 40.9781747271571,
-        "lng": 29.0809562120359,
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4735",
-        "lat": 40.9635775425909,
-        "lng": 29.091191887688,
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.8926017447081688,
-      "equity": 0.4693130630331301,
-      "fitness": 53.47728341940087,
-      "norm_f1": 0.00425258949198648,
-      "norm_f2": 1.0
+      "accessibility": 0.9487719411772606,
+      "equity": 0.4395469477613679,
+      "fitness": 0.49758894651065655,
+      "norm_f1": 0.14334634312949626,
+      "norm_f2": 0.49715853549472383
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1323,54 +1323,54 @@
     "id": 25,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1317",
+        "lat": 40.9951856271658,
+        "lng": 29.0363152070355,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2846",
-        "lat": 40.9794378634933,
-        "lng": 29.0607904145856,
-        "neighborhood": "Göztepe Mahallesi",
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4071",
-        "lat": 40.9781747271571,
-        "lng": 29.0809562120359,
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4662",
-        "lat": 40.9644993152514,
-        "lng": 29.0900327084535,
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.8954748136805486,
-      "equity": 0.46436188144184326,
-      "fitness": 53.47879280129925,
-      "norm_f1": 0.01642552086684492,
-      "norm_f2": 1.0
+      "accessibility": 0.9385130333431662,
+      "equity": 0.46438413206058543,
+      "fitness": 0.4957690731833227,
+      "norm_f1": 0.09268340628318035,
+      "norm_f2": 0.7146245139829708
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1378,54 +1378,54 @@
     "id": 26,
     "lockers": [
       {
-        "id": "1404",
-        "lat": 40.9816607972166,
-        "lng": 29.0370875976579,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2406",
+        "lat": 40.9867670764903,
+        "lng": 29.0538865130539,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3439",
-        "lat": 40.9639634587459,
-        "lng": 29.0698150262575,
+        "id": "2638",
+        "lat": 40.9722995715252,
+        "lng": 29.0570028887347,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0058403519702601,
-      "equity": 0.3852398054587628,
-      "fitness": 60.4987760891049,
-      "norm_f1": 0.4840342475160852,
-      "norm_f2": 0.1881871667252183
+      "accessibility": 0.9437047717245937,
+      "equity": 0.4546909775189479,
+      "fitness": 0.49491632394702983,
+      "norm_f1": 0.11832246240830768,
+      "norm_f2": 0.6297545338902028
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1433,54 +1433,54 @@
     "id": 27,
     "lockers": [
       {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1404",
-        "lat": 40.9816607972166,
-        "lng": 29.0370875976579,
-        "neighborhood": "Zühtüpaşa Mahallesi",
+        "id": "2406",
+        "lat": 40.9867670764903,
+        "lng": 29.0538865130539,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3429",
-        "lat": 40.9729658562908,
-        "lng": 29.0700964764715,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9404941924933266,
-      "equity": 0.39442468304884154,
-      "fitness": 63.49869105681458,
-      "norm_f1": 0.20716852567983685,
-      "norm_f2": 0.2856951091591376
+      "accessibility": 0.9262963667337107,
+      "equity": 0.47458852347316705,
+      "fitness": 0.4933081101435725,
+      "norm_f1": 0.03235220739567525,
+      "norm_f2": 0.8039707110671561
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1488,54 +1488,54 @@
     "id": 28,
     "lockers": [
       {
-        "id": "1404",
-        "lat": 40.9816607972166,
-        "lng": 29.0370875976579,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2352",
+        "lat": 40.9705837803094,
+        "lng": 29.0521959687122,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3502",
-        "lat": 40.9720442753049,
-        "lng": 29.0712560850806,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9375897622259052,
-      "equity": 0.3954903391234799,
-      "fitness": 63.49875592444939,
-      "norm_f1": 0.19486271935626065,
-      "norm_f2": 0.2970082627816133
+      "accessibility": 0.9583107335457135,
+      "equity": 0.433693273601023,
+      "fitness": 0.496319401969444,
+      "norm_f1": 0.19045303744513997,
+      "norm_f2": 0.44590574597981614
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1543,54 +1543,54 @@
     "id": 29,
     "lockers": [
       {
-        "id": "1338",
-        "lat": 40.9763807868506,
-        "lng": 29.0351959389218,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2352",
+        "lat": 40.9705837803094,
+        "lng": 29.0521959687122,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4660",
-        "lat": 40.966299772724,
-        "lng": 29.0900895388673,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4436",
+        "lat": 40.9735661764394,
+        "lng": 29.0867535947726,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.1075357557027663,
-      "equity": 0.36974048810761767,
-      "fitness": 64.49463974110327,
-      "norm_f1": 0.9149084042715065,
-      "norm_f2": 0.0236442504785197
+      "accessibility": 1.0357244454727565,
+      "equity": 0.3911053703066309,
+      "fitness": 0.4969622317484819,
+      "norm_f1": 0.5727555263479337,
+      "norm_f2": 0.0730204804801525
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1598,54 +1598,54 @@
     "id": 30,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2352",
+        "lat": 40.9705837803094,
+        "lng": 29.0521959687122,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
+        "id": "2840",
+        "lat": 40.9848393201152,
+        "lng": 29.0609586251056,
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4660",
-        "lat": 40.966299772724,
-        "lng": 29.0900895388673,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4436",
+        "lat": 40.9735661764394,
+        "lng": 29.0867535947726,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0491270455189021,
-      "equity": 0.3706325261619868,
-      "fitness": 64.4978925478798,
-      "norm_f1": 0.6674360227876629,
-      "norm_f2": 0.033114250965868855
+      "accessibility": 1.0232759469822412,
+      "equity": 0.394551975728215,
+      "fitness": 0.49691957864110914,
+      "norm_f1": 0.5112794410710543,
+      "norm_f2": 0.10319779089658701
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1653,109 +1653,109 @@
     "id": 31,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2498",
+        "lat": 40.9687409570941,
+        "lng": 29.0545155863489,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4732",
-        "lat": 40.9662782269977,
-        "lng": 29.0912771797305,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4456",
+        "lat": 40.9555615578583,
+        "lng": 29.0861862833597,
+        "neighborhood": "Bostancı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4648",
+        "lat": 40.9771025043463,
+        "lng": 29.0904306294404,
+        "neighborhood": "19 Mayıs Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0487554785153623,
-      "equity": 0.3729852600996617,
-      "fitness": 64.49856764185462,
-      "norm_f1": 0.6658617272595242,
-      "norm_f2": 0.058091202820397474
+      "accessibility": 1.122238610475046,
+      "equity": 0.38276556863323496,
+      "fitness": 0.4938793140667484,
+      "norm_f1": 1.0,
+      "norm_f2": 0.0
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
-    "isBestF2": false
+    "isBestF2": true
   },
   {
     "id": 32,
     "lockers": [
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2846",
-        "lat": 40.9794378634933,
-        "lng": 29.0607904145856,
-        "neighborhood": "Göztepe Mahallesi",
+        "id": "2352",
+        "lat": 40.9705837803094,
+        "lng": 29.0521959687122,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4071",
-        "lat": 40.9781747271571,
-        "lng": 29.0809562120359,
-        "neighborhood": "Sahrayıcedit Mahallesi",
+        "id": "2840",
+        "lat": 40.9848393201152,
+        "lng": 29.0609586251056,
+        "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4810",
-        "lat": 40.9608553028953,
-        "lng": 29.0922941501092,
+        "id": "4436",
+        "lat": 40.9735661764394,
+        "lng": 29.0867535947726,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
         "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9216968805249004,
-      "equity": 0.45841084827850587,
-      "fitness": 104.48090428663129,
-      "norm_f1": 0.12752602811949393,
-      "norm_f2": 0.9649811698161385
+      "accessibility": 1.0278860561434096,
+      "equity": 0.39382910297687695,
+      "fitness": 0.4969165045715457,
+      "norm_f1": 0.5340461598157802,
+      "norm_f2": 0.09686856177389741
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1763,54 +1763,54 @@
     "id": 33,
     "lockers": [
       {
-        "id": "1404",
-        "lat": 40.9816607972166,
-        "lng": 29.0370875976579,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2645",
-        "lat": 40.9659978421642,
-        "lng": 29.0568071104899,
+        "id": "2351",
+        "lat": 40.971484029718,
+        "lng": 29.0522238750713,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4660",
-        "lat": 40.966299772724,
-        "lng": 29.0900895388673,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.019365839547842,
-      "equity": 0.37948833172508606,
-      "fitness": 110.49887402384672,
-      "norm_f1": 0.541340505624127,
-      "norm_f2": 0.12712871883263813
+      "accessibility": 0.9747743452508244,
+      "equity": 0.40784899973341565,
+      "fitness": 0.49655614308068846,
+      "norm_f1": 0.2717574933937811,
+      "norm_f2": 0.21962203212443693
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1818,54 +1818,54 @@
     "id": 34,
     "lockers": [
       {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "3509",
-        "lat": 40.9657426022826,
-        "lng": 29.0710589526231,
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4805",
-        "lat": 40.9653564417482,
-        "lng": 29.0924363712205,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "2840",
+        "lat": 40.9848393201152,
+        "lng": 29.0609586251056,
+        "neighborhood": "Merdivenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4436",
+        "lat": 40.9735661764394,
+        "lng": 29.0867535947726,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9893934945871055,
-      "equity": 0.38651901247234766,
-      "fitness": 124.49847375131425,
-      "norm_f1": 0.4143504118052459,
-      "norm_f2": 0.20176740692095388
+      "accessibility": 1.0136468841928075,
+      "equity": 0.4005870015240776,
+      "fitness": 0.4955206514052708,
+      "norm_f1": 0.46372695226040156,
+      "norm_f2": 0.1560384339456633
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1873,54 +1873,54 @@
     "id": 35,
     "lockers": [
       {
-        "id": "1338",
-        "lat": 40.9763807868506,
-        "lng": 29.0351959389218,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "2492",
+        "lat": 40.9741424450683,
+        "lng": 29.0546832217827,
+        "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
+        "id": "2840",
+        "lat": 40.9848393201152,
+        "lng": 29.0609586251056,
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4662",
-        "lat": 40.9644993152514,
-        "lng": 29.0900327084535,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4431",
+        "lat": 40.9780673212572,
+        "lng": 29.0868955029123,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.1235276431812407,
-      "equity": 0.36927351279768955,
-      "fitness": 155.4931878755964,
-      "norm_f1": 0.9826645739636942,
-      "norm_f2": 0.018686775412361273
+      "accessibility": 0.9681568065778993,
+      "equity": 0.42353917865113383,
+      "fitness": 0.4953476510304997,
+      "norm_f1": 0.2390772169660854,
+      "norm_f2": 0.3569999276979194
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1928,54 +1928,54 @@
     "id": 36,
     "lockers": [
       {
-        "id": "1404",
-        "lat": 40.9816607972166,
-        "lng": 29.0370875976579,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
+        "neighborhood": "Caddebostan Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2840",
+        "lat": 40.9848393201152,
+        "lng": 29.0609586251056,
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3429",
-        "lat": 40.9729658562908,
-        "lng": 29.0700964764715,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "4436",
+        "lat": 40.9735661764394,
+        "lng": 29.0867535947726,
+        "neighborhood": "19 Mayıs Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4662",
-        "lat": 40.9644993152514,
-        "lng": 29.0900327084535,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9465742283232648,
-      "equity": 0.3933614705858108,
-      "fitness": 169.49891093510354,
-      "norm_f1": 0.23292908333648538,
-      "norm_f2": 0.27440789725854436
+      "accessibility": 1.0090624330086393,
+      "equity": 0.4013078045760312,
+      "fitness": 0.4955074720836888,
+      "norm_f1": 0.4410869437356508,
+      "norm_f2": 0.16234954148112346
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -1983,54 +1983,54 @@
     "id": 37,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0537210336049527,
-      "equity": 0.37164888885557784,
-      "fitness": 176.49793999787687,
-      "norm_f1": 0.686900331596821,
-      "norm_f2": 0.04390409917524615
+      "accessibility": 0.9741813901583836,
+      "equity": 0.40880054295501284,
+      "fitness": 0.49688298209905724,
+      "norm_f1": 0.26882922394377257,
+      "norm_f2": 0.22795342248115338
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -2038,54 +2038,54 @@
     "id": 38,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2498",
+        "lat": 40.9687409570941,
+        "lng": 29.0545155863489,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2770",
+        "lat": 40.9830600751238,
+        "lng": 29.0597145854992,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4662",
-        "lat": 40.9644993152514,
-        "lng": 29.0900327084535,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4456",
+        "lat": 40.9555615578583,
+        "lng": 29.0861862833597,
+        "neighborhood": "Bostancı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4648",
+        "lat": 40.9771025043463,
+        "lng": 29.0904306294404,
+        "neighborhood": "19 Mayıs Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0597202988336278,
-      "equity": 0.37073135532763923,
-      "fitness": 176.49799125722012,
-      "norm_f1": 0.7123186715776205,
-      "norm_f2": 0.03416343518206803
+      "accessibility": 1.1211882493367182,
+      "equity": 0.3828860698348973,
+      "fitness": 0.49403663030632833,
+      "norm_f1": 0.9948128610883834,
+      "norm_f2": 0.0010550677328322493
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -2093,54 +2093,54 @@
     "id": 39,
     "lockers": [
       {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1404",
-        "lat": 40.9816607972166,
-        "lng": 29.0370875976579,
-        "neighborhood": "Zühtüpaşa Mahallesi",
+        "id": "2352",
+        "lat": 40.9705837803094,
+        "lng": 29.0521959687122,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3429",
-        "lat": 40.9729658562908,
-        "lng": 29.0700964764715,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "4431",
+        "lat": 40.9780673212572,
+        "lng": 29.0868955029123,
+        "neighborhood": "19 Mayıs Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4732",
-        "lat": 40.9662782269977,
-        "lng": 29.0912771797305,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9395973600203319,
-      "equity": 0.4001709384872414,
-      "fitness": 177.49776028594172,
-      "norm_f1": 0.20336872823206945,
-      "norm_f2": 0.3466981589007384
+      "accessibility": 1.050422905436357,
+      "equity": 0.389124128664983,
+      "fitness": 0.49604969784595315,
+      "norm_f1": 0.6453428973348495,
+      "norm_f2": 0.055673399304119686
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -2148,54 +2148,54 @@
     "id": 40,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2498",
+        "lat": 40.9687409570941,
+        "lng": 29.0545155863489,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3429",
-        "lat": 40.9729658562908,
-        "lng": 29.0700964764715,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4732",
-        "lat": 40.9662782269977,
-        "lng": 29.0912771797305,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4431",
+        "lat": 40.9780673212572,
+        "lng": 29.0868955029123,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9418598491636736,
-      "equity": 0.39839119427603753,
-      "fitness": 182.49829284217404,
-      "norm_f1": 0.21295468852158103,
-      "norm_f2": 0.32780414595486973
+      "accessibility": 1.055909032896803,
+      "equity": 0.3862232502226632,
+      "fitness": 0.4961732737790384,
+      "norm_f1": 0.6724357744280332,
+      "norm_f2": 0.030274289592862286
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -2203,54 +2203,54 @@
     "id": 41,
     "lockers": [
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2352",
+        "lat": 40.9705837803094,
+        "lng": 29.0521959687122,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3429",
-        "lat": 40.9729658562908,
-        "lng": 29.0700964764715,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4662",
-        "lat": 40.9644993152514,
-        "lng": 29.0900327084535,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4436",
+        "lat": 40.9735661764394,
+        "lng": 29.0867535947726,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9562721291976595,
-      "equity": 0.39147912083468195,
-      "fitness": 220.49869232924755,
-      "norm_f1": 0.27401820544217625,
-      "norm_f2": 0.25442460958012914
+      "accessibility": 1.0403738279892645,
+      "equity": 0.3900511065970606,
+      "fitness": 0.49705951328015074,
+      "norm_f1": 0.595716193956758,
+      "norm_f2": 0.06378970430100343
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -2258,52 +2258,52 @@
     "id": 42,
     "lockers": [
       {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1404",
-        "lat": 40.9816607972166,
-        "lng": 29.0370875976579,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2351",
+        "lat": 40.971484029718,
+        "lng": 29.0522238750713,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2406",
+        "lat": 40.9867670764903,
+        "lng": 29.0538865130539,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4660",
-        "lat": 40.966299772724,
-        "lng": 29.0900895388673,
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0443306593629988,
-      "equity": 0.3738716552397633,
-      "fitness": 229.49837960784075,
-      "norm_f1": 0.6471141718037761,
-      "norm_f2": 0.06750129734229843
+      "accessibility": 0.9352438424998323,
+      "equity": 0.4753427354202261,
+      "fitness": 62.493379650410546,
+      "norm_f1": 0.07653872383619173,
+      "norm_f2": 0.8105743355794519
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2313,52 +2313,52 @@
     "id": 43,
     "lockers": [
       {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1317",
+        "lat": 40.9951856271658,
+        "lng": 29.0363152070355,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4660",
-        "lat": 40.966299772724,
-        "lng": 29.0900895388673,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0604874995367084,
-      "equity": 0.37194294483773715,
-      "fitness": 283.4980468888967,
-      "norm_f1": 0.7155692310313349,
-      "norm_f2": 0.047025838523379826
+      "accessibility": 0.9592850654568401,
+      "equity": 0.43537790277734945,
+      "fitness": 63.4964384322256,
+      "norm_f1": 0.19526471105397253,
+      "norm_f2": 0.46065578881100866
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2368,52 +2368,52 @@
     "id": 44,
     "lockers": [
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2494",
+        "lat": 40.9723419497039,
+        "lng": 29.0546273382446,
+        "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3429",
-        "lat": 40.9729658562908,
-        "lng": 29.0700964764715,
-        "neighborhood": "Erenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4732",
-        "lat": 40.9662782269977,
-        "lng": 29.0912771797305,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4436",
+        "lat": 40.9735661764394,
+        "lng": 29.0867535947726,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 0.9447637652932641,
-      "equity": 0.39735270622516344,
-      "fitness": 296.4986784368401,
-      "norm_f1": 0.2252583164900281,
-      "norm_f2": 0.31677941186452946
+      "accessibility": 1.0234600683100146,
+      "equity": 0.3972193378096149,
+      "fitness": 67.49654364964421,
+      "norm_f1": 0.5121887120531016,
+      "norm_f2": 0.12655231039549608
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2423,52 +2423,52 @@
     "id": 45,
     "lockers": [
       {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "2502",
-        "lat": 40.9654384073479,
-        "lng": 29.0548710433656,
+        "id": "2498",
+        "lat": 40.9687409570941,
+        "lng": 29.0545155863489,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4662",
-        "lat": 40.9644993152514,
-        "lng": 29.0900327084535,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4648",
+        "lat": 40.9771025043463,
+        "lng": 29.0904306294404,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0764793870151839,
-      "equity": 0.3728694331389088,
-      "fitness": 335.49662350527205,
-      "norm_f1": 0.7833254007235272,
-      "norm_f2": 0.056861567639021754
+      "accessibility": 1.08143970785044,
+      "equity": 0.38649017212952447,
+      "fitness": 69.49607431564827,
+      "norm_f1": 0.7985173216782435,
+      "norm_f2": 0.032611367457898964
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2478,52 +2478,52 @@
     "id": 46,
     "lockers": [
       {
-        "id": "1407",
-        "lat": 40.9793650333627,
-        "lng": 29.0375775063124,
-        "neighborhood": "Fenerbahçe Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "3509",
-        "lat": 40.9657426022826,
-        "lng": 29.0710589526231,
+        "id": "2498",
+        "lat": 40.9687409570941,
+        "lng": 29.0545155863489,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4662",
-        "lat": 40.9644993152514,
-        "lng": 29.0900327084535,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4436",
+        "lat": 40.9735661764394,
+        "lng": 29.0867535947726,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0058273439260592,
-      "equity": 0.38701278378118087,
-      "fitness": 361.4984259128979,
-      "norm_f1": 0.48397913361840267,
-      "norm_f2": 0.20700935205141882
+      "accessibility": 1.0447657713912208,
+      "equity": 0.3907741363064533,
+      "fitness": 72.49658461292937,
+      "norm_f1": 0.6174055155496886,
+      "norm_f2": 0.07012030769529033
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2533,52 +2533,52 @@
     "id": 47,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2645",
-        "lat": 40.9659978421642,
-        "lng": 29.0568071104899,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "2406",
+        "lat": 40.9867670764903,
+        "lng": 29.0538865130539,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2709",
+        "lat": 40.9731786098495,
+        "lng": 29.0582186515916,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4662",
-        "lat": 40.9644993152514,
-        "lng": 29.0900327084535,
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.039199232210907,
-      "equity": 0.3764205467316862,
-      "fitness": 372.4985676418546,
-      "norm_f1": 0.6253727826557949,
-      "norm_f2": 0.09456068517052456
+      "accessibility": 0.9218505535318701,
+      "equity": 0.4962219215879905,
+      "fitness": 122.49005839243216,
+      "norm_f1": 0.010396853364048598,
+      "norm_f2": 0.9933854221869703
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2588,52 +2588,52 @@
     "id": 48,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1101",
+        "lat": 40.9952485653411,
+        "lng": 29.0327506013033,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2645",
-        "lat": 40.9659978421642,
-        "lng": 29.0568071104899,
+        "id": "2352",
+        "lat": 40.9705837803094,
+        "lng": 29.0521959687122,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4732",
-        "lat": 40.9662782269977,
-        "lng": 29.0912771797305,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "4431",
+        "lat": 40.9780673212572,
+        "lng": 29.0868955029123,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4671",
+        "lat": 40.9563972488396,
+        "lng": 29.0897770352628,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0268485884712377,
-      "equity": 0.3786217883822276,
-      "fitness": 372.4989083935366,
-      "norm_f1": 0.5730442308097925,
-      "norm_f2": 0.11792937376099472
+      "accessibility": 1.0550722879528651,
+      "equity": 0.38804035128433007,
+      "fitness": 138.49607431564826,
+      "norm_f1": 0.6683035649436749,
+      "norm_f2": 0.046184211411168775
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2643,52 +2643,52 @@
     "id": 49,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1385",
-        "lat": 40.9987656376375,
-        "lng": 29.037614336489,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2645",
-        "lat": 40.9659978421642,
-        "lng": 29.0568071104899,
+        "id": "2498",
+        "lat": 40.9687409570941,
+        "lng": 29.0545155863489,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4660",
-        "lat": 40.966299772724,
-        "lng": 29.0900895388673,
-        "neighborhood": "Kozyatağı Mahallesi",
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4667",
+        "lat": 40.9599981688176,
+        "lng": 29.0898906549307,
+        "neighborhood": "Suadiye Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0287266377970083,
-      "equity": 0.37729506395996476,
-      "fitness": 372.4989901226969,
-      "norm_f1": 0.5810013546313861,
-      "norm_f2": 0.10384468212270687
+      "accessibility": 0.9851443650926162,
+      "equity": 0.4043341915491422,
+      "fitness": 207.49533714024298,
+      "norm_f1": 0.3229691495306757,
+      "norm_f2": 0.1888475614041143
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2698,52 +2698,52 @@
     "id": 50,
     "lockers": [
       {
-        "id": "1332",
-        "lat": 40.9816817911548,
-        "lng": 29.0358996403327,
-        "neighborhood": "Zühtüpaşa Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1457",
-        "lat": 40.9987446188803,
-        "lng": 29.0388025992159,
+        "id": "1172",
+        "lat": 40.996127853993,
+        "lng": 29.033966486664,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2645",
-        "lat": 40.9659978421642,
-        "lng": 29.0568071104899,
+        "id": "2351",
+        "lat": 40.971484029718,
+        "lng": 29.0522238750713,
         "neighborhood": "Caddebostan Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3414",
-        "lat": 40.9864694231716,
-        "lng": 29.0705188908088,
-        "neighborhood": "Merdivenköy Mahallesi",
+        "id": "2697",
+        "lat": 40.9839815466869,
+        "lng": 29.0585546245992,
+        "neighborhood": "Feneryolu Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4733",
-        "lat": 40.9653779990194,
-        "lng": 29.0912487477625,
+        "id": "3998",
+        "lat": 40.9790964042013,
+        "lng": 29.079796638725,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4804",
+        "lat": 40.9662566690468,
+        "lng": 29.0924648193064,
         "neighborhood": "Kozyatağı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
-      "accessibility": 1.0318293624005135,
-      "equity": 0.3768298672499178,
-      "fitness": 372.4990926059274,
-      "norm_f1": 0.5941473159837402,
-      "norm_f2": 0.09890608892112678
+      "accessibility": 0.9544900743648654,
+      "equity": 0.43884168578544386,
+      "fitness": 252.49777824464562,
+      "norm_f1": 0.1715849651394988,
+      "norm_f2": 0.49098350036041905
     },
     "isPareto": false,
     "isBestF1": false,
