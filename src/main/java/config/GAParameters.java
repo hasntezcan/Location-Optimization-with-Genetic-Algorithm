@@ -47,12 +47,10 @@ public class GAParameters {
      */
     public static final double MUTATION_RATE = 0.1;
 
-    public static final double ASSESSMENT_IDEAL_F1 = 0.93;
-    public static final double ASSESSMENT_IDEAL_F2 = 0.40;
-
-    public static final double ASSESSMENT_NADIR_F1 = 1.27;
-    public static final double ASSESSMENT_NADIR_F2 = 0.58;
-
+    /**
+     * HV-space reference point coordinates in normalized space.
+     * Used by HypervolumeIndicator and plot_archives.py.
+     */
     public static final double REFERENCE_POINT_F1 = 1.1;
     public static final double REFERENCE_POINT_F2 = 1.1;
 

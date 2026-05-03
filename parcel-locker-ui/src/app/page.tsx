@@ -58,16 +58,17 @@ interface ChartPoint {
 }
 
 export default function HomePage() {
-  const [inputLockerCount, setInputLockerCount] = useState(8);
+  const [inputLockerCount, setInputLockerCount] = useState(5);
   const [populationSize, setPopulationSize] = useState(100);
-  const [maxGenerations, setMaxGenerations] = useState(30);
-  const [mutationRate, setMutationRate] = useState(0.1);
+  const [maxGenerations, setMaxGenerations] = useState(200);
 
+  const [mutationRate, setMutationRate] = useState(0.1);
   const [crossoverRate, setCrossoverRate] = useState(0.9);
-  const [archiveSize, setArchiveSize] = useState(100);
+
+  const [archiveSize, setArchiveSize] = useState(50);
   const [randomSeed, setRandomSeed] = useState("");
 
-  const [, setActiveLockerCount] = useState(8);
+  const [, setActiveLockerCount] = useState(5);
 
   const [candidates, setCandidates] = useState<CandidatePoint[]>([]);
   const [boundary, setBoundary] = useState<GeoJSON.FeatureCollection | null>(null);

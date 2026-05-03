@@ -1,16 +1,30 @@
 from pathlib import Path
+import math
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
+# ---------------------------------------------------------------------------
+# Assessment methodology:
+#   - Initial-to-final improvement is evaluated with ND-only raw-objective
+#     improvement metrics and the dominance-based C-metric.
+#   - Hypervolume is kept only as a final-archive/front quality visualization.
+#   - The official HV-space normalization is based ONLY on the final archive
+#     non-dominated set (ideal = min, nadir = max of final ND raw objectives).
+# ---------------------------------------------------------------------------
+
 OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
 INITIAL_CSV = OUTPUT_DIR / "initial_archive.csv"
 FINAL_CSV = OUTPUT_DIR / "final_archive.csv"
-PLOT_PATH = OUTPUT_DIR / "archive_comparison_hv.png"
+PLOT_PATH = OUTPUT_DIR / "archive_comparison_latest.png"
 
 REFERENCE_F1 = 1.1
 REFERENCE_F2 = 1.1
 
+
+# ---------------------------------------------------------------------------
+# Core helpers
+# ---------------------------------------------------------------------------
 
 def load_archive(csv_path: Path) -> pd.DataFrame:
     if not csv_path.exists():
@@ -86,6 +100,10 @@ def compute_hypervolume_2d(front: pd.DataFrame, x_col: str, y_col: str,
     return hv
 
 
+# ---------------------------------------------------------------------------
+# Plot: Raw objective space
+# ---------------------------------------------------------------------------
+
 def plot_raw_space(ax, df: pd.DataFrame, title: str):
     ax.scatter(df["f1"], df["f2"], alpha=0.75, s=35, label="Archive individuals")
 
@@ -101,6 +119,16 @@ def plot_raw_space(ax, df: pd.DataFrame, title: str):
 
     return front
 
+
+# ---------------------------------------------------------------------------
+# Plot: HV space — axis scaling based on final ND points, not full archive.
+#
+# Because normalization bounds come from the final ND set only, some
+# dominated archive individuals may fall outside [0, 1].  We set axis
+# limits primarily from the ND front and reference point so that the
+# HV-space plot stays visually tight and meaningful, rather than being
+# stretched by a few extreme dominated outliers.
+# ---------------------------------------------------------------------------
 
 def plot_hv_space(ax, df: pd.DataFrame, title: str, ref_x: float, ref_y: float):
     ax.scatter(df["norm_f1"], df["norm_f2"], alpha=0.75, s=35, label="Archive individuals")
@@ -142,11 +170,19 @@ def plot_hv_space(ax, df: pd.DataFrame, title: str, ref_x: float, ref_y: float):
     ax.grid(True, alpha=0.3)
     ax.legend()
 
-    # Keep the HV space visible
-    x_max = max(ref_x + 0.03, df["norm_f1"].max() + 0.05)
-    y_max = max(ref_y + 0.03, df["norm_f2"].max() + 0.05)
-    ax.set_xlim(left=min(-0.02, df["norm_f1"].min() - 0.02), right=x_max)
-    ax.set_ylim(bottom=min(-0.02, df["norm_f2"].min() - 0.02), top=y_max)
+    # Robust axis limits based on final ND front + reference point.
+    # Dominated outliers outside this range are visually clipped — acceptable.
+    margin = 0.05
+    nd_x_vals = front["norm_f1"]
+    nd_y_vals = front["norm_f2"]
+
+    x_lo = min(0, nd_x_vals.min() if len(nd_x_vals) else 0) - margin
+    x_hi = max(ref_x, nd_x_vals.max() if len(nd_x_vals) else ref_x) + margin
+    y_lo = min(0, nd_y_vals.min() if len(nd_y_vals) else 0) - margin
+    y_hi = max(ref_y, nd_y_vals.max() if len(nd_y_vals) else ref_y) + margin
+
+    ax.set_xlim(left=x_lo, right=x_hi)
+    ax.set_ylim(bottom=y_lo, top=y_hi)
 
     text = (
         f"ND count: {len(front)}\n"
@@ -165,6 +201,154 @@ def plot_hv_space(ax, df: pd.DataFrame, title: str, ref_x: float, ref_y: float):
 
     return front, hv, hv_ratio
 
+
+# ---------------------------------------------------------------------------
+# Improvement metrics (ND-based, raw objectives + C-metric)
+#
+# These are the official initial-to-final improvement assessment metrics.
+# Hypervolume is NOT used for initial-to-final comparison.
+# ---------------------------------------------------------------------------
+
+def dominates(a, b, x_col="f1", y_col="f2"):
+    """Return True if solution *a* dominates solution *b* (minimization)."""
+    leq_f1 = a[x_col] <= b[x_col]
+    leq_f2 = a[y_col] <= b[y_col]
+    strict = a[x_col] < b[x_col] or a[y_col] < b[y_col]
+    return leq_f1 and leq_f2 and strict
+
+
+def coverage_metric(set_a: pd.DataFrame, set_b: pd.DataFrame,
+                    x_col="f1", y_col="f2") -> float:
+    """C-metric: fraction of solutions in *set_b* dominated by at least one
+    solution in *set_a*.  Returns NaN when *set_b* is empty."""
+    if len(set_b) == 0:
+        return float("nan")
+    if len(set_a) == 0:
+        return 0.0
+
+    dominated_count = 0
+    for _, b_row in set_b.iterrows():
+        for _, a_row in set_a.iterrows():
+            if dominates(a_row, b_row, x_col, y_col):
+                dominated_count += 1
+                break
+    return dominated_count / len(set_b)
+
+
+def safe_improvement_percent(initial_value: float, final_value: float) -> float:
+    """Percentage improvement (positive = better for minimization).
+    Returns NaN when the denominator is zero."""
+    if initial_value == 0:
+        return float("nan")
+    return (initial_value - final_value) / initial_value * 100
+
+
+def compute_improvement_metrics(initial_df: pd.DataFrame,
+                                final_df: pd.DataFrame) -> dict:
+    """Compute all initial-to-final improvement metrics using raw objective
+    non-dominated sets.  Handles empty fronts gracefully."""
+    initial_nd = prepare_front(initial_df, "f1", "f2")
+    final_nd = prepare_front(final_df, "f1", "f2")
+
+    metrics = {}
+
+    # ND count metrics
+    metrics["initial_nd_count"] = len(initial_nd)
+    metrics["final_nd_count"] = len(final_nd)
+    metrics["nd_count_change"] = len(final_nd) - len(initial_nd)
+
+    # Best objective improvements
+    if len(initial_nd) > 0 and len(final_nd) > 0:
+        metrics["best_f1_improvement"] = safe_improvement_percent(
+            initial_nd["f1"].min(), final_nd["f1"].min())
+        metrics["best_f2_improvement"] = safe_improvement_percent(
+            initial_nd["f2"].min(), final_nd["f2"].min())
+        metrics["mean_nd_f1_improvement"] = safe_improvement_percent(
+            initial_nd["f1"].mean(), final_nd["f1"].mean())
+        metrics["mean_nd_f2_improvement"] = safe_improvement_percent(
+            initial_nd["f2"].mean(), final_nd["f2"].mean())
+    else:
+        metrics["best_f1_improvement"] = float("nan")
+        metrics["best_f2_improvement"] = float("nan")
+        metrics["mean_nd_f1_improvement"] = float("nan")
+        metrics["mean_nd_f2_improvement"] = float("nan")
+
+    # C-metric (set coverage)
+    metrics["c_final_initial"] = coverage_metric(final_nd, initial_nd)
+    metrics["c_initial_final"] = coverage_metric(initial_nd, final_nd)
+
+    return metrics
+
+
+# ---------------------------------------------------------------------------
+# Formatters
+# ---------------------------------------------------------------------------
+
+def format_percent(value) -> str:
+    """Format a percentage value with two decimal places, or 'N/A'."""
+    if value is None or (isinstance(value, float) and math.isnan(value)):
+        return "N/A"
+    return f"{value:.2f}%"
+
+
+def format_number(value) -> str:
+    """Format a numeric value, or 'N/A' if not computable."""
+    if value is None or (isinstance(value, float) and math.isnan(value)):
+        return "N/A"
+    if isinstance(value, int):
+        return str(value)
+    return f"{value}"
+
+
+def _format_coverage_percent(raw_fraction) -> str:
+    """Convert a [0,1] coverage fraction to a display percentage string."""
+    if raw_fraction is None or (isinstance(raw_fraction, float) and math.isnan(raw_fraction)):
+        return "N/A"
+    return format_percent(raw_fraction * 100)
+
+
+# ---------------------------------------------------------------------------
+# Plot: Improvement metrics panel
+# ---------------------------------------------------------------------------
+
+def plot_metrics_panel(ax, metrics: dict):
+    """Render the improvement metrics as a clean table on the given axes."""
+    ax.axis("off")
+    ax.set_title("Initial \u2192 Final Improvement Metrics")
+
+    rows = [
+        ("Initial ND count",        format_number(metrics.get("initial_nd_count"))),
+        ("Final ND count",          format_number(metrics.get("final_nd_count"))),
+        ("ND count change",         format_number(metrics.get("nd_count_change"))),
+        ("Best f1 improvement",     format_percent(metrics.get("best_f1_improvement"))),
+        ("Best f2 improvement",     format_percent(metrics.get("best_f2_improvement"))),
+        ("Mean ND f1 improvement",  format_percent(metrics.get("mean_nd_f1_improvement"))),
+        ("Mean ND f2 improvement",  format_percent(metrics.get("mean_nd_f2_improvement"))),
+        ("C(Final, Initial)",       _format_coverage_percent(metrics.get("c_final_initial"))),
+        ("C(Initial, Final)",       _format_coverage_percent(metrics.get("c_initial_final"))),
+    ]
+
+    table = ax.table(
+        cellText=[[label, value] for label, value in rows],
+        colLabels=["Metric", "Value"],
+        cellLoc="left",
+        colWidths=[0.55, 0.35],
+        loc="center",
+    )
+    table.auto_set_font_size(False)
+    table.set_fontsize(10)
+    table.scale(1, 1.5)
+
+    # Style header row
+    for col_idx in range(2):
+        cell = table[0, col_idx]
+        cell.set_text_props(weight="bold")
+        cell.set_facecolor("#d5d5d5")
+
+
+# ---------------------------------------------------------------------------
+# Archive statistics
+# ---------------------------------------------------------------------------
 
 def archive_stats(df: pd.DataFrame, label: str) -> dict:
     pearson = df[["f1", "f2"]].corr(method="pearson").iloc[0, 1]
@@ -198,6 +382,25 @@ def print_stats(stats: dict):
     print(f"Best f2                 : {stats['best_f2']:.6f}")
 
 
+def print_improvement_metrics(metrics: dict):
+    """Print improvement metrics block to console."""
+    print("============== INITIAL TO FINAL IMPROVEMENT ==============")
+    print(f"Initial ND count             : {format_number(metrics.get('initial_nd_count'))}")
+    print(f"Final ND count               : {format_number(metrics.get('final_nd_count'))}")
+    print(f"ND count change              : {format_number(metrics.get('nd_count_change'))}")
+    print(f"Best f1 improvement (%)      : {format_percent(metrics.get('best_f1_improvement'))}")
+    print(f"Best f2 improvement (%)      : {format_percent(metrics.get('best_f2_improvement'))}")
+    print(f"Mean ND f1 improvement (%)   : {format_percent(metrics.get('mean_nd_f1_improvement'))}")
+    print(f"Mean ND f2 improvement (%)   : {format_percent(metrics.get('mean_nd_f2_improvement'))}")
+    print(f"C(Final, Initial)            : {_format_coverage_percent(metrics.get('c_final_initial'))}")
+    print(f"C(Initial, Final)            : {_format_coverage_percent(metrics.get('c_initial_final'))}")
+    print("==========================================================")
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
 def main():
     initial_df = load_archive(INITIAL_CSV)
     final_df = load_archive(FINAL_CSV)
@@ -208,6 +411,17 @@ def main():
     print_stats(initial_stats)
     print_stats(final_stats)
 
+    # Compute improvement metrics (ND-based, raw objectives + C-metric)
+    metrics = compute_improvement_metrics(initial_df, final_df)
+    print_improvement_metrics(metrics)
+
+    # -----------------------------------------------------------------------
+    # 2x2 figure layout:
+    #   [0,0] Initial Archive - Raw Objective Space
+    #   [0,1] Final Archive   - Raw Objective Space
+    #   [1,0] Initial → Final Improvement Metrics
+    #   [1,1] Final Archive   - Hypervolume Space
+    # -----------------------------------------------------------------------
     fig, axes = plt.subplots(2, 2, figsize=(16, 11))
 
     initial_front_raw = plot_raw_space(
@@ -222,19 +436,12 @@ def main():
         "Final Archive - Raw Objective Space"
     )
 
-    # Hypervolume space normalization
-    # Instead of fixed reference point, use normalized bounds [0, 1.1]
-    # The reference point in normalized space is usually (1.1, 1.1)
-    ref_x = 1.1
-    ref_y = 1.1
+    # Bottom-left: improvement metrics panel
+    plot_metrics_panel(axes[1, 0], metrics)
 
-    initial_front_hv, initial_hv, initial_hv_ratio = plot_hv_space(
-        axes[1, 0],
-        initial_df,
-        "Initial Archive - Hypervolume Space",
-        ref_x,
-        ref_y
-    )
+    # Bottom-right: final archive HV space (normalization from final ND only)
+    ref_x = REFERENCE_F1
+    ref_y = REFERENCE_F2
 
     final_front_hv, final_hv, final_hv_ratio = plot_hv_space(
         axes[1, 1],
@@ -244,22 +451,34 @@ def main():
         ref_y
     )
 
+    # Bottom summary text
+    c_fi_str = _format_coverage_percent(metrics.get("c_final_initial"))
+    c_if_str = _format_coverage_percent(metrics.get("c_initial_final"))
+
     summary = (
         f"Initial Pearson: {initial_stats['pearson']:.4f} | "
         f"Initial Spearman: {initial_stats['spearman']:.4f} | "
-        f"Initial ND(raw): {len(initial_front_raw)} | Initial HV ratio: {initial_hv_ratio:.4f}\n"
         f"Final Pearson: {final_stats['pearson']:.4f} | "
-        f"Final Spearman: {final_stats['spearman']:.4f} | "
-        f"Final ND(raw): {len(final_front_raw)} | Final HV ratio: {final_hv_ratio:.4f}"
+        f"Final Spearman: {final_stats['spearman']:.4f}\n"
+        f"Initial ND(raw): {len(initial_front_raw)} | "
+        f"Final ND(raw): {len(final_front_raw)} | "
+        f"Best f1 impr: {format_percent(metrics.get('best_f1_improvement'))} | "
+        f"Best f2 impr: {format_percent(metrics.get('best_f2_improvement'))} | "
+        f"Mean ND f1 impr: {format_percent(metrics.get('mean_nd_f1_improvement'))} | "
+        f"Mean ND f2 impr: {format_percent(metrics.get('mean_nd_f2_improvement'))}\n"
+        f"C(Final,Initial): {c_fi_str} | "
+        f"C(Initial,Final): {c_if_str} | "
+        f"Final HV ratio: {final_hv_ratio:.4f} | "
+        f"(HV bounds: final ND only)"
     )
 
     fig.suptitle("Initial vs Final Archive Analysis", fontsize=16)
-    fig.text(0.5, 0.01, summary, ha="center", va="bottom")
+    fig.text(0.5, 0.01, summary, ha="center", va="bottom", fontsize=8)
 
-    plt.tight_layout(rect=[0, 0.04, 1, 0.96])
+    plt.tight_layout(rect=[0, 0.05, 1, 0.96])
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Also save as latest for easy access
+    # Save as latest for easy access
     latest_path = OUTPUT_DIR / "archive_comparison_latest.png"
     plt.savefig(latest_path, dpi=300, bbox_inches='tight')
     # plt.show() # Commented out to avoid blocking in non-interactive environments
