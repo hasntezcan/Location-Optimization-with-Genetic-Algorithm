@@ -23,8 +23,30 @@ public class FitnessCalculator {
     private final double beta;
 
     /**
-     * Creates a fitness calculator with the given distance matrix,
-     * candidate repository, and distance-decay exponent.
+     * Lambda parameter controlling the influence of POI score on demand.
+     * <p>
+     * When {@code useDynamicDemand} is {@code true}, each grid point's demand
+     * is computed as {@code population × (1 + lambda × poiScore)} instead of
+     * reading the pre-computed {@code demandScore} from the CSV.
+     * </p>
+     */
+    private final double lambda;
+
+    /**
+     * Whether to compute demand dynamically using the lambda formula.
+     * <p>
+     * {@code false}: use pre-computed {@code getDemandScore()} from CSV (default, used by Main).
+     * {@code true}: compute {@code population × (1 + lambda × poiScore)} (used by ParameterAnalyzer).
+     * </p>
+     */
+    private final boolean useDynamicDemand;
+
+    /**
+     * Creates a fitness calculator that reads demand from the pre-computed
+     * {@code demandScore} column in the CSV.
+     *
+     * <p>This constructor is used by {@link app.Main} and preserves full
+     * backward compatibility.</p>
      *
      * @param distanceMatrix precomputed candidate-to-candidate distance matrix
      * @param repository candidate repository synchronized with the matrix indexing
@@ -34,6 +56,34 @@ public class FitnessCalculator {
      * @throws IllegalStateException if the total system demand is not positive
      */
     public FitnessCalculator(double[][] distanceMatrix, CandidateRepository repository, double beta) {
+        this(distanceMatrix, repository, beta, 0.0, false);
+    }
+
+    /**
+     * Creates a fitness calculator that computes demand dynamically using the
+     * lambda formula: {@code demand = population × (1 + lambda × poiScore)}.
+     *
+     * <p>This constructor is used by {@link app.ParameterAnalyzer} to test
+     * different lambda values without re-running the Python preprocessing.</p>
+     *
+     * @param distanceMatrix precomputed candidate-to-candidate distance matrix
+     * @param repository candidate repository synchronized with the matrix indexing
+     * @param beta distance-decay exponent
+     * @param lambda POI influence weight (e.g. 0.4, 0.5, 0.6)
+     * @throws IllegalArgumentException if the matrix or repository is invalid,
+     *                                  or if {@code beta <= 0} or {@code lambda < 0}
+     * @throws IllegalStateException if the total system demand is not positive
+     */
+    public FitnessCalculator(double[][] distanceMatrix, CandidateRepository repository,
+                             double beta, double lambda) {
+        this(distanceMatrix, repository, beta, lambda, true);
+    }
+
+    /**
+     * Internal master constructor.
+     */
+    private FitnessCalculator(double[][] distanceMatrix, CandidateRepository repository,
+                              double beta, double lambda, boolean useDynamicDemand) {
         if (distanceMatrix == null || distanceMatrix.length == 0) {
             throw new IllegalArgumentException("Distance matrix cannot be null or empty.");
         }
@@ -43,10 +93,15 @@ public class FitnessCalculator {
         if (beta <= 0) {
             throw new IllegalArgumentException("Beta must be greater than 0.");
         }
+        if (lambda < 0) {
+            throw new IllegalArgumentException("Lambda must be non-negative.");
+        }
 
         this.distanceMatrix = distanceMatrix;
         this.repository = repository;
         this.beta = beta;
+        this.lambda = lambda;
+        this.useDynamicDemand = useDynamicDemand;
         this.totalSystemDemand = calculateTotalDemand();
 
         if (this.totalSystemDemand <= 0) {
@@ -61,8 +116,22 @@ public class FitnessCalculator {
      */
     private double calculateTotalDemand() {
         return repository.getAllCandidatesSorted().stream()
-                .mapToDouble(CandidatePoint::getDemandScore)
+                .mapToDouble(this::getDemand)
                 .sum();
+    }
+
+    /**
+     * Returns the demand for a single grid point, using either the pre-computed
+     * CSV value or the dynamic lambda formula depending on the constructor used.
+     *
+     * @param grid candidate grid point
+     * @return demand value
+     */
+    private double getDemand(CandidatePoint grid) {
+        if (useDynamicDemand) {
+            return grid.getPopulation() * (1.0 + lambda * grid.getPoiScore());
+        }
+        return grid.getDemandScore();
     }
 
     /**
@@ -135,7 +204,7 @@ public class FitnessCalculator {
 
         for (CandidatePoint grid : allGrids) {
             double distanceCost = findDistanceCostToNearestLocker(grid, lockerIds);
-            weightedDistanceSum += grid.getDemandScore() * distanceCost;
+            weightedDistanceSum += getDemand(grid) * distanceCost;
         }
 
         double f1Score = weightedDistanceSum / totalSystemDemand;
@@ -168,7 +237,7 @@ public class FitnessCalculator {
                 throw new IllegalStateException("Mahalle name is null or blank for grid ID: " + grid.getId());
             }
 
-            double demand = grid.getDemandScore();
+            double demand = getDemand(grid);
             double distanceCost = findDistanceCostToNearestLocker(grid, lockerIds);
 
             mahalleWeightedCostSum.merge(mahalle, demand * distanceCost, Double::sum);

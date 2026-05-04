@@ -2,10 +2,10 @@
   "k": 5,
   "populationSize": 100,
   "archiveSize": 50,
-  "maxGenerations": 500,
+  "maxGenerations": 200,
   "beta": 2.0,
   "crossoverRate": 0.9,
   "mutationRate": 0.1,
   "randomSeed": null,
-  "estimatedFunctionEvaluations": 50100
+  "estimatedFunctionEvaluations": 20100
 }

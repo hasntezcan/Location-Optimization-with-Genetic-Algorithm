@@ -1,111 +1,146 @@
-# Parameter Analysis Guide (`analyse_guide.md`)
+# Parameter Analysis Guide V2 (`analyse_guide.md`)
 
 ## Overview
 
-This document explains the **Hyperparameter Grid Search** framework implemented for the Kadikoy Parcel Locker SPEA2 optimization project. 
+This document describes the **academically rigorous** hyperparameter grid search framework
+(V2) for the Kadıköy Parcel Locker SPEA2 optimization project.
 
-The primary goal of this analysis was to investigate two main concerns systematically:
-1. **Premature Convergence**: Did the genetic algorithm lose diversity too quickly or fail to explore? Was the shared-gene crossover operator too greedy, or was the mutation rate simply too low?
-2. **Hypervolume Sensitivity**: How do hypervolume metrics vary across different random seeds and hyperparameters?
+The V2 analyzer addresses four critical methodological flaws found in V1:
 
-This guide acts as a manual for running, interpreting, and extending the hyperparameter search without modifying the core optimization pipeline.
+1. **Unfair budgeting**: Configurations were not receiving comparable computational effort.
+2. **Missing demand parameter**: The lambda (λ) POI influence weight was not tested.
+3. **Per-run HV normalization**: Each run was scaled to its own bounds, making cross-run
+   HV comparison meaningless.
+4. **Incomplete metrics**: Output lacked key quality indicators for thorough analysis.
 
 ---
 
-## 1. Technical Implementation Strategy
+## 1. Design Principles
 
-We designed an independent **Parameter Analyzer** that bypasses the single-run configuration located in `GAParameters.java` and instead executes a predefined configuration grid.
+### 1.1 RULE 1 — Fair Function Evaluation (FE) Budgeting
 
-### 1.1 Independence from Main Flow
-- The main pipeline (`app.Main`) remains untouched and continues to use fixed values from `config.GAParameters`.
-- The evaluation loop logic is identical, ensuring true representation of the running codebase.
-- The new tester is isolated in `app.ParameterAnalyzer.java`. 
+Comparing a run with 5,000 evaluations to one with 50,000 evaluations is methodologically
+unsound. All configurations within the same K group receive the **same FE budget**.
 
-### 1.2 "Constant Budget" Fair Comparison
-A core challenge in hyperparameter testing is **fair comparison**. A population of 200 will naturally find better solutions than a population of 50 if given the same number of generations—but it requires 4x more computational effort. 
-
-To eliminate this bias, we implemented a **Constant Total Evaluations Deadline**.
-Regardless of `Population Size` or `Archive Size`, each algorithm configuration is guaranteed roughly `15,200` total function evaluations.
-```java
-// Budget = initial_population + generations * (population + archive)
-int maxGenerations = (TOTAL_BUDGET - popSize) / (popSize + archiveSize);
+**Formula:**
 ```
-- Pop=50, Arc=25 → 202 Generations
-- Pop=100, Arc=50 → 101 Generations
-- Pop=200, Arc=100 → 50 Generations
+FunctionEvals = populationSize × (maxGenerations + 1)
+maxGenerations = (TARGET_FE / populationSize) - 1
+```
 
-### 1.3 Per-run Normalization
-To prevent anomalies when comparing hypervolume metrics, the normalizer dynamically extracts the global **minimum and maximum** bounds across *the entire duration of the specific run*, pads them by 10%, and maps the fitness values for that specific run to `[0, 1]`. 
+**K-Dependent Budgets** (based on empirical convergence observations):
 
-This guarantees:
-- HV values remain mathematically sound (`0.0` to `~1.21` against reference point `(1.1, 1.1)`)
-- Differences in Hypervolume ratios across runs strictly correlate to how widespread and optimal the Pareto front is.
+| K  | TARGET_FE | Pop=50 → Gen | Pop=100 → Gen | Pop=200 → Gen | Rationale |
+|:--:|:---------:|:------------:|:-------------:|:-------------:|:----------|
+| 3  | 30,000    | 599          | 299           | 149           | Small search space; 300 gen sufficient |
+| 6  | 50,000    | 999          | 499           | 249           | Medium space; 500 gen needed for convergence |
+| 10 | 80,000    | 1,599        | 799           | 399           | Large space; 800+ gen required |
+
+### 1.2 RULE 2 — Lambda (λ) Parameter in Grid
+
+The lambda parameter controls the influence of POI score on demand:
+```
+demand = population × (1 + λ × poiScore)
+```
+
+This is computed **dynamically in Java** via the `FitnessCalculator(distanceMatrix, repository, beta, lambda)`
+constructor, without needing to re-run the Python preprocessing.
+
+**Grid values:** `λ ∈ {0.4, 0.5, 0.6}`
+
+### 1.3 RULE 3 — Calibration-Phase Fixed HV Bounds (CRITICAL)
+
+Per-run HV normalization (V1 approach) is fundamentally flawed because each run
+normalizes to its own min/max, making HV values incomparable.
+
+**The Calibration Phase:**
+
+For each (K, λ) pair, **before** the grid search begins:
+1. Run 5 SPEA2 runs with standard parameters (pop=100, standard crossover/mutation rates).
+2. Collect all 500 final archive individuals from these calibration runs.
+3. Compute global min/max for f1 and f2 across the entire union.
+4. Apply a 2% margin to these bounds.
+5. **Lock these bounds** for ALL subsequent grid search runs with this (K, λ).
+
+This ensures every run in the same (K, λ) group is normalized to exactly the same
+coordinate system, making HV values directly comparable.
+
+### 1.4 RULE 4 — Rich Output Metrics
+
+Output CSV columns:
+```
+K, Lambda, PopSize, ArchiveSize, MaxGen, MutRate, CrossRate,
+FunctionEvals, Runtime_ms, ND_Count, Best_f1, Best_f2, Mean_f1, Mean_f2, Final_HV
+```
+
+Primary comparison metric: **Final_HV** (computed using locked calibration bounds).
 
 ---
 
-## 2. Experimental Grid Setup
+## 2. Experimental Grid
 
-The comprehensive hyperparameter grid included the following dimensions:
+| Parameter | Values | Count |
+|:----------|:-------|:-----:|
+| **K** (locker count) | 3, 6, 10 | 3 |
+| **Lambda** (POI weight) | 0.4, 0.5, 0.6 | 3 |
+| **Population Size** | 50, 100, 200 | 3 |
+| **Mutation Rate** | 0.05, 0.10, 0.20, 0.30, 0.40 | 5 |
+| **Crossover Rate** | 0.70, 0.90 | 2 |
+| **Seeds** | 42, 123, 7 | 3 |
 
-| Parameter | Values Examined | Rationale for Testing |
-|:---|:---|:---|
-| **Locker Count (`K`)** | 3, 5, 7 | This dictates the combinatorial search space size. Larger K requires significantly more exploration. |
-| **Population Size** | 50, 100, 200 | Regulates the balance between wide horizontal search coverage versus generation depth. |
-| **Mutation Rate** | 0.05, 0.10, 0.20, 0.30, 0.40 | **CRUCIAL METRIC**: Because the Shared-Gene Crossover restricts exploration, mutation must provide diversity. Is 0.10 too low? Testing up to 0.40 reveals the breaking point. |
-| **Crossover Rate** | 0.70, 0.90 | Determines how frequently we invoke the conservative shared-gene inheritance. |
-| **Random Seed** | 42, 123, 7 | Standard experimental redundancy. Each config is run 3 times to average out stochastic noise. |
+**Archive Size** = Population Size (1:1 ratio, standard SPEA2).
 
-**Total Execution Runs = 270** -> `3 (K) × 3 (Pop) × 5 (Mut) × 2 (Cross) × 3 (Seeds)`
+**Calibration runs:** 3 K × 3 Lambda × 5 runs = **45 runs**  
+**Grid search runs:** 3 × 3 × 3 × 5 × 2 × 3 = **810 runs**  
+**Grand total:** **855 SPEA2 executions**
 
 ---
 
-## 3. How to Run the Analysis
-
-We've registered a dedicated Maven profile for the analyzer so that your `pom.xml` defaults still execute the regular `Main.java` program without requiring hard-coded overrides.
-
-To execute the parameter grid search:
+## 3. How to Run
 
 ```powershell
-# Compile and run via the designated 'analyze' Maven profile
+# Full grid search (recommended: run overnight)
 mvn compile exec:java -Panalyze
 ```
 
-*Note: Generating all 270 runs sequentially at ~5 seconds per run takes ~20 to 25 minutes depending on CPU performance.*
+**Estimated runtime:** ~3-5 hours depending on CPU.
 
-### 3.1 Output Structure
-The analyzer writes its data strictly to the following file:
-- `output/parameter_analysis_results.csv`
-
----
-
-## 4. How to Interpret the CSV Results
-
-The output CSV file contains 15 columns representing configuration flags and final output measurements.
-
-### Evaluation Metrics to Focus On:
-
-1. `Final_HV` (Hypervolume): The single most reliable measure of simultaneous proximity (closeness to the ideal) and diversity (spread across the front).
-2. `Final_ND_Count` (Non-dominated Solution Count): Indicates archive density. If ND count is low, the population likely collapsed to a single local optimal location (evidence of Premature Convergence).
-3. `Final_Best_F1` / `Final_Best_F2`: The raw best extremes discovered in the entire run. Did a high mutation rate find a dramatically better F1 at the expense of ignoring F2?
-
-### Diagnosis Validation Techniques:
-**Addressing the "Premature Convergence" Suspicion:**
-Sort your spreadsheet by `Mutation_Rate` (x-axis) vs `Final_HV` (y-axis) or `Final_ND_Count`. 
-- If runs with `Mut=0.30` or `0.40` consistently report higher ND counts and wider Hypervolume metrics than `0.05 / 0.10`, the original hypothesis was **true**—the crossover was excessively converging and higher mutation fixed it.
-- If high mutation causes HV to decrease, then the baseline algorithm was correctly optimizing, and excessive mutation is acting destructively.
-
-**Analyzing 'K' Impact:**
-Separate the data physically based on `K` before comparing HVs. Hypervolume values for K=3 will intrinsically behave differently than K=7 due to scale differences in total distance costs.
+### 3.1 Output
+- `output/parameter_analysis_results.csv` — Full results with 15 columns.
 
 ---
 
-## 5. Next Steps for Optimization
+## 4. Interpreting Results
 
-After analyzing the CSV trends in Excel or Pandas, adjust `GAParameters.java` permanently to lock in the optimal parameters for production runs.
+### Key Metrics
 
-If you decide to refine the scope later, simply modify the static arrays embedded inside `ParameterAnalyzer.java`:
-```java
-private static final int[] K_VALUES = {5};
-private static final double[] MUTATION_RATES = {0.15, 0.20, 0.25};
-```
-And execute with `mvn compile exec:java -Panalyze` once more.
+1. **Final_HV** — The hypervolume computed with locked calibration bounds. This is the
+   **primary** metric for comparing configurations. Higher is better.
+2. **ND_Count** — Number of non-dominated solutions in the final archive. Low counts
+   suggest premature convergence.
+3. **Best_f1 / Best_f2** — Extreme values on each objective. Useful for identifying
+   configurations that specialize in one objective.
+4. **Mean_f1 / Mean_f2** — Average quality of the Pareto front.
+
+### Analysis Approach
+
+**Step 1: Separate by K.** HV values across different K values use different calibration
+bounds and are NOT directly comparable.
+
+**Step 2: Within each K, compare across Lambda values.** This reveals whether POI influence
+significantly impacts solution quality.
+
+**Step 3: For each (K, Lambda) group, analyze parameter effects:**
+- Sort by `MutRate` vs `Final_HV` to find the optimal mutation rate.
+- Check if high mutation (0.30-0.40) improves ND_Count (combats premature convergence).
+- Compare `PopSize` groups to understand exploration vs. exploitation tradeoff.
+
+---
+
+## 5. Architecture Notes
+
+- `FitnessCalculator` has two constructors:
+  - 3-arg: reads demand from CSV `demandScore` (used by `Main.java`).
+  - 4-arg: computes demand dynamically with lambda (used by `ParameterAnalyzer`).
+- `Main.java` is completely untouched and unaffected by these changes.
+- The calibration phase reuses the same `runSPEA2()` method as the grid search.
