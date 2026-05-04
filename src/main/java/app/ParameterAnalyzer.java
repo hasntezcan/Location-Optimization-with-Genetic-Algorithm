@@ -330,7 +330,7 @@ public class ParameterAnalyzer {
         // Use the K-specific FE budget for calibration runs too
         int calibTargetFE = getTargetFE(k);
         int calibMaxGen = (calibTargetFE / CALIBRATION_POP_SIZE) - 1;
-        int calibArchiveSize = CALIBRATION_ARCHIVE_SIZE;
+
 
         // Collect all individuals from all calibration runs
         List<Individual> allCalibrationIndividuals = new ArrayList<>();
