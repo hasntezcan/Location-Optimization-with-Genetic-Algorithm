@@ -200,7 +200,10 @@ public class ParameterAnalyzer {
 
             validateMatrix(distanceMatrix, repository);
 
-            List<Integer> candidateIds = repository.getAllCandidateIds();
+            List<Integer> candidateIds = repository.getSelectableCandidateIds();
+            if (candidateIds.isEmpty()) {
+                throw new IllegalStateException("No selectable candidates found. All candidates may be forbidden.");
+            }
 
             // 2. Print experiment header
             System.out.println("╔══════════════════════════════════════════════════════════════╗");
@@ -208,6 +211,7 @@ public class ParameterAnalyzer {
             System.out.println("╚══════════════════════════════════════════════════════════════╝");
             System.out.println();
             System.out.println("Candidates loaded     : " + repository.size());
+            System.out.println("Selectable candidates : " + candidateIds.size());
             System.out.println("K values              : " + formatArray(K_VALUES));
             System.out.println("Lambda values         : " + formatArray(LAMBDA_VALUES));
             System.out.println("Mutation rates        : " + formatArray(MUTATION_RATES));

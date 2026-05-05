@@ -6,6 +6,8 @@ import model.CandidateRepository;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Loads candidate point data from CSV files into a {@link CandidateRepository}.
@@ -35,49 +37,115 @@ public class CsvLoader {
      */
     public void loadCandidates(String filePath, CandidateRepository repository) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            boolean isFirstLine = true;
+            String headerLine = reader.readLine();
+            if (headerLine == null) {
+                throw new IOException("CSV file is empty: " + filePath);
+            }
 
+            Map<String, Integer> headerIndex = buildHeaderIndex(splitCsvLine(headerLine));
+            boolean hasPoiScore = headerIndex.containsKey("poi_score");
+            boolean hasDemandFinal = headerIndex.containsKey("demand_final");
+
+            String line;
+            int lineNumber = 1;
             while ((line = reader.readLine()) != null) {
-                if (isFirstLine) {
-                    isFirstLine = false;
-                    continue;
-                }
+                lineNumber++;
 
                 if (line.trim().isEmpty()) {
                     continue;
                 }
 
-                String[] parts = line.split(",");
+                String[] parts = splitCsvLine(line);
 
-                // Mapping based on enriched candidate_points.csv:
-                // fid:0, id:1, ..., population_candidate:24, poi_score:25, demand_final:26
+                double population = parseDoubleField(parts, headerIndex, "population_candidate", lineNumber);
+                double poiScore = hasPoiScore
+                        ? parseDoubleField(parts, headerIndex, "poi_score", lineNumber)
+                        : 0.0;
+                double demandScore = hasDemandFinal
+                        ? parseDoubleField(parts, headerIndex, "demand_final", lineNumber)
+                        : population;
 
                 CandidatePoint candidate = new CandidatePoint(
-                        Integer.parseInt(parts[1].trim()),    // id
-                        parts[8].trim(),                      // mahalleNameTurkish
-                        parts[9].trim(),                      // mahalleNameEnglish
-                        Integer.parseInt(parts[10].trim()),   // mahallePopulation
-                        Integer.parseInt(parts[11].trim()),   // poiAtm
-                        Integer.parseInt(parts[12].trim()),   // poiBank
-                        Integer.parseInt(parts[13].trim()),   // poiHospital
-                        Integer.parseInt(parts[14].trim()),   // poiSchool
-                        Integer.parseInt(parts[15].trim()),   // poiUniversity
-                        Integer.parseInt(parts[16].trim()),   // poiPostOffice
-                        Integer.parseInt(parts[17].trim()),   // poiTransport
-                        Integer.parseInt(parts[18].trim()),   // poiBusStop
-                        Double.parseDouble(parts[19].trim()), // lon
-                        Double.parseDouble(parts[20].trim()), // lat
-                        Integer.parseInt(parts[21].trim()) == 1, // isForbidden
-                        Integer.parseInt(parts[22].trim()),   // lockerCount
-                        Integer.parseInt(parts[23].trim()),   // gridCountByMahalle
-                        Double.parseDouble(parts[24].trim()), // population (candidate population)
-                        Double.parseDouble(parts[25].trim()), // poiScore
-                        Double.parseDouble(parts[26].trim())  // demandScore (demand_final)
+                        parseIntField(parts, headerIndex, "id", lineNumber),
+                        getRequiredField(parts, headerIndex, "Mahalle_Name_Turkish", lineNumber),
+                        getRequiredField(parts, headerIndex, "Mahalle_Name_English", lineNumber),
+                        parseIntField(parts, headerIndex, "population_mahalle", lineNumber),
+                        parseIntField(parts, headerIndex, "poi_atm", lineNumber),
+                        parseIntField(parts, headerIndex, "poi_bank", lineNumber),
+                        parseIntField(parts, headerIndex, "poi_hospital", lineNumber),
+                        parseIntField(parts, headerIndex, "poi_school", lineNumber),
+                        parseIntField(parts, headerIndex, "poi_university", lineNumber),
+                        parseIntField(parts, headerIndex, "poi_post_office", lineNumber),
+                        parseIntField(parts, headerIndex, "poi_transport", lineNumber),
+                        parseIntField(parts, headerIndex, "poi_bus_stop", lineNumber),
+                        parseDoubleField(parts, headerIndex, "lon", lineNumber),
+                        parseDoubleField(parts, headerIndex, "lat", lineNumber),
+                        parseIntField(parts, headerIndex, "is_forbidden", lineNumber) == 1,
+                        parseIntField(parts, headerIndex, "locker_count", lineNumber),
+                        parseIntField(parts, headerIndex, "grid_count_by_mahalle", lineNumber),
+                        population,
+                        poiScore,
+                        demandScore
                 );
 
                 repository.addCandidate(candidate);
             }
         }
+    }
+
+    private String[] splitCsvLine(String line) {
+        return line.split(",", -1);
+    }
+
+    private Map<String, Integer> buildHeaderIndex(String[] headers) {
+        Map<String, Integer> index = new HashMap<>();
+
+        for (int i = 0; i < headers.length; i++) {
+            String name = headers[i].trim().replace("\uFEFF", "");
+            index.put(name, i);
+        }
+
+        return index;
+    }
+
+    private String getRequiredField(String[] parts,
+                                    Map<String, Integer> headerIndex,
+                                    String columnName,
+                                    int lineNumber) {
+        Integer index = headerIndex.get(columnName);
+        if (index == null) {
+            throw new IllegalStateException("Missing required CSV column: " + columnName);
+        }
+
+        if (index >= parts.length) {
+            throw new IllegalStateException(
+                    "Line " + lineNumber + " is missing value for CSV column: " + columnName
+            );
+        }
+
+        String value = parts[index].trim();
+        if (value.isEmpty()) {
+            throw new IllegalStateException(
+                    "Line " + lineNumber + " has blank value for CSV column: " + columnName
+            );
+        }
+
+        return value;
+    }
+
+    private int parseIntField(String[] parts,
+                              Map<String, Integer> headerIndex,
+                              String columnName,
+                              int lineNumber) {
+        String value = getRequiredField(parts, headerIndex, columnName, lineNumber);
+        return Integer.parseInt(value);
+    }
+
+    private double parseDoubleField(String[] parts,
+                                    Map<String, Integer> headerIndex,
+                                    String columnName,
+                                    int lineNumber) {
+        String value = getRequiredField(parts, headerIndex, columnName, lineNumber);
+        return Double.parseDouble(value);
     }
 }

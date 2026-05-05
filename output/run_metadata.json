@@ -1,11 +1,11 @@
 {
-  "k": 5,
+  "k": 7,
   "populationSize": 100,
   "archiveSize": 50,
-  "maxGenerations": 200,
+  "maxGenerations": 500,
   "beta": 2.0,
   "crossoverRate": 0.9,
-  "mutationRate": 0.1,
+  "mutationRate": 0.4,
   "randomSeed": null,
-  "estimatedFunctionEvaluations": 20100
+  "estimatedFunctionEvaluations": 50100
 }

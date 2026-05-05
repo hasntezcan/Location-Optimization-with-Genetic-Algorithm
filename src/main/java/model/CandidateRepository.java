@@ -104,6 +104,31 @@ public class CandidateRepository {
     }
 
     /**
+     * Returns candidate IDs that are allowed to be selected as locker locations.
+     *
+     * <p>Forbidden candidates remain in the repository because they are still
+     * demand grid points and must stay aligned with the distance matrix. This
+     * method is only for the GA selection universe.</p>
+     *
+     * @return sorted candidate IDs where {@code isForbidden == false}
+     */
+    public List<Integer> getSelectableCandidateIds() {
+        List<CandidatePoint> source = sortedCandidates.isEmpty()
+                ? new ArrayList<>(candidateMap.values())
+                : sortedCandidates;
+
+        List<Integer> ids = new ArrayList<>();
+        for (CandidatePoint candidate : source) {
+            if (!candidate.isForbidden()) {
+                ids.add(candidate.getId());
+            }
+        }
+
+        Collections.sort(ids);
+        return ids;
+    }
+
+    /**
      * Returns all candidates in the repository sorted by ascending ID.
      *
      * @return sorted candidate list

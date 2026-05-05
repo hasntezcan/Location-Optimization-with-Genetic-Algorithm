@@ -2240,7 +2240,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -2325,7 +2325,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -2359,7 +2359,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -4807,7 +4807,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -4824,7 +4824,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -4943,7 +4943,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -5266,7 +5266,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 4,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -5759,7 +5759,7 @@
     "poiPostOffice": 2,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -5844,7 +5844,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 4,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -5929,7 +5929,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 5,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -5946,7 +5946,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 4,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -5963,7 +5963,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 5,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -5997,7 +5997,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 4,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -6048,7 +6048,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -7102,7 +7102,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -7493,7 +7493,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -7544,7 +7544,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -7629,7 +7629,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -8360,7 +8360,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -8394,7 +8394,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -8428,7 +8428,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 4,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -8462,7 +8462,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 5,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -8496,7 +8496,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 5,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -8513,7 +8513,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 5,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -8530,7 +8530,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 6,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -8547,7 +8547,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 7,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -10162,7 +10162,7 @@
     "poiPostOffice": 0,
     "poiTransport": 1,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -10196,7 +10196,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -10213,7 +10213,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -10281,7 +10281,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 5,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -10468,7 +10468,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -15738,7 +15738,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -15925,7 +15925,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16010,7 +16010,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16027,7 +16027,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16044,7 +16044,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16061,7 +16061,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16078,7 +16078,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16095,7 +16095,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16112,7 +16112,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16129,7 +16129,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16146,7 +16146,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16163,7 +16163,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16248,7 +16248,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16265,7 +16265,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16282,7 +16282,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16299,7 +16299,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16350,7 +16350,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16367,7 +16367,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16401,7 +16401,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16435,7 +16435,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16520,7 +16520,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16537,7 +16537,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16605,7 +16605,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16622,7 +16622,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -16945,7 +16945,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -17251,7 +17251,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -17489,7 +17489,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -17710,7 +17710,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -17931,7 +17931,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -18169,7 +18169,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -18764,7 +18764,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -21127,7 +21127,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -21229,7 +21229,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -21331,7 +21331,7 @@
     "poiPostOffice": 0,
     "poiTransport": 1,
     "poiBusStop": 5,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -21450,7 +21450,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 6,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -21535,7 +21535,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 4,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -21603,7 +21603,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 4,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -21722,7 +21722,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -21807,7 +21807,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -21824,7 +21824,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -21926,7 +21926,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -22164,7 +22164,7 @@
     "poiPostOffice": 0,
     "poiTransport": 1,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -22181,7 +22181,7 @@
     "poiPostOffice": 0,
     "poiTransport": 1,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -22334,7 +22334,7 @@
     "poiPostOffice": 0,
     "poiTransport": 1,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -22504,7 +22504,7 @@
     "poiPostOffice": 0,
     "poiTransport": 3,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -22708,7 +22708,7 @@
     "poiPostOffice": 0,
     "poiTransport": 6,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -22725,7 +22725,7 @@
     "poiPostOffice": 0,
     "poiTransport": 6,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -22895,7 +22895,7 @@
     "poiPostOffice": 2,
     "poiTransport": 7,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -22912,7 +22912,7 @@
     "poiPostOffice": 0,
     "poiTransport": 6,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -22929,7 +22929,7 @@
     "poiPostOffice": 0,
     "poiTransport": 6,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -22946,7 +22946,7 @@
     "poiPostOffice": 0,
     "poiTransport": 6,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -23150,7 +23150,7 @@
     "poiPostOffice": 2,
     "poiTransport": 7,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -23354,7 +23354,7 @@
     "poiPostOffice": 2,
     "poiTransport": 6,
     "poiBusStop": 4,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -23558,7 +23558,7 @@
     "poiPostOffice": 2,
     "poiTransport": 1,
     "poiBusStop": 4,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -23915,7 +23915,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 6,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -23932,7 +23932,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 5,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -24442,7 +24442,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -24459,7 +24459,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -24510,7 +24510,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -24901,7 +24901,7 @@
     "poiPostOffice": 0,
     "poiTransport": 1,
     "poiBusStop": 5,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -24952,7 +24952,7 @@
     "poiPostOffice": 0,
     "poiTransport": 1,
     "poiBusStop": 7,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -25071,7 +25071,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -25139,7 +25139,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -25156,7 +25156,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -25207,7 +25207,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -25224,7 +25224,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -25241,7 +25241,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -25258,7 +25258,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -25326,7 +25326,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -25428,7 +25428,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -25717,7 +25717,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -26074,7 +26074,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -26312,7 +26312,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -26567,7 +26567,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -26856,7 +26856,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -27128,7 +27128,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -27927,7 +27927,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -27978,7 +27978,7 @@
     "poiPostOffice": 1,
     "poiTransport": 1,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -27995,7 +27995,7 @@
     "poiPostOffice": 1,
     "poiTransport": 1,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -28012,7 +28012,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -28114,7 +28114,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -28199,7 +28199,7 @@
     "poiPostOffice": 1,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -28420,7 +28420,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -28454,7 +28454,7 @@
     "poiPostOffice": 1,
     "poiTransport": 1,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -28471,7 +28471,7 @@
     "poiPostOffice": 1,
     "poiTransport": 1,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -29304,7 +29304,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -29355,7 +29355,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -30511,7 +30511,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -30528,7 +30528,7 @@
     "poiPostOffice": 1,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -30579,7 +30579,7 @@
     "poiPostOffice": 1,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -30664,7 +30664,7 @@
     "poiPostOffice": 0,
     "poiTransport": 2,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -30817,7 +30817,7 @@
     "poiPostOffice": 0,
     "poiTransport": 2,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -30834,7 +30834,7 @@
     "poiPostOffice": 0,
     "poiTransport": 7,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -30851,7 +30851,7 @@
     "poiPostOffice": 1,
     "poiTransport": 8,
     "poiBusStop": 4,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -30868,7 +30868,7 @@
     "poiPostOffice": 0,
     "poiTransport": 2,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -30885,7 +30885,7 @@
     "poiPostOffice": 0,
     "poiTransport": 2,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -30902,7 +30902,7 @@
     "poiPostOffice": 0,
     "poiTransport": 2,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -31106,7 +31106,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -31412,7 +31412,7 @@
     "poiPostOffice": 0,
     "poiTransport": 1,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -31684,7 +31684,7 @@
     "poiPostOffice": 0,
     "poiTransport": 11,
     "poiBusStop": 10,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -32466,7 +32466,7 @@
     "poiPostOffice": 0,
     "poiTransport": 1,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -32568,7 +32568,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -32585,7 +32585,7 @@
     "poiPostOffice": 0,
     "poiTransport": 1,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -33163,7 +33163,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -33894,7 +33894,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -34200,7 +34200,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -34370,7 +34370,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -38008,7 +38008,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -38076,7 +38076,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -38229,7 +38229,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -39640,7 +39640,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -40099,7 +40099,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -40303,7 +40303,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -40575,7 +40575,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -40592,7 +40592,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -40609,7 +40609,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -40932,7 +40932,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -41102,7 +41102,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -41289,7 +41289,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -41476,7 +41476,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -41646,7 +41646,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -41850,7 +41850,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -42054,7 +42054,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -42666,7 +42666,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -42802,7 +42802,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -42955,7 +42955,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -44502,7 +44502,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -44655,7 +44655,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 1,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -45063,7 +45063,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 3,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -45403,7 +45403,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 5,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -45522,7 +45522,7 @@
     "poiPostOffice": 0,
     "poiTransport": 1,
     "poiBusStop": 5,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {
@@ -45828,7 +45828,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 2,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 1
   },
   {
@@ -46049,7 +46049,7 @@
     "poiPostOffice": 0,
     "poiTransport": 0,
     "poiBusStop": 0,
-    "isForbidden": false,
+    "isForbidden": true,
     "lockerCount": 0
   },
   {

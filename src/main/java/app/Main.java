@@ -143,7 +143,11 @@ public class Main {
 
             // 4. Initialize population
             System.out.println("STAGE Running Java GA");
-            List<Integer> candidateIds = repository.getAllCandidateIds();
+            List<Integer> candidateIds = repository.getSelectableCandidateIds();
+            if (candidateIds.isEmpty()) {
+                throw new IllegalStateException("No selectable candidates found. All candidates may be forbidden.");
+            }
+            System.out.println("Selectable candidates: " + candidateIds.size());
             List<Individual> population = populationInitializer.initializePopulation(candidateIds, k, populationSize);
 
             List<Individual> archive = new ArrayList<>();
