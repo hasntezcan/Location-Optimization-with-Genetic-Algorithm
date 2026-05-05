@@ -3,6 +3,8 @@
 **/.DS_Store
 
 .vs
+#discard output directory
+output/
 
 # Python
 __pycache__/

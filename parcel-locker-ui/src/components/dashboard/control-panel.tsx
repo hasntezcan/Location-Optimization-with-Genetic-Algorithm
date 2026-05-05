@@ -55,6 +55,14 @@ function useNumericInput(
     // Allow empty string for editing, strip non-numeric except leading minus
     const cleaned = raw.replace(/[^0-9]/g, "");
     setText(cleaned);
+    
+    // Call onChange immediately if the value is within bounds
+    if (cleaned !== "" && !isNaN(Number(cleaned))) {
+      const val = Number(cleaned);
+      if (val >= min && val <= max) {
+        onChange(val);
+      }
+    }
   };
 
   const handleBlur = () => {
@@ -63,9 +71,12 @@ function useNumericInput(
       setText(clamped.toString());
       onChange(clamped);
     } else {
-      const clamped = Math.max(min, Math.min(max, Number(text)));
-      setText(clamped.toString());
-      onChange(clamped);
+      const val = Number(text);
+      if (val < min || val > max) {
+        const clamped = Math.max(min, Math.min(max, val));
+        setText(clamped.toString());
+        onChange(clamped);
+      }
     }
   };
 

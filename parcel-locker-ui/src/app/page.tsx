@@ -197,7 +197,7 @@ export default function HomePage() {
   }, [lockersForDisplay]);
 
   const handleShowResults = async () => {
-    const clamped = Math.max(1, Math.min(inputLockerCount, 100));
+    const clamped = Math.max(1, Math.min(inputLockerCount, 20));
     setInputLockerCount(clamped);
     setIsOptimizing(true);
     setStatusMessage(null);
