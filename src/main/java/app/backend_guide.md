@@ -49,7 +49,7 @@ The current `Main.java` does the following:
 8. stores:
    - initial archive snapshot
    - final archive snapshot
-9. normalizes both snapshots in the same objective space for comparable hypervolume
+9. normalizes archive exports with final-ND-based assessment bounds
 10. exports archive CSV files
 
 So the optimizer is already capable of producing final optimization outputs, but it is not yet structured as a backend service.
@@ -79,20 +79,24 @@ It contains the same structure as the initial archive export.
 
 ## Current assessment logic
 
-The pipeline ensures that **initial** and **final** archive snapshots are normalized using the **same bounds** so that hypervolume is comparable.
+The pipeline exports normalized objective columns for both archive snapshots,
+but official initial-to-final improvement is not based on comparing initial HV
+against final HV.
 
 Current `Main` behavior:
-- collects non-dominated solutions from both snapshots
-- derives dynamic min/max bounds from that set
-- applies a small padding
-- normalizes both archives with these shared bounds
-- computes hypervolume with a fixed reference point (e.g. `(1.1, 1.1)`)
+- extracts the final archive non-dominated set
+- derives ideal/nadir bounds from that final ND set
+- normalizes both archive CSV snapshots with those bounds for export consistency
+- computes final-archive hypervolume with a fixed reference point (e.g. `(1.1, 1.1)`)
+- reports initial-to-final improvement with raw-objective ND metrics and C-metric
 
 This is important for backend understanding because:
 
 - the backend does not need to rebuild normalization logic itself
 - the backend can trust the exported normalized values from Java
 - the frontend can display both raw and normalized results if needed
+- backend summaries should treat final HV as a final-front quality indicator, not
+  as the official initial-to-final improvement metric
 
 ---
 

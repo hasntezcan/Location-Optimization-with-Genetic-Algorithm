@@ -30,7 +30,8 @@ Main demand preparation script.
 What it does:
 
 - Reads `data/candidate_points.csv`.
-- Finds POI columns by the `poi_` prefix.
+- Finds raw POI columns by the `poi_` prefix while excluding generated columns
+  such as `poi_score` and `demand_final`.
 - Calculates POI weights with the Entropy Weight Method.
 - Prompts for the lambda parameter.
 - Updates `poi_score`.
@@ -50,7 +51,8 @@ Read-only analysis script for checking the current POI weights.
 What it does:
 
 - Reads `data/candidate_points.csv`.
-- Finds POI columns by the `poi_` prefix.
+- Finds raw POI columns by the `poi_` prefix while excluding generated columns
+  such as `poi_score` and `demand_final`.
 - Prints the calculated Entropy Weight Method weights.
 - Does not write to the CSV file.
 
@@ -76,14 +78,16 @@ Lambda controls how strongly POI attractiveness affects demand:
 
 ## Important Notes
 
-- Both scripts detect POI columns with `col.startswith("poi_")`.
-- If `candidate_points.csv` already contains a generated `poi_score` column, it
-  also matches the `poi_` prefix. Use a clean CSV or remove generated columns
-  before recalculating if you only want raw POI categories in the weighting step.
+- Both scripts detect raw POI columns with `col.startswith("poi_")` and exclude
+  generated columns (`poi_score`, `demand_final`) so rerunning on an enriched
+  CSV does not feed `poi_score` back into the Entropy Weight Method.
 - `prepare_demand.py` overwrites `data/candidate_points.csv`; use
   `data/candidate_points_backup.csv` or another backup when needed.
-- The Java `CsvLoader` currently maps CSV fields by fixed column positions. Do
-  not reorder the CSV columns unless you also update the loader mapping.
+- The Java `CsvLoader` maps required fields by header name. The default
+  scientific demand model expects `poi_score` and `demand_final`; if those
+  columns are absent, Java falls back to population-only demand.
+- `is_forbidden = 1` rows remain demand grid points, but the Java GA excludes
+  them from the selectable locker-location universe.
 
 ## Recommended Workflow
 
@@ -105,7 +109,7 @@ The archive comparison plot shows four panels:
 
 - Initial Archive - Raw Objective Space
 - Final Archive - Raw Objective Space
-- Initial Archive - Hypervolume Space
+- Initial → Final Improvement Metrics
 - Final Archive - Hypervolume Space
 
 In these plots:
@@ -135,22 +139,21 @@ indicator.
 
 ### How normalization is done
 
-The initial archive and the final archive are compared in the **same normalized
-objective space**.
+The current official assessment separates two concepts:
 
-This is done by first building a common assessment bound set:
+- Initial-to-final improvement is measured with raw-objective non-dominated
+  metrics and the C-metric.
+- Hypervolume is visualized and computed for the final archive only.
 
-- `min_f1`
-- `max_f1`
-- `min_f2`
-- `max_f2`
-
-Then both archives are normalized using the same min-max transformation:
+For HV-space export and plotting, Java computes ideal/nadir bounds from the
+final archive non-dominated set and normalizes archive rows with those bounds:
 
 ```text
-norm_f1 = (f1 - min_f1) / (max_f1 - min_f1)
-norm_f2 = (f2 - min_f2) / (max_f2 - min_f2)
+norm_f1 = (f1 - ideal_f1) / (nadir_f1 - ideal_f1)
+norm_f2 = (f2 - ideal_f2) / (nadir_f2 - ideal_f2)
+```
 
+Values are clamped to `[0, 1]`.
 
 ### How to run the plot
 

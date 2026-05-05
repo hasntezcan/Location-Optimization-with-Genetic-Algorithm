@@ -6,6 +6,7 @@ import pandas as pd
 
 DEFAULT_INPUT_CSV = "data/candidate_points.csv"
 DEFAULT_POI_PREFIX = "poi_"
+GENERATED_COLUMNS = {"poi_score", "demand_final"}
 
 
 def calculate_poi_weights(csv_path, poi_prefix=DEFAULT_POI_PREFIX):
@@ -27,7 +28,10 @@ def calculate_poi_weights(csv_path, poi_prefix=DEFAULT_POI_PREFIX):
         ValueError: If no POI columns are found with the given prefix.
     """
     df = pd.read_csv(csv_path)
-    poi_cols = [col for col in df.columns if col.startswith(poi_prefix)]
+    poi_cols = [
+        col for col in df.columns
+        if col.startswith(poi_prefix) and col not in GENERATED_COLUMNS
+    ]
 
     if not poi_cols:
         raise ValueError(

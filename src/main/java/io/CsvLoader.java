@@ -26,10 +26,15 @@ public class CsvLoader {
      * Reads candidate points from the given CSV file and adds them to the repository.
      * The first line is treated as a header and skipped. Empty lines are ignored.
      *
-     * <p>The method maps values by fixed column positions from the enriched
+     * <p>The method maps values by CSV header name from the enriched
      * {@code candidate_points.csv} structure, including candidate id,
      * neighborhood names, population fields, POI counts, coordinates,
-     * forbidden status, locker count, and demand scores.</p>
+     * forbidden status, locker count, and demand scores. If the generated
+     * {@code poi_score} or {@code demand_final} columns are missing, the loader
+     * falls back to {@code poi_score = 0} and
+     * {@code demand_final = population_candidate}; that fallback is intended to
+     * keep local runs debuggable, not to preserve the full scientific demand
+     * model.</p>
      *
      * @param filePath path of the CSV file to load
      * @param repository repository that receives the loaded candidate points
