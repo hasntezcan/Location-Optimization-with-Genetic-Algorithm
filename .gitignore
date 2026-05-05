@@ -25,3 +25,12 @@ buildNumber.properties
 # Generated outputs
 output/archives/
 output/archives/**
+
+# Generated optimization outputs
+output/final_archive.csv
+output/initial_archive.csv
+output/archive_comparison_latest.png
+
+# Generated UI mock/result files
+parcel-locker-ui/public/mock/ga-results.json
+parcel-locker-ui/public/mock/archive_comparison_latest.png
