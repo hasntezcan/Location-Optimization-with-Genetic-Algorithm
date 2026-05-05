@@ -7,6 +7,7 @@ INPUT_FILE = "data/candidate_points.csv"
 OUTPUT_FILE = "data/candidate_points.csv"
 POI_PREFIX = "poi_"
 BASE_DEMAND_COL = "population_candidate"
+GENERATED_COLUMNS = {"poi_score", "demand_final"}
 
 
 def get_lambda_value():
@@ -95,7 +96,10 @@ def main():
 
     lambda_val = get_lambda_value()
 
-    poi_cols = [col for col in df.columns if col.startswith(POI_PREFIX)]
+    poi_cols = [
+        col for col in df.columns
+        if col.startswith(POI_PREFIX) and col not in GENERATED_COLUMNS
+    ]
     if not poi_cols:
         print(f"ERROR: No columns with prefix '{POI_PREFIX}' found.")
         return

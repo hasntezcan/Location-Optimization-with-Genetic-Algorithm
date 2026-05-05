@@ -36,6 +36,10 @@ Implementation: [FitnessCalculator.evaluateF2](file:///Users/yigitpepe/Desktop/L
 - `data/kadikoy_distance_meters_nxn.npy` is the distance matrix.
 - The indexing order is **candidate id ascending**.
 - The Java side maintains this alignment via [CandidateRepository.finalizeRepository](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/model/CandidateRepository.java).
+- Forbidden candidates remain in the CSV and distance matrix as demand grid
+  points. The GA selection universe is filtered with
+  `CandidateRepository.getSelectableCandidateIds()`, so `is_forbidden = 1`
+  rows cannot be chosen as locker locations.
 - Details: [kadikoy_ARTIFACTS_GUIDE.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/data/kadikoy_ARTIFACTS_GUIDE.md)
 
 ### 3) SPEA2 optimization (Java)
@@ -57,11 +61,19 @@ Flow (summary):
 
 This project uses normalization in two different places:
 - **SPEA2 internal normalization**: inside `Evaluate`, the merged set is normalized to compute density.
-- **Run assessment normalization (archive export)**: `Main` normalizes the initial and final archive snapshots in the **same** objective space to compute comparable hypervolume.
+- **Run assessment normalization (archive export)**: `Main` normalizes archive
+  snapshots with final-ND-based bounds so exported normalized coordinates share
+  one objective space.
 
 Current behavior:
-- `Main` derives dynamic min/max bounds from the **non-dominated** solutions found in both snapshots, applies a small padding, then normalizes both archives with these shared bounds.
-- Hypervolume is computed in normalized space with a fixed reference point (typically `(1.1, 1.1)`).
+- `Main` derives ideal/nadir bounds from the **final archive non-dominated set only**.
+- Both archive CSVs are normalized with those final-ND bounds so the exported
+  `norm_f1` and `norm_f2` columns share one coordinate system.
+- Hypervolume is computed for the final archive in normalized space with a fixed
+  reference point, typically `(1.1, 1.1)`.
+- Initial-to-final improvement is assessed with raw-objective ND metrics and
+  the C-metric in `scripts/plot_archives.py`, not by comparing initial HV to
+  final HV.
 
 Related code:
 - [Main](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/app/Main.java)

@@ -57,10 +57,11 @@ normalizes to its own min/max, making HV values incomparable.
 
 For each (K, λ) pair, **before** the grid search begins:
 1. Run 5 SPEA2 runs with standard parameters (pop=100, standard crossover/mutation rates).
-2. Collect all 500 final archive individuals from these calibration runs.
-3. Compute global min/max for f1 and f2 across the entire union.
-4. Apply a 2% margin to these bounds.
-5. **Lock these bounds** for ALL subsequent grid search runs with this (K, λ).
+2. Collect all final archive individuals from these calibration runs.
+3. Extract the non-dominated set from the union of calibration archives.
+4. Compute ideal/nadir bounds for f1 and f2 from that ND union.
+5. Apply a 2% margin to these bounds.
+6. **Lock these bounds** for ALL subsequent grid search runs with this (K, λ).
 
 This ensures every run in the same (K, λ) group is normalized to exactly the same
 coordinate system, making HV values directly comparable.
@@ -88,7 +89,8 @@ Primary comparison metric: **Final_HV** (computed using locked calibration bound
 | **Crossover Rate** | 0.70, 0.90 | 2 |
 | **Seeds** | 42, 123, 7 | 3 |
 
-**Archive Size** = Population Size (1:1 ratio, standard SPEA2).
+**Archive Size** = `Population Size / 2`, matching the default
+`GAParameters` ratio used in this project.
 
 **Calibration runs:** 3 K × 3 Lambda × 5 runs = **45 runs**  
 **Grid search runs:** 3 × 3 × 3 × 5 × 2 × 3 = **810 runs**  

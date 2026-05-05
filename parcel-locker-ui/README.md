@@ -183,15 +183,18 @@ This behavior keeps the UI stable during playback.
 ## Real optimization (local/dev)
 
 When you trigger “Optimization” from the UI, `/api/run-ga` performs:
-- Updates a few parameters in `src/main/java/config/GAParameters.java` (`k`, optionally `populationSize`, `maxGenerations`, `mutationRate`)
-- Runs `mvn compile exec:java` (in the project root)
+- Passes runtime parameters to Java via Maven `-Dexec.args` (`k`, optionally
+  `populationSize`, `maxGenerations`, `mutationRate`, `crossoverRate`,
+  `archiveSize`, `randomSeed`)
+- Runs `mvn compile exec:java` in the project root
 - Runs `scripts/plot_archives.py` and produces `output/archive_comparison_latest.png`
 - Copies the latest plot into the UI public folder: `public/mock/archive_comparison_latest.png`
 - Regenerates the UI’s mock result assets from the GA outputs
 
 This mode:
 - is not a production backend design; it is intended for local development/experiments
-- should not be deployed to production because it runs shell commands via `child_process.exec` on the server
+- should not be deployed to production because it spawns Maven and Python
+  processes from a web route
 
 ---
 
@@ -244,3 +247,4 @@ parcel-locker-ui/
 ├─ next.config.ts
 ├─ postcss.config.mjs
 └─ eslint.config.mjs
+```

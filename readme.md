@@ -22,7 +22,9 @@ To update the `poi_score` and `demand_final` columns:
 python3 scripts/prepare_demand.py
 ```
 
-Note: This script overwrites `data/candidate_points.csv`. See [scripts/guide.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/scripts/guide.md).
+Note: This script overwrites `data/candidate_points.csv`. The current committed
+CSV already contains `poi_score` and `demand_final` generated with lambda `0.5`.
+See [scripts/guide.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/scripts/guide.md).
 
 ### 2) Run the Java SPEA2 optimizer
 
@@ -56,6 +58,11 @@ Main inputs:
 Important contract:
 - The distance matrix indexing order is **candidate id ascending**.
 - The Java side maintains this alignment via `CandidateRepository.finalizeRepository()`.
+- `is_forbidden = 1` rows remain demand grid points, but Java excludes them
+  from the selectable locker-location universe.
+- `poi_score` and `demand_final` must be present for the default scientific
+  demand model. If they are missing, `CsvLoader` falls back to population-only
+  demand, which changes the experiment.
 
 See [kadikoy_ARTIFACTS_GUIDE.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/data/kadikoy_ARTIFACTS_GUIDE.md) for details.
 

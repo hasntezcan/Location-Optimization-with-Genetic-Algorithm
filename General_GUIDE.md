@@ -51,7 +51,7 @@ K candidate locations
 The current default value is:
 
 ```text
-K = 8
+K = 5
 ```
 
 Each solution is evaluated using two minimization objectives:
@@ -583,12 +583,13 @@ Output:
 candidate_with_forbidden_flag
 ```
 
-#### 5.8.8 Exporting Feasible Candidates
+#### 5.8.8 Runtime Handling of Forbidden Candidates
 
-For the GA-ready export, candidates were filtered:
+The current runtime CSV keeps both feasible and forbidden candidate rows:
 
 ```text
-is_forbidden = 0
+is_forbidden = 0 -> selectable as a locker location
+is_forbidden = 1 -> kept as a demand grid point, not selectable as a locker location
 ```
 
 Output:
@@ -597,7 +598,11 @@ Output:
 candidate_points.csv
 ```
 
-The current repository `data/candidate_points.csv` is a feasible-only export. It still includes the `is_forbidden` column, and currently all rows have `is_forbidden = 0`.
+Current `data/candidate_points.csv` contains 2717 rows: 2553 selectable rows
+and 164 forbidden rows. Keeping forbidden rows in the CSV preserves the
+candidate-to-distance-matrix alignment. The Java optimizer filters the locker
+selection universe through `CandidateRepository.getSelectableCandidateIds()`,
+while objective evaluation still uses all rows as demand grid points.
 
 ### 5.9 CSV Export Artifacts and QGIS Side Files
 
@@ -637,7 +642,8 @@ The data preparation workflow produced:
 - Candidate-level existing locker count.
 - `forbidden_mask`.
 - Grid-based `is_forbidden` computed via coverage ratio.
-- Final feasible candidate table exported as `candidate_points.csv`.
+- Final candidate table exported as `candidate_points.csv`, with
+  `is_forbidden` preserved for runtime selection filtering.
 
 ### 5.11 Raw GIS/Data Inventory in the Repository
 
@@ -711,18 +717,18 @@ Current data status:
 - Unique neighborhoods: `21`
 - Distance matrix shape: `2717 x 2717`
 - Distance matrix dtype: `float32`
-- Current total forbidden count: `0`
+- Current total forbidden count: `164`
 - Candidate ID range: `24` to `5964`
 - Sum of `demand_final`: approximately `492289.09`
 
 Each candidate is used in two ways:
 
 - As a demand grid point during objective evaluation.
-- As a possible locker location if its ID is selected in a chromosome.
+- As a possible locker location only when `is_forbidden = 0`.
 
 ### 6.1 Expected CSV Columns
 
-`CsvLoader` currently maps fields by fixed column positions, not by column names. The expected CSV header is:
+`CsvLoader` maps fields by column name. The expected runtime CSV header is:
 
 ```text
 fid,id,left,top,right,bottom,row_index,col_index,
@@ -735,30 +741,33 @@ population_candidate,poi_score,demand_final
 
 Important mapping:
 
-| CSV index | Column | Java field |
-| --- | --- | --- |
-| 1 | `id` | candidate ID |
-| 8 | `Mahalle_Name_Turkish` | Turkish neighborhood name |
-| 9 | `Mahalle_Name_English` | English neighborhood name |
-| 10 | `population_mahalle` | neighborhood population |
-| 11 | `poi_atm` | ATM count |
-| 12 | `poi_bank` | bank count |
-| 13 | `poi_hospital` | hospital count |
-| 14 | `poi_school` | school count |
-| 15 | `poi_university` | university count |
-| 16 | `poi_post_office` | post office count |
-| 17 | `poi_transport` | transportation hub count |
-| 18 | `poi_bus_stop` | bus stop count |
-| 19 | `lon` | longitude |
-| 20 | `lat` | latitude |
-| 21 | `is_forbidden` | forbidden flag |
-| 22 | `locker_count` | existing locker count near candidate |
-| 23 | `grid_count_by_mahalle` | number of grid cells in the neighborhood |
-| 24 | `population_candidate` | population assigned to candidate |
-| 25 | `poi_score` | composite POI score |
-| 26 | `demand_final` | final demand score |
+| Column | Java field |
+| --- | --- |
+| `id` | candidate ID |
+| `Mahalle_Name_Turkish` | Turkish neighborhood name |
+| `Mahalle_Name_English` | English neighborhood name |
+| `population_mahalle` | neighborhood population |
+| `poi_atm` | ATM count |
+| `poi_bank` | bank count |
+| `poi_hospital` | hospital count |
+| `poi_school` | school count |
+| `poi_university` | university count |
+| `poi_post_office` | post office count |
+| `poi_transport` | transportation hub count |
+| `poi_bus_stop` | bus stop count |
+| `lon` | longitude |
+| `lat` | latitude |
+| `is_forbidden` | forbidden flag |
+| `locker_count` | existing locker count near candidate |
+| `grid_count_by_mahalle` | number of grid cells in the neighborhood |
+| `population_candidate` | population assigned to candidate |
+| `poi_score` | composite POI score |
+| `demand_final` | final demand score |
 
-If the CSV column order changes, `src/main/java/io/CsvLoader.java` must be updated.
+If `poi_score` or `demand_final` is missing, Java falls back to `poi_score = 0`
+and `demand_final = population_candidate`. That fallback is useful for
+debugging, but it changes the scientific demand model and should not be treated
+as equivalent to the prepared dataset.
 
 ### 6.2 Demand and POI Score Fields
 
@@ -807,7 +816,8 @@ data/candidate_points.csv
 The script:
 
 1. Reads the candidate CSV.
-2. Finds columns whose names start with `poi_`.
+2. Finds raw POI columns whose names start with `poi_`, excluding generated
+   columns such as `poi_score` and `demand_final`.
 3. Fills missing POI values with zero.
 4. Applies `log1p` transformation.
 5. Applies min-max normalization.
@@ -847,21 +857,22 @@ Interpretation:
 
 The prompt accepts both comma and dot decimal separators.
 
-### 7.4 Important Current Risk
+### 7.4 Rerun Safety
 
-`prepare_demand.py` selects POI columns using:
+`prepare_demand.py` and `calculate_poi_weights.py` select raw POI columns using:
 
 ```text
-col.startswith("poi_")
+col.startswith("poi_") and col not in {"poi_score", "demand_final"}
 ```
 
-Because `poi_score` also starts with `poi_`, rerunning the script on an already enriched CSV can accidentally include the generated `poi_score` column in the next EWM calculation.
+This prevents reruns on an already enriched CSV from feeding the generated
+`poi_score` column back into the Entropy Weight Method.
 
 Safer workflow:
 
 1. Start from a clean candidate CSV.
-2. Remove generated `poi_score` and `demand_final` before recalculating if necessary.
-3. Prefer changing the script later to use an explicit list of raw POI columns.
+2. Keep a backup before overwriting `data/candidate_points.csv`.
+3. Confirm `poi_score` and `demand_final` after recalculation.
 
 ### 7.5 Read-Only Weight Inspection Script
 
@@ -1118,26 +1129,24 @@ This is the centralized static parameter file.
 Current values:
 
 ```text
-K = 8
+K = 5
 POPULATION_SIZE = 100
 ARCHIVE_SIZE = 50
-MAX_GENERATIONS = 500
+MAX_GENERATIONS = 200
 BETA = 2.0
 CROSSOVER_RATE = 0.9
 MUTATION_RATE = 0.1
-ASSESSMENT_IDEAL_F1 = 0.93
-ASSESSMENT_IDEAL_F2 = 0.40
-ASSESSMENT_NADIR_F1 = 1.27
-ASSESSMENT_NADIR_F2 = 0.58
 REFERENCE_POINT_F1 = 1.1
 REFERENCE_POINT_F2 = 1.1
 ```
 
 Important current behavior:
 
-- `Main.java` contains comments referring to fixed assessment bounds.
-- The actual current code computes dynamic assessment bounds from non-dominated solutions in the initial and final archive snapshots.
-- `ASSESSMENT_IDEAL_*` and `ASSESSMENT_NADIR_*` are currently fallback/printed values, not the main assessment normalization bounds.
+- `Main.java` can override common parameters through CLI args such as `--k`,
+  `--populationSize`, `--maxGenerations`, `--mutationRate`,
+  `--crossoverRate`, `--archiveSize`, and `--randomSeed`.
+- HV-space normalization bounds are derived from the final archive
+  non-dominated set, not from static constants in `GAParameters`.
 
 ### 11.2 `GAState.java` and `GAResult.java`
 
@@ -1183,6 +1192,7 @@ It maintains:
 - `candidateMap`: direct candidate lookup by ID.
 - `idToIndexMap`: candidate ID to distance matrix index.
 - `sortedCandidates`: candidates sorted by ascending ID.
+- selectable candidate IDs are derived by filtering `is_forbidden = 0`.
 
 Critical method:
 
@@ -1197,6 +1207,10 @@ What it does:
 - Sorts all candidates by ascending ID.
 - Builds the ID-to-index mapping.
 - Ensures Java candidate order matches the Python-generated distance matrix order.
+
+Forbidden rows are deliberately kept in `sortedCandidates`; they are demand grid
+points and must remain aligned with the distance matrix. They are excluded only
+from the locker selection universe.
 
 ### 12.3 `Individual.java`
 
@@ -1222,10 +1236,11 @@ Loads `data/candidate_points.csv` into a `CandidateRepository`.
 
 Important details:
 
-- Skips the header row.
+- Reads and indexes the header row.
 - Ignores empty lines.
-- Uses `line.split(",")`.
-- Maps fields by fixed column positions.
+- Uses simple comma splitting with empty trailing-field preservation.
+- Maps fields by header names.
+- Falls back to population-only demand if `poi_score` or `demand_final` is absent.
 
 Risk:
 
@@ -1235,7 +1250,7 @@ Recommended future improvement:
 
 - Use a real CSV parser such as OpenCSV.
 - Or implement robust quoted-field parsing.
-- Or map by header name rather than fixed position.
+- Add schema validation that fails early when scientific demand columns are missing.
 
 ### 13.2 `DistanceMatrixLoader.java`
 
@@ -1291,7 +1306,8 @@ per individual evaluation.
 With the current values:
 
 - Number of candidates: `2717`.
-- K: `8`.
+- Selectable locker candidates: `2553`.
+- K: `5`.
 
 This is feasible for the current project size.
 
@@ -1301,22 +1317,16 @@ Creates the initial population.
 
 For each individual:
 
-1. Copy all candidate IDs.
+1. Copy all selectable candidate IDs.
 2. Shuffle them.
 3. Take the first `K` IDs.
 4. Create an `Individual`.
 
-Current limitation:
+Current behavior:
 
-- The default initializer does not accept a seed.
-- `ParameterAnalyzer` seeds `Selection` and `Variation`, but not initial population creation.
-- Therefore, grid-search runs are not fully deterministic.
-
-Recommended future change:
-
-```text
-PopulationInitializer(long seed)
-```
+- The default initializer uses an unseeded random generator.
+- `Main` and `ParameterAnalyzer` can use `PopulationInitializer(long seed)` for
+  deterministic runs when a seed is supplied.
 
 ### 14.3 `ObjectiveNormalizer.java`
 
@@ -1329,7 +1339,8 @@ It supports:
 
 Dynamic normalization is used inside `Evaluate` for density calculation.
 
-Shared-bound normalization is used in `Main` after the run so initial and final archives can be compared in the same objective space.
+Fixed-bound normalization is used in `Main` after the run to export archive
+snapshots in the final archive non-dominated objective space.
 
 Formula:
 
@@ -1533,33 +1544,30 @@ Actual workflow:
 4. Load `data/kadikoy_distance_meters_nxn.npy`.
 5. Validate matrix dimensions against repository size.
 6. Read parameters from `GAParameters`.
-7. Initialize population.
-8. Create an empty archive.
-9. Build all algorithm/service dependencies.
-10. Evaluate generation 0.
-11. Build generation 0 archive using `Survivor`.
-12. Deep-copy the initial archive snapshot.
-13. Run the evolutionary loop for `MAX_GENERATIONS`.
-14. Each generation:
+7. Apply optional CLI argument overrides.
+8. Build the selectable locker universe from `is_forbidden = 0` rows.
+9. Initialize population from selectable candidate IDs.
+10. Create an empty archive.
+11. Build all algorithm/service dependencies.
+12. Evaluate generation 0.
+13. Build generation 0 archive using `Survivor`.
+14. Deep-copy the initial archive snapshot.
+15. Run the evolutionary loop for `MAX_GENERATIONS`.
+16. Each generation:
     - Select mating pool from archive.
     - Generate offspring through variation.
     - Evaluate offspring plus archive.
     - Build next archive.
-    - Print best f1 and best f2.
-15. Deep-copy the final archive snapshot.
-16. Combine initial and final snapshots.
-17. Extract non-dominated solutions from the combined set.
-18. Compute dynamic min/max f1/f2 from those non-dominated solutions.
-19. Add 5% padding to the dynamic bounds.
-20. Normalize initial and final archive snapshots using the same padded bounds.
+    - Print compact progress for the UI stream.
+17. Deep-copy the final archive snapshot.
+18. Extract the final archive non-dominated set.
+19. Compute ideal/nadir f1/f2 bounds from the final ND set.
+20. Normalize initial and final archive snapshots using those final-ND bounds.
 21. Write `output/initial_archive.csv`.
 22. Write `output/final_archive.csv`.
-23. Compute initial and final hypervolume.
-24. Print hypervolume, ND counts, CSV paths, and runtime.
-
-Important note:
-
-The file comment still says "fixed assessment bounds", but the current implementation uses dynamic assessment bounds. This should be cleaned up in a future code/documentation pass.
+23. Compute final archive hypervolume and hypervolume ratio.
+24. Compute raw-objective improvement metrics and C-metric.
+25. Print hypervolume, ND counts, CSV paths, and runtime.
 
 ## 18. Archive CSV Format
 
@@ -1615,20 +1623,23 @@ Reason:
 - f2 is a coefficient of variation.
 - Raw multiplication of objective ranges would make interpretation unstable.
 
-Correct comparison rule:
+Correct assessment rule:
 
 ```text
-Initial and final archives must be normalized with the same bounds.
+Final archive HV uses bounds derived from the final archive non-dominated set.
+Initial-to-final improvement uses raw-objective ND metrics and C-metric.
 ```
 
-If each archive or each generation is normalized separately, hypervolume comparisons become mathematically misleading.
+If each archive or each generation is normalized separately, hypervolume
+comparisons become mathematically misleading. The current project therefore
+does not use initial-vs-final HV as the official improvement metric.
 
 Current `Main` behavior:
 
-- Build common dynamic bounds from non-dominated solutions found in both initial and final snapshots.
-- Add 5% padding.
-- Normalize both snapshots with these shared bounds.
-- Compute hypervolume with reference point `(1.1, 1.1)`.
+- Build ideal/nadir bounds from the final archive non-dominated set.
+- Normalize both exported archive snapshots with those final-ND bounds.
+- Compute final archive hypervolume with reference point `(1.1, 1.1)`.
+- Compute initial-to-final improvement separately in raw objective space.
 
 Hypervolume ratio:
 
@@ -1677,7 +1688,8 @@ Purpose:
 Grid:
 
 ```text
-K_VALUES = {3, 5, 7}
+K_VALUES = {3, 6, 10}
+LAMBDA_VALUES = {0.4, 0.5, 0.6}
 MUTATION_RATES = {0.05, 0.10, 0.20, 0.30, 0.40}
 CROSSOVER_RATES = {0.7, 0.9}
 POPULATION_SIZES = {50, 100, 200}
@@ -1693,31 +1705,31 @@ archiveSize = populationSize / 2
 Evaluation budget:
 
 ```text
-TOTAL_EVALUATION_BUDGET = 15200
+K=3  -> TARGET_FE = 30000
+K=6  -> TARGET_FE = 50000
+K=10 -> TARGET_FE = 80000
 ```
 
 Generation formula:
 
 ```text
-maxGenerations = (TOTAL_BUDGET - populationSize) / (populationSize + archiveSize)
+maxGenerations = (TARGET_FE / populationSize) - 1
 ```
 
 CSV columns:
 
 ```text
-Run_ID,Seed,K,Population_Size,Archive_Size,Max_Generations,
-Crossover_Rate,Mutation_Rate,Total_Evaluations,
-Final_HV,Final_HV_Ratio,Final_ND_Count,
-Final_Best_F1,Final_Best_F2,Runtime_ms
+K,Lambda,PopSize,ArchiveSize,MaxGen,MutRate,CrossRate,
+FunctionEvals,Runtime_ms,ND_Count,Best_f1,Best_f2,
+Mean_f1,Mean_f2,Final_HV
 ```
 
-Current reproducibility limitation:
+Current reproducibility behavior:
 
-- `Selection` is seeded.
-- `Variation` is seeded.
-- `PopulationInitializer` is not seeded.
-
-Therefore the analyzer is not fully deterministic yet.
+- `PopulationInitializer`, `Selection`, and `Variation` are all seeded inside
+  analyzer runs.
+- Calibration bounds are locked per `(K, Lambda)` group using a calibration
+  phase before the grid-search runs.
 
 ## 21. Python Utility Scripts
 
@@ -1764,7 +1776,7 @@ It plots four panels:
 
 - Initial archive in raw objective space.
 - Final archive in raw objective space.
-- Initial archive in hypervolume space.
+- Initial-to-final improvement metrics.
 - Final archive in hypervolume space.
 
 It also prints:
@@ -1862,26 +1874,25 @@ POST body example:
 
 ```json
 {
-  "k": 8,
+  "k": 5,
   "populationSize": 100,
   "maxGenerations": 30,
-  "mutationRate": 0.1
+  "mutationRate": 0.1,
+  "crossoverRate": 0.9,
+  "archiveSize": 50,
+  "randomSeed": 42
 }
 ```
 
 Current behavior:
 
-1. Reads `src/main/java/config/GAParameters.java`.
-2. Uses regex replacement to update:
-   - `K`
-   - `POPULATION_SIZE`
-   - `MAX_GENERATIONS`
-   - `MUTATION_RATE`
-3. Runs `mvn compile exec:java` in the project root.
+1. Builds Maven `-Dexec.args` from the request body.
+2. Runs `mvn compile exec:java` in the project root.
+3. Streams Java progress lines back to the UI.
 4. Runs `scripts/plot_archives.py`.
 5. Copies `output/archive_comparison_latest.png` into the UI public mock folder.
 6. Runs `parcel-locker-ui/src/scripts/process_ga_data.py`.
-7. Returns JSON status.
+7. Streams completion or error status.
 
 Important warning:
 
@@ -2060,7 +2071,9 @@ parcel-locker-ui/public/mock/ga-results.json
 parcel-locker-ui/public/mock/archive_comparison_latest.png
 ```
 
-The current local `/api/run-ga` route automates these steps, but it does so by mutating `GAParameters.java` and running shell commands. That is acceptable for local experiments only.
+The current local `/api/run-ga` route automates these steps by passing runtime
+arguments to Maven and spawning Maven/Python processes. That is acceptable for
+local experiments only.
 
 ### 24.2 Recommended First Backend Endpoints
 
@@ -2292,11 +2305,14 @@ If objective direction changes, update:
 - `parcel-locker-ui/src/scripts/process_ga_data.py`
 - UI labeling and interpretation
 
-### 29.4 Shared Assessment Normalization
+### 29.4 Final-ND Assessment Normalization
 
-Initial and final archive hypervolume comparison must use the same normalization bounds.
+Final archive hypervolume uses normalization bounds derived from the final
+archive non-dominated set.
 
-Hypervolume values from separately normalized archives should not be compared directly.
+Hypervolume values from separately normalized archives should not be compared
+directly. Initial-to-final improvement should be read from raw-objective
+improvement metrics and C-metric.
 
 ### 29.5 CSV Column Order
 
@@ -2348,25 +2364,31 @@ Recommended improvement:
 
 ### 31.3 POI Column Selection in Demand Script
 
-`prepare_demand.py` can accidentally include `poi_score` during reruns.
+`prepare_demand.py` and `calculate_poi_weights.py` now exclude generated
+columns (`poi_score`, `demand_final`) when selecting raw POI columns.
 
 Recommended improvement:
 
-- Use an explicit list of raw POI columns.
+- Add an explicit raw POI column allow-list if new POI-derived columns are added.
 
 ### 31.4 Forbidden Candidate Handling
 
-The current candidate CSV is feasible-only and has `is_forbidden = 0` for all rows.
+The current candidate CSV includes both feasible and forbidden rows:
 
-If future data includes forbidden rows:
+```text
+is_forbidden = 0 -> 2553 rows
+is_forbidden = 1 -> 164 rows
+```
 
-- Decide whether forbidden cells remain demand points.
-- Ensure forbidden cells cannot be selected as locker locations if they are infeasible.
-- Keep matrix and CSV row sets synchronized.
+Implemented behavior:
 
-### 31.5 UI API Route Modifies Java Source
+- forbidden cells remain demand points
+- forbidden cells cannot be selected as locker locations
+- CSV and matrix row sets stay synchronized
 
-The local API route edits `GAParameters.java` through regex replacement.
+### 31.5 UI API Route Spawns Local Processes
+
+The local API route spawns Maven and Python processes from the Next.js server.
 
 Recommended improvement:
 
@@ -2423,7 +2445,7 @@ The current project state includes several important code-side design decisions 
 - `Survivor` deduplicates archive candidates by chromosome.
 - `Variation` uses shared-gene priority crossover plus mutation and repair.
 - `Main` exports both initial and final archive snapshots.
-- `Main` normalizes initial and final archive snapshots in a shared dynamic assessment space.
+- `Main` normalizes archive exports using bounds derived from the final archive non-dominated set.
 - `HypervolumeIndicator` computes 2D normalized-space hypervolume.
 - `ParameterAnalyzer` performs constant-evaluation-budget grid search.
 - The UI `/api/run-ga` route can trigger a local Java run and refresh UI assets.
@@ -2436,15 +2458,15 @@ No additional source-code edits were made as part of this report-guide update.
 ### 33.1 Short-Term Hardening
 
 1. Add automated tests.
-2. Add seed support to `PopulationInitializer`.
-3. Replace `CsvLoader` with robust CSV parsing.
-4. Make `prepare_demand.py` use explicit POI columns.
-5. Align `Main.java` comments with the current dynamic assessment behavior.
+2. Add schema validation for `candidate_points.csv`.
+3. Replace `CsvLoader` with robust quoted-field CSV parsing.
+4. Add an explicit POI column allow-list if the feature set grows.
+5. Add performance tests for fitness evaluation.
 
 ### 33.2 Backend Readiness
 
-1. Replace static `GAParameters` source editing with runtime config.
-2. Move orchestration from `Main` into a reusable `GARunner` or `OptimizerService`.
+1. Move orchestration from `Main` into a reusable `GARunner` or `OptimizerService`.
+2. Add production-grade runtime config validation.
 3. Populate `GAState` and `GAResult`.
 4. Add run-specific output folders.
 5. Produce structured JSON output.
@@ -2510,7 +2532,7 @@ After a run:
 4. Check non-dominated count.
 5. Inspect the raw objective plot.
 6. Compare initial and final archive spread.
-7. Check whether hypervolume improvement is positive.
+7. Check final hypervolume ratio and raw-objective improvement metrics.
 8. Inspect selected locker geography in the UI.
 
 For decision-making, a solution should not be selected only because it has the best f1. The best f1 solution may be unfair across neighborhoods. Similarly, a solution should not be selected only because it has the best f2, because the best f2 solution may have poor accessibility. The Pareto archive exists to expose this trade-off and support informed selection among competing alternatives.
@@ -2521,7 +2543,8 @@ The following notes are important for reproducibility and safe continuation of t
 
 - Data files should not be overwritten unless the workflow explicitly requires it.
 - Remember that `scripts/prepare_demand.py` overwrites `data/candidate_points.csv`.
-- Remember that `/api/run-ga` can mutate `GAParameters.java`.
+- Remember that `/api/run-ga` spawns Maven and Python processes from the local
+  development server.
 - Treat `output` files as generated artifacts, but also as useful example outputs.
 - `target` should not be edited because it is Maven build output.
 - Raw GIS files under `data/raw` are data preparation sources, not Java runtime inputs.
@@ -2546,6 +2569,7 @@ Working:
 - Mutation and repair.
 - Initial/final archive export.
 - Shared normalized assessment.
+- Forbidden candidate filtering for locker selection.
 - Hypervolume computation.
 - Parameter grid search.
 - Archive plotting.
@@ -2559,18 +2583,17 @@ Missing or incomplete:
 - Production backend.
 - Runtime parameter injection.
 - Generation-level export.
-- Fully deterministic analyzer.
 - Robust CSV parsing.
-- Safer demand preparation.
+- Production-grade CSV schema validation.
 - Network-distance matrix.
 - True generation playback in the UI.
 
 ## 38. Final Report Summary
 
-This project is a multi-objective SPEA2 optimization system for selecting parcel locker locations in Kadikoy. It uses 2717 feasible candidate grid centroids derived from a QGIS/OSM workflow. Each candidate has spatial, neighborhood, POI, bus stop, existing locker, population, and demand attributes. The Java optimizer selects `K` candidate IDs and evaluates them with two minimization objectives: demand-weighted accessibility and neighborhood equity.
+This project is a multi-objective SPEA2 optimization system for selecting parcel locker locations in Kadikoy. It uses 2717 candidate grid centroids derived from a QGIS/OSM workflow; 2553 are selectable locker candidates and 164 are forbidden rows kept as demand grid points. Each candidate has spatial, neighborhood, POI, bus stop, existing locker, population, and demand attributes. The Java optimizer selects `K` non-forbidden candidate IDs and evaluates them with two minimization objectives: demand-weighted accessibility and neighborhood equity.
 
 The Java code is the authoritative implementation of the optimization methodology. Python scripts prepare demand values, generate matrix artifacts, and plot archive outputs. The Next.js UI visualizes final archive solutions on a map and can locally trigger the Java optimizer, but that trigger is a development shortcut rather than a production backend.
 
-The first contract to protect is candidate ID to matrix index alignment. The second contract is chromosome set semantics. The third contract is shared-bound normalization for meaningful hypervolume comparison.
+The first contract to protect is candidate ID to matrix index alignment. The second contract is chromosome set semantics. The third contract is selectable-vs-demand handling for forbidden candidates. The fourth contract is final-ND-based normalization for final archive hypervolume assessment.
 
-The next most valuable engineering improvements are tests, runtime configuration, robust CSV parsing, deterministic initialization, and generation-level exports for the UI.
+The next most valuable engineering improvements are tests, runtime configuration, schema validation, robust CSV parsing, performance improvements in fitness evaluation, and generation-level exports for the UI.

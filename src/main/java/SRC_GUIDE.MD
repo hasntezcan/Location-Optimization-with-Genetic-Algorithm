@@ -29,8 +29,12 @@ It explains:
 We have a candidate set of possible locker points in Kadıköy.
 
 Each solution:
-- selects `k` locker locations
+- selects `k` locker locations from the non-forbidden candidate subset
 - evaluates how good this selection is according to two objectives
+
+Forbidden candidates are still loaded as demand grid points and remain aligned
+with the distance matrix, but they are excluded from the selectable
+locker-location universe.
 
 The optimization is multi-objective:
 - minimize **accessibility cost**
@@ -141,9 +145,11 @@ It should:
 - reads all parameters from `config.GAParameters`
 - stores an initial archive snapshot
 - stores a final archive snapshot
-- tracks global raw objective bounds across generations
-- applies post-hoc normalization for archive comparison and HV computation
-- logs per-generation diagnostics (best f1, best f2)
+- accepts runtime CLI arguments for common parameters
+- filters the selectable locker universe via `getSelectableCandidateIds()`
+- applies final-ND-based post-hoc normalization for archive export and final HV
+  computation
+- logs compact per-generation progress lines for the UI stream
 
 ### Future direction
 `Main` should remain thin.
@@ -178,10 +184,15 @@ Stores all candidate points in memory.
 - keep loaded candidate points
 - provide access by id
 - provide all candidate ids
+- provide selectable candidate ids (`is_forbidden = 0`) for locker placement
 - finalize and synchronize loaded candidate data with other structures
 
 ### Important note
 This repository is central because almost all optimization logic eventually queries candidate data through it.
+
+Important distinction:
+- all candidates remain demand grid points for objective evaluation
+- only non-forbidden candidates are selectable as locker locations
 
 ---
 
@@ -225,7 +236,13 @@ Loads candidate point data from CSV.
 ### Responsibilities
 - read `candidate_points.csv`
 - parse each row
+- map required fields by CSV header name
 - populate the repository
+
+`poi_score` and `demand_final` are expected for the default demand model. If
+they are absent, the loader falls back to `poi_score = 0` and
+`demand_final = population_candidate`; this keeps local runs from crashing but
+changes the scientific demand model.
 
 ### Why it exists
 Separates file parsing from model logic.
@@ -302,14 +319,17 @@ Used after the full run so that:
 - initial archive
 - final archive
 
-can be compared in the **same objective space**
+share a consistent exported objective space. The official HV calculation is for
+the final archive only.
 
 ### Current lesson learned
 Generation-by-generation normalization caused invalid hypervolume comparisons.
 
 So now the important rule is:
 
-> For final quality assessment, initial and final archives must be normalized using the exact same global bounds.
+> For final archive HV assessment, normalization bounds are derived from the
+> final archive non-dominated set. Initial-to-final improvement is assessed with
+> raw-objective ND metrics and C-metric instead of initial-vs-final HV.
 
 ### Future note
 This class may later be split into:
@@ -339,11 +359,8 @@ This is used only at generation 0.
 Computes the 2D hypervolume indicator.
 
 ### Current intent
-Used for final assessment of:
-- initial archive
-- final archive
-
-after post-hoc normalization in a shared objective space.
+Used for final archive/front quality assessment after post-hoc normalization in
+a final-ND-based objective space.
 
 ### Important caveat
 Hypervolume has been one of the most sensitive parts of the project so far.
@@ -521,11 +538,12 @@ The workflow currently looks like this:
    - `Variation` creates offspring population
    - `Evaluate` scores offspring + archive
    - `Survivor` creates next archive
-   - global raw objective min/max are updated
+   - compact progress is printed
 8. final archive is saved as the **final archive snapshot**
-9. both snapshots are normalized in the same final global assessment space
-10. `HypervolumeIndicator` computes HV for both
-11. runtime and final diagnostics are printed
+9. final archive ND solutions define the HV normalization bounds
+10. both snapshots are exported with those normalized objective columns
+11. `HypervolumeIndicator` computes final archive HV
+12. raw-objective improvement metrics and runtime diagnostics are printed
 
 ---
 
@@ -542,9 +560,9 @@ The following parts are already operational:
 - truncation logic
 - binary tournament selection
 - crossover / mutation / repair
-- archive snapshots for initial vs final comparison
+- archive snapshots for initial vs final raw-objective comparison
 - runtime tracking
-- post-hoc hypervolume comparison in a shared space
+- post-hoc final archive hypervolume in a final-ND-based space
 
 This means the project already has a functioning end-to-end optimization pipeline.
 
@@ -698,7 +716,7 @@ The current state:
 - **archive mechanics: implemented**
 - **objective design: revised** (km-based f1, CV-based f2)
 - **configuration: centralized** in `config.GAParameters`
-- **diagnostics: per-generation** best f1/f2 logging
+- **diagnostics: per-generation** compact progress logging
 - **crossover: improved** with shared-gene priority recombination
 - **assessment pipeline: functional** but may need further HV sensitivity tuning
 

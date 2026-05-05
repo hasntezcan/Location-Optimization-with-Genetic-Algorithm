@@ -23,8 +23,10 @@ What this script generates
 Demand (important)
 ------------------
 
-- This script does NOT export demand.
-- Use demand directly from the candidate CSV (e.g., weighted_population).
+- This matrix-generation script does NOT export demand.
+- Use demand directly from the candidate CSV. The default Java `Main` expects
+  `demand_final`; if that column is missing, `CsvLoader` falls back to
+  `population_candidate`, which changes the experiment.
 
 How to use in GA (quick)
 ------------------------
@@ -43,7 +45,13 @@ Python example:
 Forbidden filtering
 -------------------
 
-Applied: none (assumes your CSV is already clean).
+Applied when this artifact was generated: none.
+
+The runtime CSV and this matrix must keep the same row set and sorted-by-ID
+order. Current Java keeps `is_forbidden = 1` rows in the repository and matrix
+as demand grid points, but excludes them from selectable locker IDs through
+`CandidateRepository.getSelectableCandidateIds()`. Do not regenerate the matrix
+with `--filter_forbidden` unless the runtime CSV is filtered the exact same way.
 
 Sanity
 ------
