@@ -3,38 +3,82 @@
     "id": 1,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1094",
         "lat": 41.001550357319,
         "lng": 29.0329442899791,
-        "neighborhood": "Acıbadem Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1115",
-        "lat": 40.9826449583867,
-        "lng": 29.032363408101,
+=======
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1314",
-        "lat": 40.9978863901424,
-        "lng": 29.0363983542555,
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2623",
-        "lat": 40.9858032514274,
-        "lng": 29.0574226225563,
+<<<<<<< Updated upstream
+        "id": "1115",
+        "lat": 40.9826449583867,
+        "lng": 29.032363408101,
+        "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "1314",
+        "lat": 40.9978863901424,
+        "lng": 29.0363983542555,
+        "neighborhood": "Acıbadem Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2623",
+        "lat": 40.9858032514274,
+        "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2641",
         "lat": 40.9695988313113,
         "lng": 29.0569189761746,
@@ -46,25 +90,60 @@
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+=======
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4736",
         "lat": 40.9626773141407,
         "lng": 29.0911634595815,
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+>>>>>>> Stashed changes
         "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7466931879593294,
       "equity": 0.18953028237379302,
       "fitness": 0.49784383345872635,
       "norm_f1": 0.8630276404955899,
       "norm_f2": 0.056769143870258436
+=======
+      "accessibility": 0.4242242681581535,
+      "equity": 0.19497198286592357,
+      "fitness": 0.4960904390535694,
+      "norm_f1": 0.14021041922852928,
+      "norm_f2": 0.33085204580878297
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -74,68 +153,147 @@
     "id": 2,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
         "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "747",
+        "lat": 40.9899516556527,
+        "lng": 29.0266440809628,
+        "neighborhood": "Osmanağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2273",
         "lat": 40.9769066725031,
         "lng": 29.0512034794591,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3580",
         "lat": 40.9666214916305,
         "lng": 29.0722747719386,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
+=======
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6443820341508305,
       "equity": 0.24832894884447373,
       "fitness": 0.4963418305404536,
       "norm_f1": 0.22096042817130399,
       "norm_f2": 0.36253715695812383
+=======
+      "accessibility": 0.4167468671541393,
+      "equity": 0.23140658704960318,
+      "fitness": 0.4978920293035512,
+      "norm_f1": 0.049171793841403334,
+      "norm_f2": 0.5455759532144487
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -145,46 +303,113 @@
     "id": 3,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
         "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "747",
+        "lat": 40.9899516556527,
+        "lng": 29.0266440809628,
+        "neighborhood": "Osmanağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1451",
+        "lat": 41.0041461317188,
+        "lng": 29.0389691288701,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2273",
         "lat": 40.9769066725031,
         "lng": 29.0512034794591,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "3505",
         "lat": 40.9693435592374,
         "lng": 29.0711715920911,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4723",
+        "lat": 40.9743802717234,
+        "lng": 29.0915331253793,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
@@ -197,16 +422,30 @@
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6392513772678916,
       "equity": 0.26062880654920395,
       "fitness": 0.4952987030866204,
       "norm_f1": 0.18876231057029474,
       "norm_f2": 0.4264995438179374
+=======
+      "accessibility": 0.41501190185992753,
+      "equity": 0.24671663421025644,
+      "fitness": 0.4966621149625909,
+      "norm_f1": 0.02804829713517973,
+      "norm_f2": 0.6358042738605956
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -216,68 +455,146 @@
     "id": 4,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "963",
         "lat": 40.9898889129248,
         "lng": 29.030208414918,
         "neighborhood": "Osmanağa Mahallesi",
+=======
+        "id": "748",
+        "lat": 40.9890513947927,
+        "lng": 29.0266165043775,
+        "neighborhood": "Caferağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1451",
+        "lat": 41.0041461317188,
+        "lng": 29.0389691288701,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2273",
         "lat": 40.9769066725031,
         "lng": 29.0512034794591,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2907",
         "lat": 40.989319272808,
         "lng": 29.0622869114889,
+=======
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+>>>>>>> Stashed changes
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3505",
         "lat": 40.9693435592374,
         "lng": 29.0711715920911,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4429",
         "lat": 40.9798677780835,
         "lng": 29.0869522751645,
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4723",
+        "lat": 40.9743802717234,
+        "lng": 29.0915331253793,
+>>>>>>> Stashed changes
         "neighborhood": "19 Mayıs Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6121131133147989,
       "equity": 0.3480873264923803,
       "fitness": 0.49531862461010856,
       "norm_f1": 0.01845253656171102,
       "norm_f2": 0.8813060806968831
+=======
+      "accessibility": 0.41374482674340013,
+      "equity": 0.2746100620949695,
+      "fitness": 0.4913288080425587,
+      "norm_f1": 0.01262144269618943,
+      "norm_f2": 0.8001915633766049
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -287,139 +604,297 @@
     "id": 5,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "963",
         "lat": 40.9898889129248,
         "lng": 29.030208414918,
         "neighborhood": "Osmanağa Mahallesi",
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+        "neighborhood": "Caferağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2273",
         "lat": 40.9769066725031,
         "lng": 29.0512034794591,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3122",
+        "lat": 40.9901556676158,
+        "lng": 29.065879242399,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "3505",
         "lat": 40.9693435592374,
         "lng": 29.0711715920911,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "4012",
+        "lat": 40.9664931341434,
+        "lng": 29.0794007132901,
+        "neighborhood": "Suadiye Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
+=======
+        "id": "4059",
+        "lat": 40.9889705414509,
+        "lng": 29.0812873257575,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4583",
+        "lat": 40.9708224505491,
+        "lng": 29.0890439146672,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4956",
+        "lat": 40.9590117045606,
+        "lng": 29.0946122881225,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.613611351627539,
       "equity": 0.31316611778027853,
       "fitness": 0.49214756505612434,
       "norm_f1": 0.02785492976176274,
       "norm_f2": 0.6997069179361024
+=======
+      "accessibility": 0.4948425518499755,
+      "equity": 0.1388326200998119,
+      "fitness": 0.4720676797403003,
+      "norm_f1": 1.0,
+      "norm_f2": 0.0
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
-    "isBestF2": false
+    "isBestF2": true
   },
   {
     "id": 6,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
         "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "747",
+        "lat": 40.9899516556527,
+        "lng": 29.0266440809628,
+        "neighborhood": "Osmanağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1451",
+        "lat": 41.0041461317188,
+        "lng": 29.0389691288701,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2273",
         "lat": 40.9769066725031,
         "lng": 29.0512034794591,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3505",
         "lat": 40.9693435592374,
         "lng": 29.0711715920911,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4143",
         "lat": 40.978153270437,
         "lng": 29.0821440727773,
+=======
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6416049912212731,
       "equity": 0.2592049857495938,
       "fitness": 0.4956467514389469,
       "norm_f1": 0.2035327270271726,
       "norm_f2": 0.4190953137048775
+=======
+      "accessibility": 0.41570563467778265,
+      "equity": 0.23952018077726053,
+      "fitness": 0.4978920293035512,
+      "norm_f1": 0.03649461184928454,
+      "norm_f2": 0.5933926535008505
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -429,38 +904,82 @@
     "id": 7,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1094",
         "lat": 41.001550357319,
         "lng": 29.0329442899791,
-        "neighborhood": "Acıbadem Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1115",
-        "lat": 40.9826449583867,
-        "lng": 29.032363408101,
+=======
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1313",
-        "lat": 40.9987866441549,
-        "lng": 29.036426072506,
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2623",
-        "lat": 40.9858032514274,
-        "lng": 29.0574226225563,
+<<<<<<< Updated upstream
+        "id": "1115",
+        "lat": 40.9826449583867,
+        "lng": 29.032363408101,
+        "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "1313",
+        "lat": 40.9987866441549,
+        "lng": 29.036426072506,
+        "neighborhood": "Acıbadem Mahallesi",
+=======
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2623",
+        "lat": 40.9858032514274,
+        "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2641",
         "lat": 40.9695988313113,
         "lng": 29.0569189761746,
@@ -472,25 +991,61 @@
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+=======
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4737",
         "lat": 40.9617770855331,
         "lng": 29.091135032762,
         "neighborhood": "Suadiye Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7545965217224975,
       "equity": 0.182327982538934,
       "fitness": 0.49720357871945414,
       "norm_f1": 0.9126260595192274,
       "norm_f2": 0.01931535380401571
+=======
+      "accessibility": 0.41825083209182656,
+      "equity": 0.2238023150418969,
+      "fitness": 0.4968506773452505,
+      "norm_f1": 0.06748282202940346,
+      "norm_f2": 0.5007608925035211
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -500,68 +1055,146 @@
     "id": 8,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2419",
         "lat": 40.975063865265,
         "lng": 29.0535233399292,
         "neighborhood": "Göztepe Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1840",
+        "lat": 40.9779335663858,
+        "lng": 29.0441040934331,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "2837",
+        "lat": 40.9875400463084,
+        "lng": 29.0610427475052,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3585",
         "lat": 40.9621202960552,
         "lng": 29.072133914326,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4143",
         "lat": 40.978153270437,
         "lng": 29.0821440727773,
+=======
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.665203591258575,
       "equity": 0.22278003057338014,
       "fitness": 0.49581317736263913,
       "norm_f1": 0.35162887076793004,
       "norm_f2": 0.22967628705741042
+=======
+      "accessibility": 0.4201894881444991,
+      "equity": 0.20324570533268177,
+      "fitness": 0.49667591028303903,
+      "norm_f1": 0.0910862882657318,
+      "norm_f2": 0.3796124497340204
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -571,38 +1204,106 @@
     "id": 9,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1094",
         "lat": 41.001550357319,
         "lng": 29.0329442899791,
-        "neighborhood": "Acıbadem Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1115",
-        "lat": 40.9826449583867,
-        "lng": 29.032363408101,
+=======
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1313",
-        "lat": 40.9987866441549,
-        "lng": 29.036426072506,
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2623",
-        "lat": 40.9858032514274,
-        "lng": 29.0574226225563,
+<<<<<<< Updated upstream
+        "id": "1115",
+        "lat": 40.9826449583867,
+        "lng": 29.032363408101,
+        "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1840",
+        "lat": 40.9779335663858,
+        "lng": 29.0441040934331,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "1313",
+        "lat": 40.9987866441549,
+        "lng": 29.036426072506,
+        "neighborhood": "Acıbadem Mahallesi",
+=======
+        "id": "2837",
+        "lat": 40.9875400463084,
+        "lng": 29.0610427475052,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2623",
+        "lat": 40.9858032514274,
+        "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4795",
+        "lat": 40.9743587076545,
+        "lng": 29.0927209100486,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2641",
         "lat": 40.9695988313113,
         "lng": 29.0569189761746,
@@ -623,16 +1324,30 @@
         "lat": 40.9626773141407,
         "lng": 29.0911634595815,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7494255298247255,
       "equity": 0.18557046417299677,
       "fitness": 0.49785030765175947,
       "norm_f1": 0.8801748141841553,
       "norm_f2": 0.03617708258515466
+=======
+      "accessibility": 0.4200947482300905,
+      "equity": 0.20724247701222853,
+      "fitness": 0.4960904390535694,
+      "norm_f1": 0.08993281373996825,
+      "norm_f2": 0.40316704710837603
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -642,68 +1357,146 @@
     "id": 10,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "963",
         "lat": 40.9898889129248,
         "lng": 29.030208414918,
         "neighborhood": "Osmanağa Mahallesi",
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+        "neighborhood": "Caferağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2198",
         "lat": 40.9796285583617,
         "lng": 29.0500992705228,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2907",
         "lat": 40.989319272808,
         "lng": 29.0622869114889,
+=======
+        "id": "3122",
+        "lat": 40.9901556676158,
+        "lng": 29.065879242399,
+>>>>>>> Stashed changes
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3505",
         "lat": 40.9693435592374,
         "lng": 29.0711715920911,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "4012",
+        "lat": 40.9664931341434,
+        "lng": 29.0794007132901,
+        "neighborhood": "Suadiye Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4429",
         "lat": 40.9798677780835,
         "lng": 29.0869522751645,
+=======
+        "id": "4059",
+        "lat": 40.9889705414509,
+        "lng": 29.0812873257575,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4583",
+        "lat": 40.9708224505491,
+        "lng": 29.0890439146672,
+>>>>>>> Stashed changes
         "neighborhood": "19 Mayıs Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5028",
+        "lat": 40.9589901153821,
+        "lng": 29.0957997949114,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6103071445191507,
       "equity": 0.3643685057311108,
       "fitness": 0.4960873809736323,
       "norm_f1": 0.007118939910686169,
       "norm_f2": 0.9659723516409084
+=======
+      "accessibility": 0.4927648258118431,
+      "equity": 0.14006455192016767,
+      "fitness": 0.47320959648906363,
+      "norm_f1": 0.9747033331045017,
+      "norm_f2": 0.007260274128150325
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -713,68 +1506,145 @@
     "id": 11,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "963",
         "lat": 40.9898889129248,
         "lng": 29.030208414918,
+=======
+        "id": "747",
+        "lat": 40.9899516556527,
+        "lng": 29.0266440809628,
+>>>>>>> Stashed changes
         "neighborhood": "Osmanağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2273",
         "lat": 40.9769066725031,
         "lng": 29.0512034794591,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2907",
         "lat": 40.989319272808,
         "lng": 29.0622869114889,
+=======
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+>>>>>>> Stashed changes
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3505",
         "lat": 40.9693435592374,
         "lng": 29.0711715920911,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
+=======
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4795",
+        "lat": 40.9743587076545,
+        "lng": 29.0927209100486,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6115503830279576,
       "equity": 0.3517423335098924,
       "fitness": 0.4960627623268963,
       "norm_f1": 0.014921048027832168,
       "norm_f2": 0.9003130463416595
+=======
+      "accessibility": 0.4166521272397307,
+      "equity": 0.2349993095750774,
+      "fitness": 0.4970656663782546,
+      "norm_f1": 0.04801831931563978,
+      "norm_f2": 0.5667493249630495
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -784,14 +1654,21 @@
     "id": 12,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1273",
         "lat": 40.9699994112388,
         "lng": 29.0343519618632,
@@ -803,49 +1680,122 @@
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2641",
+        "lat": 40.9695988313113,
+        "lng": 29.0569189761746,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2641",
-        "lat": 40.9695988313113,
-        "lng": 29.0569189761746,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "4736",
+        "lat": 40.9626773141407,
+        "lng": 29.0911634595815,
+        "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "3869",
+        "lat": 40.9656357327684,
+        "lng": 29.0769971660698,
+        "neighborhood": "Erenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4736",
-        "lat": 40.9626773141407,
-        "lng": 29.0911634595815,
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
         "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5028",
+        "lat": 40.9589901153821,
+        "lng": 29.0957997949114,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7450612890235343,
       "equity": 0.19536152014999875,
       "fitness": 0.49720357871945414,
       "norm_f1": 0.8527864423319751,
       "norm_f2": 0.0870930626884242
+=======
+      "accessibility": 0.4347319435041239,
+      "equity": 0.16309679615046027,
+      "fitness": 0.49412075384473303,
+      "norm_f1": 0.2681431486618963,
+      "norm_f2": 0.14299863572850305
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -855,14 +1805,21 @@
     "id": 13,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "748",
+        "lat": 40.9890513947927,
+        "lng": 29.0266165043775,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1273",
         "lat": 40.9699994112388,
         "lng": 29.0343519618632,
@@ -874,19 +1831,31 @@
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1525",
+        "lat": 41.0023245944163,
+        "lng": 29.0401019400202,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+>>>>>>> Stashed changes
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2783",
         "lat": 40.9713568991907,
         "lng": 29.0593504297906,
@@ -946,26 +1915,70 @@
         "lat": 40.9796285583617,
         "lng": 29.0500992705228,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2907",
         "lat": 40.989319272808,
         "lng": 29.0622869114889,
+=======
+        "id": "2837",
+        "lat": 40.9875400463084,
+        "lng": 29.0610427475052,
+>>>>>>> Stashed changes
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3432",
         "lat": 40.9702651386757,
         "lng": 29.0700120280265,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4723",
+        "lat": 40.9743802717234,
+        "lng": 29.0915331253793,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
@@ -978,14 +1991,26 @@
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6091727664631228,
       "equity": 0.37091196436971235,
       "fitness": 0.4949237362679236,
+=======
+      "accessibility": 0.4127081723795268,
+      "equity": 0.3085137917210314,
+      "fitness": 0.48328911343318925,
+>>>>>>> Stashed changes
       "norm_f1": 0.0,
       "norm_f2": 1.0
     },
@@ -994,6 +2019,7 @@
     "isBestF2": false
   },
   {
+<<<<<<< Updated upstream
     "id": 15,
     "lockers": [
       {
@@ -1001,42 +2027,205 @@
         "lat": 40.9898889129248,
         "lng": 29.030208414918,
         "neighborhood": "Osmanağa Mahallesi",
+=======
+    "id": 14,
+    "lockers": [
+      {
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+        "neighborhood": "Caferağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2198",
         "lat": 40.9796285583617,
         "lng": 29.0500992705228,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2907",
-        "lat": 40.989319272808,
-        "lng": 29.0622869114889,
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3122",
+        "lat": 40.9901556676158,
+        "lng": 29.065879242399,
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3505",
-        "lat": 40.9693435592374,
-        "lng": 29.0711715920911,
+        "id": "3869",
+        "lat": 40.9656357327684,
+        "lng": 29.0769971660698,
         "neighborhood": "Erenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5028",
+        "lat": 40.9589901153821,
+        "lng": 29.0957997949114,
+        "neighborhood": "Bostancı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      }
+    ],
+    "metrics": {
+      "accessibility": 0.446043975355853,
+      "equity": 0.15328701668434866,
+      "fitness": 0.4908662114477215,
+      "norm_f1": 0.40586905497131276,
+      "norm_f2": 0.08518562458304693
+    },
+    "isPareto": true,
+    "isBestF1": false,
+    "isBestF2": false
+  },
+  {
+    "id": 15,
+    "lockers": [
+      {
+        "id": "748",
+        "lat": 40.9890513947927,
+        "lng": 29.0266165043775,
+        "neighborhood": "Caferağa Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1525",
+        "lat": 41.0023245944163,
+        "lng": 29.0401019400202,
+        "neighborhood": "Acıbadem Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2907",
+        "lat": 40.989319272808,
+        "lng": 29.0622869114889,
+=======
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+>>>>>>> Stashed changes
+        "neighborhood": "Merdivenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "3505",
+        "lat": 40.9693435592374,
+        "lng": 29.0711715920911,
+        "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4723",
+        "lat": 40.9743802717234,
+        "lng": 29.0915331253793,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
@@ -1049,16 +2238,29 @@
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6097444142323093,
       "equity": 0.3675486782598365,
       "fitness": 0.4954393411091308,
       "norm_f1": 0.0035874513768066225,
       "norm_f2": 0.982510057234452
+=======
+      "accessibility": 0.41315265252096783,
+      "equity": 0.3046880904503515,
+      "fitness": 0.48420201323044826,
+      "norm_f1": 0.005411621105641527,
+      "norm_f2": 0.9774535899644775
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1068,38 +2270,186 @@
     "id": 16,
     "lockers": [
       {
-        "id": "1094",
-        "lat": 41.001550357319,
-        "lng": 29.0329442899791,
-        "neighborhood": "Acıbadem Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1115",
-        "lat": 40.9826449583867,
-        "lng": 29.032363408101,
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1313",
-        "lat": 40.9987866441549,
-        "lng": 29.036426072506,
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2425",
-        "lat": 40.9696623742264,
-        "lng": 29.0533557936531,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3869",
+        "lat": 40.9656357327684,
+        "lng": 29.0769971660698,
+        "neighborhood": "Erenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4726",
+        "lat": 40.971679591564,
+        "lng": 29.0914477985743,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5028",
+        "lat": 40.9589901153821,
+        "lng": 29.0957997949114,
+        "neighborhood": "Bostancı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      }
+    ],
+    "metrics": {
+      "accessibility": 0.4354683766268513,
+      "equity": 0.1614063547369397,
+      "fitness": 0.4941408213808009,
+      "norm_f1": 0.27710934682976984,
+      "norm_f2": 0.13303617850729674
+>>>>>>> Stashed changes
+    },
+    "isPareto": true,
+    "isBestF1": false,
+    "isBestF2": false
+  },
+  {
+    "id": 16,
+    "lockers": [
+      {
+<<<<<<< Updated upstream
+        "id": "1094",
+        "lat": 41.001550357319,
+        "lng": 29.0329442899791,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+        "neighborhood": "Caferağa Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
+        "neighborhood": "Acıbadem Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "1115",
+        "lat": 40.9826449583867,
+        "lng": 29.032363408101,
+        "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "1313",
+        "lat": 40.9987866441549,
+        "lng": 29.036426072506,
+        "neighborhood": "Acıbadem Mahallesi",
+=======
+        "id": "3122",
+        "lat": 40.9901556676158,
+        "lng": 29.065879242399,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2425",
+        "lat": 40.9696623742264,
+        "lng": 29.0533557936531,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3869",
+        "lat": 40.9656357327684,
+        "lng": 29.0769971660698,
+        "neighborhood": "Erenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
@@ -1111,20 +2461,41 @@
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+=======
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4737",
         "lat": 40.9617770855331,
         "lng": 29.091135032762,
         "neighborhood": "Suadiye Mahallesi",
+=======
+        "id": "4726",
+        "lat": 40.971679591564,
+        "lng": 29.0914477985743,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.768519252071899,
       "equity": 0.17861367300532313,
       "fitness": 0.49604368425839473,
@@ -1201,6 +2572,13 @@
       "fitness": 0.496776637731303,
       "norm_f1": 0.9674516330272187,
       "norm_f2": 0.015282813939075922
+=======
+      "accessibility": 0.4451263860239227,
+      "equity": 0.156706269215021,
+      "fitness": 0.4917302180067694,
+      "norm_f1": 0.3946972492323962,
+      "norm_f2": 0.10533666725916171
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1210,68 +2588,147 @@
     "id": 18,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "963",
         "lat": 40.9898889129248,
         "lng": 29.030208414918,
         "neighborhood": "Osmanağa Mahallesi",
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+        "neighborhood": "Caferağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2273",
         "lat": 40.9769066725031,
         "lng": 29.0512034794591,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "3122",
+        "lat": 40.9901556676158,
+        "lng": 29.065879242399,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3580",
         "lat": 40.9666214916305,
         "lng": 29.0722747719386,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3941",
+        "lat": 40.9656143221912,
+        "lng": 29.0781848049266,
+        "neighborhood": "Suadiye Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4143",
         "lat": 40.978153270437,
         "lng": 29.0821440727773,
+=======
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4583",
+        "lat": 40.9708224505491,
+        "lng": 29.0890439146672,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6194970356854742,
       "equity": 0.29919397621448046,
       "fitness": 0.49166577660513383,
       "norm_f1": 0.06479132051709832,
       "norm_f2": 0.6270482298808766
+=======
+      "accessibility": 0.45093792679286854,
+      "equity": 0.14872519409347737,
+      "fitness": 0.4891246750666628,
+      "norm_f1": 0.4654537437285505,
+      "norm_f2": 0.05830095289387049
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1281,68 +2738,146 @@
     "id": 19,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "749",
         "lat": 40.9881511337763,
         "lng": 29.0265889290409,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1910",
         "lat": 40.979712993622,
         "lng": 29.0453476180774,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3432",
         "lat": 40.9702651386757,
         "lng": 29.0700120280265,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
+=======
+        "id": "3122",
+        "lat": 40.9901556676158,
+        "lng": 29.065879242399,
+        "neighborhood": "Merdivenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3659",
+        "lat": 40.9602984590888,
+        "lng": 29.0732651274769,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4583",
+        "lat": 40.9708224505491,
+        "lng": 29.0890439146672,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6129725441912786,
       "equity": 0.34532633134803126,
       "fitness": 0.4947559275414751,
       "norm_f1": 0.02384600898876985,
       "norm_f2": 0.8669482040628304
+=======
+      "accessibility": 0.4649846701220061,
+      "equity": 0.14328777918042854,
+      "fitness": 0.4838058274143755,
+      "norm_f1": 0.6364752260810346,
+      "norm_f2": 0.026256060339811437
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1352,68 +2887,147 @@
     "id": 20,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "963",
         "lat": 40.9898889129248,
         "lng": 29.030208414918,
         "neighborhood": "Osmanağa Mahallesi",
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+        "neighborhood": "Caferağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2273",
         "lat": 40.9769066725031,
         "lng": 29.0512034794591,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3122",
+        "lat": 40.9901556676158,
+        "lng": 29.065879242399,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "3580",
         "lat": 40.9666214916305,
         "lng": 29.0722747719386,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3869",
+        "lat": 40.9656357327684,
+        "lng": 29.0769971660698,
+        "neighborhood": "Erenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
+=======
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6187420085104776,
       "equity": 0.3013613440469226,
       "fitness": 0.49124749476176516,
       "norm_f1": 0.060053047362769875,
       "norm_f2": 0.6383190935846792
+=======
+      "accessibility": 0.44442465170301476,
+      "equity": 0.1583951427619271,
+      "fitness": 0.49227835235324224,
+      "norm_f1": 0.3861535148615728,
+      "norm_f2": 0.1152898844061777
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1423,68 +3037,146 @@
     "id": 21,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "963",
         "lat": 40.9898889129248,
         "lng": 29.030208414918,
         "neighborhood": "Osmanağa Mahallesi",
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+        "neighborhood": "Caferağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2198",
         "lat": 40.9796285583617,
         "lng": 29.0500992705228,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2907",
         "lat": 40.989319272808,
         "lng": 29.0622869114889,
+=======
+        "id": "3122",
+        "lat": 40.9901556676158,
+        "lng": 29.065879242399,
+>>>>>>> Stashed changes
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3432",
         "lat": 40.9702651386757,
         "lng": 29.0700120280265,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "4012",
+        "lat": 40.9664931341434,
+        "lng": 29.0794007132901,
+        "neighborhood": "Suadiye Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4429",
         "lat": 40.9798677780835,
         "lng": 29.0869522751645,
+=======
+        "id": "4059",
+        "lat": 40.9889705414509,
+        "lng": 29.0812873257575,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4583",
+        "lat": 40.9708224505491,
+        "lng": 29.0890439146672,
+>>>>>>> Stashed changes
         "neighborhood": "19 Mayıs Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6097031094851011,
       "equity": 0.36790192864436794,
       "fitness": 0.4953675646726962,
       "norm_f1": 0.003328237958635515,
       "norm_f2": 0.9843470490351854
+=======
+      "accessibility": 0.49037326154809985,
+      "equity": 0.14095353538550917,
+      "fitness": 0.47451654172044355,
+      "norm_f1": 0.9455856325853942,
+      "norm_f2": 0.012499414433746409
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1494,68 +3186,145 @@
     "id": 22,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2419",
         "lat": 40.975063865265,
         "lng": 29.0535233399292,
         "neighborhood": "Göztepe Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "3580",
         "lat": 40.9666214916305,
         "lng": 29.0722747719386,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4143",
         "lat": 40.978153270437,
         "lng": 29.0821440727773,
+=======
+        "id": "3869",
+        "lat": 40.9656357327684,
+        "lng": 29.0769971660698,
+        "neighborhood": "Erenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
+=======
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+>>>>>>> Stashed changes
         "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6445667223898808,
       "equity": 0.24516710744305056,
       "fitness": 0.4967926527215754,
       "norm_f1": 0.22211946370537727,
       "norm_f2": 0.34609477788658155
+=======
+      "accessibility": 0.4331126198512856,
+      "equity": 0.1679338200908029,
+      "fitness": 0.4940347136646912,
+      "norm_f1": 0.248427608552155,
+      "norm_f2": 0.17150518064522696
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1565,68 +3334,147 @@
     "id": 23,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
         "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "747",
+        "lat": 40.9899516556527,
+        "lng": 29.0266440809628,
+        "neighborhood": "Osmanağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1451",
+        "lat": 41.0041461317188,
+        "lng": 29.0389691288701,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1346",
         "lat": 40.9690781791111,
         "lng": 29.0355120326604,
+        "neighborhood": "Fenerbahçe Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2623",
+        "lat": 40.9858032514274,
+        "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
         "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2623",
-        "lat": 40.9858032514274,
-        "lng": 29.0574226225563,
-        "neighborhood": "Eğitim Mahallesi",
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2783",
         "lat": 40.9713568991907,
         "lng": 29.0593504297906,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+=======
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4737",
         "lat": 40.9617770855331,
         "lng": 29.091135032762,
         "neighborhood": "Suadiye Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7323411497794932,
       "equity": 0.20450331722766582,
       "fitness": 0.4967683075525802,
       "norm_f1": 0.7729595217981182,
       "norm_f2": 0.13463273146449323
+=======
+      "accessibility": 0.4155505150355906,
+      "equity": 0.24237232584454382,
+      "fitness": 0.4971898057788728,
+      "norm_f1": 0.034606003897387015,
+      "norm_f2": 0.6102015017662912
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1636,46 +3484,112 @@
     "id": 24,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2419",
         "lat": 40.975063865265,
         "lng": 29.0535233399292,
+        "neighborhood": "Göztepe Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2693",
+        "lat": 40.9875825206142,
+        "lng": 29.0586666561766,
+        "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "3585",
+        "lat": 40.9621202960552,
+        "lng": 29.072133914326,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
         "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2693",
-        "lat": 40.9875825206142,
-        "lng": 29.0586666561766,
-        "neighborhood": "Dumlupınar Mahallesi",
+        "id": "3869",
+        "lat": 40.9656357327684,
+        "lng": 29.0769971660698,
+        "neighborhood": "Erenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3585",
-        "lat": 40.9621202960552,
-        "lng": 29.072133914326,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+        "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "4583",
+        "lat": 40.9708224505491,
+        "lng": 29.0890439146672,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
@@ -1687,17 +3601,30 @@
         "id": "5384",
         "lat": 40.9624828770223,
         "lng": 29.1018515891409,
+=======
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+>>>>>>> Stashed changes
         "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7006464348346714,
       "equity": 0.21067543554785959,
       "fitness": 0.496899775783998,
       "norm_f1": 0.5740551353992998,
       "norm_f2": 0.16672931576798095
+=======
+      "accessibility": 0.44015931144050213,
+      "equity": 0.16083974714221227,
+      "fitness": 0.49393393630980176,
+      "norm_f1": 0.33422227376603053,
+      "norm_f2": 0.1296969300254895
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1707,14 +3634,21 @@
     "id": 25,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1273",
         "lat": 40.9699994112388,
         "lng": 29.0343519618632,
@@ -1726,49 +3660,122 @@
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2783",
-        "lat": 40.9713568991907,
-        "lng": 29.0593504297906,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
+        "id": "2783",
+        "lat": 40.9713568991907,
+        "lng": 29.0593504297906,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3122",
+        "lat": 40.9901556676158,
+        "lng": 29.065879242399,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+=======
+        "id": "3659",
+        "lat": 40.9602984590888,
+        "lng": 29.0732651274769,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "4583",
+        "lat": 40.9708224505491,
+        "lng": 29.0890439146672,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4736",
         "lat": 40.9626773141407,
         "lng": 29.0911634595815,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5028",
+        "lat": 40.9589901153821,
+        "lng": 29.0957997949114,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7280111409846391,
       "equity": 0.20708220798315635,
       "fitness": 0.49719806957560153,
       "norm_f1": 0.7457859774409182,
       "norm_f2": 0.14804361898300866
+=======
+      "accessibility": 0.4680377423431927,
+      "equity": 0.1420798221533969,
+      "fitness": 0.4846062097679833,
+      "norm_f1": 0.6736468981734137,
+      "norm_f2": 0.019137079397552458
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1778,68 +3785,145 @@
     "id": 26,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1346",
         "lat": 40.9690781791111,
         "lng": 29.0355120326604,
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+>>>>>>> Stashed changes
         "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2641",
-        "lat": 40.9695988313113,
-        "lng": 29.0569189761746,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
+        "id": "2641",
+        "lat": 40.9695988313113,
+        "lng": 29.0569189761746,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+=======
+        "id": "3869",
+        "lat": 40.9656357327684,
+        "lng": 29.0769971660698,
+        "neighborhood": "Erenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4736",
         "lat": 40.9626773141407,
         "lng": 29.0911634595815,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5028",
+        "lat": 40.9589901153821,
+        "lng": 29.0957997949114,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.744518201819157,
       "equity": 0.19611610127740553,
       "fitness": 0.49735359965738835,
       "norm_f1": 0.8493782265667983,
       "norm_f2": 0.09101707637597652
+=======
+      "accessibility": 0.42937200000523107,
+      "equity": 0.17803817842444375,
+      "fitness": 0.4951217416225674,
+      "norm_f1": 0.20288492751929532,
+      "norm_f2": 0.23105426459543021
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1849,68 +3933,147 @@
     "id": 27,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "963",
         "lat": 40.9898889129248,
         "lng": 29.030208414918,
         "neighborhood": "Osmanağa Mahallesi",
+=======
+        "id": "748",
+        "lat": 40.9890513947927,
+        "lng": 29.0266165043775,
+        "neighborhood": "Caferağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2273",
         "lat": 40.9769066725031,
         "lng": 29.0512034794591,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "2837",
+        "lat": 40.9875400463084,
+        "lng": 29.0610427475052,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "3505",
         "lat": 40.9693435592374,
         "lng": 29.0711715920911,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4143",
         "lat": 40.978153270437,
         "lng": 29.0821440727773,
+=======
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6159649655809204,
       "equity": 0.31219971800410096,
       "fitness": 0.4919476924293587,
       "norm_f1": 0.04262534621863989,
       "norm_f2": 0.69468139342769
+=======
+      "accessibility": 0.4145470639666008,
+      "equity": 0.25826783527936864,
+      "fitness": 0.49465179068762277,
+      "norm_f1": 0.022388816947665965,
+      "norm_f2": 0.7038801891713292
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1920,46 +4083,95 @@
     "id": 28,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "749",
         "lat": 40.9881511337763,
         "lng": 29.0265889290409,
+=======
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1451",
+        "lat": 41.0041461317188,
+        "lng": 29.0389691288701,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1910",
         "lat": 40.979712993622,
         "lng": 29.0453476180774,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1840",
+        "lat": 40.9779335663858,
+        "lng": 29.0441040934331,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2907",
         "lat": 40.989319272808,
         "lng": 29.0622869114889,
+=======
+        "id": "2837",
+        "lat": 40.9875400463084,
+        "lng": 29.0610427475052,
+>>>>>>> Stashed changes
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3432",
         "lat": 40.9702651386757,
         "lng": 29.0700120280265,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4429",
         "lat": 40.9798677780835,
         "lng": 29.0869522751645,
@@ -1972,16 +4184,46 @@
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4795",
+        "lat": 40.9743587076545,
+        "lng": 29.0927209100486,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6113910062394295,
       "equity": 0.36319165080521376,
       "fitness": 0.49633096924705356,
       "norm_f1": 0.013920857857843963,
       "norm_f2": 0.9598524068533233
+=======
+      "accessibility": 0.41920100321833625,
+      "equity": 0.21645929171643447,
+      "fitness": 0.49667591028303903,
+      "norm_f1": 0.07905131664317912,
+      "norm_f2": 0.45748547629025776
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -1991,46 +4233,112 @@
     "id": 29,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "748",
+        "lat": 40.9890513947927,
+        "lng": 29.0266165043775,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1346",
         "lat": 40.9690781791111,
         "lng": 29.0355120326604,
+        "neighborhood": "Fenerbahçe Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2623",
+        "lat": 40.9858032514274,
+        "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
         "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2623",
-        "lat": 40.9858032514274,
-        "lng": 29.0574226225563,
-        "neighborhood": "Eğitim Mahallesi",
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2783",
         "lat": 40.9713568991907,
         "lng": 29.0593504297906,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4723",
+        "lat": 40.9743802717234,
+        "lng": 29.0915331253793,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
@@ -2043,16 +4351,30 @@
         "lat": 40.9626773141407,
         "lng": 29.0911634595815,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7272051353397004,
       "equity": 0.20772374908384644,
       "fitness": 0.4970510063005925,
       "norm_f1": 0.7407277821386534,
       "norm_f2": 0.15137979579528424
+=======
+      "accessibility": 0.41429781129018667,
+      "equity": 0.2600894551771594,
+      "fitness": 0.49418750614922374,
+      "norm_f1": 0.019354123339202,
+      "norm_f2": 0.7146157344318086
+>>>>>>> Stashed changes
     },
     "isPareto": true,
     "isBestF1": false,
@@ -2062,14 +4384,21 @@
     "id": 30,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1273",
         "lat": 40.9699994112388,
         "lng": 29.0343519618632,
@@ -2081,49 +4410,122 @@
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2786",
+        "lat": 40.9686561625191,
+        "lng": 29.059266424294,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2786",
-        "lat": 40.9686561625191,
-        "lng": 29.059266424294,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "4736",
+        "lat": 40.9626773141407,
+        "lng": 29.0911634595815,
+        "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "3869",
+        "lat": 40.9656357327684,
+        "lng": 29.0769971660698,
+        "neighborhood": "Erenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4736",
-        "lat": 40.9626773141407,
-        "lng": 29.0911634595815,
+        "id": "4726",
+        "lat": 40.971679591564,
+        "lng": 29.0914477985743,
         "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7383687058921652,
       "equity": 0.20418790728127215,
       "fitness": 75.49670398208521,
       "norm_f1": 0.8107862494453834,
       "norm_f2": 0.13299251956164276
+=======
+      "accessibility": 0.4338711498918615,
+      "equity": 0.16580391219223406,
+      "fitness": 0.49437646280601927,
+      "norm_f1": 0.25766284044246013,
+      "norm_f2": 0.15895276909467818
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2133,68 +4535,145 @@
     "id": 31,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "749",
         "lat": 40.9881511337763,
         "lng": 29.0265889290409,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2198",
         "lat": 40.9796285583617,
         "lng": 29.0500992705228,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2907",
         "lat": 40.989319272808,
         "lng": 29.0622869114889,
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+>>>>>>> Stashed changes
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3432",
         "lat": 40.9702651386757,
         "lng": 29.0700120280265,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
+=======
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4726",
+        "lat": 40.971679591564,
+        "lng": 29.0914477985743,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6093637629202133,
       "equity": 0.3913476945695782,
       "fitness": 76.4912099863351,
       "norm_f1": 0.0011986235928632969,
       "norm_f2": 1.0
+=======
+      "accessibility": 0.431172151885313,
+      "equity": 0.17251003497452458,
+      "fitness": 0.49516096118672687,
+      "norm_f1": 0.22480208196409884,
+      "norm_f2": 0.19847467195647975
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2204,46 +4683,111 @@
     "id": 32,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "749",
         "lat": 40.9881511337763,
         "lng": 29.0265889290409,
+=======
+        "id": "748",
+        "lat": 40.9890513947927,
+        "lng": 29.0266165043775,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1451",
+        "lat": 41.0041461317188,
+        "lng": 29.0389691288701,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1910",
         "lat": 40.979712993622,
         "lng": 29.0453476180774,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2907",
         "lat": 40.989319272808,
         "lng": 29.0622869114889,
+=======
+        "id": "2837",
+        "lat": 40.9875400463084,
+        "lng": 29.0610427475052,
+>>>>>>> Stashed changes
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3432",
         "lat": 40.9702651386757,
         "lng": 29.0700120280265,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4723",
+        "lat": 40.9743802717234,
+        "lng": 29.0915331253793,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
@@ -2256,16 +4800,30 @@
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6108606632174512,
       "equity": 0.3657943099932346,
       "fitness": 77.49579997416666,
       "norm_f1": 0.010592619899208448,
       "norm_f2": 0.973386896263263
+=======
+      "accessibility": 0.4133003466019591,
+      "equity": 0.2792513093591163,
+      "fitness": 0.49018945832884914,
+      "norm_f1": 0.007209821590547904,
+      "norm_f2": 0.8275443168954659
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2275,68 +4833,147 @@
     "id": 33,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
         "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "747",
+        "lat": 40.9899516556527,
+        "lng": 29.0266440809628,
+        "neighborhood": "Osmanağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2273",
         "lat": 40.9769066725031,
         "lng": 29.0512034794591,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "2837",
+        "lat": 40.9875400463084,
+        "lng": 29.0610427475052,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3580",
         "lat": 40.9666214916305,
         "lng": 29.0722747719386,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4143",
         "lat": 40.978153270437,
         "lng": 29.0821440727773,
+=======
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6451370613258274,
       "equity": 0.24585038082371863,
       "fitness": 79.49677086499348,
       "norm_f1": 0.22569870132563383,
       "norm_f2": 0.3496479731636697
+=======
+      "accessibility": 0.41630238701269834,
+      "equity": 0.2369938231776107,
+      "fitness": 0.4974684004785788,
+      "norm_f1": 0.04376017273576316,
+      "norm_f2": 0.57850380298484
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2346,46 +4983,112 @@
     "id": 34,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2419",
         "lat": 40.975063865265,
         "lng": 29.0535233399292,
         "neighborhood": "Göztepe Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2783",
-        "lat": 40.9713568991907,
-        "lng": 29.0593504297906,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3122",
+        "lat": 40.9901556676158,
+        "lng": 29.065879242399,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2783",
+        "lat": 40.9713568991907,
+        "lng": 29.0593504297906,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3659",
+        "lat": 40.9602984590888,
+        "lng": 29.0732651274769,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4583",
+        "lat": 40.9708224505491,
+        "lng": 29.0890439146672,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
@@ -2398,16 +5101,30 @@
         "lat": 40.9626773141407,
         "lng": 29.0911634595815,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4956",
+        "lat": 40.9590117045606,
+        "lng": 29.0946122881225,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7152676507808539,
       "equity": 0.22244848791075075,
       "fitness": 83.49641513399106,
       "norm_f1": 0.6658125148628178,
       "norm_f2": 0.227952180928973
+=======
+      "accessibility": 0.4702051617858144,
+      "equity": 0.1416357676476107,
+      "fitness": 0.48558567390518015,
+      "norm_f1": 0.7000355974805236,
+      "norm_f2": 0.016520086000209256
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2417,68 +5134,144 @@
     "id": 35,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2278",
         "lat": 40.9724054252606,
         "lng": 29.0510640030229,
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+>>>>>>> Stashed changes
         "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2783",
-        "lat": 40.9713568991907,
-        "lng": 29.0593504297906,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
+        "id": "2783",
+        "lat": 40.9713568991907,
+        "lng": 29.0593504297906,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+=======
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4737",
         "lat": 40.9617770855331,
         "lng": 29.091135032762,
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+>>>>>>> Stashed changes
         "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7176178135288473,
       "equity": 0.22152861077938138,
       "fitness": 83.49647716688126,
       "norm_f1": 0.6805612728226484,
       "norm_f2": 0.2231685860002678
+=======
+      "accessibility": 0.42437938780034545,
+      "equity": 0.1910806056623083,
+      "fitness": 0.49561265148604045,
+      "norm_f1": 0.14209902718042544,
+      "norm_f2": 0.30791858084955925
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2488,68 +5281,146 @@
     "id": 36,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2419",
         "lat": 40.975063865265,
         "lng": 29.0535233399292,
         "neighborhood": "Göztepe Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2783",
-        "lat": 40.9713568991907,
-        "lng": 29.0593504297906,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3122",
+        "lat": 40.9901556676158,
+        "lng": 29.065879242399,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2783",
+        "lat": 40.9713568991907,
+        "lng": 29.0593504297906,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3869",
+        "lat": 40.9656357327684,
+        "lng": 29.0769971660698,
+        "neighborhood": "Erenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+=======
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4737",
         "lat": 40.9617770855331,
         "lng": 29.091135032762,
         "neighborhood": "Suadiye Mahallesi",
+=======
+        "id": "4726",
+        "lat": 40.971679591564,
+        "lng": 29.0914477985743,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4956",
+        "lat": 40.9590117045606,
+        "lng": 29.0946122881225,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7204036652206467,
       "equity": 0.21946321906671182,
       "fitness": 83.49676830755259,
       "norm_f1": 0.6980442545222832,
       "norm_f2": 0.21242802404303324
+=======
+      "accessibility": 0.4483018425023563,
+      "equity": 0.15147511664095473,
+      "fitness": 0.48996138665091454,
+      "norm_f1": 0.4333589704130632,
+      "norm_f2": 0.07450736236878872
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2559,46 +5430,111 @@
     "id": 37,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1346",
         "lat": 40.9690781791111,
         "lng": 29.0355120326604,
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+>>>>>>> Stashed changes
         "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2783",
         "lat": 40.9713568991907,
         "lng": 29.0593504297906,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3869",
+        "lat": 40.9656357327684,
+        "lng": 29.0769971660698,
+        "neighborhood": "Erenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4583",
+        "lat": 40.9708224505491,
+        "lng": 29.0890439146672,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4143",
         "lat": 40.978153270437,
         "lng": 29.0821440727773,
@@ -2611,16 +5547,30 @@
         "lat": 40.9626773141407,
         "lng": 29.0911634595815,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5028",
+        "lat": 40.9589901153821,
+        "lng": 29.0957997949114,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7235134480270001,
       "equity": 0.219047675400532,
       "fitness": 83.49692119037529,
       "norm_f1": 0.7175601088850114,
       "norm_f2": 0.21026709134190796
+=======
+      "accessibility": 0.44278381315899074,
+      "equity": 0.16060780091711263,
+      "fitness": 0.49337502056091354,
+      "norm_f1": 0.3661760273027317,
+      "norm_f2": 0.12832997679854324
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2630,14 +5580,22 @@
     "id": 38,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
         "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "747",
+        "lat": 40.9899516556527,
+        "lng": 29.0266440809628,
+        "neighborhood": "Osmanağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1273",
         "lat": 40.9699994112388,
         "lng": 29.0343519618632,
@@ -2649,49 +5607,121 @@
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1451",
+        "lat": 41.0041461317188,
+        "lng": 29.0389691288701,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+>>>>>>> Stashed changes
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2783",
         "lat": 40.9713568991907,
         "lng": 29.0593504297906,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "2837",
+        "lat": 40.9875400463084,
+        "lng": 29.0610427475052,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4143",
         "lat": 40.978153270437,
         "lng": 29.0821440727773,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4723",
+        "lat": 40.9743802717234,
+        "lng": 29.0915331253793,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4736",
         "lat": 40.9626773141407,
         "lng": 29.0911634595815,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7268503991443688,
       "equity": 0.2128646424981485,
       "fitness": 83.4978005690477,
       "norm_f1": 0.7385015881063445,
       "norm_f2": 0.17811374843639471
+=======
+      "accessibility": 0.4145674217184867,
+      "equity": 0.25200395169256884,
+      "fitness": 0.4956191053694898,
+      "norm_f1": 0.022636676029540902,
+      "norm_f2": 0.6669645813466571
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2701,68 +5731,145 @@
     "id": 39,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1346",
         "lat": 40.9690781791111,
         "lng": 29.0355120326604,
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+>>>>>>> Stashed changes
         "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2783",
-        "lat": 40.9713568991907,
-        "lng": 29.0593504297906,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
+        "id": "2783",
+        "lat": 40.9713568991907,
+        "lng": 29.0593504297906,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4143",
         "lat": 40.978153270437,
         "lng": 29.0821440727773,
+=======
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4736",
         "lat": 40.9626773141407,
         "lng": 29.0911634595815,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.72604439349943,
       "equity": 0.21349560656767852,
       "fitness": 83.49782242845929,
       "norm_f1": 0.7334433928040791,
       "norm_f2": 0.1813949219978093
+=======
+      "accessibility": 0.4298302264654939,
+      "equity": 0.17509367942838258,
+      "fitness": 0.4952347417499186,
+      "norm_f1": 0.20846391238796047,
+      "norm_f2": 0.2137011371510123
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2772,68 +5879,241 @@
     "id": 40,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1094",
         "lat": 41.001550357319,
         "lng": 29.0329442899791,
-        "neighborhood": "Acıbadem Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1115",
-        "lat": 40.9826449583867,
-        "lng": 29.032363408101,
+=======
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1314",
-        "lat": 40.9978863901424,
-        "lng": 29.0363983542555,
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2623",
-        "lat": 40.9858032514274,
-        "lng": 29.0574226225563,
+<<<<<<< Updated upstream
+        "id": "1115",
+        "lat": 40.9826449583867,
+        "lng": 29.032363408101,
+        "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2641",
-        "lat": 40.9695988313113,
-        "lng": 29.0569189761746,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "1840",
+        "lat": 40.9779335663858,
+        "lng": 29.0441040934331,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4071",
-        "lat": 40.9781747271571,
-        "lng": 29.0809562120359,
+<<<<<<< Updated upstream
+        "id": "1314",
+        "lat": 40.9978863901424,
+        "lng": 29.0363983542555,
+=======
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "4737",
-        "lat": 40.9617770855331,
-        "lng": 29.091135032762,
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
         "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4726",
+        "lat": 40.971679591564,
+        "lng": 29.0914477985743,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+      "accessibility": 0.4228285031043038,
+      "equity": 0.19510870148546855,
+      "fitness": 0.49658109385715316,
+      "norm_f1": 0.12321674297689483,
+      "norm_f2": 0.33165778411338503
+    },
+    "isPareto": true,
+    "isBestF1": false,
+    "isBestF2": false
+  },
+  {
+    "id": 41,
+    "lockers": [
+      {
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
+        "neighborhood": "Caferağa Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
+        "neighborhood": "Acıbadem Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2623",
+        "lat": 40.9858032514274,
+        "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2641",
+        "lat": 40.9695988313113,
+        "lng": 29.0569189761746,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "4071",
+        "lat": 40.9781747271571,
+        "lng": 29.0809562120359,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "4737",
+        "lat": 40.9617770855331,
+        "lng": 29.091135032762,
+=======
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+>>>>>>> Stashed changes
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4726",
+        "lat": 40.971679591564,
+        "lng": 29.0914477985743,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      }
+    ],
+    "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7518641798571011,
       "equity": 0.18645350020033588,
       "fitness": 146.4979170903033,
       "norm_f1": 0.8954788858306606,
       "norm_f2": 0.04076909440738052
+=======
+      "accessibility": 0.42575541266675226,
+      "equity": 0.1871168080816618,
+      "fitness": 0.494822052814736,
+      "norm_f1": 0.15885236330201744,
+      "norm_f2": 0.2845583132207211
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2914,68 +6194,146 @@
     "id": 42,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2278",
         "lat": 40.9724054252606,
         "lng": 29.0510640030229,
+        "neighborhood": "Fenerbahçe Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2623",
+        "lat": 40.9858032514274,
+        "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1840",
+        "lat": 40.9779335663858,
+        "lng": 29.0441040934331,
         "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2623",
-        "lat": 40.9858032514274,
-        "lng": 29.0574226225563,
-        "neighborhood": "Eğitim Mahallesi",
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2641",
         "lat": 40.9695988313113,
         "lng": 29.0569189761746,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+=======
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4737",
         "lat": 40.9617770855331,
         "lng": 29.091135032762,
         "neighborhood": "Suadiye Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7367232677376654,
       "equity": 0.20733507335188398,
       "fitness": 223.49711196370018,
       "norm_f1": 0.8004600841194681,
       "norm_f2": 0.14935858318229248
+=======
+      "accessibility": 0.4214524782378971,
+      "equity": 0.19907201677859035,
+      "fitness": 0.49672076548210536,
+      "norm_f1": 0.10646340685530421,
+      "norm_f2": 0.35501520942613063
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -2985,46 +6343,112 @@
     "id": 43,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "963",
         "lat": 40.9898889129248,
         "lng": 29.030208414918,
         "neighborhood": "Osmanağa Mahallesi",
+=======
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
+        "neighborhood": "Caferağa Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1598",
         "lat": 41.0014032977907,
         "lng": 29.041262476956,
+=======
+        "id": "1451",
+        "lat": 41.0041461317188,
+        "lng": 29.0389691288701,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2273",
         "lat": 40.9769066725031,
         "lng": 29.0512034794591,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2907",
         "lat": 40.989319272808,
         "lng": 29.0622869114889,
+=======
+        "id": "1840",
+        "lat": 40.9779335663858,
+        "lng": 29.0441040934331,
+        "neighborhood": "Fenerbahçe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2837",
+        "lat": 40.9875400463084,
+        "lng": 29.0610427475052,
+>>>>>>> Stashed changes
         "neighborhood": "Merdivenköy Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "3432",
         "lat": 40.9702651386757,
         "lng": 29.0700120280265,
         "neighborhood": "Erenköy Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4723",
+        "lat": 40.9743802717234,
+        "lng": 29.0915331253793,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
@@ -3037,16 +6461,30 @@
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.612657067127868,
       "equity": 0.3567174507979242,
       "fitness": 231.49706783738768,
       "norm_f1": 0.021866190844646735,
       "norm_f2": 0.9261849209835634
+=======
+      "accessibility": 0.41860201031488964,
+      "equity": 0.2205150557626263,
+      "fitness": 0.49659578941831783,
+      "norm_f1": 0.07175847645483717,
+      "norm_f2": 0.4813877396200134
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -3056,46 +6494,296 @@
     "id": 44,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+        "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "748",
+        "lat": 40.9890513947927,
+        "lng": 29.0266165043775,
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1313",
-        "lat": 40.9987866441549,
-        "lng": 29.036426072506,
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
         "neighborhood": "Acıbadem Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2419",
-        "lat": 40.975063865265,
-        "lng": 29.0535233399292,
+<<<<<<< Updated upstream
+        "id": "1313",
+        "lat": 40.9987866441549,
+        "lng": 29.036426072506,
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2837",
+        "lat": 40.9875400463084,
+        "lng": 29.0610427475052,
+        "neighborhood": "Merdivenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
         "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4723",
+        "lat": 40.9743802717234,
+        "lng": 29.0915331253793,
+        "neighborhood": "19 Mayıs Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      }
+    ],
+    "metrics": {
+      "accessibility": 0.4138533311487457,
+      "equity": 0.26501733859151144,
+      "fitness": 0.4929627342423182,
+      "norm_f1": 0.01394250223356115,
+      "norm_f2": 0.7436577510991179
+    },
+    "isPareto": true,
+    "isBestF1": false,
+    "isBestF2": false
+  },
+  {
+    "id": 45,
+    "lockers": [
+      {
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
+        "neighborhood": "Caferağa Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+        "neighborhood": "Acıbadem Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3869",
+        "lat": 40.9656357327684,
+        "lng": 29.0769971660698,
+        "neighborhood": "Erenköy Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      }
+    ],
+    "metrics": {
+      "accessibility": 0.427695880632725,
+      "equity": 0.18308078109451886,
+      "fitness": 0.4950618269601716,
+      "norm_f1": 0.18247788989007563,
+      "norm_f2": 0.2607723683891249
+    },
+    "isPareto": true,
+    "isBestF1": false,
+    "isBestF2": false
+  },
+  {
+    "id": 46,
+    "lockers": [
+      {
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
+        "neighborhood": "Caferağa Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
+        "neighborhood": "Acıbadem Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "1840",
+        "lat": 40.9779335663858,
+        "lng": 29.0441040934331,
+        "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "2837",
+        "lat": 40.9875400463084,
+        "lng": 29.0610427475052,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "3585",
         "lat": 40.9621202960552,
         "lng": 29.072133914326,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+        "neighborhood": "Sahrayıcedit Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4723",
+        "lat": 40.9743802717234,
+        "lng": 29.0915331253793,
+        "neighborhood": "19 Mayıs Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4215",
         "lat": 40.9781318014869,
         "lng": 29.0833319322364,
@@ -3108,16 +6796,30 @@
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "5098",
+        "lat": 40.9607689651804,
+        "lng": 29.0970443087447,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6669078929709545,
       "equity": 0.2287476765379119,
       "fitness": 255.4960472767643,
       "norm_f1": 0.3623244421567081,
       "norm_f2": 0.2607095631317337
+=======
+      "accessibility": 0.41949575532664396,
+      "equity": 0.21144570541339963,
+      "fitness": 0.4968506773452505,
+      "norm_f1": 0.08263997355162699,
+      "norm_f2": 0.4279383777222051
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -3269,68 +6971,146 @@
     "id": 47,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2419",
         "lat": 40.975063865265,
         "lng": 29.0535233399292,
         "neighborhood": "Göztepe Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3585",
-        "lat": 40.9621202960552,
-        "lng": 29.072133914326,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
+        "id": "3585",
+        "lat": 40.9621202960552,
+        "lng": 29.072133914326,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+=======
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5028",
+        "lat": 40.9589901153821,
+        "lng": 29.0957997949114,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6745650074101891,
       "equity": 0.23131192661661268,
       "fitness": 338.4961392265675,
       "norm_f1": 0.41037767916398127,
       "norm_f2": 0.2740443154090785
+=======
+      "accessibility": 0.42696011835174313,
+      "equity": 0.18706921051454214,
+      "fitness": 0.4949764673213688,
+      "norm_f1": 0.17351985933422784,
+      "norm_f2": 0.284277801442868
+>>>>>>> Stashed changes
     },
     "isPareto": false,
     "isBestF1": false,
@@ -3340,70 +7120,148 @@
     "id": 48,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2419",
         "lat": 40.975063865265,
         "lng": 29.0535233399292,
         "neighborhood": "Göztepe Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
+        "neighborhood": "Eğitim Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
         "neighborhood": "Eğitim Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "3585",
-        "lat": 40.9621202960552,
-        "lng": 29.072133914326,
-        "neighborhood": "Caddebostan Mahallesi",
+        "id": "2837",
+        "lat": 40.9875400463084,
+        "lng": 29.0610427475052,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
+        "id": "3585",
+        "lat": 40.9621202960552,
+        "lng": 29.072133914326,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "4143",
         "lat": 40.978153270437,
         "lng": 29.0821440727773,
+=======
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6741460131502833,
       "equity": 0.23370031754224868,
       "fitness": 338.49651809516615,
       "norm_f1": 0.40774822512673015,
       "norm_f2": 0.2864645553846391
+=======
+      "accessibility": 0.42835234984283876,
+      "equity": 0.1810606810735136,
+      "fitness": 0.4952185251828226,
+      "norm_f1": 0.19047051386004116,
+      "norm_f2": 0.24886709922045872
+>>>>>>> Stashed changes
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -3411,70 +7269,148 @@
     "id": 49,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1115",
         "lat": 40.9826449583867,
         "lng": 29.032363408101,
+=======
+        "id": "675",
+        "lat": 40.9899725454227,
+        "lng": 29.0254559671457,
+>>>>>>> Stashed changes
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "1313",
         "lat": 40.9987866441549,
         "lng": 29.036426072506,
+=======
+        "id": "1451",
+        "lat": 41.0041461317188,
+        "lng": 29.0389691288701,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2273",
         "lat": 40.9769066725031,
         "lng": 29.0512034794591,
         "neighborhood": "Feneryolu Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "2693",
         "lat": 40.9875825206142,
         "lng": 29.0586666561766,
         "neighborhood": "Dumlupınar Mahallesi",
+=======
+        "id": "1984",
+        "lat": 40.9778914003405,
+        "lng": 29.0464798601775,
+        "neighborhood": "Fenerbahçe Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "3585",
         "lat": 40.9621202960552,
         "lng": 29.072133914326,
         "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4143",
         "lat": 40.978153270437,
         "lng": 29.0821440727773,
+=======
+        "id": "3996",
+        "lat": 40.9808968688382,
+        "lng": 29.0798532199922,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4880",
         "lat": 40.9626341914531,
         "lng": 29.0935386085115,
         "neighborhood": "Kozyatağı Mahallesi",
+=======
+        "id": "4014",
+        "lat": 40.9646926644781,
+        "lng": 29.0793441729982,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+        "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5099",
+        "lat": 40.95986873966,
+        "lng": 29.0970158039324,
+        "neighborhood": "Bostancı Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.6709601455543192,
       "equity": 0.2341804026229548,
       "fitness": 338.4967708649935,
       "norm_f1": 0.3877548905778525,
       "norm_f2": 0.2889611198486281
+=======
+      "accessibility": 0.41754630616885186,
+      "equity": 0.22780313511141517,
+      "fitness": 0.49760187415286766,
+      "norm_f1": 0.05890509942996274,
+      "norm_f2": 0.524339348682792
+>>>>>>> Stashed changes
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   },
@@ -3482,38 +7418,82 @@
     "id": 50,
     "lockers": [
       {
+<<<<<<< Updated upstream
         "id": "1094",
         "lat": 41.001550357319,
         "lng": 29.0329442899791,
-        "neighborhood": "Acıbadem Mahallesi",
-        "score": 0,
-        "source": "elite"
-      },
-      {
-        "id": "1115",
-        "lat": 40.9826449583867,
-        "lng": 29.032363408101,
+=======
+        "id": "602",
+        "lat": 40.9908936849767,
+        "lng": 29.0242953976337,
         "neighborhood": "Caferağa Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "1314",
-        "lat": 40.9978863901424,
-        "lng": 29.0363983542555,
+        "id": "1380",
+        "lat": 41.003266902041,
+        "lng": 29.0377530273153,
+>>>>>>> Stashed changes
         "neighborhood": "Acıbadem Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
-        "id": "2425",
-        "lat": 40.9696623742264,
-        "lng": 29.0533557936531,
-        "neighborhood": "Caddebostan Mahallesi",
+<<<<<<< Updated upstream
+        "id": "1115",
+        "lat": 40.9826449583867,
+        "lng": 29.032363408101,
+        "neighborhood": "Caferağa Mahallesi",
+=======
+        "id": "1767",
+        "lat": 40.9788548845409,
+        "lng": 29.0429439956034,
+        "neighborhood": "Fenerbahçe Mahallesi",
+>>>>>>> Stashed changes
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
+        "id": "1314",
+        "lat": 40.9978863901424,
+        "lng": 29.0363983542555,
+        "neighborhood": "Acıbadem Mahallesi",
+=======
+        "id": "1824",
+        "lat": 40.9923375926254,
+        "lng": 29.0445491015301,
+        "neighborhood": "Eğitim Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "2908",
+        "lat": 40.9884190318843,
+        "lng": 29.0622588507417,
+        "neighborhood": "Merdivenköy Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
+        "id": "2425",
+        "lat": 40.9696623742264,
+        "lng": 29.0533557936531,
+        "neighborhood": "Caddebostan Mahallesi",
+=======
+        "id": "3070",
+        "lat": 40.9721721435165,
+        "lng": 29.0641295097845,
+        "neighborhood": "Göztepe Mahallesi",
+>>>>>>> Stashed changes
+        "score": 0,
+        "source": "elite"
+      },
+      {
+<<<<<<< Updated upstream
         "id": "2623",
         "lat": 40.9858032514274,
         "lng": 29.0574226225563,
@@ -3525,27 +7505,62 @@
         "id": "4071",
         "lat": 40.9781747271571,
         "lng": 29.0809562120359,
+=======
+        "id": "3923",
+        "lat": 40.9818185358838,
+        "lng": 29.078693584724,
+>>>>>>> Stashed changes
         "neighborhood": "Sahrayıcedit Mahallesi",
         "score": 0,
         "source": "elite"
       },
       {
+<<<<<<< Updated upstream
         "id": "4736",
         "lat": 40.9626773141407,
         "lng": 29.0911634595815,
+=======
+        "id": "4012",
+        "lat": 40.9664931341434,
+        "lng": 29.0794007132901,
+        "neighborhood": "Suadiye Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "4797",
+        "lat": 40.9725582557319,
+        "lng": 29.0926639919761,
+>>>>>>> Stashed changes
         "neighborhood": "Kozyatağı Mahallesi",
+        "score": 0,
+        "source": "elite"
+      },
+      {
+        "id": "5028",
+        "lat": 40.9589901153821,
+        "lng": 29.0957997949114,
+        "neighborhood": "Bostancı Mahallesi",
         "score": 0,
         "source": "elite"
       }
     ],
     "metrics": {
+<<<<<<< Updated upstream
       "accessibility": 0.7606004423170852,
       "equity": 0.18603443396696917,
       "fitness": 359.4976793454009,
       "norm_f1": 0.9503044593386526,
       "norm_f2": 0.03858984346139777
+=======
+      "accessibility": 0.4327052029630831,
+      "equity": 0.17216380358139177,
+      "fitness": 0.4947560661352029,
+      "norm_f1": 0.2434672388406016,
+      "norm_f2": 0.1964341898580552
+>>>>>>> Stashed changes
     },
-    "isPareto": false,
+    "isPareto": true,
     "isBestF1": false,
     "isBestF2": false
   }

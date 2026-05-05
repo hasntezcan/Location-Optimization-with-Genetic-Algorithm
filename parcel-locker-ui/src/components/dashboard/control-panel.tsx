@@ -103,10 +103,12 @@ export function ControlPanel({
   isBestF2 = false,
 }: ControlPanelProps) {
 
-  const lockerInput = useNumericInput(lockerCount, onLockerCountChange, 1, 50);
-  const popInput = useNumericInput(populationSize, onPopulationSizeChange, 10, 500);
-  const genInput = useNumericInput(maxGenerations, onMaxGenerationsChange, 1, 500);
-  const archInput = useNumericInput(archiveSize, onArchiveSizeChange, 10, 500);
+  const lockerInput = useNumericInput(lockerCount, onLockerCountChange, 1, 20);
+  const popInput = useNumericInput(populationSize, onPopulationSizeChange, 10, 300);
+  const genInput = useNumericInput(maxGenerations, onMaxGenerationsChange, 1, 5000);
+  const archInput = useNumericInput(archiveSize, onArchiveSizeChange, 5, 300);
+
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   return (
     <aside className="flex h-full flex-col overflow-hidden rounded-[30px] border border-slate-200/60 bg-white p-4 shadow-sm">
@@ -128,9 +130,12 @@ export function ControlPanel({
           <div className="mt-8 space-y-6">
           <div className="rounded-[22px] border border-slate-200/50 bg-white/60 p-4 shadow-sm">
             <div className="flex items-center justify-between">
-              <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Locker Count (k)
-              </label>
+              <div>
+                <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  Locker Count (k)
+                </label>
+                <div className="text-[9px] text-slate-400 mt-0.5">min 1, max 20 lockers</div>
+              </div>
               <span className="rounded-lg bg-indigo-600 px-2 py-1 text-[11px] font-bold text-white">
                 Active: {lockerCount}
               </span>
@@ -258,117 +263,127 @@ export function ControlPanel({
         </div>
 
         <div className="mt-8 space-y-4">
-          <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 px-1">
-            Algorithm Parameters
-          </h3>
+          <button
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            className="flex w-full items-center justify-between px-1 text-left"
+          >
+            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+              Advanced Developer Options
+            </h3>
+            <span className="text-slate-400">
+              {showAdvanced ? "▲" : "▼"}
+            </span>
+          </button>
 
-          <div className="mt-5 space-y-5">
-            <div className="rounded-[22px] border border-slate-200/50 bg-white/60 p-4 shadow-sm">
-              <div className="space-y-4">
-                <div>
-                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                    Population Size
-                  </label>
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    value={popInput.text}
-                    onChange={(e) => popInput.handleChange(e.target.value)}
-                    onBlur={popInput.handleBlur}
-                    disabled={isOptimizing}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                    Max Generations
-                  </label>
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    value={genInput.text}
-                    onChange={(e) => genInput.handleChange(e.target.value)}
-                    onBlur={genInput.handleBlur}
-                    disabled={isOptimizing}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                    Mutation Rate
-                  </label>
-                  <div className="mt-2 flex items-center gap-3">
+          {showAdvanced && (
+            <div className="mt-5 space-y-5 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="rounded-[22px] border border-slate-200/50 bg-white/60 p-4 shadow-sm">
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                      Population Size
+                    </label>
                     <input
-                      type="range"
-                      min={0}
-                      max={1}
-                      step={0.01}
-                      value={mutationRate}
-                      onChange={(e) => onMutationRateChange(Number(e.target.value))}
+                      type="text"
+                      inputMode="numeric"
+                      value={popInput.text}
+                      onChange={(e) => popInput.handleChange(e.target.value)}
+                      onBlur={popInput.handleBlur}
                       disabled={isOptimizing}
-                      className="h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-slate-200 accent-indigo-600 disabled:opacity-50"
+                      className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
                     />
-                    <span className="text-sm font-bold text-slate-700 w-10">
-                      {Math.round(mutationRate * 100)}%
-                    </span>
                   </div>
-                </div>
 
-                <div>
-                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                    Crossover Rate
-                  </label>
-                  <div className="mt-2 flex items-center gap-3">
+                  <div>
+                    <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                      Max Generations
+                    </label>
                     <input
-                      type="range"
-                      min={0}
-                      max={1}
-                      step={0.01}
-                      value={crossoverRate}
-                      onChange={(e) => onCrossoverRateChange(Number(e.target.value))}
+                      type="text"
+                      inputMode="numeric"
+                      value={genInput.text}
+                      onChange={(e) => genInput.handleChange(e.target.value)}
+                      onBlur={genInput.handleBlur}
                       disabled={isOptimizing}
-                      className="h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-slate-200 accent-indigo-600 disabled:opacity-50"
+                      className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
                     />
-                    <span className="text-sm font-bold text-slate-700 w-10">
-                      {Math.round(crossoverRate * 100)}%
-                    </span>
                   </div>
-                </div>
 
-                <div>
-                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                    Archive Size
-                  </label>
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    value={archInput.text}
-                    onChange={(e) => archInput.handleChange(e.target.value)}
-                    onBlur={archInput.handleBlur}
-                    disabled={isOptimizing}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
-                  />
-                </div>
+                  <div>
+                    <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                      Mutation Rate
+                    </label>
+                    <div className="mt-2 flex items-center gap-3">
+                      <input
+                        type="range"
+                        min={0}
+                        max={1}
+                        step={0.01}
+                        value={mutationRate}
+                        onChange={(e) => onMutationRateChange(Number(e.target.value))}
+                        disabled={isOptimizing}
+                        className="h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-slate-200 accent-indigo-600 disabled:opacity-50"
+                      />
+                      <span className="text-sm font-bold text-slate-700 w-10">
+                        {Math.round(mutationRate * 100)}%
+                      </span>
+                    </div>
+                  </div>
 
-                <div>
-                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                    Random Seed (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    value={randomSeed}
-                    onChange={(e) => onRandomSeedChange(e.target.value.replace(/[^0-9]/g, ""))}
-                    placeholder="Auto (Random)"
-                    disabled={isOptimizing}
-                    className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
-                  />
+                  <div>
+                    <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                      Crossover Rate
+                    </label>
+                    <div className="mt-2 flex items-center gap-3">
+                      <input
+                        type="range"
+                        min={0}
+                        max={1}
+                        step={0.01}
+                        value={crossoverRate}
+                        onChange={(e) => onCrossoverRateChange(Number(e.target.value))}
+                        disabled={isOptimizing}
+                        className="h-1.5 flex-1 cursor-pointer appearance-none rounded-full bg-slate-200 accent-indigo-600 disabled:opacity-50"
+                      />
+                      <span className="text-sm font-bold text-slate-700 w-10">
+                        {Math.round(crossoverRate * 100)}%
+                      </span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                      Archive Size
+                    </label>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={archInput.text}
+                      onChange={(e) => archInput.handleChange(e.target.value)}
+                      onBlur={archInput.handleBlur}
+                      disabled={isOptimizing}
+                      className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                      Random Seed (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={randomSeed}
+                      onChange={(e) => onRandomSeedChange(e.target.value.replace(/[^0-9]/g, ""))}
+                      placeholder="Auto (Random)"
+                      disabled={isOptimizing}
+                      className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </aside>

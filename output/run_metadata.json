@@ -1,4 +1,5 @@
 {
+<<<<<<< Updated upstream
   "k": 7,
   "populationSize": 100,
   "archiveSize": 50,
@@ -8,4 +9,15 @@
   "mutationRate": 0.4,
   "randomSeed": null,
   "estimatedFunctionEvaluations": 50100
+=======
+  "k": 10,
+  "populationSize": 100,
+  "archiveSize": 50,
+  "maxGenerations": 1600,
+  "beta": 2.0,
+  "crossoverRate": 0.9,
+  "mutationRate": 0.3,
+  "randomSeed": null,
+  "estimatedFunctionEvaluations": 160100
+>>>>>>> Stashed changes
 }

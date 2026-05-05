@@ -27,6 +27,14 @@ function formatDuration(ms: number): string {
   return m > 0 ? `${m}m ${String(s).padStart(2, '0')}s` : `${s}s`;
 }
 
+const getOptimalParams = (k: number) => {
+  if (k <= 4) return { popSize: 200, maxGenerations: 200, mutationRate: 0.4, crossoverRate: 0.9, archiveSize: 100 };
+  if (k <= 7) return { popSize: 100, maxGenerations: 500, mutationRate: 0.4, crossoverRate: 0.9, archiveSize: 50 };
+  if (k <= 12) return { popSize: 50, maxGenerations: 1600, mutationRate: 0.3, crossoverRate: 0.9, archiveSize: 25 };
+  if (k <= 20) return { popSize: 50, maxGenerations: 3000, mutationRate: 0.3, crossoverRate: 0.9, archiveSize: 25 };
+  return { popSize: 50, maxGenerations: 5000, mutationRate: 0.3, crossoverRate: 0.9, archiveSize: 25 };
+};
+
 const LockerMap = dynamic(
   () => import("@/components/dashboard/locker-map").then((mod) => mod.LockerMap),
   { ssr: false }
@@ -98,6 +106,16 @@ export default function HomePage() {
   const [elapsedMs, setElapsedMs] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<number>(0);
+
+  const handleLockerCountChange = (value: number) => {
+    setInputLockerCount(value);
+    const params = getOptimalParams(value);
+    setPopulationSize(params.popSize);
+    setMaxGenerations(params.maxGenerations);
+    setMutationRate(params.mutationRate);
+    setCrossoverRate(params.crossoverRate);
+    setArchiveSize(params.archiveSize);
+  };
 
   const loadData = async () => {
     try {
@@ -339,7 +357,7 @@ export default function HomePage() {
             <div className={`col-span-12 lg:h-[calc(100vh-230px)] transition-all duration-500 ${isFocusMode ? 'hidden' : 'lg:col-span-3'}`}>
               <ControlPanel
                 lockerCount={inputLockerCount}
-                onLockerCountChange={setInputLockerCount}
+                onLockerCountChange={handleLockerCountChange}
                 populationSize={populationSize}
                 onPopulationSizeChange={setPopulationSize}
                 maxGenerations={maxGenerations}
