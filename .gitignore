@@ -8,7 +8,7 @@
 __pycache__/
 *.pyc
 
-# (opsiyonel) local env
+# Local environment
 .venv/
 
 # Maven
@@ -22,13 +22,12 @@ buildNumber.properties
 .mvn/
 .flattened-pom.xml
 
-# Generated outputs
+# Generated optimization outputs
 output/archives/
 output/archives/**
-
-# Generated optimization outputs
 output/final_archive.csv
 output/initial_archive.csv
+output/run_metadata.json
 output/archive_comparison_latest.png
 
 # Generated UI mock/result files
