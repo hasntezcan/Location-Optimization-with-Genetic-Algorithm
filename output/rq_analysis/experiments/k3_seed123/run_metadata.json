@@ -1,0 +1,11 @@
+{
+  "k": 3,
+  "populationSize": 200,
+  "archiveSize": 100,
+  "maxGenerations": 150,
+  "beta": 2.0,
+  "crossoverRate": 0.9,
+  "mutationRate": 0.4,
+  "randomSeed": 123,
+  "estimatedFunctionEvaluations": 30200
+}

@@ -1,0 +1,21 @@
+\begin{table}[htbp]
+\centering
+\caption{Performance comparison between greedy baseline and optimized solutions.}
+\label{tab:performance_summary}
+\begin{tabular}{ccrrrrrrr}
+\toprule
+K & Strategy & Mean Dist & Median Dist & Cov 500m & Cov 1km & Cov 2km & CV & Variance \\
+  &          & (m)       & (m)         & (\%)     & (\%)    & (\%)    &    &          \\
+\midrule
+3 & Greedy & 1412.3 & 1405.4 & 8.96 & 28.98 & 80.52 & 0.3902 & 310056 \\
+3 & Optimized & 1109.5 & 1130.3 & 10.69 & 39.65 & 98.53 & 0.2723 & 95673 \\
+\midrule
+6 & Greedy & 1239.8 & 1203.8 & 13.75 & 38.69 & 87.41 & 0.4195 & 300858 \\
+6 & Optimized & 807.5 & 821.7 & 17.80 & 71.35 & 100.00 & 0.1244 & 10361 \\
+\midrule
+10 & Greedy & 1201.0 & 1140.1 & 15.61 & 41.58 & 87.82 & 0.4352 & 310904 \\
+10 & Optimized & 617.4 & 628.8 & 31.20 & 94.76 & 100.00 & 0.1280 & 6410 \\
+\midrule
+\bottomrule
+\end{tabular}
+\end{table}
