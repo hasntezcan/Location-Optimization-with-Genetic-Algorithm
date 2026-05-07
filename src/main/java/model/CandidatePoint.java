@@ -1,9 +1,11 @@
 package model;
 
 /**
- * Represents a candidate grid point that can be selected as a locker location.
- * Stores neighborhood information, point-of-interest counts, coordinates, and
- * demand-related scores used by the optimization model.
+ * Represents one candidate grid point and demand source.
+ *
+ * <p>Rows with {@code isForbidden == false} may be selected as locker
+ * locations. Forbidden rows still remain in the model as demand grid points so
+ * the candidate CSV stays aligned with the precomputed distance matrix.</p>
  */
 public class CandidatePoint {
 
@@ -58,7 +60,7 @@ public class CandidatePoint {
      * @param lon longitude coordinate of the candidate point
      * @param lat latitude coordinate of the candidate point
      * @param isForbidden whether the candidate point is forbidden for locker placement
-     * @param lockerCount number of existing lockers at the candidate point
+     * @param lockerCount number of existing lockers in the candidate's 300m neighborhood
      * @param gridCountByMahalle number of grid points in the same neighborhood
      * @param population estimated population assigned to the candidate point
      * @param poiScore point-of-interest score of the candidate point
@@ -377,7 +379,7 @@ public class CandidatePoint {
     }
 
     /**
-     * Returns the number of existing lockers at the candidate point.
+     * Returns the number of existing lockers in the candidate's 300m neighborhood.
      *
      * @return locker count
      */
@@ -386,7 +388,7 @@ public class CandidatePoint {
     }
 
     /**
-     * Sets the number of existing lockers at the candidate point.
+     * Sets the number of existing lockers in the candidate's 300m neighborhood.
      *
      * @param lockerCount locker count
      */

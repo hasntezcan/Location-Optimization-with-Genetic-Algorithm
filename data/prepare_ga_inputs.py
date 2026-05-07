@@ -124,7 +124,9 @@ def main():
         f.write("Demand (important)\n")
         f.write("------------------\n\n")
         f.write("- This script does NOT export demand.\n")
-        f.write("- Use demand directly from the candidate CSV (e.g., weighted_population).\n\n")
+        f.write("- Use demand directly from the candidate CSV. The default Java `Main` expects\n")
+        f.write("  `demand_final`; if that column is missing, `CsvLoader` falls back to\n")
+        f.write("  `population_candidate`, which changes the experiment.\n\n")
 
         f.write("How to use in GA (quick)\n")
         f.write("------------------------\n\n")
@@ -140,9 +142,16 @@ def main():
         f.write("Forbidden filtering\n")
         f.write("-------------------\n\n")
         if args.filter_forbidden:
-            f.write("Applied: kept only rows where is_forbidden == 0.\n\n")
+            f.write("Applied when this artifact was generated: kept only rows where is_forbidden == 0.\n\n")
+            f.write("The Java runtime CSV must be filtered the exact same way. Otherwise repository\n")
+            f.write("size and matrix size will not match.\n\n")
         else:
-            f.write("Applied: none (assumes your CSV is already clean).\n\n")
+            f.write("Applied when this artifact was generated: none.\n\n")
+            f.write("The runtime CSV and this matrix must keep the same row set and sorted-by-ID\n")
+            f.write("order. Current Java keeps `is_forbidden = 1` rows in the repository and matrix\n")
+            f.write("as demand grid points, but excludes them from selectable locker IDs through\n")
+            f.write("`CandidateRepository.getSelectableCandidateIds()`. Do not regenerate the matrix\n")
+            f.write("with `--filter_forbidden` unless the runtime CSV is filtered the exact same way.\n\n")
 
         f.write("Sanity\n")
         f.write("------\n\n")

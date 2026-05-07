@@ -10,6 +10,31 @@ const PROCESS_SCRIPT_PATH = path.join(UI_ROOT, "src/scripts/process_ga_data.py")
 const OUTPUT_LATEST_PLOT_PATH = path.join(PROJECT_ROOT, "output/archive_comparison_latest.png");
 const UI_LATEST_PLOT_PATH = path.join(UI_ROOT, "public/mock/archive_comparison_latest.png");
 
+type StreamEvent = Record<string, unknown>;
+
+type ProcessErrorInfo = {
+  message: string;
+  scriptPath?: string;
+  stderr?: string;
+};
+
+function getErrorInfo(error: unknown): ProcessErrorInfo {
+  if (error instanceof Error) {
+    return { message: error.message };
+  }
+
+  if (typeof error === "object" && error !== null) {
+    const value = error as { message?: unknown; scriptPath?: unknown; stderr?: unknown };
+    return {
+      message: typeof value.message === "string" ? value.message : String(error),
+      scriptPath: typeof value.scriptPath === "string" ? value.scriptPath : undefined,
+      stderr: typeof value.stderr === "string" ? value.stderr : undefined,
+    };
+  }
+
+  return { message: String(error) };
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -31,14 +56,14 @@ export async function POST(request: Request) {
 
     const stream = new ReadableStream({
       async start(controller) {
-        function sendEvent(data: any) {
+        function sendEvent(data: StreamEvent) {
           controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
         }
 
         try {
           sendEvent({ stage: 'Starting optimization', message: 'Preparing Maven environment...' });
 
-          const args = [];
+          const args: string[] = [];
           if (k !== undefined) args.push('--k', String(k));
           if (populationSize !== undefined) args.push('--populationSize', String(populationSize));
           if (maxGenerations !== undefined) args.push('--maxGenerations', String(maxGenerations));
@@ -158,8 +183,9 @@ export async function POST(request: Request) {
           try {
             await fs.copyFile(OUTPUT_LATEST_PLOT_PATH, UI_LATEST_PLOT_PATH);
             console.log(`Updated UI plot: ${UI_LATEST_PLOT_PATH}`);
-          } catch (copyError: any) {
-            console.error('Failed to copy latest plot into UI public folder:', copyError.message);
+          } catch (copyError: unknown) {
+            const message = copyError instanceof Error ? copyError.message : String(copyError);
+            console.error('Failed to copy latest plot into UI public folder:', message);
           }
 
           sendEvent({ stage: 'Processing GA output', message: 'Running process_ga_data.py...' });
@@ -177,24 +203,25 @@ export async function POST(request: Request) {
           });
 
           controller.close();
-        } catch (error: any) {
+        } catch (error: unknown) {
+          const errorInfo = getErrorInfo(error);
           console.error('Optimization error:', error);
           
           let stage = 'Failed';
-          let errorMessage = error.message || String(error);
+          let errorMessage = errorInfo.message;
           let stderr = '';
 
-          if (error.message && error.message.includes('Python command could not be resolved')) {
+          if (errorInfo.message.includes('Python command could not be resolved')) {
             stage = 'Failed while detecting Python';
-          } else if (error.scriptPath === PLOT_SCRIPT_PATH) {
+          } else if (errorInfo.scriptPath === PLOT_SCRIPT_PATH) {
             stage = 'Failed while generating plots';
-            stderr = error.stderr || '';
-            errorMessage = error.message;
-          } else if (error.scriptPath === PROCESS_SCRIPT_PATH) {
+            stderr = errorInfo.stderr || '';
+            errorMessage = errorInfo.message;
+          } else if (errorInfo.scriptPath === PROCESS_SCRIPT_PATH) {
             stage = 'Failed while processing GA output';
-            stderr = error.stderr || '';
-            errorMessage = error.message;
-          } else if (error.message && error.message.includes('Java GA process failed')) {
+            stderr = errorInfo.stderr || '';
+            errorMessage = errorInfo.message;
+          } else if (errorInfo.message.includes('Java GA process failed')) {
             stage = 'Failed during Java GA execution';
           }
 
@@ -216,11 +243,12 @@ export async function POST(request: Request) {
       },
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const errorInfo = getErrorInfo(error);
     console.error('Error starting GA stream:', error);
     return new Response(JSON.stringify({ 
       error: 'Failed to start optimization', 
-      details: error.message || String(error) 
+      details: errorInfo.message
     }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }

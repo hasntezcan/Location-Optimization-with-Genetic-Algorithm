@@ -3,10 +3,10 @@
 An interactive dashboard for exploring parcel locker placement results on a map (Kadikoy).
 
 This UI can be used in two modes:
-- **Mock mode (default data flow)**: reads assets from `public/mock/` to quickly demo archive/solution navigation.
+- **Archive asset mode (default data flow)**: reads generated or committed assets from `public/mock/` to browse archive solutions.
 - **Trigger real optimization (local/dev)**: calls `POST /api/run-ga` to run the Java SPEA2 optimizer from the project root, generate plots, and refresh UI assets.
 
-Tech stack: **Next.js**, **React**, **TypeScript**, **Tailwind CSS**, **React Leaflet**.
+Tech stack: **Next.js**, **React**, **TypeScript**, **Tailwind CSS**, **React Leaflet**, **Recharts**, **lucide-react**.
 
 ---
 
@@ -16,13 +16,12 @@ This project is a visual decision-support interface for parcel locker placement.
 
 Its purpose is to let a user:
 
-- choose how many parcel lockers should be displayed
-- load mock candidate and boundary data
-- simulate a fake genetic-algorithm style generation sequence
+- choose the locker count `K`
+- load candidate, boundary, and final archive result data
 - optionally trigger a real SPEA2 run locally (via `POST /api/run-ga`)
-- inspect how selected lockers change across generations
-- explore the current result on a map
-- inspect the currently selected locker and generation metrics
+- browse final archive solutions and Pareto flags
+- explore selected locker sets on a map
+- inspect the currently selected locker and solution metrics
 
 In short, this UI is a **presentation and interaction layer** for optimization results. The optimizer itself lives in the Java project root; the UI can optionally trigger it in local/dev mode.
 
@@ -32,31 +31,36 @@ In short, this UI is a **presentation and interaction layer** for optimization r
 
 ### 1. Initial data loading
 
-When the page opens, the app loads two files from `public/mock/`:
+When the page opens, the app loads candidate and boundary data from `public/mock/`:
 
 - `candidate-points.json`
 - `kadikoy_boundary.geojson`
 
 The candidate file contains potential locker locations and their attributes such as neighborhood, population, POI counts, forbidden status, and related metadata.
 
-The boundary file is used to draw the district outline on the map.
+The boundary file is used to draw the district outline on the map. The UI also
+tries to load `ga-results.json` when it exists. That generated file contains
+final archive solutions, objective values, normalized values, Pareto flags, and
+best-f1/best-f2 markers generated from `output/final_archive.csv`.
 
 If the files cannot be loaded, the app logs an error in the browser console.
 
 ---
 
-### 2. Fake generation creation
+### 2. Archive solution loading
 
-After candidate data is loaded, the UI builds a mock optimization run using `buildFakeGenerationRun()`.
+After data is loaded, the UI displays the solutions from `ga-results.json` when
+that generated file exists. These records represent archive solutions, not true
+generation-by-generation optimizer history.
 
-This fake run produces a sequence of generations. Each generation contains:
+Each archive solution contains:
 
-- a list of currently active lockers
-- accessibility score
-- equity score
-- overall fitness score
-
-These generations are **synthetic**. They are not produced by the real GA/SPEA2 implementation. They only imitate the behavior of an evolving optimization process for UI testing and demonstration.
+- selected locker candidates
+- accessibility score (`f1`)
+- equity score (`f2`)
+- total SPEA2 fitness
+- normalized objective values
+- Pareto and best-objective flags
 
 ---
 
@@ -64,38 +68,38 @@ These generations are **synthetic**. They are not produced by the real GA/SPEA2 
 
 The left control panel contains a number input for locker count.
 
-When the user clicks **Build fake generations**:
+When the user clicks **Run Optimization**:
 
-- the input is clamped between `1` and `100`
-- a new fake generation sequence is built
-- the current generation resets to the beginning
+- the input is clamped between `1` and `20`
+- runtime parameters are sent to `/api/run-ga`
+- Java writes new archive CSV outputs
+- Python regenerates `ga-results.json` and the analysis plot
+- the current solution resets to the beginning
 - playback stops
 
-This means the locker count acts as a regeneration trigger for the full mock run.
+The advanced controls also expose population size, max generations, mutation
+rate, crossover rate, archive size, and optional random seed.
 
 ---
 
-### 4. Generation playback
+### 4. Solution playback
 
-The UI supports generation playback controls:
+The UI supports archive-solution playback controls:
 
-- **Prev**: move one generation backward
+- **Prev**: move one solution backward
 - **Play / Pause**: start or stop automatic playback
-- **Next**: move one generation forward
-- **Generation slider**: jump directly to a specific generation
-- **Playback speed selector**:
-  - Slow
-  - Normal
-  - Fast
-  - Stress test
+- **Next**: move one solution forward
+- **Solution slider**: jump directly to a specific archive solution
+- **Playback speed slider**: adjust automatic playback interval
 
-When playback reaches the final generation, it loops back to generation 1.
+When playback reaches the final solution, it loops back to the first solution.
 
 ---
 
 ### 5. Top locker strip
 
-At the top of the dashboard, the UI shows the lockers in the current generation as a horizontal strip.
+At the top of the dashboard, the UI shows the lockers in the current archive
+solution as a horizontal strip.
 
 Each card shows:
 
@@ -120,19 +124,23 @@ The map shows four visual layers:
 The Kadikoy boundary is drawn from the GeoJSON file.
 
 #### Candidate points
-All candidate points that are neither active in the current generation nor visible in the previous generation are shown as very small gray markers.
+All candidate points not selected in the current archive solution are shown as
+small gray markers.
 
-#### Previous generation lockers
-Lockers that existed in the previous generation but are not active now are shown as faded light-gray circles.
+#### Existing locker context
+Candidate cells with `locker_count > 0` are aggregated into neighborhood-level
+existing-locker markers.
 
-#### Current generation lockers
-Current active lockers are shown as larger colored circles.
+#### Proposed lockers
+Selected lockers from the current archive solution are shown as larger blue
+circles.
 
 Color meaning in the current implementation:
 
-- **black / dark**: currently selected locker
-- **blue**: locker persisted from previous generation
-- **purple**: locker is new in the current generation
+- **black / dark**: currently selected proposed locker
+- **blue**: proposed locker in the current archive solution
+- **rose**: existing-locker context marker
+- **gray**: candidate point
 
 Clicking a locker on the map selects it.
 
@@ -144,8 +152,7 @@ Each locker popup shows:
 - neighborhood
 - latitude
 - longitude
-- whether it is new or persisted
-- its display order in the generation
+- its display order in the archive solution
 
 ---
 
@@ -157,24 +164,24 @@ It includes:
 
 - locker name
 - neighborhood
-- generation number
+- archive solution number
 - latitude
 - longitude
 - accessibility metric
 - equity metric
 - fitness metric
 
-These metrics belong to the **active generation**, not to the individual locker itself.
+These metrics belong to the **active archive solution**, not to the individual locker itself.
 
 ---
 
 ### 8. Selection behavior
 
-The UI tries to preserve the selected locker when generations change.
+The UI tries to preserve the selected locker when the active archive solution changes.
 
-If the previously selected locker still exists in the new generation, it stays selected.
+If the previously selected locker still exists in the new solution, it stays selected.
 
-If it no longer exists, the first locker in the new generation becomes selected automatically.
+If it no longer exists, the selection is cleared.
 
 This behavior keeps the UI stable during playback.
 
@@ -205,6 +212,8 @@ This mode:
 - **TypeScript**
 - **Tailwind CSS**
 - **React Leaflet**
+- **Recharts**
+- **lucide-react**
 - **OpenStreetMap tiles**
 
 ---
@@ -217,8 +226,8 @@ parcel-locker-ui/
 │  └─ mock/
 │     ├─ candidate-points.json
 │     ├─ candidate_points.csv
-│     ├─ ga-results.json
-│     ├─ archive_comparison_latest.png
+│     ├─ ga-results.json              (generated)
+│     ├─ archive_comparison_latest.png (generated)
 │     └─ kadikoy_boundary.geojson
 ├─ src/
 │  ├─ app/

@@ -52,7 +52,7 @@ function useNumericInput(
   }, [externalValue]);
 
   const handleChange = (raw: string) => {
-    // Allow empty string for editing, strip non-numeric except leading minus
+    // Allow empty string while editing and keep only positive numeric input.
     const cleaned = raw.replace(/[^0-9]/g, "");
     setText(cleaned);
     

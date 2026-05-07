@@ -15,7 +15,7 @@ export async function detectPythonCommand(): Promise<string> {
         });
       });
       return cmd;
-    } catch (e) {
+    } catch {
       // Continue trying next candidate
     }
   }

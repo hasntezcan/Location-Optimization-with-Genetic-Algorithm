@@ -46,7 +46,7 @@ export function LockerMap({
 }: LockerMapProps) {
   const activeIds = new Set(lockers.map((locker) => locker.id));
 
-  // Cluster existing lockers by neighborhood so they don't look like a grid
+  // Aggregate candidate cells with existing-locker counts into neighborhood markers.
   const existingClusters = useMemo(() => {
     const clusters: Record<string, { latSum: number; lngSum: number; count: number; lockerCount: number; pop: number }> = {};
     

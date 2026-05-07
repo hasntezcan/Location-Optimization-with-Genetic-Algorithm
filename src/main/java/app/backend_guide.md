@@ -49,8 +49,9 @@ The current `Main.java` does the following:
 8. stores:
    - initial archive snapshot
    - final archive snapshot
-9. normalizes archive exports with final-ND-based assessment bounds
-10. exports archive CSV files
+9. writes run parameter metadata
+10. normalizes archive exports with final-ND-based assessment bounds
+11. exports archive CSV files
 
 So the optimizer is already capable of producing final optimization outputs, but it is not yet structured as a backend service.
 
@@ -74,6 +75,11 @@ It contains archive individuals and their:
 This is the archive snapshot after the last generation.
 
 It contains the same structure as the initial archive export.
+
+### 3. `run_metadata.json`
+This contains the parameters used for the latest run, including `k`,
+population size, archive size, max generations, rates, optional random seed,
+and estimated function evaluations.
 
 ---
 
@@ -114,7 +120,7 @@ It is **not yet backend-shaped** in the following sense:
 - there is no structured generation-by-generation export
 - there is no generation summary file
 - there is no dedicated final Pareto front CSV
-- there is no machine-friendly JSON output
+- there is no machine-friendly result JSON output beyond run parameter metadata
 - there is no dedicated optimizer service (job queue, isolation, concurrency control, persistence)
 
 So the backend team should think of the current optimizer as a **batch computation engine** that already produces some useful files, but not yet a direct API-ready service.
@@ -169,7 +175,9 @@ Request body can contain future parameter fields such as:
 - `crossoverRate`
 - `mutationRate`
 
-For the first version, backend can still rely on `GAParameters`, but production code should avoid editing source files at runtime.
+For the first version, backend can pass the CLI arguments currently supported by
+`Main`. Unsupported parameters should remain in `GAParameters` until Java exposes
+a validated runtime configuration format.
 
 ### `GET /runs/latest/initial-archive`
 Return parsed rows from `initial_archive.csv`.
@@ -273,7 +281,7 @@ Backend tasks:
 - expose run summary
 
 Frontend result:
-- replace fake final result view with real final archive exploration
+- serve final archive exploration from backend-parsed optimizer output
 - optionally show initial vs final comparison
 
 ## Phase 2 — Add final Pareto front endpoint

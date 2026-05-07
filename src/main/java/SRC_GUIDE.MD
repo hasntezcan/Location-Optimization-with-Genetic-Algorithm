@@ -735,7 +735,7 @@ So the project is currently at this stage:
 
 - **algorithmic pipeline: implemented**
 - **archive mechanics: implemented**
-- **assessment pipeline: partially implemented but still being refined**
-- **objective design: needs the next major revision**
+- **assessment pipeline: functional**, with HV interpretation still sensitive to normalization choices
+- **objective design: revised and active**, with future alternatives worth testing as research extensions
 
 That is the correct current context for anyone continuing this project.

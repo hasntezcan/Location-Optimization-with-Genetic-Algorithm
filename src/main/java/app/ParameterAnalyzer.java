@@ -42,8 +42,8 @@ import java.util.Locale;
  *       constructor.</li>
  *   <li><b>Calibration-Phase Fixed HV Bounds:</b> Before the grid search for
  *       each (K, λ) pair, a calibration phase runs multiple SPEA2 instances with
- *       standard parameters, unions all final archives, and locks the global
- *       objective bounds for HV normalization.</li>
+ *       standard parameters, unions all final archives, and locks the
+ *       per-pair objective bounds for HV normalization.</li>
  *   <li><b>Rich Output:</b> CSV output includes all parameter columns and
  *       comprehensive quality metrics.</li>
  * </ol>
@@ -359,7 +359,7 @@ public class ParameterAnalyzer {
 
         // Extract the non-dominated set from the union of all calibration archives.
         // CRITICAL: Bounds MUST be derived from the ND set only (ideal/nadir),
-        // exactly as Main.java does (lines 210-216). Using ALL individuals
+        // using the same final-ND ideal/nadir rule used by Main.java. Using ALL individuals
         // would include dominated garbage with extreme objective values,
         // making the bounds too wide and inflating HV values to near 1.0.
         Dominance dominance = new Dominance();

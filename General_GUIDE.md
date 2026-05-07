@@ -79,7 +79,7 @@ Important root files:
 - `pom.xml`: Maven configuration. Uses Java 17. The default `exec:java` entry point is `app.Main`; the `-Panalyze` Maven profile runs `app.ParameterAnalyzer`.
 - `readme.md`: Short quick-start guide.
 - `guide.md`: Older shorter project guide.
-- `AI_HANDOFF_GUIDE.md`: This file. It is the comprehensive report-source and technical methodology guide.
+- `General_GUIDE.md`: This file. It is the comprehensive report-source and technical methodology guide.
 - `.gitignore`: Ignores Maven `target`, Python cache, macOS `.DS_Store`, virtual environments, and some generated output subfolders. Several current `output/*.csv` and PNG artifacts are still present in the repository as example outputs.
 
 ## 5. Full Data Preparation Methodology: QGIS/OSM to GA-Ready CSV
@@ -598,8 +598,8 @@ Output:
 candidate_points.csv
 ```
 
-Current `data/candidate_points.csv` contains 2717 rows: 2553 selectable rows
-and 164 forbidden rows. Keeping forbidden rows in the CSV preserves the
+Current `data/candidate_points.csv` contains 2717 rows: 2535 selectable rows
+and 182 forbidden rows. Keeping forbidden rows in the CSV preserves the
 candidate-to-distance-matrix alignment. The Java optimizer filters the locker
 selection universe through `CandidateRepository.getSelectableCandidateIds()`,
 while objective evaluation still uses all rows as demand grid points.
@@ -717,7 +717,7 @@ Current data status:
 - Unique neighborhoods: `21`
 - Distance matrix shape: `2717 x 2717`
 - Distance matrix dtype: `float32`
-- Current total forbidden count: `164`
+- Current total forbidden count: `182`
 - Candidate ID range: `24` to `5964`
 - Sum of `demand_final`: approximately `492289.09`
 
@@ -1306,7 +1306,7 @@ per individual evaluation.
 With the current values:
 
 - Number of candidates: `2717`.
-- Selectable locker candidates: `2553`.
+- Selectable locker candidates: `2535`.
 - K: `5`.
 
 This is feasible for the current project size.
@@ -1599,13 +1599,15 @@ Column meanings:
 | `density` | SPEA2 density |
 | `total_fitness` | `raw_fitness + density` |
 
-Current example `final_archive.csv` status:
+Example `final_archive.csv` status from a previous validated run:
 
 - Rows: `50`
 - f1 range: approximately `0.5365` to `0.6003`
 - f2 range: approximately `0.2085` to `0.3690`
 - normalized f1 range: approximately `0.0455` to `1.0`
 - normalized f2 range: approximately `0.0455` to `0.9545`
+
+Regenerate the optimizer output before using exact ranges in a report.
 
 ## 19. Hypervolume and Assessment Logic
 
@@ -1833,7 +1835,8 @@ parcel-locker-ui/public/mock/archive_comparison_latest.png
 Current data:
 
 - `candidate-points.json` contains `2717` candidates.
-- `ga-results.json` contains `50` final archive solutions.
+- `ga-results.json` and `archive_comparison_latest.png` are generated after a
+  Java run and are tolerated as missing by the UI before the first local run.
 
 ### 22.2 `src/app/page.tsx`
 
@@ -1901,12 +1904,12 @@ This is not a production backend design.
 Why:
 
 - It runs shell commands from a web route.
-- It modifies Java source code.
+- It passes supported runtime parameters to Java through Maven `-Dexec.args`.
 - It is not concurrency-safe.
 - It can dirty the Git working tree.
 - It does not isolate run outputs.
 
-Future backend should use runtime configuration rather than source-file editing.
+Future backend should use validated runtime configuration and run-specific output directories.
 
 ### 22.4 Dashboard Components
 
@@ -1926,11 +1929,14 @@ Controls:
 - Max generations.
 - Mutation rate.
 
-Current limitations:
+Current advanced controls:
 
-- Crossover rate is not exposed in the UI.
-- Archive size is not exposed in the UI.
-- The API route does not update crossover rate or archive size.
+- Population size.
+- Max generations.
+- Mutation rate.
+- Crossover rate.
+- Archive size.
+- Optional random seed.
 
 #### `locker-map.tsx`
 
@@ -2015,7 +2021,8 @@ For the current real-output flow, `process_ga_data.py` is more relevant.
 
 ## 23. Output Files
 
-Current output files:
+Files produced by the default Java/plotting flow, plus older tracked analysis
+artifacts, include:
 
 ```text
 output/initial_archive.csv
@@ -2245,7 +2252,7 @@ npm run dev
 
 For report writing, project auditing, or continued development, the most useful file review order is:
 
-1. `AI_HANDOFF_GUIDE.md`
+1. `General_GUIDE.md`
 2. `readme.md`
 3. `src/main/java/app/Main.java`
 4. `src/main/java/service/FitnessCalculator.java`
@@ -2314,9 +2321,12 @@ Hypervolume values from separately normalized archives should not be compared
 directly. Initial-to-final improvement should be read from raw-objective
 improvement metrics and C-metric.
 
-### 29.5 CSV Column Order
+### 29.5 CSV Column Names and Format
 
-`CsvLoader` currently depends on column positions. The order of `data/candidate_points.csv` should not be changed unless the loader is updated.
+`CsvLoader` maps fields by header name, so the column order is flexible. The
+required column names and simple CSV format are still part of the contract:
+current parsing uses comma splitting and does not support quoted fields that
+contain embedded commas.
 
 ## 30. Additions Integrated in This Report-Oriented Version
 
@@ -2333,10 +2343,10 @@ The earlier project guide was technically useful but incomplete for formal repor
 - `.qmd` export artifact explanation.
 - `idx` vs `id` explanation for matrix artifacts.
 - Clarification that current UI explores final archive solutions, not true generation history.
-- Clarification that current `Main` comments mention fixed bounds but the code uses dynamic assessment bounds.
-- Clarification that source-file editing in `/api/run-ga` is local/dev only.
+- Clarification that `Main` uses final-ND-based post-hoc assessment bounds.
+- Clarification that `/api/run-ga` is a local/dev process-spawning bridge that passes CLI args to Java.
 
-No Java source-code changes were made while preparing this report-oriented guide. The implementation state documented here is based on the repository as inspected.
+The implementation state documented here is based on the repository as inspected.
 
 ## 31. Limitations and Technical Debt
 
@@ -2360,7 +2370,7 @@ Recommended first tests:
 Recommended improvement:
 
 - Use a real CSV parser.
-- Prefer mapping fields by header names.
+- Keep header-name mapping while replacing the low-level line splitter.
 
 ### 31.3 POI Column Selection in Demand Script
 
@@ -2376,8 +2386,8 @@ Recommended improvement:
 The current candidate CSV includes both feasible and forbidden rows:
 
 ```text
-is_forbidden = 0 -> 2553 rows
-is_forbidden = 1 -> 164 rows
+is_forbidden = 0 -> 2535 rows
+is_forbidden = 1 -> 182 rows
 ```
 
 Implemented behavior:
@@ -2395,7 +2405,6 @@ Recommended improvement:
 - Introduce runtime configuration.
 - Add CLI arguments or JSON config input for Java.
 - Create run-specific output folders.
-- Avoid source-file mutation.
 
 ### 31.6 No True Generation-Level Export
 
@@ -2408,13 +2417,18 @@ For true generation playback, Java should export:
 - `generation_best_front.csv`
 - or a structured JSON equivalent
 
-### 31.7 ParameterAnalyzer Is Not Fully Deterministic
+### 31.7 ParameterAnalyzer Is Long-Running
 
-The initial population is unseeded.
+`ParameterAnalyzer` seeds `PopulationInitializer`, `Selection`, and `Variation`
+for each run, so repeated seeded configurations are deterministic. The main
+operational limitation is that the full grid search is long-running and writes a
+single `output/parameter_analysis_results.csv` file.
 
 Recommended improvement:
 
-- Add seed support to `PopulationInitializer`.
+- Add resume/checkpoint support for interrupted grid searches.
+- Write run-specific or timestamped analysis outputs when preserving multiple
+  experiments matters.
 
 ### 31.8 Haversine Distance Is Not Network Distance
 
@@ -2447,11 +2461,9 @@ The current project state includes several important code-side design decisions 
 - `Main` exports both initial and final archive snapshots.
 - `Main` normalizes archive exports using bounds derived from the final archive non-dominated set.
 - `HypervolumeIndicator` computes 2D normalized-space hypervolume.
-- `ParameterAnalyzer` performs constant-evaluation-budget grid search.
+- `ParameterAnalyzer` performs seeded constant-evaluation-budget grid search.
 - The UI `/api/run-ga` route can trigger a local Java run and refresh UI assets.
 - `process_ga_data.py` converts final archive CSV rows into map-ready UI JSON.
-
-No additional source-code edits were made as part of this report-guide update.
 
 ## 33. Future Work
 
@@ -2581,7 +2593,7 @@ Missing or incomplete:
 
 - Automated tests.
 - Production backend.
-- Runtime parameter injection.
+- Production-grade runtime config validation and service wrapper.
 - Generation-level export.
 - Robust CSV parsing.
 - Production-grade CSV schema validation.
@@ -2590,10 +2602,10 @@ Missing or incomplete:
 
 ## 38. Final Report Summary
 
-This project is a multi-objective SPEA2 optimization system for selecting parcel locker locations in Kadikoy. It uses 2717 candidate grid centroids derived from a QGIS/OSM workflow; 2553 are selectable locker candidates and 164 are forbidden rows kept as demand grid points. Each candidate has spatial, neighborhood, POI, bus stop, existing locker, population, and demand attributes. The Java optimizer selects `K` non-forbidden candidate IDs and evaluates them with two minimization objectives: demand-weighted accessibility and neighborhood equity.
+This project is a multi-objective SPEA2 optimization system for selecting parcel locker locations in Kadikoy. It uses 2717 candidate grid centroids derived from a QGIS/OSM workflow; 2535 are selectable locker candidates and 182 are forbidden rows kept as demand grid points. Each candidate has spatial, neighborhood, POI, bus stop, existing locker, population, and demand attributes. The Java optimizer selects `K` non-forbidden candidate IDs and evaluates them with two minimization objectives: demand-weighted accessibility and neighborhood equity.
 
 The Java code is the authoritative implementation of the optimization methodology. Python scripts prepare demand values, generate matrix artifacts, and plot archive outputs. The Next.js UI visualizes final archive solutions on a map and can locally trigger the Java optimizer, but that trigger is a development shortcut rather than a production backend.
 
 The first contract to protect is candidate ID to matrix index alignment. The second contract is chromosome set semantics. The third contract is selectable-vs-demand handling for forbidden candidates. The fourth contract is final-ND-based normalization for final archive hypervolume assessment.
 
-The next most valuable engineering improvements are tests, runtime configuration, schema validation, robust CSV parsing, performance improvements in fitness evaluation, and generation-level exports for the UI.
+The next most valuable engineering improvements are tests, production-grade runtime configuration, schema validation, robust CSV parsing, performance improvements in fitness evaluation, and generation-level exports for the UI.

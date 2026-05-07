@@ -119,19 +119,24 @@ export default function HomePage() {
 
   const loadData = async () => {
     try {
-      const [candidateResponse, boundaryResponse, archiveResponse] = await Promise.all([
+      const [candidateResponse, boundaryResponse] = await Promise.all([
         fetch("/mock/candidate-points.json"),
         fetch("/mock/kadikoy_boundary.geojson"),
-        fetch("/mock/ga-results.json"),
       ]);
 
       if (!candidateResponse.ok) throw new Error("Candidate fetch failed");
       if (!boundaryResponse.ok) throw new Error("Boundary fetch failed");
-      if (!archiveResponse.ok) throw new Error("Archive fetch failed");
 
       const candidateData: CandidatePoint[] = await candidateResponse.json();
       const boundaryData = (await boundaryResponse.json()) as GeoJSON.FeatureCollection;
-      const archiveData: ArchiveSolution[] = await archiveResponse.json();
+
+      let archiveData: ArchiveSolution[] = [];
+      const archiveResponse = await fetch("/mock/ga-results.json");
+      if (archiveResponse.ok) {
+        archiveData = await archiveResponse.json();
+      } else {
+        console.warn("Archive results not found. Run optimization to generate ga-results.json.");
+      }
 
       setCandidates(candidateData);
       setBoundary(boundaryData);
@@ -468,7 +473,8 @@ export default function HomePage() {
                         </div>
                       </div>
                       <div className="flex-1 min-h-0">
-                        <ResponsiveContainer width="100%" height="100%">
+                        {chartData.length > 0 ? (
+                          <ResponsiveContainer width="100%" height="100%">
                           <ScatterChart margin={{ top: 10, right: 20, bottom: 20, left: -10 }}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
                             <XAxis
@@ -561,7 +567,12 @@ export default function HomePage() {
                               })}
                             </Scatter>
                           </ScatterChart>
-                        </ResponsiveContainer>
+                          </ResponsiveContainer>
+                        ) : (
+                          <div className="flex h-full min-h-[180px] items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-4 text-center text-xs text-slate-500">
+                            Run optimization to generate archive results.
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
