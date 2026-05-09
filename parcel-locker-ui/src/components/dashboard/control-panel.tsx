@@ -1,6 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Pause,
+  Play,
+  SlidersHorizontal,
+} from "lucide-react";
 
 type ControlPanelProps = {
   lockerCount: number;
@@ -36,6 +44,21 @@ type ControlPanelProps = {
   isBestF1?: boolean;
   isBestF2?: boolean;
 };
+
+const panelCardClass =
+  "rounded-lg border border-slate-200 bg-white p-4 shadow-[0_1px_2px_rgba(15,23,42,0.05)]";
+const baseInputClass =
+  "h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-800 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400";
+const stackedInputClass = `mt-2 ${baseInputClass}`;
+const iconButtonClass =
+  "flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40";
+
+function moveCaretToEnd(input: HTMLInputElement) {
+  window.requestAnimationFrame(() => {
+    const end = input.value.length;
+    input.setSelectionRange(end, end);
+  });
+}
 
 /**
  * Manages a text input backed by a numeric state.
@@ -84,7 +107,7 @@ function useNumericInput(
     }
   };
 
-  return { text, handleChange, handleBlur };
+  return { text, handleChange, handleBlur, moveCaretToEnd };
 }
 
 export function ControlPanel({
@@ -128,6 +151,7 @@ export function ControlPanel({
   const archInput = useNumericInput(archiveSize, onArchiveSizeChange, 5, 300);
 
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const advancedPanelRef = useRef<HTMLDivElement>(null);
   const safeMcdaPreference = Number.isFinite(mcdaPreference) ? mcdaPreference : 50;
   const safeGenerationCount = Math.max(0, generationCount);
   const safeCurrentGeneration =
@@ -138,17 +162,32 @@ export function ControlPanel({
   const inequityWeight = safeMcdaPreference;
   const canRunMcda = paretoSolutionCount > 0 && !isOptimizing;
 
+  useEffect(() => {
+    if (!showAdvanced) return;
+
+    const timeoutId = window.setTimeout(() => {
+      advancedPanelRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+    }, 40);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [showAdvanced]);
+
   return (
-    <aside className="flex h-full flex-col overflow-hidden rounded-[30px] border border-slate-200/60 bg-white p-4 shadow-sm">
+    <aside className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/80 p-3 shadow-sm">
       <div className="min-h-0 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-        <div>
-          <span className="inline-flex rounded-full border border-slate-200/70 bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">
+        <div className="flex items-center justify-between gap-3">
+          <span className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 shadow-sm">
+            <SlidersHorizontal size={14} />
             Controls
           </span>
         </div>
 
-          <div className="mt-5 space-y-6">
-          <div className="rounded-[22px] border border-slate-200/50 bg-white/60 p-4 shadow-sm">
+        <div className="mt-5 space-y-6">
+          <div className={panelCardClass}>
             <div className="flex items-center justify-between">
               <div>
                 <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
@@ -166,29 +205,31 @@ export function ControlPanel({
                 inputMode="numeric"
                 value={lockerInput.text}
                 onChange={(e) => lockerInput.handleChange(e.target.value)}
+                onFocus={(e) => lockerInput.moveCaretToEnd(e.currentTarget)}
+                onClick={(e) => lockerInput.moveCaretToEnd(e.currentTarget)}
                 onBlur={lockerInput.handleBlur}
                 disabled={isOptimizing}
-                className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+                className={`${baseInputClass} text-center tabular-nums`}
               />
-                      <button
-                        type="button"
-                        onClick={onShowResults}
-                        disabled={isOptimizing}
-                        className={`h-10 whitespace-nowrap rounded-xl px-4 text-xs font-bold text-white shadow-md transition ${
-                          isOptimizing
-                            ? "bg-slate-400 cursor-not-allowed"
-                            : "bg-indigo-600 hover:bg-indigo-700"
-                        }`}
-                      >
-                        {isOptimizing ? "Optimizing..." : "Run Optimization"}
-                      </button>
-                    </div>
-                    <p className="mt-2 text-[10px] text-slate-400">
-                      * Changing parameters requires re-running the optimization.
-                    </p>
+              <button
+                type="button"
+                onClick={onShowResults}
+                disabled={isOptimizing}
+                className={`h-10 whitespace-nowrap rounded-lg px-4 text-xs font-bold text-white shadow-sm transition ${
+                  isOptimizing
+                    ? "bg-slate-400 cursor-not-allowed"
+                    : "bg-indigo-600 hover:bg-indigo-700"
+                }`}
+              >
+                {isOptimizing ? "Optimizing..." : "Run Optimization"}
+              </button>
+            </div>
+            <p className="mt-2 text-[10px] text-slate-400">
+              * Changing parameters requires re-running the optimization.
+            </p>
           </div>
 
-          <div className="rounded-[22px] border border-slate-200/50 bg-white/60 p-4 shadow-sm">
+          <div className={panelCardClass}>
             <div className="flex items-start justify-between gap-3">
               <div>
                 <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
@@ -233,7 +274,7 @@ export function ControlPanel({
                 onRunMcda();
               }}
               disabled={!canRunMcda}
-              className={`mt-4 h-10 w-full rounded-xl text-xs font-bold text-white shadow-md transition ${
+              className={`mt-4 h-10 w-full rounded-lg text-xs font-bold text-white shadow-sm transition ${
                 canRunMcda
                   ? "bg-emerald-600 hover:bg-emerald-700"
                   : "cursor-not-allowed bg-slate-400"
@@ -248,7 +289,7 @@ export function ControlPanel({
             </p>
           </div>
 
-          <div className="rounded-[22px] border border-slate-200/50 bg-white/60 p-4 shadow-sm">
+          <div className={panelCardClass}>
             <div className="flex items-center justify-between">
               <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
                 Current Solution
@@ -281,9 +322,9 @@ export function ControlPanel({
                 onClick={onPrevGeneration}
                 disabled={safeCurrentGeneration === 0}
                 aria-label="Previous solution"
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50 disabled:opacity-50"
+                className={iconButtonClass}
               >
-                ←
+                <ChevronLeft size={16} />
               </button>
               
               <input
@@ -302,14 +343,14 @@ export function ControlPanel({
                 onClick={onNextGeneration}
                 disabled={safeCurrentGeneration >= safeGenerationCount - 1}
                 aria-label="Next solution"
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50 disabled:opacity-50"
+                className={iconButtonClass}
               >
-                →
+                <ChevronRight size={16} />
               </button>
             </div>
           </div>
 
-          <div className="rounded-[22px] border border-slate-200/50 bg-white/60 p-4 shadow-sm">
+          <div className={panelCardClass}>
             <div className="flex items-center justify-between">
               <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
                 Playback Control
@@ -318,12 +359,13 @@ export function ControlPanel({
                 type="button"
                 onClick={onTogglePlayback}
                 aria-label={isPlaying ? "Stop playback" : "Start auto-play"}
-                className={`flex h-10 w-24 items-center justify-center rounded-xl text-xs font-bold transition ${
+                className={`flex h-10 w-28 items-center justify-center gap-2 rounded-lg text-xs font-bold transition ${
                   isPlaying 
                     ? "bg-rose-500 text-white shadow-[0_4px_12px_rgba(244,63,94,0.3)]" 
                     : "bg-emerald-500 text-white shadow-[0_4px_12px_rgba(16,185,129,0.3)]"
                 }`}
               >
+                {isPlaying ? <Pause size={14} /> : <Play size={14} />}
                 {isPlaying ? "Stop" : "Auto-Play"}
               </button>
             </div>
@@ -346,23 +388,25 @@ export function ControlPanel({
           </div>
         </div>
 
-        <div className="mt-8 space-y-4">
+        <div className="mt-8 space-y-4" ref={advancedPanelRef}>
           <button
             type="button"
-            onClick={() => setShowAdvanced(!showAdvanced)}
-            className="flex w-full items-center justify-between px-1 text-left"
+            onClick={() => setShowAdvanced((prev) => !prev)}
+            className="flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white px-3 py-3 text-left shadow-sm transition hover:border-indigo-200 hover:bg-indigo-50/30"
+            aria-expanded={showAdvanced}
           >
             <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
               Advanced Developer Options
             </h3>
-            <span className="text-slate-400">
-              {showAdvanced ? "▲" : "▼"}
-            </span>
+            <ChevronDown
+              size={16}
+              className={`text-slate-400 transition-transform ${showAdvanced ? "rotate-180" : ""}`}
+            />
           </button>
 
           {showAdvanced && (
             <div className="mt-5 space-y-5 animate-in fade-in slide-in-from-top-2 duration-200">
-              <div className="rounded-[22px] border border-slate-200/50 bg-white/60 p-4 shadow-sm">
+              <div className={panelCardClass}>
                 <div className="space-y-4">
                   <div>
                     <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
@@ -373,9 +417,11 @@ export function ControlPanel({
                       inputMode="numeric"
                       value={popInput.text}
                       onChange={(e) => popInput.handleChange(e.target.value)}
+                      onFocus={(e) => popInput.moveCaretToEnd(e.currentTarget)}
+                      onClick={(e) => popInput.moveCaretToEnd(e.currentTarget)}
                       onBlur={popInput.handleBlur}
                       disabled={isOptimizing}
-                      className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+                      className={`${stackedInputClass} text-center tabular-nums`}
                     />
                   </div>
 
@@ -388,9 +434,11 @@ export function ControlPanel({
                       inputMode="numeric"
                       value={genInput.text}
                       onChange={(e) => genInput.handleChange(e.target.value)}
+                      onFocus={(e) => genInput.moveCaretToEnd(e.currentTarget)}
+                      onClick={(e) => genInput.moveCaretToEnd(e.currentTarget)}
                       onBlur={genInput.handleBlur}
                       disabled={isOptimizing}
-                      className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+                      className={`${stackedInputClass} text-center tabular-nums`}
                     />
                   </div>
 
@@ -445,9 +493,11 @@ export function ControlPanel({
                       inputMode="numeric"
                       value={archInput.text}
                       onChange={(e) => archInput.handleChange(e.target.value)}
+                      onFocus={(e) => archInput.moveCaretToEnd(e.currentTarget)}
+                      onClick={(e) => archInput.moveCaretToEnd(e.currentTarget)}
                       onBlur={archInput.handleBlur}
                       disabled={isOptimizing}
-                      className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+                      className={`${stackedInputClass} text-center tabular-nums`}
                     />
                   </div>
 
@@ -462,7 +512,7 @@ export function ControlPanel({
                       onChange={(e) => onRandomSeedChange(e.target.value.replace(/[^0-9]/g, ""))}
                       placeholder="Auto (Random)"
                       disabled={isOptimizing}
-                      className="mt-2 h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
+                      className={`${stackedInputClass} text-center tabular-nums`}
                     />
                   </div>
                 </div>
