@@ -41,7 +41,7 @@ const LockerMap = dynamic(
 );
 
 function solutionToUiLockers(solution: ArchiveSolution | null): Locker[] {
-  if (!solution) return [];
+  if (!solution?.lockers?.length) return [];
 
   return solution.lockers.map((locker, index) => ({
     id: locker.id,
@@ -65,6 +65,26 @@ interface ChartPoint {
   size: number;
 }
 
+function getNormalizedObjectiveCosts(
+  solutions: ArchiveSolution[],
+  rawKey: "accessibility" | "equity",
+  normKey: "norm_f1" | "norm_f2"
+) {
+  if (!solutions.length) return [];
+
+  const normalizedValues = solutions.map((solution) => solution.metrics[normKey]);
+  if (normalizedValues.every((value) => Number.isFinite(value))) {
+    return normalizedValues as number[];
+  }
+
+  const rawValues = solutions.map((solution) => solution.metrics[rawKey]);
+  const min = Math.min(...rawValues);
+  const max = Math.max(...rawValues);
+  if (max === min) return solutions.map(() => 0);
+
+  return rawValues.map((value) => (value - min) / (max - min));
+}
+
 export default function HomePage() {
   const [inputLockerCount, setInputLockerCount] = useState(5);
   const [populationSize, setPopulationSize] = useState(100);
@@ -83,6 +103,7 @@ export default function HomePage() {
 
   const [archiveSolutions, setArchiveSolutions] = useState<ArchiveSolution[]>([]);
   const [currentSolutionIndex, setCurrentSolutionIndex] = useState(0);
+  const [mcdaPreference, setMcdaPreference] = useState<number>(50);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(700);
@@ -163,7 +184,14 @@ export default function HomePage() {
     return () => window.clearInterval(timer);
   }, [isPlaying, playbackSpeed, archiveSolutions.length]);
 
-  const currentSolution = archiveSolutions[currentSolutionIndex] ?? null;
+  const currentSolution =
+    currentSolutionIndex >= 0 && currentSolutionIndex < archiveSolutions.length
+      ? archiveSolutions[currentSolutionIndex]
+      : null;
+  const paretoSolutionCount = useMemo(
+    () => archiveSolutions.filter((solution) => solution.isPareto).length,
+    [archiveSolutions]
+  );
 
   const chartData = useMemo<ChartPoint[]>(() => {
     return archiveSolutions.map((sol) => ({
@@ -311,6 +339,71 @@ export default function HomePage() {
     setCurrentSolutionIndex((prev) => (prev <= 0 ? 0 : prev - 1));
   };
 
+  const handleRunMcda = () => {
+    const paretoSolutions = archiveSolutions.filter((solution) => solution.isPareto);
+
+    if (!paretoSolutions.length) {
+      setStatusMessage({
+        type: "info",
+        text: "No Pareto solutions are available yet. Run optimization before using MCDA.",
+      });
+      return;
+    }
+
+    const accessibilityWeight = (100 - mcdaPreference) / 100;
+    const inequityWeight = mcdaPreference / 100;
+    const accessibilityCosts = getNormalizedObjectiveCosts(
+      paretoSolutions,
+      "accessibility",
+      "norm_f1"
+    );
+    const inequityCosts = getNormalizedObjectiveCosts(paretoSolutions, "equity", "norm_f2");
+
+    let bestParetoIndex = 0;
+    let bestScore = Number.POSITIVE_INFINITY;
+
+    paretoSolutions.forEach((solution, index) => {
+      const score =
+        accessibilityWeight * accessibilityCosts[index] +
+        inequityWeight * inequityCosts[index];
+
+      if (score < bestScore) {
+        bestScore = score;
+        bestParetoIndex = index;
+      }
+    });
+
+    const selectedSolution = paretoSolutions[bestParetoIndex];
+
+    if (!selectedSolution) {
+      setStatusMessage({
+        type: "error",
+        text: "MCDA could not select a Pareto solution from the available archive.",
+      });
+      return;
+    }
+
+    const selectedIndex = archiveSolutions.findIndex((solution) => solution.id === selectedSolution.id);
+
+    if (selectedIndex === -1) {
+      setStatusMessage({
+        type: "error",
+        text: "MCDA selected a Pareto solution, but it could not be matched to the archive.",
+      });
+      return;
+    }
+
+    setCurrentSolutionIndex(selectedIndex);
+    setIsPlaying(false);
+    setStatusMessage({
+      type: "success",
+      text: `MCDA selected solution #${selectedIndex + 1} with Accessibility ${Math.round(
+        accessibilityWeight * 100
+      )}% / Inequity ${Math.round(inequityWeight * 100)}%.`,
+    });
+    setTimeout(() => setStatusMessage(null), 5000);
+  };
+
   return (
     <main className="relative min-h-screen bg-slate-50 px-4 py-4 text-slate-900 sm:px-5 lg:px-6">
 
@@ -330,21 +423,23 @@ export default function HomePage() {
               the selected locker&apos;s location details in a cleaner decision-support interface.
             </p>
 
-            {statusMessage && (
-              <div className={`mt-6 w-full max-w-md rounded-2xl border px-4 py-3 text-sm font-medium shadow-sm animate-in fade-in slide-in-from-top-4 duration-300 ${statusMessage.type === 'success'
-                ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
-                : statusMessage.type === 'error'
-                  ? 'border-rose-200 bg-rose-50 text-rose-700'
-                  : 'border-blue-200 bg-blue-50 text-blue-700'
-                }`}>
-                <div className="flex items-center gap-3">
-                  {statusMessage.type === 'success' && <span className="text-lg">✓</span>}
-                  {statusMessage.type === 'error' && <span className="text-lg">⚠</span>}
-                  {statusMessage.type === 'info' && <span className="text-lg">ℹ</span>}
-                  <p>{statusMessage.text}</p>
+            <div className="mt-6 min-h-[52px] w-full max-w-md">
+              {statusMessage ? (
+                <div className={`w-full rounded-2xl border px-4 py-3 text-sm font-medium shadow-sm ${statusMessage.type === 'success'
+                  ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                  : statusMessage.type === 'error'
+                    ? 'border-rose-200 bg-rose-50 text-rose-700'
+                    : 'border-blue-200 bg-blue-50 text-blue-700'
+                  }`}>
+                  <div className="flex items-center gap-3">
+                    {statusMessage.type === 'success' && <span className="text-lg">✓</span>}
+                    {statusMessage.type === 'error' && <span className="text-lg">⚠</span>}
+                    {statusMessage.type === 'info' && <span className="text-lg">ℹ</span>}
+                    <p>{statusMessage.text}</p>
+                  </div>
                 </div>
-              </div>
-            )}
+              ) : null}
+            </div>
           </div>
         </header>
 
@@ -383,8 +478,17 @@ export default function HomePage() {
                 onTogglePlayback={() => setIsPlaying((prev) => !prev)}
                 onPrevGeneration={handlePrevSolution}
                 onNextGeneration={handleNextSolution}
-                onGenerationChange={setCurrentSolutionIndex}
+                onGenerationChange={(value) => {
+                  const maxIndex = Math.max(0, archiveSolutions.length - 1);
+                  setCurrentSolutionIndex(Math.max(0, Math.min(value, maxIndex)));
+                }}
                 onPlaybackSpeedChange={setPlaybackSpeed}
+                mcdaPreference={mcdaPreference}
+                onMcdaPreferenceChange={(value) => {
+                  setMcdaPreference(Number.isFinite(value) ? value : 50);
+                }}
+                onRunMcda={handleRunMcda}
+                paretoSolutionCount={paretoSolutionCount}
                 isOptimizing={isOptimizing}
                 isCurrentSolutionPareto={currentSolution?.isPareto}
                 isBestF1={currentSolution?.isBestF1}

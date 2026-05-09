@@ -1,5 +1,5 @@
 "use client";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 import {
   CircleMarker,
@@ -20,9 +20,11 @@ import type {
 function FlyToLocker({ locker }: { locker: Locker | null }) {
   const map = useMap();
 
-  if (locker) {
+  useEffect(() => {
+    if (!locker || !Number.isFinite(locker.lat) || !Number.isFinite(locker.lng)) return;
+
     map.flyTo([locker.lat, locker.lng], 14, { duration: 1.1 });
-  }
+  }, [locker, map]);
 
   return null;
 }
@@ -44,13 +46,26 @@ export function LockerMap({
   onSelectLocker,
   currentGeneration,
 }: LockerMapProps) {
-  const activeIds = new Set(lockers.map((locker) => locker.id));
+  const safeLockers = useMemo(
+    () => lockers.filter((locker) => Number.isFinite(locker.lat) && Number.isFinite(locker.lng)),
+    [lockers]
+  );
+  const safeSelectedLocker =
+    selectedLocker && Number.isFinite(selectedLocker.lat) && Number.isFinite(selectedLocker.lng)
+      ? selectedLocker
+      : null;
+  const activeIds = useMemo(
+    () => new Set(safeLockers.map((locker) => locker.id)),
+    [safeLockers]
+  );
 
   // Aggregate candidate cells with existing-locker counts into neighborhood markers.
   const existingClusters = useMemo(() => {
     const clusters: Record<string, { latSum: number; lngSum: number; count: number; lockerCount: number; pop: number }> = {};
     
     candidates.forEach((c) => {
+      if (!Number.isFinite(c.lat) || !Number.isFinite(c.lng)) return;
+
       if (c.lockerCount > 0) {
         if (!clusters[c.neighborhood]) {
           clusters[c.neighborhood] = { latSum: 0, lngSum: 0, count: 0, lockerCount: 0, pop: 0 };
@@ -74,6 +89,16 @@ export function LockerMap({
     }));
   }, [candidates]);
 
+  if (typeof window === "undefined") {
+    return (
+      <div className="h-full min-h-[350px] rounded-[30px] border border-white/60 bg-white/55 p-3 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+        <div className="flex h-full items-center justify-center rounded-[26px] border border-slate-200/40 bg-white/55">
+          <p className="text-sm text-slate-500">Loading map...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="h-full min-h-[350px] rounded-[30px] border border-white/60 bg-white/55 p-3 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl">
       <div className="relative h-full overflow-hidden rounded-[26px] border border-slate-200/40 bg-white/55">
@@ -94,7 +119,7 @@ export function LockerMap({
             )}
           </div>
           <p className="mt-1 text-xs text-slate-600">
-            {lockers.length} visible lockers
+            {safeLockers.length} visible lockers
           </p>
           <div className="mt-2 flex flex-col gap-1">
             <div className="flex items-center gap-1.5"><div className="h-2.5 w-2.5 rounded-full bg-blue-600 border border-blue-900/30"></div><span className="text-[9px] text-slate-500">Proposed</span></div>
@@ -103,16 +128,16 @@ export function LockerMap({
           </div>
         </div>
 
-        {selectedLocker ? (
+        {safeSelectedLocker ? (
           <div className="absolute bottom-4 right-4 z-[600] max-w-[180px] rounded-2xl border border-white/70 bg-white/72 px-4 py-3 shadow-[0_10px_25px_rgba(15,23,42,0.08)] backdrop-blur-xl">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
               Active selection
             </p>
             <p className="mt-1 text-sm font-semibold text-slate-900">
-              {selectedLocker.name}
+              {safeSelectedLocker.name}
             </p>
             <p className="mt-1 text-xs text-slate-600">
-              {selectedLocker.neighborhood}
+              {safeSelectedLocker.neighborhood}
             </p>
           </div>
         ) : null}
@@ -131,7 +156,7 @@ export function LockerMap({
 
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-          <FlyToLocker locker={selectedLocker} />
+          <FlyToLocker locker={safeSelectedLocker} />
 
           {boundary ? (
             <GeoJSON
@@ -183,6 +208,7 @@ export function LockerMap({
           ))}
 
           {candidates.map((candidate) => {
+            if (!Number.isFinite(candidate.lat) || !Number.isFinite(candidate.lng)) return null;
             const isActive = activeIds.has(candidate.id);
             if (isActive) return null;
 
@@ -202,8 +228,8 @@ export function LockerMap({
             );
           })}
 
-          {lockers.map((locker, index) => {
-            const isSelected = locker.id === selectedLocker?.id;
+          {safeLockers.map((locker, index) => {
+            const isSelected = locker.id === safeSelectedLocker?.id;
 
             return (
               <CircleMarker
