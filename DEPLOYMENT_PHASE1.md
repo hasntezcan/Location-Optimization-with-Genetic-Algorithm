@@ -18,7 +18,10 @@ python3 -m pip install -r requirements.txt
 
 ## Environment Configuration
 
-Copy `.env.example` and set values only when the defaults do not match your runtime layout.
+Use `.env.example` as the environment template and set values only when the
+defaults do not match your runtime layout. For local Next.js `.env` loading,
+copy it to `parcel-locker-ui/.env.local`; alternatively export the variables in
+the shell before running `npm run dev`.
 
 Important variables:
 

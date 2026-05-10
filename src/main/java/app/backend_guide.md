@@ -149,6 +149,7 @@ Read these files:
 
 - `output/initial_archive.csv`
 - `output/final_archive.csv`
+- `output/run_metadata.json`
 - `output/archive_comparison_latest.png` (optional visualization)
 
 ### Step 4
@@ -340,11 +341,13 @@ Java reads:
 - candidate CSV
 - distance matrix
 - fixed GA parameters from `GAParameters`
+- optional runtime CLI overrides supported by `Main`
 
 ### Output side
 Java writes:
 - `initial_archive.csv`
 - `final_archive.csv`
+- `run_metadata.json`
 - terminal summary with HV and runtime info
 
 ### Backend responsibility

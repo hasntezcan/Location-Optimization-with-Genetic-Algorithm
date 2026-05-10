@@ -610,10 +610,12 @@ Still, this distinction should always be kept in mind when editing the project.
 ## 11.4 Generation-level diagnostics — PARTIALLY RESOLVED
 
 Now implemented:
-- best `f1` per generation
-- best `f2` per generation
+- compact `PROGRESS generation=<n> max=<m>` logging for the UI stream
+- generation 0 and final archive snapshots
 
 Still useful future diagnostics:
+- best `f1` per generation
+- best `f2` per generation
 - number of unique archive individuals
 - number of non-dominated archive individuals
 - hypervolume trend over generations
@@ -716,7 +718,8 @@ The current state:
 - **archive mechanics: implemented**
 - **objective design: revised** (km-based f1, CV-based f2)
 - **configuration: centralized** in `config.GAParameters`
-- **diagnostics: per-generation** compact progress logging
+- **diagnostics: per-generation** compact progress logging only; objective
+  trend exports are still future work
 - **crossover: improved** with shared-gene priority recombination
 - **assessment pipeline: functional** but may need further HV sensitivity tuning
 

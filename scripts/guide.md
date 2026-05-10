@@ -173,11 +173,10 @@ python3 scripts/statistical_analysis.py --input output/parameter_analysis_result
 
 Older exploratory visualization script for the ParameterAnalyzer output.
 
-Reads from `output/parameter analysis/parameter_analysis_results.csv` (note:
-path uses Turkish-named folder from an earlier run). It expects an older CSV
-schema with columns such as `Lambda`, `PopSize`, `MutRate`, and `CrossRate`,
-so it is not the canonical post-processor for the current Java
-`ParameterAnalyzer` output.
+Reads from `output/parameter analysis/parameter_analysis_results.csv`. It
+expects an older CSV schema with columns such as `Lambda`, `PopSize`,
+`MutRate`, and `CrossRate`, so it is not the canonical post-processor for the
+current Java `ParameterAnalyzer` output.
 
 Produces five plots in `output/parameter analysis/plots_advanced/`:
 

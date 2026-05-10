@@ -671,6 +671,7 @@ data/raw/kadikoy.gpkg
 data/raw/kadikoy_boundary.geojson
 data/raw/lockers_32635.gpkg
 data/raw/pois_all_points.gpkg
+data/raw/small_grids_forbidden.gpkg
 ```
 
 These files are useful for reproducing or auditing the QGIS workflow. They are not all read by the Java optimizer at runtime.
@@ -2106,13 +2107,16 @@ output/
 
 ```text
 output/
-├── parameter_analysis_results.csv  ParameterAnalyzer grid search output
+├── parameter_analysis_results.csv        ParameterAnalyzer full grid-search output
 ├── parameter_analysis_results_smoke.csv  optional smoke-mode output
-├── ga_configuration_table.csv      GA_ID to parameter mapping
-├── archive_comparison.png          (older tracked example plot)
-├── objective_space_nd_points.csv   (backup Main calibration artifact)
-└── objective_space_run_summary.csv (backup Main calibration artifact)
+└── ga_configuration_table.csv            GA_ID to parameter mapping
 ```
+
+The current `ParameterAnalyzer` writes only the three files above. Older
+tracked examples such as `archive_comparison.png`,
+`objective_space_nd_points.csv`, and `objective_space_run_summary.csv` may be
+present in `output/`, but they are legacy artifacts from earlier workflows and
+are not produced by the current analyzer.
 
 ### 23.3 Parameter Analysis Statistics
 
@@ -2143,6 +2147,7 @@ Output side:
 ```text
 output/initial_archive.csv
 output/final_archive.csv
+output/run_metadata.json
 output/archive_comparison_latest.png
 ```
 

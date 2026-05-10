@@ -211,6 +211,7 @@ Runtime environment variables supported by the route:
 | `GA_OUTPUT_DIR` | Java/Python output directory |
 | `UI_MOCK_DIR` | UI public mock output directory |
 | `MAVEN_CMD` | Maven executable override |
+| `PYTHON_CMD` | Python executable override used for plot and GA-output processing scripts |
 | `GA_MAX_RUNTIME_MS` | Java process timeout |
 
 This mode:

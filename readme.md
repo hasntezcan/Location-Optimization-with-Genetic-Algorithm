@@ -24,11 +24,11 @@ python3 scripts/prepare_demand.py
 
 Note: This script overwrites `data/candidate_points.csv`. The current committed
 CSV already contains `poi_score` and `demand_final` generated with lambda `0.5`.
-See [scripts/guide.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/scripts/guide.md).
+See [scripts/guide.md](scripts/guide.md).
 
 ### 2) Run the Java SPEA2 optimizer
 
-Default entry point: [app.Main](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/app/Main.java)
+Default entry point: [app.Main](src/main/java/app/Main.java)
 
 ```bash
 mvn -q compile exec:java
@@ -45,6 +45,7 @@ python3 scripts/plot_archives.py
 The Java run produces the following under `output/`:
 - `initial_archive.csv`: archive snapshot after generation 0
 - `final_archive.csv`: archive snapshot after the final generation
+- `run_metadata.json`: run parameters and estimated function evaluations
 
 The plot script produces:
 - `output/archive_comparison_latest.png`
@@ -64,18 +65,18 @@ Important contract:
   demand model. If they are missing, `CsvLoader` falls back to population-only
   demand, which changes the experiment.
 
-See [kadikoy_ARTIFACTS_GUIDE.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/data/kadikoy_ARTIFACTS_GUIDE.md) for details.
+See [kadikoy_ARTIFACTS_GUIDE.md](data/kadikoy_ARTIFACTS_GUIDE.md) for details.
 
 ## Parameters
 
-Main parameters live in [GAParameters](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/config/GAParameters.java):
+Main parameters live in [GAParameters](src/main/java/config/GAParameters.java):
 - `K`, `POPULATION_SIZE`, `ARCHIVE_SIZE`, `MAX_GENERATIONS`
 - `BETA`, `CROSSOVER_RATE`, `MUTATION_RATE`
 - Hypervolume reference point and assessment settings
 
 ## Hyperparameter Analysis
 
-Grid-search runner: [ParameterAnalyzer](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/src/main/java/app/ParameterAnalyzer.java)
+Grid-search runner: [ParameterAnalyzer](src/main/java/app/ParameterAnalyzer.java)
 
 ```bash
 mvn -q compile exec:java -Panalyze
@@ -100,10 +101,10 @@ python3 scripts/statistical_analysis.py
 
 ## UI (Next.js)
 
-UI directory: [parcel-locker-ui](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/parcel-locker-ui)
+UI directory: [parcel-locker-ui](parcel-locker-ui)
 
 The UI can visualize mock assets, and in local/dev mode it can also trigger the Java run via `/api/run-ga`.
-See [parcel-locker-ui/README.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/parcel-locker-ui/README.md).
+See [parcel-locker-ui/README.md](parcel-locker-ui/README.md).
 
 ```
 Location-Optimization-with-Genetic-Algorithm
