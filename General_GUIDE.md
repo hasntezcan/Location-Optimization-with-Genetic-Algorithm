@@ -1735,9 +1735,12 @@ Current reproducibility behavior:
 
 ## 21. Python Utility Scripts
 
+The project contains two groups of Python scripts: demand/data preparation scripts
+and the RQ experimental validation pipeline.
+
 ### 21.1 `scripts/prepare_demand.py`
 
-Updates `poi_score` and `demand_final`.
+Updates `poi_score` and `demand_final` using the Entropy Weight Method.
 
 Run:
 
@@ -1745,13 +1748,11 @@ Run:
 python3 scripts/prepare_demand.py
 ```
 
-Warning:
-
-It overwrites `data/candidate_points.csv`.
+Warning: it overwrites `data/candidate_points.csv`. Keep a backup before rerunning.
 
 ### 21.2 `scripts/calculate_poi_weights.py`
 
-Read-only POI weight inspection script.
+Read-only POI weight inspection script. Does not write to the CSV.
 
 Run:
 
@@ -1766,6 +1767,7 @@ Reads:
 ```text
 output/initial_archive.csv
 output/final_archive.csv
+output/run_metadata.json
 ```
 
 Writes:
@@ -1778,22 +1780,209 @@ It plots four panels:
 
 - Initial archive in raw objective space.
 - Final archive in raw objective space.
-- Initial-to-final improvement metrics.
-- Final archive in hypervolume space.
+- Initial-to-final improvement metrics (raw-objective ND metrics, C-metric).
+- Final archive in hypervolume space (normalized using final-ND bounds).
 
-It also prints:
-
-- Archive sizes.
-- Pearson correlation between f1 and f2.
-- Spearman correlation between f1 and f2.
-- Non-dominated count in raw space.
-- Non-dominated count in normalized HV space.
-- Best f1.
-- Best f2.
+It also prints archive sizes, Pearson/Spearman correlation between f1 and f2,
+non-dominated counts, best f1, and best f2.
 
 ### 21.4 `data/prepare_ga_inputs.py`
 
 Generates the distance matrix and alignment artifacts. See Section 8.
+
+### 21.5 RQ Analysis Pipeline
+
+The RQ pipeline validates the SPEA2 optimizer against greedy baselines for
+K ∈ {3, 6, 10} using 5 random seeds. It produces all metrics, statistical
+tests, plots, and LaTeX tables for the thesis.
+
+Pipeline execution order:
+
+```bash
+python3 scripts/run_rq_experiments.py      # full experimental run
+python3 scripts/plot_rq_results.py         # thesis figures
+python3 scripts/export_thesis_tables.py    # LaTeX + Markdown tables
+```
+
+#### `scripts/evaluate_solution.py`
+
+Core evaluation library used by the pipeline.
+
+Public API:
+
+```python
+from evaluate_solution import load_problem_data, compute_all_metrics
+data = load_problem_data()
+metrics = compute_all_metrics(locker_ids, data)
+```
+
+`load_problem_data()` reads `data/candidate_points.csv` and the distance
+matrix, sorts candidates by ascending ID (matching Java order), and builds the
+ID-to-index mapping.
+
+`compute_all_metrics()` returns demand-weighted mean/median distances, coverage
+at 500 m/1 km/2 km, CV and variance of neighborhood-level mean distances, and
+the raw `nearest_distances` array for statistical tests.
+
+Self-test:
+
+```bash
+python3 scripts/evaluate_solution.py --test
+```
+
+#### `scripts/generate_baselines.py`
+
+Generates three baseline placements:
+
+1. **Greedy Demand** — top-K non-forbidden candidates by `demand_final`.
+2. **Random** — average of 30 random K-selections (seeded).
+3. **Existing network** — all candidates with `locker_count > 0` (contextual reference).
+
+Standalone run:
+
+```bash
+python3 scripts/generate_baselines.py
+python3 scripts/generate_baselines.py --validate
+```
+
+Output: `output/rq_analysis/baselines/baseline_results.json`
+
+#### `scripts/statistical_tests.py`
+
+Statistical test library for VT1 and VT3.
+
+- **VT1 — Accessibility**: Wilcoxon signed-rank (primary) + paired t-test (supplementary) on per-candidate nearest distances.
+- **VT3 — Equity**: CV/variance reduction + Levene's test + Brown-Forsythe on neighborhood-level mean distances.
+
+Self-test:
+
+```bash
+python3 scripts/statistical_tests.py --self-test
+```
+
+#### `scripts/run_rq_experiments.py`
+
+Main RQ orchestrator. Runs all SPEA2 experiments (K × seed), computes baselines,
+applies statistical tests, and saves aggregated results.
+
+Default configuration:
+
+```text
+K_VALUES        = [3, 6, 10]
+SEEDS           = [42, 123, 7, 256, 999]
+POPULATION_SIZE = 200
+ARCHIVE_SIZE    = 100
+CROSSOVER_RATE  = 0.9
+MUTATION_RATE   = 0.4
+MAX_GENERATIONS = {3: 150, 6: 250, 10: 400}  (FE-budget-aware)
+```
+
+Phases:
+
+1. **Phase 1 — Baselines**: greedy, random, and existing-network metrics for each K.
+2. **Phase 2 — SPEA2 runs**: for each (K, seed), invokes Maven, copies results to `output/rq_analysis/experiments/k{K}_seed{seed}/`, extracts the Pareto front, selects Best-f1 / Best-f2 / Knee-point representatives, and evaluates them.
+3. **Phase 3 — Statistical comparisons**: aggregates knee-point metrics across seeds and runs VT1/VT3 tests.
+
+Outputs:
+
+```text
+output/rq_analysis/metrics/rq_analysis_results.json
+output/rq_analysis/metrics/comparison_summary.csv
+output/rq_analysis/experiments/k{K}_seed{seed}/
+    ├── final_archive.csv
+    ├── initial_archive.csv
+    └── run_metadata.json
+```
+
+CLI options:
+
+```bash
+python3 scripts/run_rq_experiments.py                     # full run
+python3 scripts/run_rq_experiments.py --k 3 --seeds 1     # quick test
+python3 scripts/run_rq_experiments.py --skip-ga           # re-analyze existing outputs
+```
+
+#### `scripts/plot_rq_results.py`
+
+Generates all thesis figures from `rq_analysis_results.json`.
+
+Output directory: `output/rq_analysis/plots/`
+
+| Figure | Description |
+| --- | --- |
+| `rq1_distance_comparison.png` | Mean/median distance: Greedy vs Optimized vs Random across K |
+| `rq1_coverage_thresholds.png` | Coverage at 500 m, 1 km, 2 km: Greedy vs Optimized |
+| `rq2_performance_scaling.png` | Metrics vs K (with ±σ error bars) |
+| `rq2_marginal_gains.png` | Marginal improvement K=3→6 and K=6→10 |
+| `rq3_equity_comparison.png` | CV and variance: Greedy vs Optimized across K |
+| `rq3_mahalle_distances.png` | Per-neighborhood mean distances |
+| `stat_test_summary.png` | Visual table of all VT1 + VT3 statistical test results |
+
+Run:
+
+```bash
+python3 scripts/plot_rq_results.py
+python3 scripts/plot_rq_results.py --dpi 300
+```
+
+#### `scripts/export_thesis_tables.py`
+
+Exports four tables in both Markdown and LaTeX (booktabs) format.
+
+Output directory: `output/rq_analysis/tables/`
+
+| Table | Description |
+| --- | --- |
+| `table1_summary` | Main K × Strategy performance comparison (mean ± std across seeds) |
+| `table2_statistical_tests` | VT1 (Wilcoxon + t-test) and VT3 (Levene) test results per K |
+| `table3_marginal_improvement` | Marginal improvement for K=3→6 and K=6→10 |
+| `table4_existing_reference` | Existing locker network contextual metrics |
+
+Run:
+
+```bash
+python3 scripts/export_thesis_tables.py
+```
+
+### 21.6 Parameter Analysis Post-Processing
+
+#### `scripts/statistical_analysis.py`
+
+Analyzes the output of `ParameterAnalyzer` (Java grid search) with rigorous
+statistical tests.
+
+Input: `output/parameter_analysis_results.csv`
+
+What it does:
+
+- Builds a Seed × GA_ID hypervolume matrix per K.
+- Computes descriptive statistics (mean, median, std, IQR, mean rank) per configuration.
+- Runs the **Friedman test** for overall significance per K.
+- Runs **Bonferroni-corrected Wilcoxon post-hoc tests** where Friedman is significant.
+- Selects the best configuration per K by: HV_Ratio median → mean → std → ND ratio → runtime → pop size.
+
+Output directory: `output/statistics/`
+
+```text
+descriptive_by_k.csv
+friedman_summary.csv
+posthoc_bonferroni.csv
+selected_configurations.csv
+```
+
+Run:
+
+```bash
+python3 scripts/statistical_analysis.py
+python3 scripts/statistical_analysis.py --input output/parameter_analysis_results.csv \
+                                         --output-dir output/statistics
+```
+
+#### `scripts/plot_analysis.py`
+
+Older exploratory visualization script for the ParameterAnalyzer output. Reads
+from a hardcoded path (`output/parameter analysis/...`). Maintained for
+reference; prefer `statistical_analysis.py` for reproducible statistical work.
 
 ## 22. Web UI
 
@@ -2021,26 +2210,65 @@ For the current real-output flow, `process_ga_data.py` is more relevant.
 
 ## 23. Output Files
 
-Files produced by the default Java/plotting flow, plus older tracked analysis
-artifacts, include:
+### 23.1 Default Java + Plotting Run
 
 ```text
-output/initial_archive.csv
-output/final_archive.csv
-output/archive_comparison_latest.png
-output/archive_comparison.png
-output/parameter_analysis_results.csv
-output/objective_space_nd_points.csv
-output/objective_space_run_summary.csv
+output/
+├── initial_archive.csv            archive snapshot after generation 0
+├── final_archive.csv              archive snapshot after the final generation
+├── run_metadata.json              run parameters for the latest Java run
+└── archive_comparison_latest.png  initial vs final archive plot (4 panels)
 ```
 
-Meanings:
+### 23.2 Parameter Grid Search
 
-- `initial_archive.csv`: archive snapshot after generation 0.
-- `final_archive.csv`: archive snapshot after the final generation.
-- `archive_comparison_latest.png`: initial vs final archive plot summary.
-- `parameter_analysis_results.csv`: hyperparameter grid-search output.
-- `objective_space_*`: older/experimental objective-space calibration outputs from the backup Main workflow.
+```text
+output/
+├── parameter_analysis_results.csv  ParameterAnalyzer grid search output
+├── archive_comparison.png          (older tracked example plot)
+├── objective_space_nd_points.csv   (backup Main calibration artifact)
+└── objective_space_run_summary.csv (backup Main calibration artifact)
+```
+
+### 23.3 RQ Analysis Pipeline
+
+```text
+output/rq_analysis/
+├── experiments/
+│   ├── k3_seed42/
+│   │   ├── final_archive.csv
+│   │   ├── initial_archive.csv
+│   │   └── run_metadata.json
+│   └── k{K}_seed{seed}/  (one folder per K × seed combination)
+├── baselines/
+│   └── baseline_results.json
+├── metrics/
+│   ├── rq_analysis_results.json   full aggregated results (baselines + experiments + comparisons)
+│   └── comparison_summary.csv     compact K-level summary
+├── plots/
+│   ├── rq1_distance_comparison.png
+│   ├── rq1_coverage_thresholds.png
+│   ├── rq2_performance_scaling.png
+│   ├── rq2_marginal_gains.png
+│   ├── rq3_equity_comparison.png
+│   ├── rq3_mahalle_distances.png
+│   └── stat_test_summary.png
+└── tables/
+    ├── table1_summary.md / .tex
+    ├── table2_statistical_tests.md / .tex
+    ├── table3_marginal_improvement.md
+    └── table4_existing_reference.md
+```
+
+### 23.4 Parameter Analysis Statistics
+
+```text
+output/statistics/
+├── descriptive_by_k.csv        per-configuration descriptive stats
+├── friedman_summary.csv        Friedman test results per K
+├── posthoc_bonferroni.csv      Bonferroni-corrected post-hoc pairs
+└── selected_configurations.csv best configuration selected per K
+```
 
 ## 24. Current Backend Integration Contract
 
@@ -2191,7 +2419,12 @@ Test status:
 
 ## 27. End-to-End Workflow
 
-Recommended full workflow from data to UI:
+The project has two main execution paths: the **single-run path** for day-to-day
+development and the **RQ validation path** for thesis-grade empirical evaluation.
+
+### 27.1 Single-Run Path (Development)
+
+Recommended workflow from data to UI:
 
 1. Prepare or verify the QGIS candidate table.
 2. Ensure all metric GIS operations used EPSG:32635.
@@ -2209,7 +2442,7 @@ python3 scripts/calculate_poi_weights.py
 python3 scripts/prepare_demand.py
 ```
 
-7. If candidate coordinates or candidate set changed, regenerate distance artifacts:
+7. If candidate coordinates or the candidate set changed, regenerate distance artifacts:
 
 ```bash
 python3 data/prepare_ga_inputs.py \
@@ -2229,7 +2462,7 @@ mvn -q compile
 mvn -q compile exec:java
 ```
 
-10. Generate plots:
+10. Generate archive comparison plot:
 
 ```bash
 python3 scripts/plot_archives.py
@@ -2248,9 +2481,67 @@ python3 src/scripts/process_ga_data.py
 npm run dev
 ```
 
+### 27.2 RQ Validation Path (Thesis)
+
+Full empirical validation for K ∈ {3, 6, 10} with 5 seeds each:
+
+1. Ensure `data/candidate_points.csv` and distance matrix are up to date (steps 1–7 from Section 27.1).
+
+2. Run all SPEA2 experiments, baselines, and statistical tests:
+
+```bash
+python3 scripts/run_rq_experiments.py
+```
+
+For a quick test (K=3, 1 seed):
+
+```bash
+python3 scripts/run_rq_experiments.py --k 3 --seeds 1
+```
+
+To re-analyze without re-running the GA (if output already exists):
+
+```bash
+python3 scripts/run_rq_experiments.py --skip-ga
+```
+
+3. Generate all thesis figures:
+
+```bash
+python3 scripts/plot_rq_results.py --dpi 300
+```
+
+4. Export LaTeX and Markdown tables:
+
+```bash
+python3 scripts/export_thesis_tables.py
+```
+
+Outputs are saved under `output/rq_analysis/plots/` and `output/rq_analysis/tables/`.
+
+### 27.3 Hyperparameter Grid Search Path
+
+For tuning GA parameters with a rigorous evaluation budget:
+
+1. Run the ParameterAnalyzer grid search:
+
+```bash
+mvn -q compile exec:java -Panalyze
+```
+
+2. Apply statistical analysis to select the best configuration per K:
+
+```bash
+python3 scripts/statistical_analysis.py
+```
+
+Results: `output/statistics/selected_configurations.csv`
+
 ## 28. Recommended Source Review Order
 
 For report writing, project auditing, or continued development, the most useful file review order is:
+
+**Core Java pipeline:**
 
 1. `General_GUIDE.md`
 2. `readme.md`
@@ -2260,12 +2551,35 @@ For report writing, project auditing, or continued development, the most useful 
 6. `src/main/java/algorithm/Survivor.java`
 7. `src/main/java/algorithm/Variation.java`
 8. `src/main/java/config/GAParameters.java`
+
+**Data and demand preparation:**
+
 9. `scripts/prepare_demand.py`
 10. `data/prepare_ga_inputs.py`
+
+**Single-run assessment:**
+
 11. `scripts/plot_archives.py`
-12. `parcel-locker-ui/src/app/api/run-ga/route.ts`
-13. `parcel-locker-ui/src/scripts/process_ga_data.py`
-14. `parcel-locker-ui/src/app/page.tsx`
+
+**RQ validation pipeline:**
+
+12. `scripts/evaluate_solution.py`
+13. `scripts/generate_baselines.py`
+14. `scripts/statistical_tests.py`
+15. `scripts/run_rq_experiments.py`
+16. `scripts/plot_rq_results.py`
+17. `scripts/export_thesis_tables.py`
+
+**Hyperparameter analysis:**
+
+18. `src/main/java/app/ParameterAnalyzer.java`
+19. `scripts/statistical_analysis.py`
+
+**UI integration:**
+
+20. `parcel-locker-ui/src/app/api/run-ga/route.ts`
+21. `parcel-locker-ui/src/scripts/process_ga_data.py`
+22. `parcel-locker-ui/src/app/page.tsx`
 
 ## 29. Reproducibility-Critical Technical Contracts
 
@@ -2345,6 +2659,10 @@ The earlier project guide was technically useful but incomplete for formal repor
 - Clarification that current UI explores final archive solutions, not true generation history.
 - Clarification that `Main` uses final-ND-based post-hoc assessment bounds.
 - Clarification that `/api/run-ga` is a local/dev process-spawning bridge that passes CLI args to Java.
+- Full RQ analysis pipeline documentation: `evaluate_solution.py`, `generate_baselines.py`, `statistical_tests.py`, `run_rq_experiments.py`, `plot_rq_results.py`, `export_thesis_tables.py`.
+- Statistical analysis of ParameterAnalyzer output via `statistical_analysis.py` (Friedman + Bonferroni Wilcoxon post-hoc, configuration selection).
+- Structured `output/rq_analysis/` directory layout and output file meanings.
+- Three-path end-to-end workflow: single-run, RQ validation, hyperparameter grid search.
 
 The implementation state documented here is based on the repository as inspected.
 
@@ -2462,6 +2780,13 @@ The current project state includes several important code-side design decisions 
 - `Main` normalizes archive exports using bounds derived from the final archive non-dominated set.
 - `HypervolumeIndicator` computes 2D normalized-space hypervolume.
 - `ParameterAnalyzer` performs seeded constant-evaluation-budget grid search.
+- `statistical_analysis.py` applies Friedman + Bonferroni-corrected Wilcoxon post-hoc tests to grid search output and selects the best configuration per K.
+- `evaluate_solution.py` provides a unified Python evaluation library that mirrors the Java objective semantics (demand-weighted distances, CV equity, coverage thresholds).
+- `generate_baselines.py` implements greedy-demand, random, and existing-network baselines for RQ comparison.
+- `statistical_tests.py` implements VT1 (Wilcoxon + paired t-test) and VT3 (Levene + Brown-Forsythe) for accessibility and equity hypothesis testing.
+- `run_rq_experiments.py` orchestrates the full RQ validation pipeline: 15 SPEA2 runs (K × seed), baseline computation, Pareto front extraction, representative selection, and statistical tests.
+- `plot_rq_results.py` generates seven publication-quality thesis figures from aggregated RQ results.
+- `export_thesis_tables.py` exports four tables in both Markdown and LaTeX booktabs format.
 - The UI `/api/run-ga` route can trigger a local Java run and refresh UI assets.
 - `process_ga_data.py` converts final archive CSV rows into map-ready UI JSON.
 
@@ -2527,9 +2852,16 @@ The current project state includes several important code-side design decisions 
 | Change hypervolume | `src/main/java/service/HypervolumeIndicator.java` |
 | Change archive export format | `src/main/java/app/Main.java` |
 | Change grid search | `src/main/java/app/ParameterAnalyzer.java` |
+| Change grid search statistical analysis | `scripts/statistical_analysis.py` |
 | Change demand model | `scripts/prepare_demand.py` |
 | Change matrix generation | `data/prepare_ga_inputs.py` |
 | Change archive plot | `scripts/plot_archives.py` |
+| Change Python metric evaluation | `scripts/evaluate_solution.py` |
+| Change baseline definitions | `scripts/generate_baselines.py` |
+| Change statistical tests (VT1/VT3) | `scripts/statistical_tests.py` |
+| Change RQ experiment orchestration | `scripts/run_rq_experiments.py` |
+| Change RQ figures | `scripts/plot_rq_results.py` |
+| Change thesis tables | `scripts/export_thesis_tables.py` |
 | Change UI JSON conversion | `parcel-locker-ui/src/scripts/process_ga_data.py` |
 | Change UI local GA trigger | `parcel-locker-ui/src/app/api/run-ga/route.ts` |
 | Change dashboard layout | `parcel-locker-ui/src/app/page.tsx` and `src/components/dashboard/*` |
