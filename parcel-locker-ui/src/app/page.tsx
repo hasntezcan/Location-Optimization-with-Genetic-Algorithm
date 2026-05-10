@@ -1,11 +1,24 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ControlPanel } from "@/components/dashboard/control-panel";
 import { LockerDetailPanel } from "@/components/dashboard/locker-detail-panel";
 import { LockerStrip } from "@/components/dashboard/locker-strip";
 import type { CandidatePoint, ArchiveSolution, Locker } from "@/lib/types";
+import { runGaOptimization } from "@/lib/ga-api";
+import { selectMcdaSolution } from "@/lib/mcda";
+import {
+  getCurrentSolution,
+  getOptimalParams,
+  getParetoSolutionCount,
+  solutionToUiLockers,
+} from "@/lib/solution-utils";
+import {
+  buildParetoChartData,
+  buildParetoLineData,
+  type ChartPoint,
+} from "@/lib/chart-data";
 import { Maximize2, Minimize2 } from "lucide-react";
 import {
   ScatterChart,
@@ -30,63 +43,10 @@ function formatMetric(value: number | undefined, digits = 3): string {
   return Number.isFinite(value) ? value!.toFixed(digits) : "N/A";
 }
 
-const getOptimalParams = (k: number) => {
-  if (k <= 4) return { popSize: 200, maxGenerations: 200, mutationRate: 0.4, crossoverRate: 0.9, archiveSize: 100 };
-  if (k <= 7) return { popSize: 100, maxGenerations: 500, mutationRate: 0.4, crossoverRate: 0.9, archiveSize: 50 };
-  if (k <= 12) return { popSize: 50, maxGenerations: 1600, mutationRate: 0.3, crossoverRate: 0.9, archiveSize: 25 };
-  if (k <= 20) return { popSize: 50, maxGenerations: 3000, mutationRate: 0.3, crossoverRate: 0.9, archiveSize: 25 };
-  return { popSize: 50, maxGenerations: 5000, mutationRate: 0.3, crossoverRate: 0.9, archiveSize: 25 };
-};
-
 const LockerMap = dynamic(
   () => import("@/components/dashboard/locker-map").then((mod) => mod.LockerMap),
   { ssr: false }
 );
-
-function solutionToUiLockers(solution: ArchiveSolution | null): Locker[] {
-  if (!solution?.lockers?.length) return [];
-
-  return solution.lockers.map((locker, index) => ({
-    id: locker.id,
-    name: `Locker ${String(index + 1).padStart(2, "0")}`,
-    lat: locker.lat,
-    lng: locker.lng,
-    neighborhood: locker.neighborhood,
-    score: locker.score,
-    source: locker.source,
-  }));
-}
-
-interface ChartPoint {
-  id: number;
-  x: number;
-  y: number;
-  isPareto?: boolean;
-  isBestF1?: boolean;
-  isBestF2?: boolean;
-  isSelected: boolean;
-  size: number;
-}
-
-function getNormalizedObjectiveCosts(
-  solutions: ArchiveSolution[],
-  rawKey: "accessibility" | "equity",
-  normKey: "norm_f1" | "norm_f2"
-) {
-  if (!solutions.length) return [];
-
-  const normalizedValues = solutions.map((solution) => solution.metrics[normKey]);
-  if (normalizedValues.every((value) => Number.isFinite(value))) {
-    return normalizedValues as number[];
-  }
-
-  const rawValues = solutions.map((solution) => solution.metrics[rawKey]);
-  const min = Math.min(...rawValues);
-  const max = Math.max(...rawValues);
-  if (max === min) return solutions.map(() => 0);
-
-  return rawValues.map((value) => (value - min) / (max - min));
-}
 
 export default function HomePage() {
   const [inputLockerCount, setInputLockerCount] = useState(5);
@@ -122,7 +82,7 @@ export default function HomePage() {
   const [optimizationMaxGenerations, setOptimizationMaxGenerations] = useState(0);
   const [optimizationProgress, setOptimizationProgress] = useState(0);
   const [optimizationLogs, setOptimizationLogs] = useState<string[]>([]);
-  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const chartObserverRef = useRef<ResizeObserver | null>(null);
   const [chartSize, setChartSize] = useState({ width: 0, height: 0 });
 
   // Focus mode
@@ -176,9 +136,11 @@ export default function HomePage() {
     loadData();
   }, []);
 
-  useEffect(() => {
-    const element = chartContainerRef.current;
-    if (!element || typeof ResizeObserver === "undefined") return;
+  const chartContainerRef = useCallback((element: HTMLDivElement | null) => {
+    chartObserverRef.current?.disconnect();
+    chartObserverRef.current = null;
+
+    if (!element) return;
 
     const updateSize = (width: number, height: number) => {
       setChartSize({
@@ -190,13 +152,15 @@ export default function HomePage() {
     const rect = element.getBoundingClientRect();
     updateSize(rect.width, rect.height);
 
+    if (typeof ResizeObserver === "undefined") return;
+
     const observer = new ResizeObserver(([entry]) => {
       if (!entry) return;
       updateSize(entry.contentRect.width, entry.contentRect.height);
     });
 
     observer.observe(element);
-    return () => observer.disconnect();
+    chartObserverRef.current = observer;
   }, []);
 
   useEffect(() => {
@@ -212,32 +176,18 @@ export default function HomePage() {
     return () => window.clearInterval(timer);
   }, [isPlaying, playbackSpeed, archiveSolutions.length]);
 
-  const currentSolution =
-    currentSolutionIndex >= 0 && currentSolutionIndex < archiveSolutions.length
-      ? archiveSolutions[currentSolutionIndex]
-      : null;
+  const currentSolution = getCurrentSolution(archiveSolutions, currentSolutionIndex);
   const paretoSolutionCount = useMemo(
-    () => archiveSolutions.filter((solution) => solution.isPareto).length,
+    () => getParetoSolutionCount(archiveSolutions),
     [archiveSolutions]
   );
 
   const chartData = useMemo<ChartPoint[]>(() => {
-    return archiveSolutions.map((sol) => ({
-      id: sol.id,
-      x: sol.metrics.accessibility,
-      y: sol.metrics.equity,
-      isPareto: sol.isPareto,
-      isBestF1: sol.isBestF1,
-      isBestF2: sol.isBestF2,
-      isSelected: sol.id === currentSolution?.id,
-      size: sol.id === currentSolution?.id ? 300 : 100
-    }));
+    return buildParetoChartData(archiveSolutions, currentSolution);
   }, [archiveSolutions, currentSolution]);
 
   const paretoLineData = useMemo(() => {
-    return chartData
-      .filter(p => p.isPareto)
-      .sort((a, b) => a.x - b.x);
+    return buildParetoLineData(chartData);
   }, [chartData]);
 
   const lockersForDisplay = useMemo(
@@ -273,69 +223,30 @@ export default function HomePage() {
     }, 1000);
 
     try {
-      const response = await fetch("/api/run-ga", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      await runGaOptimization(
+        {
           k: clamped,
           populationSize,
           maxGenerations,
           mutationRate,
           crossoverRate,
           archiveSize,
-          randomSeed: randomSeed ? parseInt(randomSeed, 10) : null
-        }),
-      });
+          randomSeed: randomSeed ? parseInt(randomSeed, 10) : null,
+        },
+        {
+          onProgress: (data) => {
+            if (data.stage) setOptimizationStage(data.stage);
+            if (data.currentGeneration !== undefined) setOptimizationGeneration(data.currentGeneration);
+            if (data.maxGenerations !== undefined) setOptimizationMaxGenerations(data.maxGenerations);
+            if (data.progressPercent !== undefined) setOptimizationProgress(data.progressPercent);
 
-      if (!response.ok) {
-        throw new Error("Failed to start optimization stream");
-      }
-
-      if (!response.body) {
-        throw new Error("No response body");
-      }
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const parts = buffer.split('\n\n');
-        buffer = parts.pop() || '';
-
-        for (const part of parts) {
-          if (part.startsWith('data: ')) {
-            try {
-              const data = JSON.parse(part.slice(6));
-
-              if (data.stage) setOptimizationStage(data.stage);
-              if (data.currentGeneration !== undefined) setOptimizationGeneration(data.currentGeneration);
-              if (data.maxGenerations !== undefined) setOptimizationMaxGenerations(data.maxGenerations);
-              if (data.progressPercent !== undefined) setOptimizationProgress(data.progressPercent);
-
-              if (data.log || data.message) {
-                setOptimizationLogs(prev => [...prev, data.log || data.message].slice(-5));
-              }
-
-              if (data.error) {
-                throw new Error(data.error + (data.stderr ? `\n\n${data.stderr}` : ''));
-              }
-
-              if (data.success) {
-                break;
-              }
-            } catch (e) {
-              if (e instanceof Error && e.message !== 'Unexpected end of JSON input') {
-                throw e;
-              }
+            if (data.log || data.message) {
+              const logMessage = (data.log || data.message) as string;
+              setOptimizationLogs(prev => [...prev, logMessage].slice(-5));
             }
-          }
+          },
         }
-      }
+      );
 
       await loadData();
       setPlotTimestamp(Date.now());
@@ -368,9 +279,9 @@ export default function HomePage() {
   };
 
   const handleRunMcda = () => {
-    const paretoSolutions = archiveSolutions.filter((solution) => solution.isPareto);
+    const selection = selectMcdaSolution(archiveSolutions, mcdaPreference);
 
-    if (!paretoSolutions.length) {
+    if (selection.status === "no-pareto") {
       setStatusMessage({
         type: "info",
         text: "No Pareto solutions are available yet. Run optimization before using MCDA.",
@@ -378,32 +289,7 @@ export default function HomePage() {
       return;
     }
 
-    const accessibilityWeight = (100 - mcdaPreference) / 100;
-    const inequityWeight = mcdaPreference / 100;
-    const accessibilityCosts = getNormalizedObjectiveCosts(
-      paretoSolutions,
-      "accessibility",
-      "norm_f1"
-    );
-    const inequityCosts = getNormalizedObjectiveCosts(paretoSolutions, "equity", "norm_f2");
-
-    let bestParetoIndex = 0;
-    let bestScore = Number.POSITIVE_INFINITY;
-
-    paretoSolutions.forEach((solution, index) => {
-      const score =
-        accessibilityWeight * accessibilityCosts[index] +
-        inequityWeight * inequityCosts[index];
-
-      if (score < bestScore) {
-        bestScore = score;
-        bestParetoIndex = index;
-      }
-    });
-
-    const selectedSolution = paretoSolutions[bestParetoIndex];
-
-    if (!selectedSolution) {
+    if (selection.status === "missing-selected") {
       setStatusMessage({
         type: "error",
         text: "MCDA could not select a Pareto solution from the available archive.",
@@ -411,9 +297,7 @@ export default function HomePage() {
       return;
     }
 
-    const selectedIndex = archiveSolutions.findIndex((solution) => solution.id === selectedSolution.id);
-
-    if (selectedIndex === -1) {
+    if (selection.status === "missing-index") {
       setStatusMessage({
         type: "error",
         text: "MCDA selected a Pareto solution, but it could not be matched to the archive.",
@@ -421,13 +305,13 @@ export default function HomePage() {
       return;
     }
 
-    setCurrentSolutionIndex(selectedIndex);
+    setCurrentSolutionIndex(selection.selectedIndex);
     setIsPlaying(false);
     setStatusMessage({
       type: "success",
-      text: `MCDA selected solution #${selectedIndex + 1} with Accessibility ${Math.round(
-        accessibilityWeight * 100
-      )}% / Inequity ${Math.round(inequityWeight * 100)}%.`,
+      text: `MCDA selected solution #${selection.selectedIndex + 1} with Accessibility ${Math.round(
+        selection.accessibilityWeight * 100
+      )}% / Inequity ${Math.round(selection.inequityWeight * 100)}%.`,
     });
     setTimeout(() => setStatusMessage(null), 5000);
   };

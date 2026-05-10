@@ -152,10 +152,7 @@ public class Main {
             System.out.println("HV ref point     : (" + referenceObjective1 + ", " + referenceObjective2 + ")");
             System.out.println("========================================");
 
-            // Export run metadata so plot_archives.py can read actual parameters
             long estimatedFunctionEvaluations = (long) populationSize * (maxGenerations + 1L);
-            writeRunMetadata(runMetadataJson, k, populationSize, archiveSize, maxGenerations,
-                    beta, crossoverRate, mutationRate, randomSeed, estimatedFunctionEvaluations);
 
             // 4. Initialize population
             System.out.println("STAGE Running Java GA");
@@ -252,6 +249,8 @@ public class Main {
             // 11. Export archives
             writeArchiveCsv(initialArchiveSnapshot, initialArchiveCsv);
             writeArchiveCsv(finalArchiveSnapshot, finalArchiveCsv);
+            writeRunMetadata(runMetadataJson, k, populationSize, archiveSize, maxGenerations,
+                    beta, crossoverRate, mutationRate, randomSeed, estimatedFunctionEvaluations);
 
             // 12. Compute hypervolume — final archive only.
             double finalHypervolume = hypervolumeIndicator.compute(finalArchiveSnapshot);
