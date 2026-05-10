@@ -3,12 +3,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { runPythonScript } from '@/lib/python-runner';
 
-const UI_ROOT = process.cwd();
-const PROJECT_ROOT = path.resolve(UI_ROOT, "..");
-const PLOT_SCRIPT_PATH = path.join(PROJECT_ROOT, "scripts/plot_archives.py");
-const PROCESS_SCRIPT_PATH = path.join(UI_ROOT, "src/scripts/process_ga_data.py");
-const OUTPUT_LATEST_PLOT_PATH = path.join(PROJECT_ROOT, "output/archive_comparison_latest.png");
-const UI_LATEST_PLOT_PATH = path.join(UI_ROOT, "public/mock/archive_comparison_latest.png");
+const DEFAULT_GA_MAX_RUNTIME_MS = 900000;
 
 type StreamEvent = Record<string, unknown>;
 
@@ -35,8 +30,62 @@ function getErrorInfo(error: unknown): ProcessErrorInfo {
   return { message: String(error) };
 }
 
+function resolvePathFromProjectRoot(projectRoot: string, value: string): string {
+  return path.isAbsolute(value) ? path.normalize(value) : path.resolve(projectRoot, value);
+}
+
+function getRuntimeConfig() {
+  const inferredUiRoot = process.cwd();
+  const projectRoot = process.env.PROJECT_ROOT
+    ? path.resolve(process.env.PROJECT_ROOT)
+    : path.resolve(inferredUiRoot, "..");
+  const uiRoot = process.env.UI_ROOT
+    ? path.resolve(process.env.UI_ROOT)
+    : inferredUiRoot;
+  const outputDir = resolvePathFromProjectRoot(projectRoot, process.env.GA_OUTPUT_DIR || "output");
+  const uiMockDir = resolvePathFromProjectRoot(
+    projectRoot,
+    process.env.UI_MOCK_DIR || "parcel-locker-ui/public/mock"
+  );
+  const maxRuntimeMs = Number(process.env.GA_MAX_RUNTIME_MS || DEFAULT_GA_MAX_RUNTIME_MS);
+
+  return {
+    projectRoot,
+    uiRoot,
+    candidateCsv: resolvePathFromProjectRoot(
+      projectRoot,
+      process.env.GA_CANDIDATE_CSV || "data/candidate_points.csv"
+    ),
+    distanceMatrix: resolvePathFromProjectRoot(
+      projectRoot,
+      process.env.GA_DISTANCE_MATRIX || "data/kadikoy_distance_meters_nxn.npy"
+    ),
+    outputDir,
+    uiMockDir,
+    plotScriptPath: path.join(projectRoot, "scripts/plot_archives.py"),
+    processScriptPath: path.join(uiRoot, "src/scripts/process_ga_data.py"),
+    outputLatestPlotPath: path.join(outputDir, "archive_comparison_latest.png"),
+    uiLatestPlotPath: path.join(uiMockDir, "archive_comparison_latest.png"),
+    mavenCmd: process.env.MAVEN_CMD?.trim(),
+    maxRuntimeMs: Number.isFinite(maxRuntimeMs) && maxRuntimeMs > 0
+      ? maxRuntimeMs
+      : DEFAULT_GA_MAX_RUNTIME_MS,
+  };
+}
+
 export async function POST(request: Request) {
   try {
+    const runtimeConfig = getRuntimeConfig();
+    const childEnv = {
+      ...process.env,
+      PROJECT_ROOT: runtimeConfig.projectRoot,
+      UI_ROOT: runtimeConfig.uiRoot,
+      GA_CANDIDATE_CSV: runtimeConfig.candidateCsv,
+      GA_DISTANCE_MATRIX: runtimeConfig.distanceMatrix,
+      GA_OUTPUT_DIR: runtimeConfig.outputDir,
+      UI_MOCK_DIR: runtimeConfig.uiMockDir,
+    };
+
     const body = await request.json();
     const { 
       k, 
@@ -86,18 +135,24 @@ export async function POST(request: Request) {
           sendEvent({ stage: 'Running Java GA', message: 'Compiling and starting GA...' });
 
           const isWindows = process.platform === "win32";
-          const command = isWindows ? "cmd.exe" : "mvn";
-          const commandArgs = isWindows 
-            ? ["/d", "/s", "/c", "mvn.cmd", ...mvnArgs] 
+          const mavenCmd = runtimeConfig.mavenCmd || (isWindows ? "mvn.cmd" : "mvn");
+          const command = isWindows ? "cmd.exe" : mavenCmd;
+          const commandArgs = isWindows
+            ? ["/d", "/s", "/c", mavenCmd, ...mvnArgs]
             : mvnArgs;
 
           await new Promise<void>((resolve, reject) => {
             const proc = spawn(command, commandArgs, { 
-              cwd: PROJECT_ROOT,
+              cwd: runtimeConfig.projectRoot,
+              env: childEnv,
               windowsHide: true,
             });
 
             let errorBuffer = '';
+            const timeoutId = setTimeout(() => {
+              proc.kill();
+              reject(new Error(`Java GA process timed out after ${runtimeConfig.maxRuntimeMs} ms.`));
+            }, runtimeConfig.maxRuntimeMs);
 
             proc.stdout.on('data', (data) => {
               const lines = data.toString().split('\n');
@@ -154,11 +209,12 @@ export async function POST(request: Request) {
             });
 
             proc.on('error', (err) => {
+              clearTimeout(timeoutId);
               const detailedError = [
                 'Failed to spawn Maven process.',
                 `Command: ${command}`,
                 `Args: ${commandArgs.join(' ')}`,
-                `CWD: ${PROJECT_ROOT}`,
+                `CWD: ${runtimeConfig.projectRoot}`,
                 `Platform: ${process.platform}`,
                 `Original error: ${err.message}`
               ].join('\n');
@@ -166,6 +222,7 @@ export async function POST(request: Request) {
             });
 
             proc.on('close', (code) => {
+              clearTimeout(timeoutId);
               if (code !== 0) {
                 reject(new Error(`Java GA process failed with exit code ${code}. Stderr: ${errorBuffer}`));
               } else {
@@ -176,13 +233,17 @@ export async function POST(request: Request) {
 
           sendEvent({ stage: 'Generating plots', message: 'Running plot_archives.py...' });
           console.log('Generating Plots...');
-          const plotResult = await runPythonScript(PLOT_SCRIPT_PATH);
+          const plotResult = await runPythonScript(runtimeConfig.plotScriptPath, [], {
+            cwd: runtimeConfig.projectRoot,
+            env: childEnv,
+          });
           console.log('Plot Output:', plotResult.stdout);
 
           sendEvent({ stage: 'Syncing UI assets', message: 'Copying latest plot...' });
           try {
-            await fs.copyFile(OUTPUT_LATEST_PLOT_PATH, UI_LATEST_PLOT_PATH);
-            console.log(`Updated UI plot: ${UI_LATEST_PLOT_PATH}`);
+            await fs.mkdir(runtimeConfig.uiMockDir, { recursive: true });
+            await fs.copyFile(runtimeConfig.outputLatestPlotPath, runtimeConfig.uiLatestPlotPath);
+            console.log(`Updated UI plot: ${runtimeConfig.uiLatestPlotPath}`);
           } catch (copyError: unknown) {
             const message = copyError instanceof Error ? copyError.message : String(copyError);
             console.error('Failed to copy latest plot into UI public folder:', message);
@@ -190,7 +251,10 @@ export async function POST(request: Request) {
 
           sendEvent({ stage: 'Processing GA output', message: 'Running process_ga_data.py...' });
           console.log('Processing GA data for UI...');
-          const processResult = await runPythonScript(PROCESS_SCRIPT_PATH);
+          const processResult = await runPythonScript(runtimeConfig.processScriptPath, [], {
+            cwd: runtimeConfig.uiRoot,
+            env: childEnv,
+          });
           console.log('Python Output:', processResult.stdout);
 
           const paretoInfo = processResult.stdout.split('\n').filter(l => l.includes('Pareto')).pop();
@@ -213,11 +277,11 @@ export async function POST(request: Request) {
 
           if (errorInfo.message.includes('Python command could not be resolved')) {
             stage = 'Failed while detecting Python';
-          } else if (errorInfo.scriptPath === PLOT_SCRIPT_PATH) {
+          } else if (errorInfo.scriptPath === runtimeConfig.plotScriptPath) {
             stage = 'Failed while generating plots';
             stderr = errorInfo.stderr || '';
             errorMessage = errorInfo.message;
-          } else if (errorInfo.scriptPath === PROCESS_SCRIPT_PATH) {
+          } else if (errorInfo.scriptPath === runtimeConfig.processScriptPath) {
             stage = 'Failed while processing GA output';
             stderr = errorInfo.stderr || '';
             errorMessage = errorInfo.message;

@@ -1,6 +1,10 @@
 import { spawn } from 'child_process';
 
 export async function detectPythonCommand(): Promise<string> {
+  if (process.env.PYTHON_CMD && process.env.PYTHON_CMD.trim()) {
+    return process.env.PYTHON_CMD.trim();
+  }
+
   const isWindows = process.platform === "win32";
   const candidates = isWindows ? ["py", "python"] : ["python3", "python"];
 
@@ -24,12 +28,24 @@ export async function detectPythonCommand(): Promise<string> {
   throw new Error(`Python command could not be resolved. Tried: ${tried}.`);
 }
 
-export async function runPythonScript(scriptPath: string, args: string[] = []): Promise<{ stdout: string; stderr: string }> {
+type PythonRunOptions = {
+  cwd?: string;
+  env?: NodeJS.ProcessEnv;
+};
+
+export async function runPythonScript(
+  scriptPath: string,
+  args: string[] = [],
+  options: PythonRunOptions = {}
+): Promise<{ stdout: string; stderr: string }> {
   const pythonCmd = await detectPythonCommand();
   console.log(`Detected Python command: ${pythonCmd}`);
 
   return new Promise((resolve, reject) => {
-    const proc = spawn(pythonCmd, [scriptPath, ...args]);
+    const proc = spawn(pythonCmd, [scriptPath, ...args], {
+      cwd: options.cwd,
+      env: options.env,
+    });
     
     let stdout = "";
     let stderr = "";

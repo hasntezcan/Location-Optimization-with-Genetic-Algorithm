@@ -89,3 +89,125 @@ UI directory: [parcel-locker-ui](file:///Users/yigitpepe/Desktop/Location-Optimi
 
 The UI can visualize mock assets, and in local/dev mode it can also trigger the Java run via `/api/run-ga`.
 See [parcel-locker-ui/README.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/parcel-locker-ui/README.md).
+
+```
+Location-Optimization-with-Genetic-Algorithm
+├─ pom.xml
+├─ readme.md
+├─ General_GUIDE.md
+├─ guide.md
+│
+├─ data
+│  ├─ candidate_points.csv
+│  ├─ kadikoy_candidate_ids_sorted.npy
+│  ├─ kadikoy_distance_meters_nxn.npy
+│  ├─ kadikoy_index_map.csv
+│  ├─ prepare_ga_inputs.py
+│  └─ raw
+│     ├─ candidate_points.gpkg
+│     ├─ kadikoy_boundary.geojson
+│     ├─ kadikoy.gpkg
+│     ├─ Kadikoy_Base.gpkg
+│     ├─ grid_100m_clipped.gpkg
+│     ├─ grid_with_forbidden_area.gpkg
+│     ├─ lockers_32635.gpkg
+│     ├─ pois_all_points.gpkg
+│     └─ small_grids_forbidden.gpkg
+│
+├─ scripts
+│  ├─ calculate_poi_weights.py
+│  ├─ prepare_demand.py
+│  ├─ generate_baselines.py
+│  ├─ run_rq_experiments.py
+│  ├─ evaluate_solution.py
+│  ├─ statistical_analysis.py
+│  ├─ statistical_tests.py
+│  ├─ export_thesis_tables.py
+│  ├─ plot_analysis.py
+│  ├─ plot_rq_results.py
+│  └─ guide.md
+│
+├─ src
+│  └─ main
+│     └─ java
+│        ├─ analyse_guide.md
+│        ├─ SRC_GUIDE.MD
+│        │
+│        ├─ app
+│        │  ├─ Main.java
+│        │  ├─ ParameterAnalyzer.java
+│        │  └─ backend_guide.md
+│        │
+│        ├─ algorithm
+│        │  ├─ Evaluate.java
+│        │  ├─ Selection.java
+│        │  ├─ Survivor.java
+│        │  ├─ Variation.java
+│        │  └─ helper
+│        │     ├─ Dominance.java
+│        │     ├─ Pareto.java
+│        │     └─ Truncation.java
+│        │
+│        ├─ config
+│        │  ├─ GAParameters.java
+│        │  ├─ GAResult.java
+│        │  └─ GAState.java
+│        │
+│        ├─ io
+│        │  ├─ CsvLoader.java
+│        │  └─ DistanceMatrixLoader.java
+│        │
+│        ├─ model
+│        │  ├─ CandidatePoint.java
+│        │  ├─ CandidateRepository.java
+│        │  └─ Individual.java
+│        │
+│        └─ service
+│           ├─ FitnessCalculator.java
+│           ├─ HypervolumeIndicator.java
+│           ├─ ObjectiveNormalizer.java
+│           └─ PopulationInitializer.java
+│
+└─ parcel-locker-ui
+   ├─ package.json
+   ├─ package-lock.json
+   ├─ next.config.ts
+   ├─ tsconfig.json
+   ├─ eslint.config.mjs
+   ├─ postcss.config.mjs
+   ├─ next-env.d.ts
+   ├─ README.md
+   │
+   ├─ public
+   │  └─ mock
+   │     ├─ candidate-points.json
+   │     ├─ candidate_points.csv
+   │     └─ kadikoy_boundary.geojson
+   │
+   └─ src
+      ├─ app
+      │  ├─ api
+      │  │  └─ run-ga
+      │  │     └─ route.ts
+      │  ├─ globals.css
+      │  ├─ layout.tsx
+      │  └─ page.tsx
+      │
+      ├─ components
+      │  └─ dashboard
+      │     ├─ control-panel.tsx
+      │     ├─ locker-detail-panel.tsx
+      │     ├─ locker-map.tsx
+      │     └─ locker-strip.tsx
+      │
+      ├─ lib
+      │  ├─ ga-mock.ts
+      │  ├─ mock-data.ts
+      │  ├─ python-runner.ts
+      │  └─ types.ts
+      │
+      └─ scripts
+         ├─ build_candidate_json.py
+         └─ process_ga_data.py
+
+```

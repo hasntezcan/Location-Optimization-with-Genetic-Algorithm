@@ -1,17 +1,30 @@
 import csv
 import json
+import os
 from pathlib import Path
 
 # Paths
 SCRIPTS_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = SCRIPTS_DIR.parents[2]
-UI_ROOT = SCRIPTS_DIR.parents[1]
+PROJECT_ROOT = Path(os.environ.get("PROJECT_ROOT", SCRIPTS_DIR.parents[2])).resolve()
+UI_ROOT = Path(os.environ.get("UI_ROOT", SCRIPTS_DIR.parents[1])).resolve()
 
-CANDIDATE_CSV = PROJECT_ROOT / "data" / "candidate_points.csv"
-FINAL_ARCHIVE_CSV = PROJECT_ROOT / "output" / "final_archive.csv"
 
-CANDIDATE_JSON_DST = UI_ROOT / "public" / "mock" / "candidate-points.json"
-GA_RESULTS_JSON_DST = UI_ROOT / "public" / "mock" / "ga-results.json"
+def resolve_project_path(value):
+    path = Path(value)
+    if path.is_absolute():
+        return path.resolve()
+    return (PROJECT_ROOT / path).resolve()
+
+
+CANDIDATE_CSV = resolve_project_path(os.environ.get("GA_CANDIDATE_CSV", "data/candidate_points.csv"))
+OUTPUT_DIR = resolve_project_path(os.environ.get("GA_OUTPUT_DIR", "output"))
+UI_MOCK_DIR = resolve_project_path(
+    os.environ.get("UI_MOCK_DIR", "parcel-locker-ui/public/mock")
+)
+FINAL_ARCHIVE_CSV = OUTPUT_DIR / "final_archive.csv"
+
+CANDIDATE_JSON_DST = UI_MOCK_DIR / "candidate-points.json"
+GA_RESULTS_JSON_DST = UI_MOCK_DIR / "ga-results.json"
 
 def process_candidates():
     candidates = {}

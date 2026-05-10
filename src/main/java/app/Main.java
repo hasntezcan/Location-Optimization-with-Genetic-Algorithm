@@ -40,10 +40,9 @@ import java.util.List;
  */
 public class Main {
 
-    private static final Path OUTPUT_DIRECTORY = Paths.get("output");
-    private static final Path INITIAL_ARCHIVE_CSV = OUTPUT_DIRECTORY.resolve("initial_archive.csv");
-    private static final Path FINAL_ARCHIVE_CSV = OUTPUT_DIRECTORY.resolve("final_archive.csv");
-    private static final Path RUN_METADATA_JSON = OUTPUT_DIRECTORY.resolve("run_metadata.json");
+    private static final String DEFAULT_CANDIDATE_CSV = "data/candidate_points.csv";
+    private static final String DEFAULT_DISTANCE_MATRIX = "data/kadikoy_distance_meters_nxn.npy";
+    private static final String DEFAULT_OUTPUT_DIRECTORY = "output";
 
     public static void main(String[] args) {
         long startTimeNs = System.nanoTime();
@@ -53,32 +52,9 @@ public class Main {
         DistanceMatrixLoader distanceMatrixLoader = new DistanceMatrixLoader();
 
         try {
-            Files.createDirectories(OUTPUT_DIRECTORY);
-
-            // 1. Load candidate data
-            csvLoader.loadCandidates("data/candidate_points.csv", repository);
-            repository.finalizeRepository();
-
-            System.out.println("Total candidates loaded: " + repository.size());
-
-            // 2. Load distance matrix
-            double[][] distanceMatrix = distanceMatrixLoader.loadDistanceMatrix("data/kadikoy_distance_meters_nxn.npy");
-
-            if (distanceMatrix.length != repository.size()) {
-                throw new IllegalStateException(
-                        "Distance matrix row count (" + distanceMatrix.length +
-                                ") does not match repository size (" + repository.size() + ").");
-            }
-
-            if (distanceMatrix[0].length != repository.size()) {
-                throw new IllegalStateException(
-                        "Distance matrix column count (" + distanceMatrix[0].length +
-                                ") does not match repository size (" + repository.size() + ").");
-            }
-
-            System.out.println(
-                    "Distance matrix loaded: " +
-                            distanceMatrix.length + " x " + distanceMatrix[0].length);
+            Path candidateCsv = resolveConfiguredPath("GA_CANDIDATE_CSV", DEFAULT_CANDIDATE_CSV);
+            Path distanceMatrixPath = resolveConfiguredPath("GA_DISTANCE_MATRIX", DEFAULT_DISTANCE_MATRIX);
+            Path outputDirectory = resolveConfiguredPath("GA_OUTPUT_DIR", DEFAULT_OUTPUT_DIRECTORY);
 
             // 3. Parameters
             int k = GAParameters.K;
@@ -113,8 +89,48 @@ public class Main {
                     case "--randomSeed":
                         randomSeed = Long.parseLong(args[++i]);
                         break;
+                    case "--candidateCsv":
+                        candidateCsv = resolvePath(args[++i]);
+                        break;
+                    case "--distanceMatrix":
+                        distanceMatrixPath = resolvePath(args[++i]);
+                        break;
+                    case "--outputDir":
+                        outputDirectory = resolvePath(args[++i]);
+                        break;
                 }
             }
+
+            Path initialArchiveCsv = outputDirectory.resolve("initial_archive.csv");
+            Path finalArchiveCsv = outputDirectory.resolve("final_archive.csv");
+            Path runMetadataJson = outputDirectory.resolve("run_metadata.json");
+
+            Files.createDirectories(outputDirectory);
+
+            // 1. Load candidate data
+            csvLoader.loadCandidates(candidateCsv.toString(), repository);
+            repository.finalizeRepository();
+
+            System.out.println("Total candidates loaded: " + repository.size());
+
+            // 2. Load distance matrix
+            double[][] distanceMatrix = distanceMatrixLoader.loadDistanceMatrix(distanceMatrixPath.toString());
+
+            if (distanceMatrix.length != repository.size()) {
+                throw new IllegalStateException(
+                        "Distance matrix row count (" + distanceMatrix.length +
+                                ") does not match repository size (" + repository.size() + ").");
+            }
+
+            if (distanceMatrix[0].length != repository.size()) {
+                throw new IllegalStateException(
+                        "Distance matrix column count (" + distanceMatrix[0].length +
+                                ") does not match repository size (" + repository.size() + ").");
+            }
+
+            System.out.println(
+                    "Distance matrix loaded: " +
+                            distanceMatrix.length + " x " + distanceMatrix[0].length);
 
             PopulationInitializer populationInitializer = (randomSeed != null) ? new PopulationInitializer(randomSeed)
                     : new PopulationInitializer();
@@ -138,8 +154,8 @@ public class Main {
 
             // Export run metadata so plot_archives.py can read actual parameters
             long estimatedFunctionEvaluations = (long) populationSize * (maxGenerations + 1L);
-            writeRunMetadata(k, populationSize, archiveSize, maxGenerations, beta,
-                    crossoverRate, mutationRate, randomSeed, estimatedFunctionEvaluations);
+            writeRunMetadata(runMetadataJson, k, populationSize, archiveSize, maxGenerations,
+                    beta, crossoverRate, mutationRate, randomSeed, estimatedFunctionEvaluations);
 
             // 4. Initialize population
             System.out.println("STAGE Running Java GA");
@@ -234,8 +250,8 @@ public class Main {
                     idealF2, nadirF2);
 
             // 11. Export archives
-            writeArchiveCsv(initialArchiveSnapshot, INITIAL_ARCHIVE_CSV);
-            writeArchiveCsv(finalArchiveSnapshot, FINAL_ARCHIVE_CSV);
+            writeArchiveCsv(initialArchiveSnapshot, initialArchiveCsv);
+            writeArchiveCsv(finalArchiveSnapshot, finalArchiveCsv);
 
             // 12. Compute hypervolume — final archive only.
             double finalHypervolume = hypervolumeIndicator.compute(finalArchiveSnapshot);
@@ -289,8 +305,8 @@ public class Main {
                     idealF1, idealF2, nadirF1, nadirF2);
             System.out.println("(HV-space normalization is based ONLY on the final archive non-dominated set.)");
             System.out.println("============== CSV EXPORT ==============");
-            System.out.println("Initial archive CSV : " + INITIAL_ARCHIVE_CSV.toAbsolutePath());
-            System.out.println("Final archive CSV   : " + FINAL_ARCHIVE_CSV.toAbsolutePath());
+            System.out.println("Initial archive CSV : " + initialArchiveCsv.toAbsolutePath());
+            System.out.println("Final archive CSV   : " + finalArchiveCsv.toAbsolutePath());
             System.out.println("===========================================");
             System.out.println("STAGE Completed Java GA");
 
@@ -308,12 +324,13 @@ public class Main {
     // Metadata export
     // -----------------------------------------------------------------------
 
-    private static void writeRunMetadata(int k, int populationSize, int archiveSize,
+    private static void writeRunMetadata(Path outputPath,
+                                          int k, int populationSize, int archiveSize,
                                           int maxGenerations, double beta,
                                           double crossoverRate, double mutationRate,
                                           Long randomSeed,
                                           long estimatedFunctionEvaluations) throws IOException {
-        try (BufferedWriter writer = Files.newBufferedWriter(RUN_METADATA_JSON)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(outputPath)) {
             writer.write("{\n");
             writer.write("  \"k\": " + k + ",\n");
             writer.write("  \"populationSize\": " + populationSize + ",\n");
@@ -430,5 +447,27 @@ public class Main {
         }
 
         return builder.toString();
+    }
+
+    private static Path resolveConfiguredPath(String envName, String defaultPath) {
+        String configured = System.getenv(envName);
+        if (configured == null || configured.isBlank()) {
+            configured = defaultPath;
+        }
+        return resolvePath(configured);
+    }
+
+    private static Path resolvePath(String configuredPath) {
+        Path path = Paths.get(configuredPath);
+        if (path.isAbsolute()) {
+            return path.normalize();
+        }
+
+        String projectRoot = System.getenv("PROJECT_ROOT");
+        if (projectRoot != null && !projectRoot.isBlank()) {
+            return Paths.get(projectRoot).resolve(path).normalize();
+        }
+
+        return path.normalize();
     }
 }

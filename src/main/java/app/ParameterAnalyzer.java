@@ -63,7 +63,11 @@ public class ParameterAnalyzer {
     private static final double HV_REFERENCE = 1.1;
     private static final double HV_REFERENCE_AREA = HV_REFERENCE * HV_REFERENCE;
 
-    private static final Path OUTPUT_DIRECTORY = Paths.get("output");
+    private static final String DEFAULT_CANDIDATE_CSV = "data/candidate_points.csv";
+    private static final String DEFAULT_DISTANCE_MATRIX = "data/kadikoy_distance_meters_nxn.npy";
+    private static final String DEFAULT_OUTPUT_DIRECTORY = "output";
+
+    private static final Path OUTPUT_DIRECTORY = resolveConfiguredPath("GA_OUTPUT_DIR", DEFAULT_OUTPUT_DIRECTORY);
     private static final Path RESULTS_CSV = OUTPUT_DIRECTORY.resolve("parameter_analysis_results.csv");
     private static final Path SMOKE_RESULTS_CSV = OUTPUT_DIRECTORY.resolve("parameter_analysis_results_smoke.csv");
     private static final Path CONFIGURATION_TABLE_CSV = OUTPUT_DIRECTORY.resolve("ga_configuration_table.csv");
@@ -132,11 +136,16 @@ public class ParameterAnalyzer {
 
             CandidateRepository repository = new CandidateRepository();
             CsvLoader csvLoader = new CsvLoader();
-            csvLoader.loadCandidates("data/candidate_points.csv", repository);
+            csvLoader.loadCandidates(
+                    resolveConfiguredPath("GA_CANDIDATE_CSV", DEFAULT_CANDIDATE_CSV).toString(),
+                    repository
+            );
             repository.finalizeRepository();
 
             double[][] distanceMatrix =
-                    new DistanceMatrixLoader().loadDistanceMatrix("data/kadikoy_distance_meters_nxn.npy");
+                    new DistanceMatrixLoader().loadDistanceMatrix(
+                            resolveConfiguredPath("GA_DISTANCE_MATRIX", DEFAULT_DISTANCE_MATRIX).toString()
+                    );
 
             validateMatrix(distanceMatrix, repository);
 
@@ -788,5 +797,24 @@ public class ParameterAnalyzer {
         }
         builder.append("]");
         return builder.toString();
+    }
+
+    private static Path resolveConfiguredPath(String envName, String defaultPath) {
+        String configured = System.getenv(envName);
+        if (configured == null || configured.isBlank()) {
+            configured = defaultPath;
+        }
+
+        Path path = Paths.get(configured);
+        if (path.isAbsolute()) {
+            return path.normalize();
+        }
+
+        String projectRoot = System.getenv("PROJECT_ROOT");
+        if (projectRoot != null && !projectRoot.isBlank()) {
+            return Paths.get(projectRoot).resolve(path).normalize();
+        }
+
+        return path.normalize();
     }
 }

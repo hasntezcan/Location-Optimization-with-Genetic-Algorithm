@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 import math
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
@@ -14,7 +15,17 @@ from matplotlib.patches import Rectangle
 #     non-dominated set (ideal = min, nadir = max of final ND raw objectives).
 # ---------------------------------------------------------------------------
 
-OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
+PROJECT_ROOT = Path(os.environ.get("PROJECT_ROOT", Path(__file__).resolve().parent.parent)).resolve()
+
+
+def resolve_path(value: str) -> Path:
+    path = Path(value)
+    if path.is_absolute():
+        return path.resolve()
+    return (PROJECT_ROOT / path).resolve()
+
+
+OUTPUT_DIR = resolve_path(os.environ.get("GA_OUTPUT_DIR", "output"))
 INITIAL_CSV = OUTPUT_DIR / "initial_archive.csv"
 FINAL_CSV = OUTPUT_DIR / "final_archive.csv"
 PLOT_PATH = OUTPUT_DIR / "archive_comparison_latest.png"

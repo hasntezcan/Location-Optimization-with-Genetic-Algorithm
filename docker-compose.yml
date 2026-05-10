@@ -1,0 +1,19 @@
+services:
+  parcel-locker-app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      PROJECT_ROOT: /app
+      UI_ROOT: /app/parcel-locker-ui
+      GA_CANDIDATE_CSV: /app/data/candidate_points.csv
+      GA_DISTANCE_MATRIX: /app/data/kadikoy_distance_meters_nxn.npy
+      GA_OUTPUT_DIR: /app/output
+      UI_MOCK_DIR: /app/parcel-locker-ui/public/mock
+      MAVEN_CMD: mvn
+      PYTHON_CMD: python3
+      GA_MAX_RUNTIME_MS: "900000"
+    volumes:
+      - ./data:/app/data:ro
+      - ./output:/app/output
+      - ./parcel-locker-ui/public/mock:/app/parcel-locker-ui/public/mock
