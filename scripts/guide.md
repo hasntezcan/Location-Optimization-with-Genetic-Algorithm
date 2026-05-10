@@ -24,6 +24,7 @@ data/prepare_ga_inputs.py          → generates distance matrix artifacts
 
 [Java ParameterAnalyzer run]        → output/parameter_analysis_results.csv
         │
+        ├──► output/ga_configuration_table.csv
         └──► scripts/statistical_analysis.py → output/statistics/…
 ```
 
@@ -140,7 +141,7 @@ output/parameter_analysis_results.csv
 
 What it does:
 
-- Builds a Seed × GA_ID hypervolume matrix per K value.
+- Builds a Seed × GA_ID matrix of `Final_HV_Ratio` per K value.
 - Computes descriptive statistics (mean, median, std, IQR, mean rank) per
   configuration per K.
 - Runs the **Friedman test** to check whether any configurations differ
@@ -148,7 +149,7 @@ What it does:
 - Runs **Bonferroni-corrected Wilcoxon post-hoc tests** for K values where
   Friedman is significant.
 - Selects the best configuration per K using the following priority:
-  HV_Ratio median → HV_Ratio mean → std → ND archive ratio → runtime → pop size.
+  HV ratio median → HV ratio mean → std → ND archive ratio → runtime → pop size.
 
 Output directory (default):
 
@@ -173,7 +174,10 @@ python3 scripts/statistical_analysis.py --input output/parameter_analysis_result
 Older exploratory visualization script for the ParameterAnalyzer output.
 
 Reads from `output/parameter analysis/parameter_analysis_results.csv` (note:
-path uses Turkish-named folder from an earlier run).
+path uses Turkish-named folder from an earlier run). It expects an older CSV
+schema with columns such as `Lambda`, `PopSize`, `MutRate`, and `CrossRate`,
+so it is not the canonical post-processor for the current Java
+`ParameterAnalyzer` output.
 
 Produces five plots in `output/parameter analysis/plots_advanced/`:
 
@@ -184,7 +188,7 @@ Produces five plots in `output/parameter analysis/plots_advanced/`:
 5. Runtime vs HV (computation cost tradeoff).
 
 Also writes `thesis_detailed_report.txt` with champion configurations per K and
-per (K, Lambda).
+per (K, Lambda) for that older schema.
 
 Note: This script has a hardcoded path and is maintained for reference. Prefer
 `statistical_analysis.py` for reproducible statistical comparison.
@@ -197,11 +201,23 @@ Note: This script has a hardcoded path and is maintained for reference. Prefer
 
 Temporary helper used to generate final-result plots under
 `sections/figures/final_results/`. It is kept for report figure regeneration,
-not as part of the core optimization runtime.
+not as part of the core optimization runtime. The current file contains
+hardcoded Windows paths; adjust paths before running it on another machine.
 
 ---
 
 ## 5. Important Notes
+
+### Python Dependencies
+
+Install project-level Python dependencies from:
+
+```bash
+python3 -m pip install -r requirements.txt
+```
+
+Current script dependencies include `pandas`, `numpy`, `scipy`, `matplotlib`,
+and `seaborn`.
 
 ### Rerun Safety for Demand Scripts
 

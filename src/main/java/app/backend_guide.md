@@ -13,6 +13,13 @@ The frontend prototype already assumes a dashboard structure with:
 
 The project currently includes a **local/dev integration path** where the UI can trigger the Java optimizer and refresh the UI data. A production-grade backend service is still a separate concern.
 
+Current local/dev route files:
+
+- `parcel-locker-ui/src/app/api/run-ga/route.ts`
+- `parcel-locker-ui/src/lib/server/ga-runner.ts`
+- `parcel-locker-ui/src/lib/server/runtime-config.ts`
+- `parcel-locker-ui/src/lib/ga-api.ts`
+
 ---
 
 ## Current frontend reality
@@ -171,9 +178,9 @@ Request body can contain future parameter fields such as:
 - `populationSize`
 - `archiveSize`
 - `maxGenerations`
-- `beta`
 - `crossoverRate`
 - `mutationRate`
+- `randomSeed`
 
 For the first version, backend can pass the CLI arguments currently supported by
 `Main`. Unsupported parameters should remain in `GAParameters` until Java exposes
@@ -202,12 +209,14 @@ These values are already printed by `Main`, but backend can later expose them in
 ## 1. Left parameter panel
 The frontend currently has a concept of user-controlled parameters.
 
-For the first backend stage, these can remain mostly mock or static. The backend does not need to support full dynamic parameter injection immediately.
+The current local/dev route already passes the supported runtime parameters to
+`Main` through Maven `-Dexec.args`.
 
 Short-term approach:
-- keep Java parameters fixed in `GAParameters`
-- expose them to frontend as read-only metadata
-- later turn them into runtime-configurable request fields
+- keep unsupported Java parameters, such as `beta`, in `GAParameters`
+- pass supported fields (`k`, population size, archive size, generations,
+  crossover rate, mutation rate, random seed) through the request body
+- move to a validated runtime configuration format before production use
 
 ## 2. Center map
 The frontend map needs selected locker coordinates for a solution.

@@ -81,7 +81,22 @@ Grid-search runner: [ParameterAnalyzer](file:///Users/yigitpepe/Desktop/Location
 mvn -q compile exec:java -Panalyze
 ```
 
-Output: `output/parameter_analysis_results.csv`
+Outputs:
+
+- `output/parameter_analysis_results.csv`
+- `output/ga_configuration_table.csv`
+
+Smoke check:
+
+```bash
+mvn -q compile exec:java -Panalyze -Dexec.args="--smoke"
+```
+
+Post-processing:
+
+```bash
+python3 scripts/statistical_analysis.py
+```
 
 ## UI (Next.js)
 
@@ -171,13 +186,14 @@ Location-Optimization-with-Genetic-Algorithm
    ├─ tsconfig.json
    ├─ eslint.config.mjs
    ├─ postcss.config.mjs
-   ├─ next-env.d.ts
    ├─ README.md
    │
    ├─ public
    │  └─ mock
    │     ├─ candidate-points.json
    │     ├─ candidate_points.csv
+   │     ├─ ga-results.json              (generated)
+   │     ├─ archive_comparison_latest.png (generated)
    │     └─ kadikoy_boundary.geojson
    │
    └─ src
@@ -197,10 +213,17 @@ Location-Optimization-with-Genetic-Algorithm
       │     └─ locker-strip.tsx
       │
       ├─ lib
+      │  ├─ chart-data.ts
+      │  ├─ ga-api.ts
       │  ├─ ga-mock.ts
+      │  ├─ mcda.ts
       │  ├─ mock-data.ts
       │  ├─ python-runner.ts
-      │  └─ types.ts
+      │  ├─ solution-utils.ts
+      │  ├─ types.ts
+      │  └─ server
+      │     ├─ ga-runner.ts
+      │     └─ runtime-config.ts
       │
       └─ scripts
          ├─ build_candidate_json.py

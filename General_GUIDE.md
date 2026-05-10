@@ -1690,12 +1690,11 @@ Purpose:
 Grid:
 
 ```text
-K_VALUES = {3, 6, 10}
-LAMBDA_VALUES = {0.4, 0.5, 0.6}
-MUTATION_RATES = {0.05, 0.10, 0.20, 0.30, 0.40}
+K_VALUES = {1, 5, 10, 15}
+MUTATION_RATES = {0.10, 0.25, 0.40}
 CROSSOVER_RATES = {0.7, 0.9}
 POPULATION_SIZES = {50, 100, 200}
-SEEDS = {42, 123, 7}
+SEEDS = {1, 2, ..., 20}
 ```
 
 Archive size:
@@ -1707,9 +1706,10 @@ archiveSize = populationSize / 2
 Evaluation budget:
 
 ```text
-K=3  -> TARGET_FE = 30000
-K=6  -> TARGET_FE = 50000
+K=1  -> TARGET_FE = 30000
+K=5  -> TARGET_FE = 50000
 K=10 -> TARGET_FE = 80000
+K=15 -> TARGET_FE = 100000
 ```
 
 Generation formula:
@@ -1721,17 +1721,22 @@ maxGenerations = (TARGET_FE / populationSize) - 1
 CSV columns:
 
 ```text
-K,Lambda,PopSize,ArchiveSize,MaxGen,MutRate,CrossRate,
-FunctionEvals,Runtime_ms,ND_Count,Best_f1,Best_f2,
-Mean_f1,Mean_f2,Final_HV
+Run_ID,K,Task,GA_ID,PopulationSize,ArchiveSize,MaxGenerations,
+TargetFE,FunctionEvals,MutationRate,CrossoverRate,Seed,Runtime_ms,
+Final_HV,Final_HV_Ratio,ND_Count,Final_ND_Archive_Ratio,Spacing_CV,
+Best_f1,Best_f2,Mean_f1,Mean_f2
 ```
 
 Current reproducibility behavior:
 
 - `PopulationInitializer`, `Selection`, and `Variation` are all seeded inside
   analyzer runs.
-- Calibration bounds are locked per `(K, Lambda)` group using a calibration
-  phase before the grid-search runs.
+- Calibration bounds are locked per K using five calibration seeds before the
+  grid-search runs.
+- Lambda is not part of this Java grid. Analyzer runs use the `demand_final`
+  values already present in `data/candidate_points.csv`.
+- `--smoke` mode writes `output/parameter_analysis_results_smoke.csv` with a
+  tiny subset for wiring checks.
 
 ## 21. Python Utility Scripts
 
@@ -1801,11 +1806,11 @@ Input: `output/parameter_analysis_results.csv`
 
 What it does:
 
-- Builds a Seed × GA_ID hypervolume matrix per K.
+- Builds a Seed × GA_ID matrix of `Final_HV_Ratio` per K.
 - Computes descriptive statistics (mean, median, std, IQR, mean rank) per configuration.
 - Runs the **Friedman test** for overall significance per K.
 - Runs **Bonferroni-corrected Wilcoxon post-hoc tests** where Friedman is significant.
-- Selects the best configuration per K by: HV_Ratio median → mean → std → ND ratio → runtime → pop size.
+- Selects the best configuration per K by: HV ratio median → mean → std → ND archive ratio → runtime → population size.
 
 Output directory: `output/statistics/`
 
@@ -1827,14 +1832,20 @@ python3 scripts/statistical_analysis.py --input output/parameter_analysis_result
 #### `scripts/plot_analysis.py`
 
 Older exploratory visualization script for the ParameterAnalyzer output. Reads
-from a hardcoded path (`output/parameter analysis/...`). Maintained for
-reference; prefer `statistical_analysis.py` for reproducible statistical work.
+from a hardcoded path (`output/parameter analysis/...`) and expects an older
+CSV schema with columns such as `Lambda`, `PopSize`, `MutRate`, and
+`CrossRate`. It is maintained only for old exploratory artifacts; prefer
+`statistical_analysis.py` for reproducible statistical work on the current
+analyzer output.
 
 ### 21.6 `scripts/tmp_generate_final_result_plots.py`
 
 Temporary helper used to generate report-oriented plots under
-`sections/figures/final_results/`. It is not part of the core optimization
-runtime and should be treated as a regeneration aid for report figures.
+`sections/figures/final_results/` from `output/statistics/*.csv` and
+`output/parameter_analysis_results.csv`. The current file uses hardcoded
+Windows paths, so adjust the paths before running it on another machine. It is
+not part of the core optimization runtime and should be treated as a
+regeneration aid for report figures.
 
 ## 22. Web UI
 
@@ -1937,6 +1948,25 @@ Current behavior:
 5. Copies `output/archive_comparison_latest.png` into the UI public mock folder.
 6. Runs `parcel-locker-ui/src/scripts/process_ga_data.py`.
 7. Streams completion or error status.
+
+Runtime configuration is centralized in
+`parcel-locker-ui/src/lib/server/runtime-config.ts`. Supported environment
+overrides include:
+
+```text
+PROJECT_ROOT
+UI_ROOT
+GA_CANDIDATE_CSV
+GA_DISTANCE_MATRIX
+GA_OUTPUT_DIR
+UI_MOCK_DIR
+MAVEN_CMD
+GA_MAX_RUNTIME_MS
+```
+
+The route delegates process orchestration to
+`parcel-locker-ui/src/lib/server/ga-runner.ts` and the browser client consumes
+the event stream through `parcel-locker-ui/src/lib/ga-api.ts`.
 
 Important warning:
 
@@ -2077,6 +2107,8 @@ output/
 ```text
 output/
 ├── parameter_analysis_results.csv  ParameterAnalyzer grid search output
+├── parameter_analysis_results_smoke.csv  optional smoke-mode output
+├── ga_configuration_table.csv      GA_ID to parameter mapping
 ├── archive_comparison.png          (older tracked example plot)
 ├── objective_space_nd_points.csv   (backup Main calibration artifact)
 └── objective_space_run_summary.csv (backup Main calibration artifact)
@@ -2354,8 +2386,14 @@ For report writing, project auditing, or continued development, the most useful 
 **UI integration:**
 
 15. `parcel-locker-ui/src/app/api/run-ga/route.ts`
-16. `parcel-locker-ui/src/scripts/process_ga_data.py`
-17. `parcel-locker-ui/src/app/page.tsx`
+16. `parcel-locker-ui/src/lib/server/ga-runner.ts`
+17. `parcel-locker-ui/src/lib/server/runtime-config.ts`
+18. `parcel-locker-ui/src/lib/ga-api.ts`
+19. `parcel-locker-ui/src/lib/solution-utils.ts`
+20. `parcel-locker-ui/src/lib/chart-data.ts`
+21. `parcel-locker-ui/src/lib/mcda.ts`
+22. `parcel-locker-ui/src/scripts/process_ga_data.py`
+23. `parcel-locker-ui/src/app/page.tsx`
 
 ## 29. Reproducibility-Critical Technical Contracts
 
@@ -2626,6 +2664,12 @@ The current project state includes several important code-side design decisions 
 | Change archive plot | `scripts/plot_archives.py` |
 | Change UI JSON conversion | `parcel-locker-ui/src/scripts/process_ga_data.py` |
 | Change UI local GA trigger | `parcel-locker-ui/src/app/api/run-ga/route.ts` |
+| Change UI GA process orchestration | `parcel-locker-ui/src/lib/server/ga-runner.ts` |
+| Change UI runtime path/env config | `parcel-locker-ui/src/lib/server/runtime-config.ts` |
+| Change UI optimization stream client | `parcel-locker-ui/src/lib/ga-api.ts` |
+| Change UI solution helpers | `parcel-locker-ui/src/lib/solution-utils.ts` |
+| Change UI chart data shaping | `parcel-locker-ui/src/lib/chart-data.ts` |
+| Change MCDA solution selection | `parcel-locker-ui/src/lib/mcda.ts` |
 | Change dashboard layout | `parcel-locker-ui/src/app/page.tsx` and `src/components/dashboard/*` |
 
 ## 35. How to Interpret Outputs

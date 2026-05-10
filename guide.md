@@ -101,7 +101,16 @@ For [ParameterAnalyzer](file:///Users/yigitpepe/Desktop/Location-Optimization-wi
 mvn -q compile exec:java -Panalyze
 ```
 
-Output: `output/parameter_analysis_results.csv`
+Outputs:
+
+- `output/parameter_analysis_results.csv`
+- `output/ga_configuration_table.csv`
+
+Quick smoke check:
+
+```bash
+mvn -q compile exec:java -Panalyze -Dexec.args="--smoke"
+```
 
 Statistical analysis of grid search results:
 

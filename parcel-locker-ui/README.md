@@ -197,6 +197,21 @@ When you trigger “Optimization” from the UI, `/api/run-ga` performs:
 - Runs `scripts/plot_archives.py` and produces `output/archive_comparison_latest.png`
 - Copies the latest plot into the UI public folder: `public/mock/archive_comparison_latest.png`
 - Regenerates the UI’s mock result assets from the GA outputs
+- Streams progress and completion/error events back to the browser as
+  `text/event-stream`
+
+Runtime environment variables supported by the route:
+
+| Variable | Purpose |
+| --- | --- |
+| `PROJECT_ROOT` | Override the Java project root |
+| `UI_ROOT` | Override the Next.js app root |
+| `GA_CANDIDATE_CSV` | Candidate CSV path passed to child processes |
+| `GA_DISTANCE_MATRIX` | Distance matrix path passed to child processes |
+| `GA_OUTPUT_DIR` | Java/Python output directory |
+| `UI_MOCK_DIR` | UI public mock output directory |
+| `MAVEN_CMD` | Maven executable override |
+| `GA_MAX_RUNTIME_MS` | Java process timeout |
 
 This mode:
 - is not a production backend design; it is intended for local development/experiments
@@ -244,11 +259,19 @@ parcel-locker-ui/
 │  │     ├─ locker-map.tsx
 │  │     └─ locker-strip.tsx
 │  ├─ lib/
+│  │  ├─ chart-data.ts
+│  │  ├─ ga-api.ts
 │  │  ├─ ga-mock.ts
+│  │  ├─ mcda.ts
 │  │  ├─ mock-data.ts
-│  │  └─ types.ts
+│  │  ├─ python-runner.ts
+│  │  ├─ solution-utils.ts
+│  │  ├─ types.ts
+│  │  └─ server/
+│  │     ├─ ga-runner.ts
+│  │     └─ runtime-config.ts
 │  └─ scripts/
-│     └─ build_candidate_json.py
+│     ├─ build_candidate_json.py
 │     └─ process_ga_data.py
 ├─ package.json
 ├─ package-lock.json
