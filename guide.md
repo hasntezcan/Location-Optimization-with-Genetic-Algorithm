@@ -111,26 +111,6 @@ python3 scripts/statistical_analysis.py
 
 Output: `output/statistics/selected_configurations.csv`
 
-### RQ validation pipeline (thesis)
-
-Full empirical validation for K ∈ {3, 6, 10} with 5 seeds:
-
-```bash
-# 1. Run all SPEA2 experiments + baselines + statistical tests
-python3 scripts/run_rq_experiments.py
-
-# 2. Generate thesis figures
-python3 scripts/plot_rq_results.py --dpi 300
-
-# 3. Export LaTeX + Markdown tables
-python3 scripts/export_thesis_tables.py
-```
-
-Outputs:
-- Figures: `output/rq_analysis/plots/`
-- Tables: `output/rq_analysis/tables/`
-- Results: `output/rq_analysis/metrics/rq_analysis_results.json`
-
 ## Related Guides
 
 - Comprehensive technical guide: [General_GUIDE.md](file:///Users/yigitpepe/Desktop/Location-Optimization-with-Genetic-Algorithm/General_GUIDE.md)

@@ -117,14 +117,10 @@ Location-Optimization-with-Genetic-Algorithm
 ├─ scripts
 │  ├─ calculate_poi_weights.py
 │  ├─ prepare_demand.py
-│  ├─ generate_baselines.py
-│  ├─ run_rq_experiments.py
-│  ├─ evaluate_solution.py
 │  ├─ statistical_analysis.py
-│  ├─ statistical_tests.py
-│  ├─ export_thesis_tables.py
 │  ├─ plot_analysis.py
-│  ├─ plot_rq_results.py
+│  ├─ plot_archives.py
+│  ├─ tmp_generate_final_result_plots.py
 │  └─ guide.md
 │
 ├─ src
