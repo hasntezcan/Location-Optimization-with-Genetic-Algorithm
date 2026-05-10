@@ -11,6 +11,12 @@ export function LockerDetailPanel({
   solution,
   onClose,
 }: LockerDetailPanelProps) {
+  const hasValidCoordinates =
+    Number.isFinite(locker.lat) && Number.isFinite(locker.lng);
+  const mapsUrl = hasValidCoordinates
+    ? `https://www.google.com/maps/search/?api=1&query=${locker.lat},${locker.lng}`
+    : null;
+
   return (
     <aside className="flex h-full flex-col overflow-hidden rounded-[30px] border border-white/60 bg-white/55 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl">
       <div className="flex items-center justify-between p-5 pb-2">
@@ -59,27 +65,37 @@ export function LockerDetailPanel({
               </p>
             </div>
           </div>
+
+          <div className="mt-5">
+            {mapsUrl ? (
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-full items-center justify-center rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-800 shadow-[0_10px_24px_rgba(14,165,233,0.08)] transition hover:border-sky-300 hover:bg-sky-100"
+              >
+                Open in Google Maps
+              </a>
+            ) : (
+              <div className="rounded-2xl border border-slate-200 bg-white/70 px-4 py-3 text-sm font-medium text-slate-500">
+                Location coordinates unavailable
+              </div>
+            )}
+          </div>
         </div>
 
+        {hasValidCoordinates ? (
+          <div className="mt-4 rounded-[20px] border border-slate-200/40 bg-white/45 px-4 py-3">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+              Coordinates
+            </p>
+            <p className="mt-2 break-words text-xs font-medium tabular-nums text-slate-500">
+              {locker.lat.toFixed(6)}, {locker.lng.toFixed(6)}
+            </p>
+          </div>
+        ) : null}
+
         <div className="mt-6 grid gap-4">
-          <div className="rounded-[24px] border border-slate-200/50 bg-white/65 p-4 transition duration-300 hover:bg-white/80 hover:shadow-[0_10px_24px_rgba(15,23,42,0.05)]">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-              Latitude
-            </p>
-            <p className="mt-3 text-xl font-semibold tracking-tight text-slate-900">
-              {locker.lat.toFixed(6)}
-            </p>
-          </div>
-
-          <div className="rounded-[24px] border border-slate-200/50 bg-white/65 p-4 transition duration-300 hover:bg-white/80 hover:shadow-[0_10px_24px_rgba(15,23,42,0.05)]">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-              Longitude
-            </p>
-            <p className="mt-3 text-xl font-semibold tracking-tight text-slate-900">
-              {locker.lng.toFixed(6)}
-            </p>
-          </div>
-
           <div className="rounded-[24px] border border-slate-200/50 bg-white/65 p-4 transition duration-300 hover:bg-white/80 hover:shadow-[0_10px_24px_rgba(15,23,42,0.05)]">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
               Accessibility (f1)

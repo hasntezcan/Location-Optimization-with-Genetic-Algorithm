@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo } from "react";
+import { memo, useEffect, useMemo, useRef } from "react";
 
 import {
   CircleMarker,
@@ -16,18 +16,146 @@ import type {
   ArchiveSolution,
   Locker,
 } from "@/lib/types";
+import type { CircleMarker as LeafletCircleMarker } from "leaflet";
+
+const TARGET_SELECTION_ZOOM = 14;
+
+const boundaryStyle = () => ({
+  color: "#0f172a",
+  weight: 2,
+  fillColor: "#cbd5e1",
+  fillOpacity: 0.06,
+});
 
 function FlyToLocker({ locker }: { locker: Locker | null }) {
   const map = useMap();
+  const lastFocusedRef = useRef<string | null>(null);
+  const lockerId = locker?.id;
+  const lockerLat = locker?.lat;
+  const lockerLng = locker?.lng;
 
   useEffect(() => {
-    if (!locker || !Number.isFinite(locker.lat) || !Number.isFinite(locker.lng)) return;
+    if (
+      !lockerId ||
+      typeof lockerLat !== "number" ||
+      typeof lockerLng !== "number" ||
+      !Number.isFinite(lockerLat) ||
+      !Number.isFinite(lockerLng)
+    ) {
+      return;
+    }
 
-    map.flyTo([locker.lat, locker.lng], 14, { duration: 1.1 });
-  }, [locker, map]);
+    const focusKey = `${lockerId}:${lockerLat}:${lockerLng}`;
+    if (lastFocusedRef.current === focusKey) return;
+    lastFocusedRef.current = focusKey;
+
+    const target: [number, number] = [lockerLat, lockerLng];
+    const targetZoom = Math.max(map.getZoom(), TARGET_SELECTION_ZOOM);
+
+    map.flyTo(target, targetZoom, { duration: 0.8 });
+  }, [lockerId, lockerLat, lockerLng, map]);
 
   return null;
 }
+
+const BoundaryLayer = memo(function BoundaryLayer({
+  boundary,
+}: {
+  boundary: GeoJSON.FeatureCollection | null;
+}) {
+  if (!boundary) return null;
+
+  return <GeoJSON data={boundary} pane="boundary" style={boundaryStyle} />;
+});
+
+type ExistingCluster = {
+  id: string;
+  neighborhood: string;
+  lat: number;
+  lng: number;
+  lockerCount: number;
+  population: number;
+  gridPoints: number;
+};
+
+const ExistingLockerMarkers = memo(function ExistingLockerMarkers({
+  clusters,
+}: {
+  clusters: ExistingCluster[];
+}) {
+  return (
+    <>
+      {clusters.map((cluster) => (
+        <CircleMarker
+          key={cluster.id}
+          center={[cluster.lat, cluster.lng]}
+          radius={5}
+          pane="existingLockers"
+          pathOptions={{
+            color: "#9f1239",
+            fillColor: "#e11d48",
+            fillOpacity: 0.85,
+            weight: 1.5,
+          }}
+        >
+          <Popup>
+            <div className="locker-popup space-y-1">
+              <p className="text-[13px] font-semibold text-rose-700 leading-tight">
+                Existing Lockers
+              </p>
+              <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
+                {cluster.neighborhood}
+              </p>
+              <div className="grid grid-cols-2 gap-1.5 pt-1">
+                <div className="rounded-lg bg-rose-50 px-2 py-1.5 text-center">
+                  <p className="text-[8px] font-semibold uppercase tracking-wider text-rose-400">Total Count</p>
+                  <p className="text-[10px] font-bold text-rose-700">{cluster.lockerCount}</p>
+                </div>
+                <div className="rounded-lg bg-slate-50 px-2 py-1.5 text-center">
+                  <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-400">Grid Area</p>
+                  <p className="text-[10px] font-medium text-slate-700">{cluster.gridPoints} cells</p>
+                </div>
+              </div>
+            </div>
+          </Popup>
+        </CircleMarker>
+      ))}
+    </>
+  );
+});
+
+const CandidateMarkers = memo(function CandidateMarkers({
+  candidates,
+  activeIds,
+}: {
+  candidates: CandidatePoint[];
+  activeIds: Set<string>;
+}) {
+  return (
+    <>
+      {candidates.map((candidate) => {
+        if (!Number.isFinite(candidate.lat) || !Number.isFinite(candidate.lng)) return null;
+        const isActive = activeIds.has(candidate.id);
+        if (isActive) return null;
+
+        return (
+          <CircleMarker
+            key={`candidate-${candidate.id}`}
+            center={[candidate.lat, candidate.lng]}
+            radius={2}
+            pane="candidates"
+            pathOptions={{
+              color: "#94a3b8",
+              fillColor: "#94a3b8",
+              fillOpacity: 0.18,
+              weight: 0,
+            }}
+          />
+        );
+      })}
+    </>
+  );
+});
 
 type LockerMapProps = {
   candidates: CandidatePoint[];
@@ -46,6 +174,7 @@ export function LockerMap({
   onSelectLocker,
   currentGeneration,
 }: LockerMapProps) {
+  const lockerMarkerRefs = useRef(new Map<string, LeafletCircleMarker>());
   const safeLockers = useMemo(
     () => lockers.filter((locker) => Number.isFinite(locker.lat) && Number.isFinite(locker.lng)),
     [lockers]
@@ -58,6 +187,7 @@ export function LockerMap({
     () => new Set(safeLockers.map((locker) => locker.id)),
     [safeLockers]
   );
+  const selectedLockerId = safeSelectedLocker?.id ?? null;
 
   // Aggregate candidate cells with existing-locker counts into neighborhood markers.
   const existingClusters = useMemo(() => {
@@ -88,6 +218,14 @@ export function LockerMap({
       gridPoints: data.count
     }));
   }, [candidates]);
+
+  useEffect(() => {
+    lockerMarkerRefs.current.forEach((marker) => marker.closePopup());
+
+    if (!selectedLockerId) return;
+
+    lockerMarkerRefs.current.get(selectedLockerId)?.openPopup();
+  }, [selectedLockerId]);
 
   if (typeof window === "undefined") {
     return (
@@ -158,75 +296,11 @@ export function LockerMap({
 
           <FlyToLocker locker={safeSelectedLocker} />
 
-          {boundary ? (
-            <GeoJSON
-              data={boundary}
-              pane="boundary"
-              style={() => ({
-                color: "#0f172a",
-                weight: 2,
-                fillColor: "#cbd5e1",
-                fillOpacity: 0.06,
-              })}
-            />
-          ) : null}
+          <BoundaryLayer boundary={boundary} />
 
-          {existingClusters.map((cluster) => (
-            <CircleMarker
-              key={cluster.id}
-              center={[cluster.lat, cluster.lng]}
-              radius={5}
-              pane="existingLockers"
-              pathOptions={{
-                color: "#9f1239",
-                fillColor: "#e11d48",
-                fillOpacity: 0.85,
-                weight: 1.5,
-              }}
-            >
-              <Popup>
-                <div className="locker-popup space-y-1">
-                  <p className="text-[13px] font-semibold text-rose-700 leading-tight">
-                    Existing Lockers
-                  </p>
-                  <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
-                    {cluster.neighborhood}
-                  </p>
-                  <div className="grid grid-cols-2 gap-1.5 pt-1">
-                    <div className="rounded-lg bg-rose-50 px-2 py-1.5 text-center">
-                      <p className="text-[8px] font-semibold uppercase tracking-wider text-rose-400">Total Count</p>
-                      <p className="text-[10px] font-bold text-rose-700">{cluster.lockerCount}</p>
-                    </div>
-                    <div className="rounded-lg bg-slate-50 px-2 py-1.5 text-center">
-                      <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-400">Grid Area</p>
-                      <p className="text-[10px] font-medium text-slate-700">{cluster.gridPoints} cells</p>
-                    </div>
-                  </div>
-                </div>
-              </Popup>
-            </CircleMarker>
-          ))}
+          <ExistingLockerMarkers clusters={existingClusters} />
 
-          {candidates.map((candidate) => {
-            if (!Number.isFinite(candidate.lat) || !Number.isFinite(candidate.lng)) return null;
-            const isActive = activeIds.has(candidate.id);
-            if (isActive) return null;
-
-            return (
-              <CircleMarker
-                key={`candidate-${candidate.id}`}
-                center={[candidate.lat, candidate.lng]}
-                radius={2}
-                pane="candidates"
-                pathOptions={{
-                  color: "#94a3b8",
-                  fillColor: "#94a3b8",
-                  fillOpacity: 0.18,
-                  weight: 0,
-                }}
-              />
-            );
-          })}
+          <CandidateMarkers candidates={candidates} activeIds={activeIds} />
 
           {safeLockers.map((locker, index) => {
             const isSelected = locker.id === safeSelectedLocker?.id;
@@ -234,6 +308,13 @@ export function LockerMap({
             return (
               <CircleMarker
                 key={locker.id}
+                ref={(marker) => {
+                  if (marker) {
+                    lockerMarkerRefs.current.set(locker.id, marker);
+                  } else {
+                    lockerMarkerRefs.current.delete(locker.id);
+                  }
+                }}
                 center={[locker.lat, locker.lng]}
                 radius={isSelected ? 10 : 7}
                 pane="active"
