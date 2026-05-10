@@ -101,7 +101,16 @@ For [ParameterAnalyzer](file:///Users/yigitpepe/Desktop/Location-Optimization-wi
 mvn -q compile exec:java -Panalyze
 ```
 
-Output: `output/parameter_analysis_results.csv`
+Outputs:
+
+- `output/parameter_analysis_results.csv`
+- `output/ga_configuration_table.csv`
+
+Quick smoke check:
+
+```bash
+mvn -q compile exec:java -Panalyze -Dexec.args="--smoke"
+```
 
 Statistical analysis of grid search results:
 
@@ -110,26 +119,6 @@ python3 scripts/statistical_analysis.py
 ```
 
 Output: `output/statistics/selected_configurations.csv`
-
-### RQ validation pipeline (thesis)
-
-Full empirical validation for K ∈ {3, 6, 10} with 5 seeds:
-
-```bash
-# 1. Run all SPEA2 experiments + baselines + statistical tests
-python3 scripts/run_rq_experiments.py
-
-# 2. Generate thesis figures
-python3 scripts/plot_rq_results.py --dpi 300
-
-# 3. Export LaTeX + Markdown tables
-python3 scripts/export_thesis_tables.py
-```
-
-Outputs:
-- Figures: `output/rq_analysis/plots/`
-- Tables: `output/rq_analysis/tables/`
-- Results: `output/rq_analysis/metrics/rq_analysis_results.json`
 
 ## Related Guides
 

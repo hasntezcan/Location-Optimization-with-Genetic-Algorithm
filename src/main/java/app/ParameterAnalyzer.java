@@ -30,7 +30,7 @@ import java.util.Locale;
 /**
  * Runs the SPEA2 parameter/statistical analysis experiment.
  *
- * <p>The full experiment is 4 K values x 18 fixed GA configurations x 15
+ * <p>The full experiment is 4 K values x 18 fixed GA configurations x 20
  * shared seeds. Lambda is intentionally not part of this grid; objective
  * evaluation uses the precomputed demand values loaded from candidate_points.csv.</p>
  */
