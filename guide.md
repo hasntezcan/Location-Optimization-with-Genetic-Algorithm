@@ -136,6 +136,30 @@ The local/dev route:
 
 This route is for local experiments, not a production backend.
 
+### Phase 1 Docker/local deployment
+
+The current deployment setup intentionally keeps the same local/dev architecture:
+the Next.js API route spawns Maven, waits for the Java GA, runs Python plotting
+and UI conversion scripts, then refreshes public mock assets.
+
+Primary files:
+
+- `DEPLOYMENT_PHASE1.md`: deployment notes, required tools, environment variables, and limitations
+- `.env.example`: optional runtime-variable template for local Next.js execution
+- `Dockerfile`: one-service image containing Node, Java 17, Maven, Python, the Java project, and the UI
+- `docker-compose.yml`: local Compose runner with `data`, `output`, and UI mock mounts
+- `.dockerignore`: excludes local build/generated artifacts from the image context
+
+Run with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+This setup is suitable for local/single-user experiments. It is not a
+production job backend because outputs are shared files and concurrent runs are
+not isolated.
+
 ## Related Guides
 
 - Comprehensive technical guide: [General_GUIDE.md](General_GUIDE.md)
@@ -145,3 +169,4 @@ This route is for local experiments, not a production backend.
 - ParameterAnalyzer guide: [analyse_guide.md](src/main/java/analyse_guide.md)
 - Backend integration: [backend_guide.md](src/main/java/app/backend_guide.md)
 - UI dashboard: [parcel-locker-ui/README.md](parcel-locker-ui/README.md)
+- Phase 1 deployment: [DEPLOYMENT_PHASE1.md](DEPLOYMENT_PHASE1.md)

@@ -13,6 +13,7 @@ Requirements:
 - Java 17
 - Maven
 - Python 3 (for demand scripts and plotting)
+- Node.js and npm (for the Next.js dashboard)
 
 ### 1) (Optional) Prepare demand
 
@@ -108,12 +109,39 @@ solutions on a map, run the MCDA preference selector over Pareto solutions, and
 in local/dev mode trigger the Java run via `/api/run-ga`.
 See [parcel-locker-ui/README.md](parcel-locker-ui/README.md).
 
+## Phase 1 Deployment
+
+The current deployment path keeps the local/dev architecture: Next.js runs
+`/api/run-ga`, which spawns Maven, waits for the Java optimizer, runs Python
+plotting/post-processing, and refreshes UI mock assets.
+
+Useful files:
+- `DEPLOYMENT_PHASE1.md`
+- `.env.example`
+- `Dockerfile`
+- `docker-compose.yml`
+- `.dockerignore`
+
+Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+This is a local/single-user deployment model, not a production job backend.
+
 ```
 Location-Optimization-with-Genetic-Algorithm
+├─ .dockerignore
+├─ .env.example
+├─ DEPLOYMENT_PHASE1.md
+├─ Dockerfile
+├─ docker-compose.yml
 ├─ pom.xml
 ├─ readme.md
 ├─ General_GUIDE.md
 ├─ guide.md
+├─ requirements.txt
 │
 ├─ data
 │  ├─ candidate_points.csv

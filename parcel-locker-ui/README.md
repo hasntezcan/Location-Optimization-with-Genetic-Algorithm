@@ -252,10 +252,17 @@ Runtime environment variables supported by the route:
 | `PYTHON_CMD` | Python executable override used for plot and GA-output processing scripts |
 | `GA_MAX_RUNTIME_MS` | Java process timeout |
 
+The repository root `.env.example` contains these variables. For local Next.js
+environment loading, copy it to `parcel-locker-ui/.env.local` only when the
+defaults need to be overridden.
+
 This mode:
 - is not a production backend design; it is intended for local development/experiments
 - should not be deployed to production because it spawns Maven and Python
   processes from a web route
+
+For the current one-service Docker/Compose setup and its limitations, see
+`../DEPLOYMENT_PHASE1.md`.
 
 ---
 

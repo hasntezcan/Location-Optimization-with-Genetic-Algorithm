@@ -391,6 +391,21 @@ GA_MAX_RUNTIME_MS
 
 This is enough to start backend work without changing the optimizer immediately.
 
+### Phase 1 container note
+
+The repository also includes a one-service Phase 1 container setup:
+
+- `Dockerfile`
+- `docker-compose.yml`
+- `.dockerignore`
+- `.env.example`
+- `DEPLOYMENT_PHASE1.md`
+
+This container does not change the backend contract. It still runs the Next.js
+server and lets `/api/run-ga` spawn Maven and Python inside the same container.
+It is useful for local/single-user experiments, but it is not a production job
+backend because runs still share output files and are not concurrency-safe.
+
 ---
 
 ## Recommended next Java-side additions later

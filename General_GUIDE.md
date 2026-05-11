@@ -11,6 +11,7 @@ Recommended report usage:
 - Use Sections 6-9 for the candidate dataset, demand model, distance matrix, and mathematical formulation.
 - Use Sections 10-20 for the Java optimization methodology and SPEA2 implementation.
 - Use Sections 21-24 for scripts, UI integration, outputs, and backend-oriented discussion.
+- Use Section 26 for build, test, and Phase 1 local/container deployment notes.
 - Use Sections 30-38 for limitations, implemented design decisions, future work, reproducibility notes, and conclusion.
 
 ## 1. Executive Summary
@@ -80,6 +81,11 @@ Important root files:
 - `readme.md`: Short quick-start guide.
 - `guide.md`: Older shorter project guide.
 - `General_GUIDE.md`: This file. It is the comprehensive report-source and technical methodology guide.
+- `DEPLOYMENT_PHASE1.md`: Local/container deployment notes for the current process-spawning UI integration.
+- `Dockerfile`: Container image for running the Next.js UI plus Java/Maven/Python toolchain in one service.
+- `docker-compose.yml`: Local Compose wrapper for the Phase 1 container setup, with data/output/mock mounts.
+- `.env.example`: Environment-variable template for the local `/api/run-ga` integration.
+- `.dockerignore`: Keeps heavy/generated local artifacts such as `target`, `output`, `data/raw`, `node_modules`, and `.next` out of Docker build context.
 - `.gitignore`: Ignores Maven `target`, Python cache, macOS `.DS_Store`, virtual environments, and some generated output subfolders. Several current `output/*.csv` and PNG artifacts are still present in the repository as example outputs.
 
 ## 5. Full Data Preparation Methodology: QGIS/OSM to GA-Ready CSV
@@ -1971,6 +1977,11 @@ PYTHON_CMD
 GA_MAX_RUNTIME_MS
 ```
 
+The repository root `.env.example` contains these same variables. For the local
+Next.js app, copy that template to `parcel-locker-ui/.env.local` only when the
+defaults do not match the local layout; otherwise the route infers the project
+root from the UI working directory.
+
 The route delegates process orchestration to
 `parcel-locker-ui/src/lib/server/ga-runner.ts` and the browser client consumes
 the event stream through `parcel-locker-ui/src/lib/ga-api.ts`.
@@ -2283,6 +2294,44 @@ Test status:
 - There are currently no JUnit source tests.
 - `src/test` does not contain real test source files.
 - `target/test-classes` exists only as a build artifact.
+
+### 26.1 Phase 1 Local/Container Deployment
+
+Detailed deployment notes live in:
+
+```text
+DEPLOYMENT_PHASE1.md
+```
+
+The current deployment model is intentionally simple and mirrors the local
+development architecture:
+
+- The Next.js server owns `/api/run-ga`.
+- The API route spawns Maven for the Java optimizer.
+- After Java finishes, it runs Python plotting and UI-output conversion scripts.
+- Generated outputs are still shared files, not run-ID-isolated artifacts.
+
+Container files:
+
+| File | Role |
+| --- | --- |
+| `Dockerfile` | Builds a Node 20 Debian image with Java 17, Maven, Python 3, Python requirements, Maven compilation, UI dependencies, and a production Next.js build |
+| `docker-compose.yml` | Runs the single container on port `3000` and mounts `data`, `output`, and `parcel-locker-ui/public/mock` |
+| `.dockerignore` | Excludes local build outputs, raw GIS data, dependency folders, cache directories, logs, and local env files from the Docker context |
+| `.env.example` | Documents runtime path/executable overrides for local Next.js execution |
+
+Docker Compose run:
+
+```bash
+docker compose up --build
+```
+
+Important limitation:
+
+This is still a Phase 1 deployment. It is useful for local or single-user
+experiments, but it is not a production multi-user backend because it keeps
+long-running requests open, writes shared output files, and does not isolate
+concurrent runs.
 
 ## 27. End-to-End Workflow
 

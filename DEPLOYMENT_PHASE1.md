@@ -18,10 +18,10 @@ python3 -m pip install -r requirements.txt
 
 ## Environment Configuration
 
-Use `.env.example` as the environment template and set values only when the
-defaults do not match your runtime layout. For local Next.js `.env` loading,
-copy it to `parcel-locker-ui/.env.local`; alternatively export the variables in
-the shell before running `npm run dev`.
+Use the repository-root `.env.example` as the environment template and set
+values only when the defaults do not match your runtime layout. For local
+Next.js `.env` loading, copy it to `parcel-locker-ui/.env.local`;
+alternatively export the variables in the shell before running `npm run dev`.
 
 Important variables:
 
@@ -35,7 +35,8 @@ Important variables:
 - `PYTHON_CMD`: Python executable override. Defaults to detection of `py`/`python` on Windows and `python3`/`python` elsewhere.
 - `GA_MAX_RUNTIME_MS`: timeout for the Java GA process launched by `/api/run-ga`. Default: `900000`.
 
-Relative paths are resolved relative to `PROJECT_ROOT` when it is set.
+Relative paths are resolved against `PROJECT_ROOT`; when it is not explicitly
+set, the API route infers it as the parent of the UI working directory.
 
 ## Local Run
 
@@ -64,6 +65,10 @@ The compose file mounts:
 - `./data` read-only at `/app/data`
 - `./output` read-write at `/app/output`
 - `./parcel-locker-ui/public/mock` read-write for generated UI assets
+
+The Docker build context is filtered by `.dockerignore`, which excludes local
+build outputs, dependency folders, raw GIS artifacts, logs, caches, and local
+`.env` files while keeping the runtime CSV/matrix artifacts available.
 
 ## Phase 1 Limitations
 
