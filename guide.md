@@ -120,6 +120,22 @@ python3 scripts/statistical_analysis.py
 
 Output: `output/statistics/selected_configurations.csv`
 
+### UI dashboard
+
+The Next.js dashboard in `parcel-locker-ui/` can browse generated archive
+solutions from `public/mock/`, display Pareto/best-objective markers, select
+Pareto solutions with an MCDA accessibility-vs-inequity preference, and trigger
+a real local/dev Java run through `POST /api/run-ga`.
+
+The local/dev route:
+- runs Maven with supported `Main` CLI args
+- runs `scripts/plot_archives.py`
+- copies `archive_comparison_latest.png` into the UI public mock folder
+- runs `parcel-locker-ui/src/scripts/process_ga_data.py`
+- regenerates `candidate-points.json` and `ga-results.json`
+
+This route is for local experiments, not a production backend.
+
 ## Related Guides
 
 - Comprehensive technical guide: [General_GUIDE.md](General_GUIDE.md)

@@ -35,8 +35,8 @@ public class FitnessCalculator {
     /**
      * Whether to compute demand dynamically using the lambda formula.
      * <p>
-     * {@code false}: use pre-computed {@code getDemandScore()} from CSV (default, used by Main).
-     * {@code true}: compute {@code population × (1 + lambda × poiScore)} (used by ParameterAnalyzer).
+     * {@code false}: use pre-computed {@code getDemandScore()} from CSV (default, used by Main and ParameterAnalyzer).
+     * {@code true}: compute {@code population × (1 + lambda × poiScore)} (available for future experiments).
      * </p>
      */
     private final boolean useDynamicDemand;
@@ -63,8 +63,9 @@ public class FitnessCalculator {
      * Creates a fitness calculator that computes demand dynamically using the
      * lambda formula: {@code demand = population × (1 + lambda × poiScore)}.
      *
-     * <p>This constructor is used by {@link app.ParameterAnalyzer} to test
-     * different lambda values without re-running the Python preprocessing.</p>
+     * <p>This constructor is available for future lambda-sensitivity
+     * experiments without re-running the Python preprocessing. The current
+     * {@link app.ParameterAnalyzer} grid does not use it.</p>
      *
      * @param distanceMatrix precomputed candidate-to-candidate distance matrix
      * @param repository candidate repository synchronized with the matrix indexing

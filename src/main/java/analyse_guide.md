@@ -21,6 +21,7 @@ Current implementation:
 Environment overrides:
 
 ```text
+PROJECT_ROOT        base path for relative input/output overrides
 GA_CANDIDATE_CSV   candidate CSV path
 GA_DISTANCE_MATRIX distance matrix path
 GA_OUTPUT_DIR      output directory

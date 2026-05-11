@@ -111,7 +111,8 @@ def main():
 
         f.write(f"1) Distance matrix (meters): {out_dist}\n")
         f.write("   - Stores: dist[i, j] = distance between candidate idx i and idx j (meters).\n")
-        f.write("   - Why: fast fitness calculations (coverage / overlap / dispersion).\n\n")
+        f.write("   - Why: fast nearest-locker distance lookup for f1 accessibility and f2\n")
+        f.write("     neighborhood-equity evaluation.\n\n")
 
         f.write(f"2) Candidate ID list (same order): {out_ids}\n")
         f.write("   - Stores: ids[idx] = stable candidate ID.\n")
@@ -135,9 +136,10 @@ def main():
         f.write(f"    dist = np.load('{out_dist}')\n")
         f.write(f"    ids  = np.load('{out_ids}')\n")
         f.write(f"    idx_map = pd.read_csv('{out_index}')  # optional for lon/lat\n\n")
-        f.write("    # If GA returns idx list:\n")
+        f.write("    # If a GA returns idx list:\n")
         f.write("    # chosen_ids = ids[idx_list]\n")
         f.write("    # chosen_coords = idx_map[idx_map['idx'].isin(idx_list)][['lon','lat']]\n\n")
+        f.write("    # Current Java chromosomes already store candidate IDs, not matrix indexes.\n\n")
 
         f.write("Forbidden filtering\n")
         f.write("-------------------\n\n")

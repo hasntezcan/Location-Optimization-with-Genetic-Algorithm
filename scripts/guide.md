@@ -1,8 +1,9 @@
 # Scripts Guide
 
-This folder contains all Python scripts for the Kadikoy parcel locker optimization
-project. Scripts cover demand preparation, distance matrix generation, archive plotting,
-parameter-analysis post-processing, and exploratory thesis figure generation.
+This guide covers the Python scripts used by the Kadikoy parcel locker
+optimization project. Most live under `scripts/`; the distance-matrix generator
+lives under `data/`, and the UI conversion helpers live under
+`parcel-locker-ui/src/scripts/`.
 
 ---
 
@@ -20,7 +21,10 @@ data/prepare_ga_inputs.py          → generates distance matrix artifacts
         ▼
 [Java SPEA2 run]                   → output/initial_archive.csv, output/final_archive.csv
         │
-        └──► scripts/plot_archives.py        → output/archive_comparison_latest.png
+        ├──► scripts/plot_archives.py        → output/archive_comparison_latest.png
+        └──► parcel-locker-ui/src/scripts/process_ga_data.py
+                                                → parcel-locker-ui/public/mock/ga-results.json
+                                                → parcel-locker-ui/public/mock/candidate-points.json
 
 [Java ParameterAnalyzer run]        → output/parameter_analysis_results.csv
         │
@@ -205,7 +209,77 @@ hardcoded Windows paths; adjust paths before running it on another machine.
 
 ---
 
-## 5. Important Notes
+## 5. UI Data Conversion Scripts
+
+### `parcel-locker-ui/src/scripts/process_ga_data.py`
+
+Main conversion script used by the current local/dev UI integration.
+
+Inputs:
+
+```text
+data/candidate_points.csv
+output/final_archive.csv
+```
+
+Environment-aware inputs:
+
+```text
+PROJECT_ROOT
+UI_ROOT
+GA_CANDIDATE_CSV
+GA_OUTPUT_DIR
+UI_MOCK_DIR
+```
+
+Outputs:
+
+```text
+parcel-locker-ui/public/mock/candidate-points.json
+parcel-locker-ui/public/mock/ga-results.json
+```
+
+What it does:
+
+- Converts the candidate CSV into map-ready JSON.
+- Reads final archive chromosomes from Java output.
+- Maps selected candidate IDs to coordinates and neighborhood names.
+- Transfers `f1`, `f2`, `total_fitness`, `norm_f1`, and `norm_f2`.
+- Recomputes Pareto flags under bi-objective minimization.
+- Marks the best-f1 and best-f2 Pareto solutions.
+
+This script is run automatically by the Next.js `/api/run-ga` local/dev route
+after Java and `plot_archives.py` finish. It can also be run manually from the
+UI folder:
+
+```bash
+cd parcel-locker-ui
+python3 src/scripts/process_ga_data.py
+```
+
+### `parcel-locker-ui/src/scripts/build_candidate_json.py`
+
+Older/alternate candidate JSON builder.
+
+Input:
+
+```text
+parcel-locker-ui/public/mock/candidate_points.csv
+```
+
+Output:
+
+```text
+parcel-locker-ui/public/mock/candidate-points.json
+```
+
+It checks older field names such as `name`, `neighborhood`, `MAH_JOIN`, and
+`pop_2024`. For the current real-GA-output flow, prefer
+`process_ga_data.py`.
+
+---
+
+## 6. Important Notes
 
 ### Python Dependencies
 

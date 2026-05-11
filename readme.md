@@ -103,7 +103,9 @@ python3 scripts/statistical_analysis.py
 
 UI directory: [parcel-locker-ui](parcel-locker-ui)
 
-The UI can visualize mock assets, and in local/dev mode it can also trigger the Java run via `/api/run-ga`.
+The UI can visualize generated archive assets, browse Pareto/best-objective
+solutions on a map, run the MCDA preference selector over Pareto solutions, and
+in local/dev mode trigger the Java run via `/api/run-ga`.
 See [parcel-locker-ui/README.md](parcel-locker-ui/README.md).
 
 ```

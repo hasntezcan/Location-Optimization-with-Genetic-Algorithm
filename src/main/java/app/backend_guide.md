@@ -18,7 +18,9 @@ Current local/dev route files:
 - `parcel-locker-ui/src/app/api/run-ga/route.ts`
 - `parcel-locker-ui/src/lib/server/ga-runner.ts`
 - `parcel-locker-ui/src/lib/server/runtime-config.ts`
+- `parcel-locker-ui/src/lib/python-runner.ts`
 - `parcel-locker-ui/src/lib/ga-api.ts`
+- `parcel-locker-ui/src/scripts/process_ga_data.py`
 
 ---
 
@@ -35,6 +37,8 @@ The frontend currently expects concepts like:
 - generation-level metrics
 - a selected solution / selected locker
 - map-friendly candidate and locker data
+- Pareto flags and a simple MCDA preference selector for choosing among Pareto
+  solutions
 
 Today, this is delivered by generating files and then transforming them into the UI’s expected JSON/CSV shapes.
 
@@ -127,7 +131,9 @@ It is **not yet backend-shaped** in the following sense:
 - there is no structured generation-by-generation export
 - there is no generation summary file
 - there is no dedicated final Pareto front CSV
-- there is no machine-friendly result JSON output beyond run parameter metadata
+- `Main` itself has no machine-friendly result JSON output beyond run parameter
+  metadata; the local/dev UI creates `ga-results.json` later via
+  `process_ga_data.py`
 - there is no dedicated optimizer service (job queue, isolation, concurrency control, persistence)
 
 So the backend team should think of the current optimizer as a **batch computation engine** that already produces some useful files, but not yet a direct API-ready service.
@@ -163,6 +169,12 @@ Parse:
 Transform them into API responses for the frontend.
 
 This is enough for a **first backend integration milestone**.
+
+The current local/dev UI route already automates a file-based version of this
+flow: it runs Java through Maven, runs `scripts/plot_archives.py`, copies the
+latest plot into `parcel-locker-ui/public/mock/`, and runs
+`parcel-locker-ui/src/scripts/process_ga_data.py` to regenerate
+`candidate-points.json` and `ga-results.json`.
 
 ---
 
@@ -218,6 +230,11 @@ Short-term approach:
 - pass supported fields (`k`, population size, archive size, generations,
   crossover rate, mutation rate, random seed) through the request body
 - move to a validated runtime configuration format before production use
+
+The UI also includes an MCDA selector. It does not rerun Java; it filters
+Pareto solutions already present in `ga-results.json`, uses `norm_f1` and
+`norm_f2` when available, and selects the lowest weighted-cost solution for the
+chosen accessibility/inequity preference.
 
 ## 2. Center map
 The frontend map needs selected locker coordinates for a solution.
@@ -355,6 +372,22 @@ Backend:
 - runs Java
 - reads those outputs
 - serializes structured responses for the frontend
+
+### Local/dev environment overrides
+The current Next.js route and child processes support these path/executable
+overrides:
+
+```text
+PROJECT_ROOT
+UI_ROOT
+GA_CANDIDATE_CSV
+GA_DISTANCE_MATRIX
+GA_OUTPUT_DIR
+UI_MOCK_DIR
+MAVEN_CMD
+PYTHON_CMD
+GA_MAX_RUNTIME_MS
+```
 
 This is enough to start backend work without changing the optimizer immediately.
 

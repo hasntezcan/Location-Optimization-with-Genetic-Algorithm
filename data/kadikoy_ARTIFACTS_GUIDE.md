@@ -10,7 +10,8 @@ What this script generates
 
 1) Distance matrix (meters): kadikoy_distance_meters_nxn.npy
    - Stores: dist[i, j] = distance between candidate idx i and idx j (meters).
-   - Why: fast fitness calculations (coverage / overlap / dispersion).
+   - Why: fast nearest-locker distance lookup for f1 accessibility and f2
+     neighborhood-equity evaluation.
 
 2) Candidate ID list (same order): kadikoy_candidate_ids_sorted.npy
    - Stores: ids[idx] = stable candidate ID.
@@ -38,9 +39,11 @@ Python example:
     ids  = np.load('kadikoy_candidate_ids_sorted.npy')
     idx_map = pd.read_csv('kadikoy_index_map.csv')  # optional for lon/lat
 
-    # If GA returns idx list:
+    # If a GA returns idx list:
     # chosen_ids = ids[idx_list]
     # chosen_coords = idx_map[idx_map['idx'].isin(idx_list)][['lon','lat']]
+
+    # Current Java chromosomes already store candidate IDs, not matrix indexes.
 
 Forbidden filtering
 -------------------

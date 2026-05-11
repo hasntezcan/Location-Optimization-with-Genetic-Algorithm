@@ -1676,10 +1676,12 @@ Run:
 mvn -q compile exec:java -Panalyze
 ```
 
-Output:
+Outputs:
 
 ```text
 output/parameter_analysis_results.csv
+output/parameter_analysis_results_smoke.csv  (only with --smoke)
+output/ga_configuration_table.csv
 ```
 
 Purpose:
@@ -1732,7 +1734,8 @@ Current reproducibility behavior:
 
 - `PopulationInitializer`, `Selection`, and `Variation` are all seeded inside
   analyzer runs.
-- Calibration bounds are locked per K using five calibration seeds before the
+- Calibration bounds are locked per K using calibration population size `100`,
+  archive size `50`, seeds `101` through `105`, and a 2% margin before the
   grid-search runs.
 - Lambda is not part of this Java grid. Analyzer runs use the `demand_final`
   values already present in `data/candidate_points.csv`.
@@ -1903,6 +1906,8 @@ The main dashboard page:
 - Displays selected locker details.
 - Displays an f1/f2 scatter chart using Recharts.
 - Draws Pareto points and best f1/best f2 markers.
+- Provides an MCDA selector that chooses a Pareto solution using the selected
+  accessibility-vs-inequity preference.
 - Displays the static archive comparison plot.
 - Calls `/api/run-ga` when the user clicks Run Optimization.
 
@@ -1962,6 +1967,7 @@ GA_DISTANCE_MATRIX
 GA_OUTPUT_DIR
 UI_MOCK_DIR
 MAVEN_CMD
+PYTHON_CMD
 GA_MAX_RUNTIME_MS
 ```
 
@@ -1993,6 +1999,7 @@ Controls:
 
 - Locker count `K`.
 - Run Optimization.
+- MCDA accessibility/inequity preference slider and Run MCDA action.
 - Current solution slider.
 - Previous/next solution.
 - Auto-play.
@@ -2019,6 +2026,7 @@ Layers:
 - OpenStreetMap tiles.
 - Kadikoy boundary.
 - Candidate points as small gray markers.
+- Existing-locker context aggregated into neighborhood-level markers.
 - Active lockers as larger markers.
 - Selected locker marker.
 
@@ -2288,7 +2296,8 @@ Recommended workflow from data to UI:
 1. Prepare or verify the QGIS candidate table.
 2. Ensure all metric GIS operations used EPSG:32635.
 3. Ensure candidate output includes EPSG:4326 `lon` and `lat`.
-4. Export feasible candidates as `data/candidate_points.csv`.
+4. Export the full runtime candidate table as `data/candidate_points.csv`,
+   keeping both feasible and forbidden rows with the `is_forbidden` flag.
 5. Inspect POI weights:
 
 ```bash

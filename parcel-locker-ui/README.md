@@ -20,6 +20,7 @@ Its purpose is to let a user:
 - load candidate, boundary, and final archive result data
 - optionally trigger a real SPEA2 run locally (via `POST /api/run-ga`)
 - browse final archive solutions and Pareto flags
+- select a Pareto solution with an MCDA accessibility-vs-inequity preference
 - explore selected locker sets on a map
 - inspect the currently selected locker and solution metrics
 
@@ -68,6 +69,10 @@ Each archive solution contains:
 
 The left control panel contains a number input for locker count.
 
+Changing `K` also updates the advanced defaults with `getOptimalParams(k)`:
+population size, max generations, mutation rate, crossover rate, and archive
+size.
+
 When the user clicks **Run Optimization**:
 
 - the input is clamped between `1` and `20`
@@ -82,7 +87,25 @@ rate, crossover rate, archive size, and optional random seed.
 
 ---
 
-### 4. Solution playback
+### 4. MCDA decision selector
+
+The control panel includes an MCDA preference slider between Accessibility and
+Inequity.
+
+When the user clicks **Run MCDA**:
+
+- only Pareto-flagged archive solutions are considered
+- `norm_f1` and `norm_f2` are used when available
+- raw objective values are min-max normalized as a fallback
+- the solution with the lowest weighted cost is selected
+- no Java optimization run is triggered
+
+This is a decision-support layer over the current archive, not a separate
+optimization algorithm.
+
+---
+
+### 5. Solution playback
 
 The UI supports archive-solution playback controls:
 
@@ -96,7 +119,22 @@ When playback reaches the final solution, it loops back to the first solution.
 
 ---
 
-### 5. Top locker strip
+### 6. Pareto chart and static plot
+
+The right-side archive panel shows an f1/f2 scatter chart:
+
+- all archive solutions are plotted
+- Pareto points are highlighted
+- best-f1 and best-f2 Pareto solutions have dedicated colors
+- clicking a chart point selects that archive solution
+- focus mode expands the map/chart layout on large screens
+
+The UI also displays `archive_comparison_latest.png` when it exists and opens it
+in a fullscreen modal when clicked.
+
+---
+
+### 7. Top locker strip
 
 At the top of the dashboard, the UI shows the lockers in the current archive
 solution as a horizontal strip.
@@ -114,7 +152,7 @@ This strip is mainly a quick-selection UI for switching focus between lockers wi
 
 ---
 
-### 6. Map behavior
+### 8. Map behavior
 
 The center panel contains an interactive map built with React Leaflet.
 
@@ -156,7 +194,7 @@ Each locker popup shows:
 
 ---
 
-### 7. Selected locker detail panel
+### 9. Selected locker detail panel
 
 The right panel shows detailed information for the currently selected locker.
 
@@ -175,7 +213,7 @@ These metrics belong to the **active archive solution**, not to the individual l
 
 ---
 
-### 8. Selection behavior
+### 10. Selection behavior
 
 The UI tries to preserve the selected locker when the active archive solution changes.
 

@@ -1,4 +1,4 @@
-# src_guide.md
+# SRC_GUIDE.MD
 
 ## Overview
 
@@ -145,7 +145,11 @@ It should:
 - reads all parameters from `config.GAParameters`
 - stores an initial archive snapshot
 - stores a final archive snapshot
+- writes `run_metadata.json`
 - accepts runtime CLI arguments for common parameters
+- accepts runtime path overrides through `--candidateCsv`, `--distanceMatrix`,
+  `--outputDir`, and the `PROJECT_ROOT`, `GA_CANDIDATE_CSV`,
+  `GA_DISTANCE_MATRIX`, `GA_OUTPUT_DIR` environment variables
 - filters the selectable locker universe via `getSelectableCandidateIds()`
 - applies final-ND-based post-hoc normalization for archive export and final HV
   computation
@@ -157,7 +161,72 @@ If the project grows, a dedicated runner/controller class can be introduced late
 
 ---
 
-# 4. model Package
+## `app.ParameterAnalyzer`
+
+Runs the seeded hyperparameter/statistical experiment separately from the
+default single-run workflow.
+
+### Responsibilities
+- build the fixed GA configuration grid
+- run a calibration phase per K to lock hypervolume bounds
+- execute seeded SPEA2 runs under a constant function-evaluation budget
+- compute final HV, HV ratio, ND count, ND/archive ratio, spacing CV, and
+  objective summaries
+- write `parameter_analysis_results.csv`,
+  `parameter_analysis_results_smoke.csv` in smoke mode, and
+  `ga_configuration_table.csv`
+
+### Current experimental design
+- K values: `1`, `5`, `10`, `15`
+- population sizes: `50`, `100`, `200`
+- mutation rates: `0.10`, `0.25`, `0.40`
+- crossover rates: `0.70`, `0.90`
+- archive size: `populationSize / 2`
+- full seeds: `1` through `20`
+- calibration seeds: `101` through `105`
+
+### Important current behavior
+`ParameterAnalyzer` does **not** vary lambda. It uses the precomputed
+`demand_final` values loaded from the candidate CSV through the standard
+three-argument `FitnessCalculator(distanceMatrix, repository, beta)`
+constructor.
+
+Smoke mode is available with:
+
+```bash
+mvn -q compile exec:java -Panalyze -Dexec.args="--smoke"
+```
+
+---
+
+# 4. config Package
+
+## `config.GAParameters`
+
+Centralizes the default single-run GA constants:
+- `K`
+- `POPULATION_SIZE`
+- `ARCHIVE_SIZE`
+- `MAX_GENERATIONS`
+- `BETA`
+- `CROSSOVER_RATE`
+- `MUTATION_RATE`
+- hypervolume reference point values
+
+`Main` reads these values first and then applies supported CLI overrides.
+`ParameterAnalyzer` uses `BETA` and default crossover/mutation values for
+calibration runs, but its grid values are defined inside
+`ParameterAnalyzer.java`.
+
+## `config.GAState` and `config.GAResult`
+
+These classes currently exist as placeholders. They are not populated by the
+default optimizer or analyzer yet. They are future targets for structured
+runtime state, backend responses, and generation-level export.
+
+---
+
+# 5. model Package
 
 ## `model.CandidatePoint`
 
@@ -227,7 +296,7 @@ Without canonicalization:
 
 ---
 
-# 5. io Package
+# 6. io Package
 
 ## `io.CsvLoader`
 
@@ -267,7 +336,7 @@ The matrix is precomputed and then reused during optimization.
 
 ---
 
-# 6. service Package
+# 7. service Package
 
 The `service` package contains the core mathematical and utility services used by the algorithm.
 
@@ -294,6 +363,12 @@ This keeps objective values in a manageable numerical range.
 ### Equity metric
 `f2` uses the **coefficient of variation (CV)** of mahalle-level weighted mean accessibility costs.
 CV = `standardDeviation / mean` → dimensionless, bounded, and independent of distance unit.
+
+### Demand mode
+The active `Main` and `ParameterAnalyzer` paths both use precomputed
+`demand_final` from the CSV through the three-argument constructor.
+`FitnessCalculator` also contains a dynamic lambda constructor, but that path is
+not used by the current analyzer grid.
 
 ### Possible future experiments
 - testing alternative equity metrics (Gini, MAD)
@@ -381,7 +456,7 @@ If archive quality is still not distinguishable enough, the normalization window
 
 ---
 
-# 7. algorithm Package
+# 8. algorithm Package
 
 This package contains the core evolutionary steps.
 
@@ -477,7 +552,7 @@ Variation design is still a key driver of exploration vs exploitation balance.
 
 ---
 
-# 8. algorithm.helper Package
+# 9. algorithm.helper Package
 
 These classes support SPEA2 logic.
 
@@ -523,7 +598,7 @@ Without truncation, archive can become crowded in one region of the Pareto front
 
 ---
 
-# 9. Current Workflow in Practice
+# 10. Current Workflow in Practice
 
 The workflow currently looks like this:
 
@@ -547,7 +622,7 @@ The workflow currently looks like this:
 
 ---
 
-# 10. What Is Already Working
+# 11. What Is Already Working
 
 The following parts are already operational:
 
@@ -568,13 +643,13 @@ This means the project already has a functioning end-to-end optimization pipelin
 
 ---
 
-# 11. Known Issues and Open Questions
+# 12. Known Issues and Open Questions
 
 This section tracks remaining concerns and resolved items.
 
 ---
 
-## 11.1 Objective scaling — RESOLVED
+## 12.1 Objective scaling — RESOLVED
 
 ### `f1`
 Previously `f1` used raw metre distances, causing values in the millions.
@@ -588,7 +663,7 @@ This resolved the normalization and hypervolume interpretation issues.
 
 ---
 
-## 11.2 Hypervolume sensitivity
+## 12.2 Hypervolume sensitivity
 After the objective scaling fixes, HV should produce more meaningful comparisons.
 
 Monitoring notes:
@@ -598,7 +673,7 @@ Monitoring notes:
 
 ---
 
-## 11.3 Internal normalization vs assessment normalization
+## 12.3 Internal normalization vs assessment normalization
 These are conceptually different and must not be mixed.
 
 Current code already moved in the right direction by doing final archive comparison post-hoc.
@@ -607,7 +682,7 @@ Still, this distinction should always be kept in mind when editing the project.
 
 ---
 
-## 11.4 Generation-level diagnostics — PARTIALLY RESOLVED
+## 12.4 Generation-level diagnostics — PARTIALLY RESOLVED
 
 Now implemented:
 - compact `PROGRESS generation=<n> max=<m>` logging for the UI stream
@@ -625,29 +700,29 @@ These will be especially important for the future web UI.
 
 ---
 
-# 12. Completed Steps and Remaining Next Steps
+# 13. Completed Steps and Remaining Next Steps
 
 ---
 
-## 12.1 ~~Revisit `f1` scale~~ — DONE
+## 13.1 ~~Revisit `f1` scale~~ — DONE
 Distance is now converted from metres to kilometres before applying `beta`.
 This reduced `f1` values from ~1M to ~1, keeping the objective meaning the same.
 
 ---
 
-## 12.2 ~~Revisit `f2` definition~~ — DONE
+## 13.2 ~~Revisit `f2` definition~~ — DONE
 Variance was replaced with **coefficient of variation (CV)**.
 CV = `std / mean` → dimensionless, bounded, and independent of distance unit.
 
 ---
 
-## 12.3 ~~Centralize configuration~~ — DONE
+## 13.3 ~~Centralize configuration~~ — DONE
 All GA parameters are now defined in `config.GAParameters`.
 `Main` reads from that class instead of using hard-coded values.
 
 ---
 
-## 12.4 Improve assessment reliability
+## 13.4 Improve assessment reliability
 Hypervolume should remain the final quality metric.
 
 Now that objectives are rescaled:
@@ -656,7 +731,7 @@ Now that objectives are rescaled:
 
 ---
 
-## 12.5 Add UI-oriented outputs later
+## 13.5 Add UI-oriented outputs later
 The project will eventually feed a web UI.
 
 Future outputs likely needed:
@@ -669,7 +744,7 @@ This is not the current focus, but the code should stay compatible with it.
 
 ---
 
-# 13. Practical Advice for Anyone Editing This Code
+# 14. Practical Advice for Anyone Editing This Code
 
 ## If you want to change the optimization logic
 Start with:
@@ -700,7 +775,7 @@ Start with:
 
 ---
 
-# 14. Final Summary
+# 15. Final Summary
 
 This codebase already contains a working SPEA2-style optimization engine for the Kadıköy locker placement problem.
 
