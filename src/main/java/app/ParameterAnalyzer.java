@@ -30,7 +30,7 @@ import java.util.Locale;
 /**
  * Runs the SPEA2 parameter/statistical analysis experiment.
  *
- * <p>The full experiment is 4 K values x 18 fixed GA configurations x 20
+ * <p>The full experiment is 4 K values x 9 fixed GA configurations x 20
  * shared seeds. Lambda is intentionally not part of this grid; objective
  * evaluation uses the precomputed demand values loaded from candidate_points.csv.</p>
  */
@@ -38,8 +38,8 @@ public class ParameterAnalyzer {
 
     private static final int[] K_VALUES = {1, 5, 10, 15};
     private static final int[] POPULATION_SIZES = {50, 100, 200};
-    private static final double[] MUTATION_RATES = {0.10, 0.25, 0.40};
-    private static final double[] CROSSOVER_RATES = {0.70, 0.90};
+    private static final double[] MUTATION_RATES = {0.20, 0.40, 0.60};
+    private static final double[] CROSSOVER_RATES = {0.90};
     private static final long[] SEEDS = {
             1L, 2L, 3L, 4L, 5L,
             6L, 7L, 8L, 9L, 10L,
@@ -130,6 +130,13 @@ public class ParameterAnalyzer {
 
     public static void main(String[] args) {
         boolean smokeMode = hasArg(args, "--smoke");
+        Integer onlyK = parseIntegerArg(args, "--only-k");
+        Long seedFrom = parseLongArg(args, "--seed-from");
+        Long seedTo = parseLongArg(args, "--seed-to");
+
+        if (seedFrom != null && seedTo != null && seedFrom > seedTo) {
+            throw new IllegalArgumentException("--seed-from must be less than or equal to --seed-to.");
+        }
 
         try {
             Files.createDirectories(OUTPUT_DIRECTORY);
@@ -157,12 +164,20 @@ public class ParameterAnalyzer {
             List<GAConfiguration> allConfigurations = buildGAConfigurations();
             writeConfigurationTable(allConfigurations);
 
-            int[] activeKValues = firstN(K_VALUES, smokeMode ? SMOKE_K_LIMIT : K_VALUES.length);
+            int[] activeKValues = filterKValues(onlyK, smokeMode ? SMOKE_K_LIMIT : K_VALUES.length);
             List<GAConfiguration> activeConfigurations = firstN(
                     allConfigurations,
                     smokeMode ? SMOKE_CONFIG_LIMIT : allConfigurations.size()
             );
-            long[] activeSeeds = firstN(SEEDS, smokeMode ? SMOKE_SEED_LIMIT : SEEDS.length);
+            long[] activeSeeds = filterSeeds(seedFrom, seedTo);
+            if (activeSeeds.length == 0) {
+                throw new IllegalArgumentException(
+                        "Seed range excluded all seeds. Provide --seed-from and/or --seed-to values within 1..20."
+                );
+            }
+            if (smokeMode) {
+                activeSeeds = firstN(activeSeeds, SMOKE_SEED_LIMIT);
+            }
             long[] activeCalibrationSeeds = smokeMode ? SMOKE_CALIBRATION_SEEDS : CALIBRATION_SEEDS;
             Path resultPath = smokeMode ? SMOKE_RESULTS_CSV : RESULTS_CSV;
 
@@ -173,68 +188,76 @@ public class ParameterAnalyzer {
                     activeKValues,
                     activeConfigurations,
                     activeSeeds,
-                    activeCalibrationSeeds
+                    activeCalibrationSeeds,
+                    resultPath
             );
 
-            List<String> rows = new ArrayList<>();
             int runId = 0;
             int totalGridRuns = activeKValues.length * activeConfigurations.size() * activeSeeds.length;
 
-            for (int k : activeKValues) {
-                int targetFE = getTargetFE(k, smokeMode);
-                CalibrationBounds bounds = runCalibrationPhase(
-                        k,
-                        targetFE,
-                        activeCalibrationSeeds,
-                        distanceMatrix,
-                        repository,
-                        candidateIds
-                );
+            try (BufferedWriter writer = Files.newBufferedWriter(resultPath)) {
+                writer.write(RESULTS_HEADER);
+                writer.newLine();
+                writer.flush();
 
-                System.out.println("Locked HV bounds for K=" + k + ": " + bounds);
-                System.out.println();
+                for (int k : activeKValues) {
+                    int targetFE = getTargetFE(k, smokeMode);
+                    CalibrationBounds bounds = runCalibrationPhase(
+                            k,
+                            targetFE,
+                            activeCalibrationSeeds,
+                            distanceMatrix,
+                            repository,
+                            candidateIds
+                    );
 
-                for (GAConfiguration configuration : activeConfigurations) {
-                    int maxGenerations = getMaxGenerations(targetFE, configuration.populationSize());
-                    int functionEvals = configuration.populationSize() * (maxGenerations + 1);
+                    System.out.println("Locked HV bounds for K=" + k + ": " + bounds);
+                    System.out.println();
 
-                    for (long seed : activeSeeds) {
-                        runId++;
+                    for (GAConfiguration configuration : activeConfigurations) {
+                        int maxGenerations = getMaxGenerations(targetFE, configuration.populationSize());
+                        int functionEvals = configuration.populationSize() * (maxGenerations + 1);
 
-                        System.out.printf(Locale.US,
-                                "[Run %d/%d] K=%d %s Pop=%d Arc=%d Gen=%d Mut=%.2f Cx=%.2f Seed=%d FE=%d%n",
-                                runId,
-                                totalGridRuns,
-                                k,
-                                configuration.gaId(),
-                                configuration.populationSize(),
-                                configuration.archiveSize(),
-                                maxGenerations,
-                                configuration.mutationRate(),
-                                configuration.crossoverRate(),
-                                seed,
-                                functionEvals
-                        );
+                        for (long seed : activeSeeds) {
+                            runId++;
 
-                        String row = executeSingleRun(
-                                runId,
-                                k,
-                                configuration,
-                                targetFE,
-                                maxGenerations,
-                                functionEvals,
-                                seed,
-                                bounds,
-                                distanceMatrix,
-                                repository,
-                                candidateIds
-                        );
-                        rows.add(row);
+                            System.out.printf(Locale.US,
+                                    "[Run %d/%d] K=%d %s Pop=%d Arc=%d Gen=%d Mut=%.2f Cx=%.2f Seed=%d FE=%d%n",
+                                    runId,
+                                    totalGridRuns,
+                                    k,
+                                    configuration.gaId(),
+                                    configuration.populationSize(),
+                                    configuration.archiveSize(),
+                                    maxGenerations,
+                                    configuration.mutationRate(),
+                                    configuration.crossoverRate(),
+                                    seed,
+                                    functionEvals
+                            );
+
+                            String row = executeSingleRun(
+                                    runId,
+                                    k,
+                                    configuration,
+                                    targetFE,
+                                    maxGenerations,
+                                    functionEvals,
+                                    seed,
+                                    bounds,
+                                    distanceMatrix,
+                                    repository,
+                                    candidateIds
+                            );
+
+                            writer.write(row);
+                            writer.newLine();
+                            writer.flush();
+                        }
                     }
                 }
             }
 
-            writeResultsCsv(resultPath, rows);
             System.out.println();
             System.out.println("Analysis complete.");
             System.out.println("Results written to: " + resultPath.toAbsolutePath());
@@ -710,12 +733,162 @@ public class ParameterAnalyzer {
         }
 
         for (String arg : args) {
-            if (expected.equalsIgnoreCase(arg)) {
+            if (expected.equalsIgnoreCase(arg) || arg.toLowerCase(Locale.US).startsWith(expected.toLowerCase(Locale.US) + "=")) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static String parseArg(String[] args, String key) {
+        if (args == null) {
+            return null;
+        }
+
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
+            if (arg.equalsIgnoreCase(key)) {
+                if (i + 1 >= args.length) {
+                    throw new IllegalArgumentException(key + " requires a value.");
+                }
+                return args[i + 1];
+            }
+            String lower = arg.toLowerCase(Locale.US);
+            String expectedPrefix = key.toLowerCase(Locale.US) + "=";
+            if (lower.startsWith(expectedPrefix)) {
+                return arg.substring(expectedPrefix.length());
+            }
+        }
+
+        return null;
+    }
+
+    private static Integer parseIntegerArg(String[] args, String key) {
+        String value = parseArg(args, key);
+        if (value == null) {
+            return null;
+        }
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(key + " value must be an integer, found: " + value);
+        }
+    }
+
+    private static Long parseLongArg(String[] args, String key) {
+        String value = parseArg(args, key);
+        if (value == null) {
+            return null;
+        }
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(key + " value must be a long integer, found: " + value);
+        }
+    }
+
+    private static long[] filterSeeds(Long seedFrom, Long seedTo) {
+        long from = seedFrom == null ? SEEDS[0] : seedFrom;
+        long to = seedTo == null ? SEEDS[SEEDS.length - 1] : seedTo;
+        List<Long> selected = new ArrayList<>();
+
+        for (long seed : SEEDS) {
+            if (seed >= from && seed <= to) {
+                selected.add(seed);
+            }
+        }
+
+        return toLongArray(selected);
+    }
+
+    private static int[] filterKValues(Integer onlyK, int limit) {
+        if (onlyK != null) {
+            for (int k : K_VALUES) {
+                if (k == onlyK) {
+                    return new int[]{k};
+                }
+            }
+            throw new IllegalArgumentException("Unsupported --only-k value: " + onlyK + ". Supported values: " + formatArray(K_VALUES));
+        }
+        return firstN(K_VALUES, limit);
+    }
+
+    private static int[] uniquePopulationSizes(List<GAConfiguration> configurations) {
+        List<Integer> values = new ArrayList<>();
+        for (GAConfiguration configuration : configurations) {
+            int size = configuration.populationSize();
+            if (!values.contains(size)) {
+                values.add(size);
+            }
+        }
+        int[] array = new int[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            array[i] = values.get(i);
+        }
+        return array;
+    }
+
+    private static double[] uniqueMutationRates(List<GAConfiguration> configurations) {
+        List<Double> values = new ArrayList<>();
+        for (GAConfiguration configuration : configurations) {
+            double rate = configuration.mutationRate();
+            if (!values.contains(rate)) {
+                values.add(rate);
+            }
+        }
+        double[] array = new double[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            array[i] = values.get(i);
+        }
+        return array;
+    }
+
+    private static double[] uniqueCrossoverRates(List<GAConfiguration> configurations) {
+        List<Double> values = new ArrayList<>();
+        for (GAConfiguration configuration : configurations) {
+            double rate = configuration.crossoverRate();
+            if (!values.contains(rate)) {
+                values.add(rate);
+            }
+        }
+        double[] array = new double[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            array[i] = values.get(i);
+        }
+        return array;
+    }
+
+    private static String formatArray(long[] values) {
+        StringBuilder builder = new StringBuilder("[");
+        for (int i = 0; i < values.length; i++) {
+            if (i > 0) {
+                builder.append(", ");
+            }
+            builder.append(values[i]);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+
+    private static String formatArray(double[] values) {
+        StringBuilder builder = new StringBuilder("[");
+        for (int i = 0; i < values.length; i++) {
+            if (i > 0) {
+                builder.append(", ");
+            }
+            builder.append(formatDouble(values[i]));
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+
+    private static long[] toLongArray(List<Long> values) {
+        long[] array = new long[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            array[i] = values.get(i);
+        }
+        return array;
     }
 
     private static int[] firstN(int[] values, int limit) {
@@ -754,7 +927,8 @@ public class ParameterAnalyzer {
             int[] activeKValues,
             List<GAConfiguration> activeConfigurations,
             long[] activeSeeds,
-            long[] activeCalibrationSeeds) {
+            long[] activeCalibrationSeeds,
+            Path resultPath) {
 
         System.out.println("SPEA2 parameter/statistical analysis");
         if (smokeMode) {
@@ -766,9 +940,12 @@ public class ParameterAnalyzer {
         System.out.println("Candidates loaded: " + repository.size());
         System.out.println("Selectable candidates: " + candidateIds.size());
         System.out.println("K values: " + formatArray(activeKValues));
+        System.out.println("Population sizes: " + formatArray(uniquePopulationSizes(activeConfigurations)));
+        System.out.println("Mutation rates: " + formatArray(uniqueMutationRates(activeConfigurations)));
+        System.out.println("Crossover rates: " + formatArray(uniqueCrossoverRates(activeConfigurations)));
         System.out.println("GA configurations: " + activeConfigurations.size());
-        System.out.println("Seeds per configuration: " + activeSeeds.length);
-        System.out.println("Calibration runs per K: " + activeCalibrationSeeds.length);
+        System.out.println("Seeds: " + formatArray(activeSeeds));
+        System.out.println("Calibration seeds: " + formatArray(activeCalibrationSeeds));
         System.out.println("Demand source: precomputed candidate_points.csv demandScore");
 
         for (int k : activeKValues) {
@@ -781,9 +958,14 @@ public class ParameterAnalyzer {
 
         int totalGridRuns = activeKValues.length * activeConfigurations.size() * activeSeeds.length;
         int totalCalibrationRuns = activeKValues.length * activeCalibrationSeeds.length;
+        int grandTotalRuns = totalGridRuns + totalCalibrationRuns;
 
-        System.out.println("Grid SPEA2 runs: " + totalGridRuns);
-        System.out.println("Calibration SPEA2 runs: " + totalCalibrationRuns);
+        System.out.println("Active GA configuration count: " + activeConfigurations.size());
+        System.out.println("Total grid runs for this execution: " + totalGridRuns);
+        System.out.println("Total calibration runs for this execution: " + totalCalibrationRuns);
+        System.out.println("Grand total SPEA2 runs for this execution: " + grandTotalRuns);
+        System.out.println("Output directory: " + OUTPUT_DIRECTORY.toAbsolutePath());
+        System.out.println("Results CSV: " + resultPath.toAbsolutePath());
         System.out.println();
     }
 

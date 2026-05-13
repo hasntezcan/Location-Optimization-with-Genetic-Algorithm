@@ -34,4 +34,12 @@ output/archive_comparison_latest.png
 
 # Generated UI mock/result files
 parcel-locker-ui/public/mock/ga-results.json
-parcel-locker-ui/public/mock/archive_comparison_latest.png
+parcel-locker-ui/public/mock/archive_comparison_latest.pngoutput_k10/
+output_k15/
+output_k5/
+output_last/
+
+output_k10/
+output_k15/
+output_k5/
+output_last/

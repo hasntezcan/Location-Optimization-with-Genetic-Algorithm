@@ -115,6 +115,55 @@ plt.tight_layout()
 plt.savefig(os.path.join(output_dir, '3_3_marginal_f1_reduction.png'), bbox_inches='tight')
 plt.close()
 
+
+# Plot 3B: 3_3b_marginal_f2_reduction.png
+# Marginal equity-objective improvement across K transitions
+# Lower Best_f2_mean is better, so reduction is computed as:
+# (previous_f2 - current_f2) / previous_f2 * 100
+
+f2_values = {
+    k: sel_merged[sel_merged['K'] == k]['Best_f2_mean'].values[0]
+    for k in k_values
+}
+
+f2_reductions = []
+f2_labels = []
+
+for i in range(len(k_values) - 1):
+    prev_k = k_values[i]
+    curr_k = k_values[i + 1]
+
+    prev_f2 = f2_values[prev_k]
+    curr_f2 = f2_values[curr_k]
+
+    red = (prev_f2 - curr_f2) / prev_f2 * 100
+    f2_reductions.append(red)
+    f2_labels.append(f'{prev_k}→{curr_k}')
+
+fig, ax = plt.subplots(figsize=(8, 6), dpi=300)
+bars = ax.bar(f2_labels, f2_reductions)
+
+for bar, val in zip(bars, f2_reductions):
+    ax.text(
+        bar.get_x() + bar.get_width() / 2,
+        bar.get_height(),
+        f'{val:.2f}%',
+        ha='center',
+        va='bottom'
+    )
+
+ax.set_xlabel('K Transition')
+ax.set_ylabel('Relative Best f2 Reduction (%)')
+ax.set_title('Marginal f2 Reduction Across K Transitions')
+ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig(
+    os.path.join(output_dir, '3_3b_marginal_f2_reduction.png'),
+    bbox_inches='tight'
+)
+plt.close()
+
 # Plot 4: 3_4_best_f2_vs_k.png
 fig, ax = plt.subplots(figsize=(8, 6), dpi=300)
 f2_mean = sel_merged['Best_f2_mean'].values
