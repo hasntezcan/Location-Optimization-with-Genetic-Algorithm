@@ -101,19 +101,19 @@ const ExistingLockerMarkers = memo(function ExistingLockerMarkers({
           <Popup>
             <div className="locker-popup space-y-1">
               <p className="text-[13px] font-semibold text-rose-700 leading-tight">
-                Existing Lockers
+                Mevcut dolaplar
               </p>
               <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
                 {cluster.neighborhood}
               </p>
               <div className="grid grid-cols-2 gap-1.5 pt-1">
                 <div className="rounded-lg bg-rose-50 px-2 py-1.5 text-center">
-                  <p className="text-[8px] font-semibold uppercase tracking-wider text-rose-400">Total Count</p>
+                  <p className="text-[8px] font-semibold uppercase tracking-wider text-rose-400">Toplam sayı</p>
                   <p className="text-[10px] font-bold text-rose-700">{cluster.lockerCount}</p>
                 </div>
                 <div className="rounded-lg bg-slate-50 px-2 py-1.5 text-center">
-                  <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-400">Grid Area</p>
-                  <p className="text-[10px] font-medium text-slate-700">{cluster.gridPoints} cells</p>
+                  <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-400">Izgara alanı</p>
+                  <p className="text-[10px] font-medium text-slate-700">{cluster.gridPoints} hücre</p>
                 </div>
               </div>
             </div>
@@ -231,7 +231,7 @@ export function LockerMap({
     return (
       <div className="h-full min-h-[350px] rounded-[30px] border border-white/60 bg-white/55 p-3 shadow-[0_12px_35px_rgba(15,23,42,0.06)] backdrop-blur-xl">
         <div className="flex h-full items-center justify-center rounded-[26px] border border-slate-200/40 bg-white/55">
-          <p className="text-sm text-slate-500">Loading map...</p>
+          <p className="text-sm text-slate-500">Harita yükleniyor...</p>
         </div>
       </div>
     );
@@ -244,32 +244,32 @@ export function LockerMap({
 
         <div className="absolute bottom-4 left-4 z-[600] max-w-[200px] rounded-2xl border border-white/70 bg-white/72 px-4 py-3 shadow-[0_10px_25px_rgba(15,23,42,0.08)] backdrop-blur-xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-            Archive solution
+            Seçili öneri
           </p>
           <div className="mt-1 flex items-center gap-2">
             <p className="text-sm font-semibold text-slate-900">
-              Solution #{currentGeneration.id}
+              Öneri #{currentGeneration.id}
             </p>
             {currentGeneration.isPareto && (
               <span className="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
-                Pareto Front
+                Uygun alternatif
               </span>
             )}
           </div>
           <p className="mt-1 text-xs text-slate-600">
-            {safeLockers.length} visible lockers
+            {safeLockers.length} önerilen dolap
           </p>
           <div className="mt-2 flex flex-col gap-1">
-            <div className="flex items-center gap-1.5"><div className="h-2.5 w-2.5 rounded-full bg-blue-600 border border-blue-900/30"></div><span className="text-[9px] text-slate-500">Proposed</span></div>
-            <div className="flex items-center gap-1.5"><div className="h-2.5 w-2.5 rounded-full bg-rose-500 border border-rose-800/30"></div><span className="text-[9px] text-slate-500">Existing</span></div>
-            <div className="flex items-center gap-1.5"><div className="h-2 w-2 rounded-full bg-slate-400/30"></div><span className="text-[9px] text-slate-500">Candidates</span></div>
+            <div className="flex items-center gap-1.5"><div className="h-2.5 w-2.5 rounded-full bg-blue-600 border border-blue-900/30"></div><span className="text-[9px] text-slate-500">Önerilen dolap</span></div>
+            <div className="flex items-center gap-1.5"><div className="h-2.5 w-2.5 rounded-full bg-rose-500 border border-rose-800/30"></div><span className="text-[9px] text-slate-500">Mevcut dolap</span></div>
+            <div className="flex items-center gap-1.5"><div className="h-2 w-2 rounded-full bg-slate-400/30"></div><span className="text-[9px] text-slate-500">Aday nokta</span></div>
           </div>
         </div>
 
         {safeSelectedLocker ? (
           <div className="absolute bottom-4 right-4 z-[600] max-w-[180px] rounded-2xl border border-white/70 bg-white/72 px-4 py-3 shadow-[0_10px_25px_rgba(15,23,42,0.08)] backdrop-blur-xl">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-              Active selection
+              Seçili öneri noktası
             </p>
             <p className="mt-1 text-sm font-semibold text-slate-900">
               {safeSelectedLocker.name}
@@ -336,15 +336,15 @@ export function LockerMap({
                     </p>
                     <div className="grid grid-cols-3 gap-1.5 pt-1">
                       <div className="rounded-lg bg-slate-50 px-2 py-1.5 text-center">
-                        <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-400">Lat</p>
+                        <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-400">Enlem</p>
                         <p className="text-[10px] font-medium text-slate-700 mt-0.5">{locker.lat.toFixed(4)}</p>
                       </div>
                       <div className="rounded-lg bg-slate-50 px-2 py-1.5 text-center">
-                        <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-400">Lng</p>
+                        <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-400">Boylam</p>
                         <p className="text-[10px] font-medium text-slate-700 mt-0.5">{locker.lng.toFixed(4)}</p>
                       </div>
                       <div className="rounded-lg bg-slate-50 px-2 py-1.5 text-center">
-                        <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-400">Order</p>
+                        <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-400">Sıra</p>
                         <p className="text-[10px] font-medium text-slate-700 mt-0.5">{String(index + 1).padStart(2, "0")}</p>
                       </div>
                     </div>

@@ -40,11 +40,11 @@ export async function runGaOptimization(
     });
 
     if (!response.ok) {
-      throw new Error("Failed to start optimization stream");
+      throw new Error("Konum önerisi oluşturma akışı başlatılamadı");
     }
 
     if (!response.body) {
-      throw new Error("No response body");
+      throw new Error("Sunucudan öneri yanıtı alınamadı");
     }
 
     const reader = response.body.getReader();

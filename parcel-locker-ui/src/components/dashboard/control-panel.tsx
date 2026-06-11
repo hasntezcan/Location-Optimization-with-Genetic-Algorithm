@@ -182,7 +182,7 @@ export function ControlPanel({
         <div className="flex items-center justify-between gap-3">
           <span className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 shadow-sm">
             <SlidersHorizontal size={14} />
-            Controls
+            Planlama Ayarları
           </span>
         </div>
 
@@ -191,12 +191,12 @@ export function ControlPanel({
             <div className="flex items-center justify-between">
               <div>
                 <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                  Locker Count (k)
+                  Kaç dolap yerleştirilecek?
                 </label>
-                <div className="text-[9px] text-slate-400 mt-0.5">min 1, max 20 lockers</div>
+                <div className="text-[9px] text-slate-400 mt-0.5">Planlamak istediğiniz yeni dolap sayısını girin.</div>
               </div>
               <span className="rounded-lg bg-indigo-600 px-2 py-1 text-[11px] font-bold text-white">
-                Active: {lockerCount}
+                Seçili: {lockerCount}
               </span>
             </div>
             <div className="mt-4 flex items-center gap-3">
@@ -221,11 +221,11 @@ export function ControlPanel({
                     : "bg-indigo-600 hover:bg-indigo-700"
                 }`}
               >
-                {isOptimizing ? "Optimizing..." : "Run Optimization"}
+                {isOptimizing ? "Öneriler hazırlanıyor..." : "Konum önerilerini oluştur"}
               </button>
             </div>
             <p className="mt-2 text-[10px] text-slate-400">
-              * Changing parameters requires re-running the optimization.
+              * Dolap sayısını değiştirdikten sonra yeni öneriler oluşturabilirsiniz.
             </p>
           </div>
 
@@ -233,21 +233,21 @@ export function ControlPanel({
             <div className="flex items-start justify-between gap-3">
               <div>
                 <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                  MCDA Decision Selector
+                  Öncelik Seçimi
                 </label>
                 <p className="mt-2 text-[11px] leading-5 text-slate-500">
-                  Current Solution browses archive solutions sequentially. MCDA selects the best Pareto solution according to the selected Accessibility-Inequity preference.
+                  Alternatif öneriler arasından işletme önceliğinize en uygun sonucu seçin.
                 </p>
               </div>
               <span className="shrink-0 rounded-lg bg-emerald-50 px-2 py-1 text-[10px] font-bold text-emerald-700">
-                {paretoSolutionCount} Pareto
+                {paretoSolutionCount} alternatif
               </span>
             </div>
 
             <div className="mt-4">
               <div className="grid min-h-4 grid-cols-2 gap-3 text-[10px] font-bold tabular-nums text-slate-500">
-                <span className="whitespace-nowrap text-left">Accessibility: {accessibilityWeight}%</span>
-                <span className="whitespace-nowrap text-right">Inequity: {inequityWeight}%</span>
+                <span className="whitespace-nowrap text-left">Yakınlık önceliği: {accessibilityWeight}%</span>
+                <span className="whitespace-nowrap text-right">Denge önceliği: {inequityWeight}%</span>
               </div>
               <input
                 type="range"
@@ -260,9 +260,9 @@ export function ControlPanel({
                 className="mt-3 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-slate-200 accent-emerald-600 disabled:opacity-50"
               />
               <div className="mt-2 flex justify-between text-[9px] font-semibold uppercase tracking-wider text-slate-400">
-                <span>Accessibility</span>
-                <span>Equal</span>
-                <span>Inequity</span>
+                <span>Müşteriye Yakınlık</span>
+                <span>Dengeli</span>
+                <span>Bölgesel Denge</span>
               </div>
             </div>
 
@@ -280,11 +280,11 @@ export function ControlPanel({
                   : "cursor-not-allowed bg-slate-400"
               }`}
             >
-              Run MCDA
+              En uygun öneriyi seç
             </button>
             <p className="mt-2 min-h-[14px] text-[10px] text-slate-400">
               {paretoSolutionCount === 0
-                ? "Run optimization to generate Pareto solutions before using MCDA."
+                ? "Öncelik seçimini kullanmak için önce konum önerilerini oluşturun."
                 : ""}
             </p>
           </div>
@@ -292,22 +292,22 @@ export function ControlPanel({
           <div className={panelCardClass}>
             <div className="flex items-center justify-between">
               <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Current Solution
+                Öneri Alternatifleri
               </label>
               <div className="flex flex-wrap items-center justify-end gap-2">
                 {isBestF1 && (
                   <span className="rounded-lg bg-blue-500 px-2 py-1 text-[10px] font-bold text-white shadow-sm">
-                    BEST ACCESSIBILITY
+                    YAKINLIK ODAKLI
                   </span>
                 )}
                 {isBestF2 && (
                   <span className="rounded-lg bg-emerald-600 px-2 py-1 text-[10px] font-bold text-white shadow-sm">
-                    BEST INEQUITY
+                    DENGE ODAKLI
                   </span>
                 )}
                 {isCurrentSolutionPareto && !isBestF1 && !isBestF2 && (
                   <span className="rounded-lg bg-emerald-500 px-2 py-1 text-[10px] font-bold text-white animate-pulse">
-                    PARETO
+                    ÖNE ÇIKAN
                   </span>
                 )}
                 <span className="rounded-lg bg-slate-900 px-2 py-1 text-[11px] font-bold text-white">
@@ -321,7 +321,7 @@ export function ControlPanel({
                 type="button"
                 onClick={onPrevGeneration}
                 disabled={safeCurrentGeneration === 0}
-                aria-label="Previous solution"
+                aria-label="Önceki öneri"
                 className={iconButtonClass}
               >
                 <ChevronLeft size={16} />
@@ -342,7 +342,7 @@ export function ControlPanel({
                 type="button"
                 onClick={onNextGeneration}
                 disabled={safeCurrentGeneration >= safeGenerationCount - 1}
-                aria-label="Next solution"
+                aria-label="Sonraki öneri"
                 className={iconButtonClass}
               >
                 <ChevronRight size={16} />
@@ -353,12 +353,12 @@ export function ControlPanel({
           <div className={panelCardClass}>
             <div className="flex items-center justify-between">
               <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Playback Control
+                Alternatifleri Otomatik Gez
               </label>
               <button
                 type="button"
                 onClick={onTogglePlayback}
-                aria-label={isPlaying ? "Stop playback" : "Start auto-play"}
+                aria-label={isPlaying ? "Otomatik oynatmayı durdur" : "Otomatik oynatmayı başlat"}
                 className={`flex h-10 w-28 items-center justify-center gap-2 rounded-lg text-xs font-bold transition ${
                   isPlaying 
                     ? "bg-rose-500 text-white shadow-[0_4px_12px_rgba(244,63,94,0.3)]" 
@@ -366,13 +366,13 @@ export function ControlPanel({
                 }`}
               >
                 {isPlaying ? <Pause size={14} /> : <Play size={14} />}
-                {isPlaying ? "Stop" : "Auto-Play"}
+                {isPlaying ? "Durdur" : "Oynat"}
               </button>
             </div>
             
             <div className="mt-4">
               <div className="flex justify-between text-[10px] font-bold text-slate-400">
-                <span>Speed</span>
+                <span>Hız</span>
                 <span>{playbackSpeed}ms</span>
               </div>
               <input
@@ -395,9 +395,14 @@ export function ControlPanel({
             className="flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white px-3 py-3 text-left shadow-sm transition hover:border-indigo-200 hover:bg-indigo-50/30"
             aria-expanded={showAdvanced}
           >
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
-              Advanced Developer Options
-            </h3>
+            <div>
+              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+                Gelişmiş Teknik Ayarlar
+              </h3>
+              <p className="mt-1 text-[10px] font-medium normal-case tracking-normal text-slate-400">
+                Bu alan yalnızca teknik test ve ince ayar için kullanılır.
+              </p>
+            </div>
             <ChevronDown
               size={16}
               className={`text-slate-400 transition-transform ${showAdvanced ? "rotate-180" : ""}`}
@@ -410,7 +415,7 @@ export function ControlPanel({
                 <div className="space-y-4">
                   <div>
                     <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                      Population Size
+                      Popülasyon boyutu
                     </label>
                     <input
                       type="text"
@@ -427,7 +432,7 @@ export function ControlPanel({
 
                   <div>
                     <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                      Max Generations
+                      Maksimum nesil sayısı
                     </label>
                     <input
                       type="text"
@@ -444,7 +449,7 @@ export function ControlPanel({
 
                   <div>
                     <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                      Mutation Rate
+                      Mutasyon oranı
                     </label>
                     <div className="mt-2 flex items-center gap-3">
                       <input
@@ -465,7 +470,7 @@ export function ControlPanel({
 
                   <div>
                     <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                      Crossover Rate
+                      Çaprazlama oranı
                     </label>
                     <div className="mt-2 flex items-center gap-3">
                       <input
@@ -486,7 +491,7 @@ export function ControlPanel({
 
                   <div>
                     <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                      Archive Size
+                      Arşiv boyutu
                     </label>
                     <input
                       type="text"
@@ -503,14 +508,14 @@ export function ControlPanel({
 
                   <div>
                     <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                      Random Seed (Optional)
+                      Rastgelelik tohumu (opsiyonel)
                     </label>
                     <input
                       type="text"
                       inputMode="numeric"
                       value={randomSeed}
                       onChange={(e) => onRandomSeedChange(e.target.value.replace(/[^0-9]/g, ""))}
-                      placeholder="Auto (Random)"
+                      placeholder="Otomatik (rastgele)"
                       disabled={isOptimizing}
                       className={`${stackedInputClass} text-center tabular-nums`}
                     />
