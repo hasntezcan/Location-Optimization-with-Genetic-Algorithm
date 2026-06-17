@@ -79,8 +79,8 @@ Important root files:
 
 - `pom.xml`: Maven configuration. Uses Java 17. The default `exec:java` entry point is `app.Main`; the `-Panalyze` Maven profile runs `app.ParameterAnalyzer`.
 - `readme.md`: Short quick-start guide.
-- `guide.md`: Older shorter project guide.
-- `General_GUIDE.md`: This file. It is the comprehensive report-source and technical methodology guide.
+- `docs/archive/guide.md`: Older shorter project guide.
+- `docs/archive/General_GUIDE.md`: This file. It is the comprehensive report-source and technical methodology guide.
 - `DEPLOYMENT_PHASE1.md`: Local/container deployment notes for the current process-spawning UI integration.
 - `Dockerfile`: Container image for running the Next.js UI plus Java/Maven/Python toolchain in one service.
 - `docker-compose.yml`: Local Compose wrapper for the Phase 1 container setup, with data/output/mock mounts.
@@ -2422,7 +2422,7 @@ For report writing, project auditing, or continued development, the most useful 
 
 **Core Java pipeline:**
 
-1. `General_GUIDE.md`
+1. `docs/archive/General_GUIDE.md`
 2. `readme.md`
 3. `src/main/java/app/Main.java`
 4. `src/main/java/service/FitnessCalculator.java`

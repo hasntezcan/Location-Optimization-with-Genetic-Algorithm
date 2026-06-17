@@ -54,8 +54,8 @@ Important root files:
 
 - `pom.xml`: Maven configuration. Uses Java 17. Default `exec:java` entry point is `app.Main`; the `-Panalyze` Maven profile runs `app.ParameterAnalyzer`.
 - `readme.md`: quick-start guide.
-- `guide.md`: shorter current project guide.
-- `General_GUIDE.md`: detailed report-oriented technical guide.
+- `docs/archive/guide.md`: archived shorter project guide.
+- `docs/archive/General_GUIDE.md`: archived detailed report-oriented technical guide.
 - `COMPREHENSIVE_PROJECT_GUIDE.md`: this consolidated guide.
 - `DEPLOYMENT_PHASE1.md`: local/container deployment notes for the current process-spawning UI integration.
 - `Dockerfile`: one-service image containing Node, Java 17, Maven, Python, the Java project, and the UI.
@@ -77,8 +77,10 @@ Location-Optimization-with-Genetic-Algorithm
 ├─ docker-compose.yml
 ├─ pom.xml
 ├─ readme.md
-├─ guide.md
-├─ General_GUIDE.md
+├─ docs
+│  └─ archive
+│     ├─ guide.md
+│     └─ General_GUIDE.md
 ├─ COMPREHENSIVE_PROJECT_GUIDE.md
 ├─ requirements.txt
 ├─ data
@@ -180,7 +182,7 @@ Location-Optimization-with-Genetic-Algorithm
          └─ process_ga_data.py
 ```
 
-Some raw GIS inventory entries documented in `General_GUIDE.md` also include:
+Some raw GIS inventory entries documented in `docs/archive/General_GUIDE.md` also include:
 
 ```text
 data/raw/bitirme.qgz
@@ -2412,7 +2414,7 @@ Tech stack:
 - `lucide-react`.
 - OpenStreetMap tiles.
 
-`General_GUIDE.md` documents current versions as Next.js 16, React 19, and Tailwind CSS 4. `parcel-locker-ui/README.md` states the stack generically without version numbers.
+`docs/archive/General_GUIDE.md` documents current versions as Next.js 16, React 19, and Tailwind CSS 4. `parcel-locker-ui/README.md` states the stack generically without version numbers.
 
 The UI is a visual decision-support interface. It can:
 
@@ -3296,13 +3298,13 @@ This section keeps differences rather than deleting them.
    - Current `ParameterAnalyzer` writes only `parameter_analysis_results.csv`, optional smoke output, and `ga_configuration_table.csv`.
 
 5. Raw GIS inventory:
-   - `readme.md` and `General_GUIDE.md` list overlapping but not identical raw/intermediate artifacts under `data/raw`.
+   - `readme.md` and `docs/archive/General_GUIDE.md` list overlapping but not identical raw/intermediate artifacts under `data/raw`.
    - The actual root `data` directory also contains `candidate_points_backup.csv`, `candidate_points_excel.xls`, and `candidate_points.qmd`.
    - Treat `data/raw` as an audit/reproduction inventory rather than a fixed runtime input list.
 
 6. Tech stack version detail:
    - `parcel-locker-ui/README.md` lists the UI stack generically.
-   - `General_GUIDE.md` documents Next.js 16, React 19, and Tailwind CSS 4.
+   - `docs/archive/General_GUIDE.md` documents Next.js 16, React 19, and Tailwind CSS 4.
 
 7. Demand model fallback:
    - Guides state Java falls back to population-only demand when `poi_score` or `demand_final` is absent.
@@ -3317,7 +3319,7 @@ This section keeps differences rather than deleting them.
 For report writing, auditing, or continued development:
 
 1. `COMPREHENSIVE_PROJECT_GUIDE.md`
-2. `General_GUIDE.md`
+2. `docs/archive/General_GUIDE.md`
 3. `readme.md`
 4. `src/main/java/app/Main.java`
 5. `src/main/java/service/FitnessCalculator.java`
@@ -3397,8 +3399,8 @@ The highest-value next engineering improvements are tests, runtime configuration
 The following guide/README files were reviewed and consolidated:
 
 - `readme.md`
-- `guide.md`
-- `General_GUIDE.md`
+- `docs/archive/guide.md`
+- `docs/archive/General_GUIDE.md`
 - `DEPLOYMENT_PHASE1.md`
 - `data/kadikoy_ARTIFACTS_GUIDE.md`
 - `scripts/guide.md`

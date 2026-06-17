@@ -18,44 +18,44 @@ Summary form:
 f1 = sum_i ( demand_i * (minDistKm_i ^ beta) ) / sum_i demand_i
 ```
 
-Implementation: [FitnessCalculator.evaluateF1](src/main/java/service/FitnessCalculator.java)
+Implementation: [FitnessCalculator.evaluateF1](../../src/main/java/service/FitnessCalculator.java)
 
 ### f2: Equity (fairness across neighborhoods)
 - For each neighborhood (mahalle), a demand-weighted mean accessibility cost is computed.
 - The **coefficient of variation** (CV = std / mean) across neighborhood means is used.
 
-Implementation: [FitnessCalculator.evaluateF2](src/main/java/service/FitnessCalculator.java)
+Implementation: [FitnessCalculator.evaluateF2](../../src/main/java/service/FitnessCalculator.java)
 
 ## High-Level Flow
 
 ### 1) Data preparation (Python)
 - `scripts/prepare_demand.py` computes the `poi_score` and `demand_final` columns (overwrites the CSV).
-- Details: [scripts/guide.md](scripts/guide.md)
+- Details: [scripts/guide.md](../../scripts/guide.md)
 
 ### 2) Artifacts (distance matrix)
 - `data/kadikoy_distance_meters_nxn.npy` is the distance matrix.
 - The indexing order is **candidate id ascending**.
-- The Java side maintains this alignment via [CandidateRepository.finalizeRepository](src/main/java/model/CandidateRepository.java).
+- The Java side maintains this alignment via [CandidateRepository.finalizeRepository](../../src/main/java/model/CandidateRepository.java).
 - Forbidden candidates remain in the CSV and distance matrix as demand grid
   points. The GA selection universe is filtered with
   `CandidateRepository.getSelectableCandidateIds()`, so `is_forbidden = 1`
   rows cannot be chosen as locker locations.
-- Details: [kadikoy_ARTIFACTS_GUIDE.md](data/kadikoy_ARTIFACTS_GUIDE.md)
+- Details: [kadikoy_ARTIFACTS_GUIDE.md](../../data/kadikoy_ARTIFACTS_GUIDE.md)
 
 ### 3) SPEA2 optimization (Java)
-Entry point: [app.Main](src/main/java/app/Main.java)
+Entry point: [app.Main](../../src/main/java/app/Main.java)
 
 Flow (summary):
 - Load CSV → finalize repository
 - Load NPY distance matrix
 - Initialize population (`PopulationInitializer`)
 - Evaluate (merge population + archive):
-  - objective evaluation ([FitnessCalculator](src/main/java/service/FitnessCalculator.java))
-  - normalization for SPEA2 internals ([ObjectiveNormalizer](src/main/java/service/ObjectiveNormalizer.java))
-  - strength/rawFitness/density/totalFitness ([Evaluate](src/main/java/algorithm/Evaluate.java))
-- Survivor (archive selection) ([Survivor](src/main/java/algorithm/Survivor.java))
-- Selection (binary tournament) ([Selection](src/main/java/algorithm/Selection.java))
-- Variation (crossover/mutation/repair) ([Variation](src/main/java/algorithm/Variation.java))
+  - objective evaluation ([FitnessCalculator](../../src/main/java/service/FitnessCalculator.java))
+  - normalization for SPEA2 internals ([ObjectiveNormalizer](../../src/main/java/service/ObjectiveNormalizer.java))
+  - strength/rawFitness/density/totalFitness ([Evaluate](../../src/main/java/algorithm/Evaluate.java))
+- Survivor (archive selection) ([Survivor](../../src/main/java/algorithm/Survivor.java))
+- Selection (binary tournament) ([Selection](../../src/main/java/algorithm/Selection.java))
+- Variation (crossover/mutation/repair) ([Variation](../../src/main/java/algorithm/Variation.java))
 
 ## Normalization and Hypervolume
 
@@ -76,8 +76,8 @@ Current behavior:
   final HV.
 
 Related code:
-- [Main](src/main/java/app/Main.java)
-- [HypervolumeIndicator](src/main/java/service/HypervolumeIndicator.java)
+- [Main](../../src/main/java/app/Main.java)
+- [HypervolumeIndicator](../../src/main/java/service/HypervolumeIndicator.java)
 
 ## Running
 
@@ -95,7 +95,7 @@ python3 scripts/plot_archives.py
 
 ### Hyperparameter grid search
 
-For [ParameterAnalyzer](src/main/java/app/ParameterAnalyzer.java):
+For [ParameterAnalyzer](../../src/main/java/app/ParameterAnalyzer.java):
 
 ```bash
 mvn -q compile exec:java -Panalyze
@@ -163,10 +163,10 @@ not isolated.
 ## Related Guides
 
 - Comprehensive technical guide: [General_GUIDE.md](General_GUIDE.md)
-- Java package guide: [SRC_GUIDE.MD](src/main/java/SRC_GUIDE.MD)
-- Python scripts (all): [scripts/guide.md](scripts/guide.md)
-- Distance matrix contract: [kadikoy_ARTIFACTS_GUIDE.md](data/kadikoy_ARTIFACTS_GUIDE.md)
-- ParameterAnalyzer guide: [analyse_guide.md](src/main/java/analyse_guide.md)
-- Backend integration: [backend_guide.md](src/main/java/app/backend_guide.md)
-- UI dashboard: [parcel-locker-ui/README.md](parcel-locker-ui/README.md)
-- Phase 1 deployment: [DEPLOYMENT_PHASE1.md](DEPLOYMENT_PHASE1.md)
+- Java package guide: [SRC_GUIDE.MD](../../src/main/java/SRC_GUIDE.MD)
+- Python scripts (all): [scripts/guide.md](../../scripts/guide.md)
+- Distance matrix contract: [kadikoy_ARTIFACTS_GUIDE.md](../../data/kadikoy_ARTIFACTS_GUIDE.md)
+- ParameterAnalyzer guide: [analyse_guide.md](../../src/main/java/analyse_guide.md)
+- Backend integration: [backend_guide.md](../../src/main/java/app/backend_guide.md)
+- UI dashboard: [parcel-locker-ui/README.md](../../parcel-locker-ui/README.md)
+- Phase 1 deployment: [DEPLOYMENT_PHASE1.md](../../DEPLOYMENT_PHASE1.md)

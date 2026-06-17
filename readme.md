@@ -139,8 +139,10 @@ Location-Optimization-with-Genetic-Algorithm
 ├─ docker-compose.yml
 ├─ pom.xml
 ├─ readme.md
-├─ General_GUIDE.md
-├─ guide.md
+├─ docs
+│  └─ archive
+│     ├─ General_GUIDE.md
+│     └─ guide.md
 ├─ requirements.txt
 │
 ├─ data
