@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AgentationDev } from "@/components/agentation";
 
 export const metadata: Metadata = {
   title: "Kargo Dolabı Lokasyon Öneri Paneli",
@@ -11,7 +12,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="tr">
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        {children}
+        <AgentationDev />
+      </body>
     </html>
   );
 }
