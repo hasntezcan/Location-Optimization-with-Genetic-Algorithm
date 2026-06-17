@@ -36,7 +36,7 @@ export function solutionToUiLockers(solution: ArchiveSolution | null): Locker[] 
 
   return solution.lockers.map((locker, index) => ({
     id: locker.id,
-    name: `Locker ${String(index + 1).padStart(2, "0")}`,
+    name: `Dolap ${String(index + 1).padStart(2, "0")}`,
     lat: locker.lat,
     lng: locker.lng,
     neighborhood: locker.neighborhood,

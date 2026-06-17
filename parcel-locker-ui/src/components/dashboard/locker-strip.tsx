@@ -69,7 +69,7 @@ export function LockerStrip({
                   isSelected ? "text-slate-300" : "text-slate-400"
                 }`}
               >
-                Locker
+                Önerilen dolap
               </span>
 
               <span
@@ -79,7 +79,7 @@ export function LockerStrip({
                     : "bg-slate-100/90 text-slate-600 group-hover:bg-sky-50 group-hover:text-sky-700"
                 }`}
               >
-                {isSelected ? "Selected" : "View"}
+                {isSelected ? "Seçili" : "Görüntüle"}
               </span>
             </div>
           </button>
