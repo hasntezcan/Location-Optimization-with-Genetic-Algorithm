@@ -145,7 +145,7 @@ export function ControlPanel({
   isBestF2 = false,
 }: ControlPanelProps) {
 
-  const lockerInput = useNumericInput(lockerCount, onLockerCountChange, 1, 20);
+  const lockerInput = useNumericInput(lockerCount, onLockerCountChange, 1, 30);
   const popInput = useNumericInput(populationSize, onPopulationSizeChange, 10, 300);
   const genInput = useNumericInput(maxGenerations, onMaxGenerationsChange, 1, 5000);
   const archInput = useNumericInput(archiveSize, onArchiveSizeChange, 5, 300);

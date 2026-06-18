@@ -15,6 +15,7 @@ import { selectMcdaSolution } from "@/lib/mcda";
 import {
   getCurrentSolution,
   getOptimalParams,
+  MIN_MAX_GENERATIONS,
   getParetoSolutionCount,
   solutionToUiLockers,
 } from "@/lib/solution-utils";
@@ -66,19 +67,23 @@ function localizeErrorMessage(message: string): string {
     .replace(/Python script failed with exit code (\d+)/, "Yardımcı işlem $1 çıkış koduyla başarısız oldu");
 }
 
+const INITIAL_LOCKER_COUNT = 5;
+const INITIAL_GA_PARAMS = getOptimalParams(INITIAL_LOCKER_COUNT);
+
 export default function HomePage() {
   const [dashboardMode, setDashboardMode] = useState<DashboardMode>("user");
-  const [inputLockerCount, setInputLockerCount] = useState(5);
-  const [populationSize, setPopulationSize] = useState(100);
-  const [maxGenerations, setMaxGenerations] = useState(200);
+  const [inputLockerCount, setInputLockerCount] = useState(INITIAL_LOCKER_COUNT);
+  const [populationSize, setPopulationSize] = useState(INITIAL_GA_PARAMS.popSize);
+  const [maxGenerations, setMaxGenerations] = useState(INITIAL_GA_PARAMS.maxGenerations);
 
-  const [mutationRate, setMutationRate] = useState(0.1);
-  const [crossoverRate, setCrossoverRate] = useState(0.9);
+  const [mutationRate, setMutationRate] = useState(INITIAL_GA_PARAMS.mutationRate);
+  const [crossoverRate, setCrossoverRate] = useState(INITIAL_GA_PARAMS.crossoverRate);
 
-  const [archiveSize, setArchiveSize] = useState(50);
+  const [archiveSize, setArchiveSize] = useState(INITIAL_GA_PARAMS.archiveSize);
   const [randomSeed, setRandomSeed] = useState("");
+  const [includeExistingLockers, setIncludeExistingLockers] = useState(true);
 
-  const [, setActiveLockerCount] = useState(5);
+  const [, setActiveLockerCount] = useState(INITIAL_LOCKER_COUNT);
 
   const [candidates, setCandidates] = useState<CandidatePoint[]>([]);
   const [boundary, setBoundary] = useState<GeoJSON.FeatureCollection | null>(null);
@@ -204,8 +209,25 @@ export default function HomePage() {
   }, [lockersForDisplay]);
 
   const handleShowResults = async () => {
-    const clamped = Math.max(1, Math.min(inputLockerCount, 20));
+    const clamped = Math.max(1, Math.min(inputLockerCount, 30));
+    const userModeParams = getOptimalParams(clamped);
+    const runPopulationSize = dashboardMode === "user" ? userModeParams.popSize : populationSize;
+    const runMaxGenerations = Math.max(
+      MIN_MAX_GENERATIONS,
+      dashboardMode === "user" ? userModeParams.maxGenerations : maxGenerations
+    );
+    const runMutationRate = dashboardMode === "user" ? userModeParams.mutationRate : mutationRate;
+    const runCrossoverRate = dashboardMode === "user" ? userModeParams.crossoverRate : crossoverRate;
+    const runArchiveSize = dashboardMode === "user" ? userModeParams.archiveSize : archiveSize;
+
     setInputLockerCount(clamped);
+    if (dashboardMode === "user") {
+      setPopulationSize(runPopulationSize);
+      setMaxGenerations(runMaxGenerations);
+      setMutationRate(runMutationRate);
+      setCrossoverRate(runCrossoverRate);
+      setArchiveSize(runArchiveSize);
+    }
     setIsOptimizing(true);
     setStatusMessage(null);
     setOptimizationStage("Starting");
@@ -222,12 +244,13 @@ export default function HomePage() {
       await runGaOptimization(
         {
           k: clamped,
-          populationSize,
-          maxGenerations,
-          mutationRate,
-          crossoverRate,
-          archiveSize,
+          populationSize: runPopulationSize,
+          maxGenerations: runMaxGenerations,
+          mutationRate: runMutationRate,
+          crossoverRate: runCrossoverRate,
+          archiveSize: runArchiveSize,
           randomSeed: randomSeed ? parseInt(randomSeed, 10) : null,
+          includeExistingLockers,
         },
         {
           onProgress: (data) => {
@@ -412,6 +435,7 @@ export default function HomePage() {
             archiveSolutions={archiveSolutions}
             controlState={{
               lockerCount: inputLockerCount,
+              includeExistingLockers,
               populationSize,
               maxGenerations,
               mutationRate,
@@ -428,6 +452,7 @@ export default function HomePage() {
             }}
             controlActions={{
               onLockerCountChange: handleLockerCountChange,
+              onIncludeExistingLockersChange: setIncludeExistingLockers,
               onPopulationSizeChange: setPopulationSize,
               onMaxGenerationsChange: setMaxGenerations,
               onMutationRateChange: setMutationRate,
@@ -466,12 +491,14 @@ export default function HomePage() {
             currentSolution={currentSolution}
             controlState={{
               lockerCount: inputLockerCount,
+              includeExistingLockers,
               isOptimizing,
               mcdaPreference,
               paretoSolutionCount,
             }}
             controlActions={{
               onLockerCountChange: handleLockerCountChange,
+              onIncludeExistingLockersChange: setIncludeExistingLockers,
               onShowResults: handleShowResults,
               onMcdaPreferenceChange: handleUserMcdaPreferenceChange,
             }}

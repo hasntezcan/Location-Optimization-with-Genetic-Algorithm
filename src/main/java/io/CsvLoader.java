@@ -50,6 +50,9 @@ public class CsvLoader {
             Map<String, Integer> headerIndex = buildHeaderIndex(splitCsvLine(headerLine));
             boolean hasPoiScore = headerIndex.containsKey("poi_score");
             boolean hasDemandFinal = headerIndex.containsKey("demand_final");
+            String nearbyLockerColumn = headerIndex.containsKey("nearby_locker_count")
+                    ? "nearby_locker_count"
+                    : (headerIndex.containsKey("locker_count") ? "locker_count" : null);
 
             String line;
             int lineNumber = 1;
@@ -69,6 +72,11 @@ public class CsvLoader {
                 double demandScore = hasDemandFinal
                         ? parseDoubleField(parts, headerIndex, "demand_final", lineNumber)
                         : population;
+                int nearbyLockerCount = nearbyLockerColumn == null
+                        ? 0
+                        : parseIntField(parts, headerIndex, nearbyLockerColumn, lineNumber);
+                int existingLockerCount = parseOptionalIntField(
+                        parts, headerIndex, "existing_locker_count", lineNumber, 0);
 
                 CandidatePoint candidate = new CandidatePoint(
                         parseIntField(parts, headerIndex, "id", lineNumber),
@@ -86,7 +94,8 @@ public class CsvLoader {
                         parseDoubleField(parts, headerIndex, "lon", lineNumber),
                         parseDoubleField(parts, headerIndex, "lat", lineNumber),
                         parseIntField(parts, headerIndex, "is_forbidden", lineNumber) == 1,
-                        parseIntField(parts, headerIndex, "locker_count", lineNumber),
+                        nearbyLockerCount,
+                        existingLockerCount,
                         parseIntField(parts, headerIndex, "grid_count_by_mahalle", lineNumber),
                         population,
                         poiScore,
@@ -152,5 +161,16 @@ public class CsvLoader {
                                     int lineNumber) {
         String value = getRequiredField(parts, headerIndex, columnName, lineNumber);
         return Double.parseDouble(value);
+    }
+
+    private int parseOptionalIntField(String[] parts,
+                                      Map<String, Integer> headerIndex,
+                                      String columnName,
+                                      int lineNumber,
+                                      int defaultValue) {
+        if (!headerIndex.containsKey(columnName)) {
+            return defaultValue;
+        }
+        return parseIntField(parts, headerIndex, columnName, lineNumber);
     }
 }

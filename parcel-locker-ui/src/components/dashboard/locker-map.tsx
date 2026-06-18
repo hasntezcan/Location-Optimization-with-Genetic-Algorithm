@@ -68,28 +68,18 @@ const BoundaryLayer = memo(function BoundaryLayer({
   return <GeoJSON data={boundary} pane="boundary" style={boundaryStyle} />;
 });
 
-type ExistingCluster = {
-  id: string;
-  neighborhood: string;
-  lat: number;
-  lng: number;
-  lockerCount: number;
-  population: number;
-  gridPoints: number;
-};
-
 const ExistingLockerMarkers = memo(function ExistingLockerMarkers({
-  clusters,
+  candidates,
 }: {
-  clusters: ExistingCluster[];
+  candidates: CandidatePoint[];
 }) {
   return (
     <>
-      {clusters.map((cluster) => (
+      {candidates.map((candidate) => (
         <CircleMarker
-          key={cluster.id}
-          center={[cluster.lat, cluster.lng]}
-          radius={5}
+          key={`existing-${candidate.id}`}
+          center={[candidate.lat, candidate.lng]}
+          radius={candidate.existingLockerCount > 1 ? 7 : 5}
           pane="existingLockers"
           pathOptions={{
             color: "#9f1239",
@@ -101,19 +91,19 @@ const ExistingLockerMarkers = memo(function ExistingLockerMarkers({
           <Popup>
             <div className="locker-popup space-y-1">
               <p className="text-[13px] font-semibold text-rose-700 leading-tight">
-                Mevcut dolaplar
+                Mevcut dolap
               </p>
               <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
-                {cluster.neighborhood}
+                {candidate.neighborhood}
               </p>
               <div className="grid grid-cols-2 gap-1.5 pt-1">
                 <div className="rounded-lg bg-rose-50 px-2 py-1.5 text-center">
                   <p className="text-[8px] font-semibold uppercase tracking-wider text-rose-400">Toplam sayı</p>
-                  <p className="text-[10px] font-bold text-rose-700">{cluster.lockerCount}</p>
+                  <p className="text-[10px] font-bold text-rose-700">{candidate.existingLockerCount}</p>
                 </div>
                 <div className="rounded-lg bg-slate-50 px-2 py-1.5 text-center">
-                  <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-400">Izgara alanı</p>
-                  <p className="text-[10px] font-medium text-slate-700">{cluster.gridPoints} hücre</p>
+                  <p className="text-[8px] font-semibold uppercase tracking-wider text-slate-400">Aday ID</p>
+                  <p className="text-[10px] font-medium text-slate-700">{candidate.id}</p>
                 </div>
               </div>
             </div>
@@ -189,34 +179,13 @@ export function LockerMap({
   );
   const selectedLockerId = safeSelectedLocker?.id ?? null;
 
-  // Aggregate candidate cells with existing-locker counts into neighborhood markers.
-  const existingClusters = useMemo(() => {
-    const clusters: Record<string, { latSum: number; lngSum: number; count: number; lockerCount: number; pop: number }> = {};
-    
-    candidates.forEach((c) => {
-      if (!Number.isFinite(c.lat) || !Number.isFinite(c.lng)) return;
-
-      if (c.lockerCount > 0) {
-        if (!clusters[c.neighborhood]) {
-          clusters[c.neighborhood] = { latSum: 0, lngSum: 0, count: 0, lockerCount: 0, pop: 0 };
-        }
-        clusters[c.neighborhood].latSum += c.lat;
-        clusters[c.neighborhood].lngSum += c.lng;
-        clusters[c.neighborhood].count += 1;
-        clusters[c.neighborhood].lockerCount += c.lockerCount;
-        clusters[c.neighborhood].pop += c.population;
-      }
-    });
-
-    return Object.entries(clusters).map(([neighborhood, data]) => ({
-      id: `existing-cluster-${neighborhood}`,
-      neighborhood,
-      lat: data.latSum / data.count,
-      lng: data.lngSum / data.count,
-      lockerCount: data.lockerCount,
-      population: data.pop,
-      gridPoints: data.count
-    }));
+  const existingLockerCandidates = useMemo(() => {
+    return candidates.filter(
+      (candidate) =>
+        candidate.existingLockerCount > 0 &&
+        Number.isFinite(candidate.lat) &&
+        Number.isFinite(candidate.lng)
+    );
   }, [candidates]);
 
   useEffect(() => {
@@ -298,7 +267,7 @@ export function LockerMap({
 
           <BoundaryLayer boundary={boundary} />
 
-          <ExistingLockerMarkers clusters={existingClusters} />
+          <ExistingLockerMarkers candidates={existingLockerCandidates} />
 
           <CandidateMarkers candidates={candidates} activeIds={activeIds} />
 

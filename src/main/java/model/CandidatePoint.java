@@ -29,7 +29,8 @@ public class CandidatePoint {
     private double lat;
 
     private boolean isForbidden;
-    private int lockerCount;
+    private int nearbyLockerCount;
+    private int existingLockerCount;
 
     private int gridCountByMahalle;
     private double population;
@@ -60,7 +61,8 @@ public class CandidatePoint {
      * @param lon longitude coordinate of the candidate point
      * @param lat latitude coordinate of the candidate point
      * @param isForbidden whether the candidate point is forbidden for locker placement
-     * @param lockerCount number of existing lockers in the candidate's 300m neighborhood
+     * @param nearbyLockerCount number of existing lockers in the candidate's 300m neighborhood
+     * @param existingLockerCount number of physical existing lockers mapped to this candidate
      * @param gridCountByMahalle number of grid points in the same neighborhood
      * @param population estimated population assigned to the candidate point
      * @param poiScore point-of-interest score of the candidate point
@@ -81,7 +83,8 @@ public class CandidatePoint {
                           double lon,
                           double lat,
                           boolean isForbidden,
-                          int lockerCount,
+                          int nearbyLockerCount,
+                          int existingLockerCount,
                           int gridCountByMahalle,
                           double population,
                           double poiScore,
@@ -101,7 +104,8 @@ public class CandidatePoint {
         this.lon = lon;
         this.lat = lat;
         this.isForbidden = isForbidden;
-        this.lockerCount = lockerCount;
+        this.nearbyLockerCount = nearbyLockerCount;
+        this.existingLockerCount = existingLockerCount;
         this.gridCountByMahalle = gridCountByMahalle;
         this.population = population;
         this.poiScore = poiScore;
@@ -383,17 +387,57 @@ public class CandidatePoint {
      *
      * @return locker count
      */
-    public int getLockerCount() {
-        return lockerCount;
+    public int getNearbyLockerCount() {
+        return nearbyLockerCount;
     }
 
     /**
      * Sets the number of existing lockers in the candidate's 300m neighborhood.
      *
-     * @param lockerCount locker count
+     * @param nearbyLockerCount nearby locker count
      */
+    public void setNearbyLockerCount(int nearbyLockerCount) {
+        this.nearbyLockerCount = nearbyLockerCount;
+    }
+
+    /**
+     * Returns the number of physical existing lockers mapped to this candidate.
+     *
+     * @return physical existing locker count
+     */
+    public int getExistingLockerCount() {
+        return existingLockerCount;
+    }
+
+    /**
+     * Sets the number of physical existing lockers mapped to this candidate.
+     *
+     * @param existingLockerCount physical existing locker count
+     */
+    public void setExistingLockerCount(int existingLockerCount) {
+        this.existingLockerCount = existingLockerCount;
+    }
+
+    /**
+     * Backward-compatible alias for the old proximity-count accessor.
+     *
+     * @return nearby locker count
+     * @deprecated use {@link #getNearbyLockerCount()}
+     */
+    @Deprecated
+    public int getLockerCount() {
+        return getNearbyLockerCount();
+    }
+
+    /**
+     * Backward-compatible alias for the old proximity-count mutator.
+     *
+     * @param lockerCount nearby locker count
+     * @deprecated use {@link #setNearbyLockerCount(int)}
+     */
+    @Deprecated
     public void setLockerCount(int lockerCount) {
-        this.lockerCount = lockerCount;
+        setNearbyLockerCount(lockerCount);
     }
 
     /**

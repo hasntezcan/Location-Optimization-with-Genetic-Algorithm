@@ -23,12 +23,14 @@ export type CandidatePoint = {
   poiTransport: number;
   poiBusStop: number;
   isForbidden: boolean;
-  lockerCount: number;
+  nearbyLockerCount: number;
+  existingLockerCount: number;
 };
 
 export type ArchiveSolution = {
   id: number;
   lockers: GenerationLocker[];
+  scenario?: SolutionScenario;
   isPareto?: boolean;
   isBestF1?: boolean;
   isBestF2?: boolean;
@@ -50,6 +52,16 @@ export type GenerationLocker = {
   neighborhood: string;
   score: number;
   source: GenerationSource;
+};
+
+export type SolutionScenario = {
+  includeExistingLockers: boolean;
+  existingPhysicalLockerCount: number;
+  existingLockerCandidateCount: number;
+  effectiveFixedFacilityIdsCount: number;
+  newFacilityCount: number;
+  totalPhysicalLockerCount: number;
+  totalEffectiveFacilityCandidateCount: number;
 };
 
 export type GenerationSnapshot = {

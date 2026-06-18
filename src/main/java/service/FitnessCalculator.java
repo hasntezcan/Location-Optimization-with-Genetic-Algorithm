@@ -4,7 +4,11 @@ import model.CandidatePoint;
 import model.CandidateRepository;
 import model.Individual;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +25,9 @@ public class FitnessCalculator {
     private final CandidateRepository repository;
     private final double totalSystemDemand;
     private final double beta;
+    private final List<Integer> fixedFacilityIds;
+    private final List<Integer> fixedFacilityIndexes;
+    private final double[] nearestFixedFacilityCostByCandidateIndex;
 
     /**
      * Lambda parameter controlling the influence of POI score on demand.
@@ -56,7 +63,23 @@ public class FitnessCalculator {
      * @throws IllegalStateException if the total system demand is not positive
      */
     public FitnessCalculator(double[][] distanceMatrix, CandidateRepository repository, double beta) {
-        this(distanceMatrix, repository, beta, 0.0, false);
+        this(distanceMatrix, repository, beta, Collections.emptyList(), 0.0, false);
+    }
+
+    /**
+     * Creates a fitness calculator with optional fixed existing facilities.
+     *
+     * <p>The fixed IDs are evaluated together with each individual's chromosome,
+     * but they are never written into or used to mutate the chromosome itself.</p>
+     *
+     * @param distanceMatrix precomputed candidate-to-candidate distance matrix
+     * @param repository candidate repository synchronized with the matrix indexing
+     * @param beta distance-decay exponent
+     * @param fixedFacilityIds existing facility candidate IDs
+     */
+    public FitnessCalculator(double[][] distanceMatrix, CandidateRepository repository,
+                             double beta, List<Integer> fixedFacilityIds) {
+        this(distanceMatrix, repository, beta, fixedFacilityIds, 0.0, false);
     }
 
     /**
@@ -77,14 +100,15 @@ public class FitnessCalculator {
      */
     public FitnessCalculator(double[][] distanceMatrix, CandidateRepository repository,
                              double beta, double lambda) {
-        this(distanceMatrix, repository, beta, lambda, true);
+        this(distanceMatrix, repository, beta, Collections.emptyList(), lambda, true);
     }
 
     /**
      * Internal master constructor.
      */
     private FitnessCalculator(double[][] distanceMatrix, CandidateRepository repository,
-                              double beta, double lambda, boolean useDynamicDemand) {
+                              double beta, List<Integer> fixedFacilityIds,
+                              double lambda, boolean useDynamicDemand) {
         if (distanceMatrix == null || distanceMatrix.length == 0) {
             throw new IllegalArgumentException("Distance matrix cannot be null or empty.");
         }
@@ -103,11 +127,23 @@ public class FitnessCalculator {
         this.beta = beta;
         this.lambda = lambda;
         this.useDynamicDemand = useDynamicDemand;
+        this.fixedFacilityIds = normalizeFixedFacilityIds(fixedFacilityIds);
+        this.fixedFacilityIndexes = Collections.unmodifiableList(
+                toMatrixIndexes(this.fixedFacilityIds, "Fixed facility ID"));
+        this.nearestFixedFacilityCostByCandidateIndex = precomputeNearestFixedFacilityCosts();
         this.totalSystemDemand = calculateTotalDemand();
 
         if (this.totalSystemDemand <= 0) {
             throw new IllegalStateException("Total system demand must be greater than 0.");
         }
+    }
+
+    private List<Integer> normalizeFixedFacilityIds(List<Integer> inputIds) {
+        if (inputIds == null || inputIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return Collections.unmodifiableList(new ArrayList<>(new LinkedHashSet<>(inputIds)));
     }
 
     /**
@@ -164,28 +200,59 @@ public class FitnessCalculator {
      * @throws IllegalStateException if a grid or locker ID cannot be mapped
      *                               to a matrix index
      */
-    private double findDistanceCostToNearestLocker(CandidatePoint grid, List<Integer> lockerIds) {
-        int gridIndex = repository.getIndexById(grid.getId());
-        if (gridIndex < 0) {
-            throw new IllegalStateException("Grid ID not found in repository index map: " + grid.getId());
-        }
-
+    private double findDistanceCostToNearestLockerIndex(int gridIndex, List<Integer> lockerIndexes) {
         double minDistanceMetres = Double.MAX_VALUE;
 
-        for (int lockerId : lockerIds) {
-            int lockerIndex = repository.getIndexById(lockerId);
-            if (lockerIndex < 0) {
-                throw new IllegalStateException("Locker ID not found in repository index map: " + lockerId);
-            }
-
+        for (int lockerIndex : lockerIndexes) {
             double currentDistance = distanceMatrix[gridIndex][lockerIndex];
             if (currentDistance < minDistanceMetres) {
                 minDistanceMetres = currentDistance;
             }
         }
 
-        double minDistanceKm = minDistanceMetres / 1000.0;
-        return Math.pow(minDistanceKm, beta);
+        return distanceCostFromMetres(minDistanceMetres);
+    }
+
+    private List<Integer> toMatrixIndexes(List<Integer> candidateIds, String label) {
+        List<Integer> indexes = new ArrayList<>();
+        if (candidateIds == null) {
+            return indexes;
+        }
+
+        for (int candidateId : candidateIds) {
+            int index = repository.getIndexById(candidateId);
+            if (index < 0) {
+                throw new IllegalArgumentException(label + " not found in repository index map: " + candidateId);
+            }
+            indexes.add(index);
+        }
+        return indexes;
+    }
+
+    private double[] precomputeNearestFixedFacilityCosts() {
+        double[] costs = new double[distanceMatrix.length];
+        if (fixedFacilityIndexes.isEmpty()) {
+            Arrays.fill(costs, Double.POSITIVE_INFINITY);
+            return costs;
+        }
+
+        for (int gridIndex = 0; gridIndex < distanceMatrix.length; gridIndex++) {
+            costs[gridIndex] = findDistanceCostToNearestLockerIndex(gridIndex, fixedFacilityIndexes);
+        }
+        return costs;
+    }
+
+    private double distanceCostFromMetres(double distanceMetres) {
+        double distanceKm = distanceMetres / 1000.0;
+        return Math.pow(distanceKm, beta);
+    }
+
+    private int getGridIndex(CandidatePoint grid) {
+        int gridIndex = repository.getIndexById(grid.getId());
+        if (gridIndex < 0) {
+            throw new IllegalStateException("Grid ID not found in repository index map: " + grid.getId());
+        }
+        return gridIndex;
     }
 
     /**
@@ -201,10 +268,14 @@ public class FitnessCalculator {
 
         double weightedDistanceSum = 0.0;
         List<CandidatePoint> allGrids = repository.getAllCandidatesSorted();
-        List<Integer> lockerIds = individual.getChromosome();
+        List<Integer> lockerIndexes = toMatrixIndexes(individual.getChromosome(), "Locker ID");
 
         for (CandidatePoint grid : allGrids) {
-            double distanceCost = findDistanceCostToNearestLocker(grid, lockerIds);
+            int gridIndex = getGridIndex(grid);
+            double newRecommendedCost = findDistanceCostToNearestLockerIndex(gridIndex, lockerIndexes);
+            double distanceCost = Math.min(
+                    nearestFixedFacilityCostByCandidateIndex[gridIndex],
+                    newRecommendedCost);
             weightedDistanceSum += getDemand(grid) * distanceCost;
         }
 
@@ -227,7 +298,7 @@ public class FitnessCalculator {
         validateIndividual(individual);
 
         List<CandidatePoint> allGrids = repository.getAllCandidatesSorted();
-        List<Integer> lockerIds = individual.getChromosome();
+        List<Integer> lockerIndexes = toMatrixIndexes(individual.getChromosome(), "Locker ID");
 
         Map<String, Double> mahalleWeightedCostSum = new HashMap<>();
         Map<String, Double> mahalleDemandSum = new HashMap<>();
@@ -239,7 +310,11 @@ public class FitnessCalculator {
             }
 
             double demand = getDemand(grid);
-            double distanceCost = findDistanceCostToNearestLocker(grid, lockerIds);
+            int gridIndex = getGridIndex(grid);
+            double newRecommendedCost = findDistanceCostToNearestLockerIndex(gridIndex, lockerIndexes);
+            double distanceCost = Math.min(
+                    nearestFixedFacilityCostByCandidateIndex[gridIndex],
+                    newRecommendedCost);
 
             mahalleWeightedCostSum.merge(mahalle, demand * distanceCost, Double::sum);
             mahalleDemandSum.merge(mahalle, demand, Double::sum);

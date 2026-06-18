@@ -13,7 +13,15 @@ export type RunGaRequestBody = {
   crossoverRate?: number;
   archiveSize?: number;
   randomSeed?: number | string | null;
+  fixedFacilityIds?: Array<number | string>;
+  includeExistingLockers?: boolean;
 };
+
+type ResolvedRunGaRequestBody = Omit<RunGaRequestBody, "fixedFacilityIds"> & {
+  fixedFacilityIds: number[];
+};
+
+const MIN_MAX_GENERATIONS = 500;
 
 export type ProcessErrorInfo = {
   message: string;
@@ -49,7 +57,39 @@ function buildMavenExecArgs(body: RunGaRequestBody): string[] {
   if (body.randomSeed !== undefined && body.randomSeed !== null && body.randomSeed !== "") {
     args.push("--randomSeed", String(body.randomSeed));
   }
+  if (body.fixedFacilityIds?.length) {
+    args.push("--fixedFacilityIds", body.fixedFacilityIds.join(","));
+  }
+  if (body.includeExistingLockers) {
+    args.push("--includeExistingLockers");
+  }
   return args;
+}
+
+function normalizeFixedFacilityIds(rawIds: Array<number | string> | undefined): number[] {
+  if (!rawIds?.length) return [];
+
+  const normalized = new Set<number>();
+  for (const rawId of rawIds) {
+    const id = typeof rawId === "number" ? rawId : Number(rawId);
+    if (!Number.isInteger(id) || id <= 0) {
+      throw new Error(`Invalid fixed facility ID: ${String(rawId)}`);
+    }
+    normalized.add(id);
+  }
+  return [...normalized];
+}
+
+async function resolveRunBody(
+  body: RunGaRequestBody
+): Promise<ResolvedRunGaRequestBody> {
+  const fixedFacilityIds = normalizeFixedFacilityIds(body.fixedFacilityIds);
+
+  return {
+    ...body,
+    maxGenerations: Math.max(MIN_MAX_GENERATIONS, body.maxGenerations ?? MIN_MAX_GENERATIONS),
+    fixedFacilityIds,
+  };
 }
 
 async function runJavaGa(
@@ -58,7 +98,8 @@ async function runJavaGa(
   childEnv: NodeJS.ProcessEnv,
   sendEvent: (data: StreamEvent) => void
 ): Promise<void> {
-  const args = buildMavenExecArgs(body);
+  const resolvedBody = await resolveRunBody(body);
+  const args = buildMavenExecArgs(resolvedBody);
 
   console.log(`Running Maven GA with args: ${args.join(" ")}`);
 

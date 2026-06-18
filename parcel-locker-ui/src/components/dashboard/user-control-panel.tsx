@@ -43,14 +43,14 @@ export function UserControlPanel({
 
   const commitLockerCount = (raw: string) => {
     const parsed = Number(raw);
-    const clamped = Number.isFinite(parsed) ? Math.max(1, Math.min(20, parsed)) : 1;
+    const clamped = Number.isFinite(parsed) ? Math.max(1, Math.min(30, parsed)) : 1;
     setCountText(String(clamped));
     onLockerCountChange(clamped);
   };
 
   return (
-    <aside className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/80 p-3 shadow-sm">
-      <div className="flex h-full min-h-0 flex-col gap-3 overflow-hidden">
+    <aside className="flex h-[calc(100%-5px)] min-h-0 w-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/80 p-3 shadow-sm">
+      <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-hidden">
         <div className={cardClass}>
           <label className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
             Kaç konum önerilsin?
@@ -65,7 +65,7 @@ export function UserControlPanel({
                 setCountText(cleaned);
                 if (cleaned !== "") {
                   const parsed = Number(cleaned);
-                  if (parsed >= 1 && parsed <= 20) onLockerCountChange(parsed);
+                  if (parsed >= 1 && parsed <= 30) onLockerCountChange(parsed);
                 }
               }}
               onBlur={() => commitLockerCount(countText)}

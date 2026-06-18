@@ -6,6 +6,8 @@ export type RunGaParams = {
   crossoverRate: number;
   archiveSize: number;
   randomSeed: number | null;
+  fixedFacilityIds?: Array<number | string>;
+  includeExistingLockers?: boolean;
 };
 
 export type GaStreamEvent = {

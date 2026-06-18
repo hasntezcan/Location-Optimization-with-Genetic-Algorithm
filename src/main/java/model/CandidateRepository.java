@@ -81,6 +81,26 @@ public class CandidateRepository {
     }
 
     /**
+     * Returns the candidate point for the given candidate ID.
+     *
+     * @param id candidate ID
+     * @return candidate point, or {@code null} if not found
+     */
+    public CandidatePoint getCandidateById(int id) {
+        return candidateMap.get(id);
+    }
+
+    /**
+     * Checks whether a candidate ID exists in the repository.
+     *
+     * @param id candidate ID
+     * @return true if the repository contains the ID
+     */
+    public boolean containsId(int id) {
+        return candidateMap.containsKey(id);
+    }
+
+    /**
      * Returns the distance-matrix index associated with the given candidate ID.
      *
      * @param id candidate ID
@@ -124,6 +144,63 @@ public class CandidateRepository {
             }
         }
 
+        Collections.sort(ids);
+        return ids;
+    }
+
+    /**
+     * Returns candidate IDs with one or more mapped physical existing lockers.
+     *
+     * <p>This uses only {@code existing_locker_count}; the 300m proximity field
+     * {@code nearby_locker_count} is context data and is never a fixed-facility
+     * source.</p>
+     *
+     * @return sorted candidate IDs where {@code existingLockerCount > 0}
+     */
+    public List<Integer> getCandidateIdsWithExistingLockers() {
+        List<CandidatePoint> source = sortedCandidates.isEmpty()
+                ? new ArrayList<>(candidateMap.values())
+                : sortedCandidates;
+
+        List<Integer> ids = new ArrayList<>();
+        for (CandidatePoint candidate : source) {
+            if (candidate.getExistingLockerCount() > 0) {
+                ids.add(candidate.getId());
+            }
+        }
+
+        Collections.sort(ids);
+        return ids;
+    }
+
+    /**
+     * Returns the total number of mapped physical existing lockers.
+     *
+     * @return sum of {@code existing_locker_count} across all candidates
+     */
+    public int getExistingPhysicalLockerCount() {
+        List<CandidatePoint> source = sortedCandidates.isEmpty()
+                ? new ArrayList<>(candidateMap.values())
+                : sortedCandidates;
+        return source.stream().mapToInt(CandidatePoint::getExistingLockerCount).sum();
+    }
+
+    /**
+     * Returns candidate IDs influenced by an existing locker within 300m.
+     * This contextual set must not be used as fixed facilities.
+     *
+     * @return sorted candidate IDs where {@code nearbyLockerCount > 0}
+     */
+    public List<Integer> getCandidateIdsWithNearbyLockerInfluence() {
+        List<CandidatePoint> source = sortedCandidates.isEmpty()
+                ? new ArrayList<>(candidateMap.values())
+                : sortedCandidates;
+        List<Integer> ids = new ArrayList<>();
+        for (CandidatePoint candidate : source) {
+            if (candidate.getNearbyLockerCount() > 0) {
+                ids.add(candidate.getId());
+            }
+        }
         Collections.sort(ids);
         return ids;
     }

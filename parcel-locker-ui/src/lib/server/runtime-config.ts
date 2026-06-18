@@ -1,6 +1,6 @@
 import path from "path";
 
-const DEFAULT_GA_MAX_RUNTIME_MS = 900000;
+const DEFAULT_GA_MAX_RUNTIME_MS = 60 * 60 * 1000;
 
 export type RuntimeConfig = {
   projectRoot: string;

@@ -22,6 +22,7 @@ UI_MOCK_DIR = resolve_project_path(
     os.environ.get("UI_MOCK_DIR", "parcel-locker-ui/public/mock")
 )
 FINAL_ARCHIVE_CSV = OUTPUT_DIR / "final_archive.csv"
+RUN_METADATA_JSON = OUTPUT_DIR / "run_metadata.json"
 
 CANDIDATE_JSON_DST = UI_MOCK_DIR / "candidate-points.json"
 GA_RESULTS_JSON_DST = UI_MOCK_DIR / "ga-results.json"
@@ -40,6 +41,10 @@ def process_candidates():
             lat = float(row["lat"])
             lng = float(row["lon"])
             neighborhood = row.get("Mahalle_Name_Turkish", row.get("Mahalle_Name_English", ""))
+            nearby_locker_count = int(float(
+                row.get("nearby_locker_count") or row.get("locker_count") or 0
+            ))
+            existing_locker_count = int(float(row.get("existing_locker_count") or 0))
             
             candidate_data = {
                 "id": c_id,
@@ -56,7 +61,8 @@ def process_candidates():
                 "poiTransport": int(float(row.get("poi_transport") or 0)),
                 "poiBusStop": int(float(row.get("poi_bus_stop") or 0)),
                 "isForbidden": str(row.get("is_forbidden", "")).strip() == "1",
-                "lockerCount": int(float(row.get("locker_count") or 0)),
+                "nearbyLockerCount": nearby_locker_count,
+                "existingLockerCount": existing_locker_count,
             }
             
             candidates[c_id] = candidate_data
@@ -86,8 +92,32 @@ def is_non_dominated(current_metrics, all_results):
             return False
     return True
 
+def load_run_metadata():
+    if not RUN_METADATA_JSON.exists():
+        return {}
+
+    with RUN_METADATA_JSON.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
 def process_ga_results(candidates_map):
     raw_results = []
+    run_metadata = load_run_metadata()
+    scenario = {
+        "includeExistingLockers": bool(run_metadata.get("includeExistingLockers")),
+        "existingPhysicalLockerCount": int(run_metadata.get("existingPhysicalLockerCount") or 0),
+        "existingLockerCandidateCount": int(run_metadata.get("existingLockerCandidateCount") or 0),
+        "effectiveFixedFacilityIdsCount": int(run_metadata.get("effectiveFixedFacilityIdsCount") or 0),
+        "newFacilityCount": int(run_metadata.get("newFacilityCount") or run_metadata.get("k") or 0),
+        "totalPhysicalLockerCount": int(
+            run_metadata.get("totalPhysicalLockerCount")
+            or ((run_metadata.get("k") or 0) + (run_metadata.get("existingPhysicalLockerCount") or 0))
+        ),
+        "totalEffectiveFacilityCandidateCount": int(
+            run_metadata.get("totalEffectiveFacilityCandidateCount")
+            or run_metadata.get("totalFacilityCount")
+            or ((run_metadata.get("k") or 0) + (run_metadata.get("effectiveFixedFacilityIdsCount") or 0))
+        )
+    }
     
     if not FINAL_ARCHIVE_CSV.exists():
         print(f"Warning: {FINAL_ARCHIVE_CSV} not found. Skipping GA results.")
@@ -114,7 +144,7 @@ def process_ga_results(candidates_map):
                         "source": "elite"
                     })
 
-            raw_results.append({
+            result = {
                 "id": archive_index,
                 "lockers": lockers,
                 "metrics": {
@@ -124,7 +154,12 @@ def process_ga_results(candidates_map):
                     "norm_f1": float(row.get("norm_f1", 0)),
                     "norm_f2": float(row.get("norm_f2", 0))
                 }
-            })
+            }
+
+            if scenario["includeExistingLockers"] or scenario["effectiveFixedFacilityIdsCount"] > 0:
+                result["scenario"] = scenario
+
+            raw_results.append(result)
 
     # Calculate actual Pareto status
     for res in raw_results:

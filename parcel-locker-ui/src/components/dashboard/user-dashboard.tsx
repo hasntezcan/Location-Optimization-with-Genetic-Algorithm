@@ -16,6 +16,7 @@ export type UserDashboardOptimizationState = {
 
 export type UserDashboardControlState = {
   lockerCount: number;
+  includeExistingLockers: boolean;
   isOptimizing: boolean;
   mcdaPreference: number;
   paretoSolutionCount: number;
@@ -23,6 +24,7 @@ export type UserDashboardControlState = {
 
 export type UserDashboardControlActions = {
   onLockerCountChange: (value: number) => void;
+  onIncludeExistingLockersChange: (value: boolean) => void;
   onShowResults: () => void;
   onMcdaPreferenceChange: (value: number) => void;
 };
@@ -59,9 +61,9 @@ export function UserDashboard({
   optimizationState,
 }: UserDashboardProps) {
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+    <section className="relative rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
       <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-12 lg:col-span-4 lg:h-[calc(100vh-210px)] lg:min-h-[610px]">
+        <div className="col-span-12 lg:col-span-4 lg:flex lg:h-[calc(100vh-180px)] lg:min-h-[640px] lg:items-end lg:justify-end">
           <UserControlPanel
             lockerCount={controlState.lockerCount}
             onLockerCountChange={controlActions.onLockerCountChange}
@@ -84,10 +86,21 @@ export function UserDashboard({
           onSelectLocker={onSelectLocker}
           currentSolution={currentSolution}
           isOptimizing={controlState.isOptimizing}
-          className="col-span-12 lg:col-span-8 lg:h-[calc(100vh-210px)] lg:min-h-[610px]"
+          className="col-span-12 lg:col-span-8 lg:h-[calc(100vh-180px)] lg:min-h-[640px]"
           {...optimizationState}
         />
       </div>
+
+      <label className="absolute bottom-4 right-4 z-20 flex cursor-pointer items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-3 py-2 text-[10px] font-semibold text-slate-700 shadow-sm backdrop-blur-sm">
+        <input
+          type="checkbox"
+          checked={controlState.includeExistingLockers}
+          onChange={(event) => controlActions.onIncludeExistingLockersChange(event.target.checked)}
+          disabled={controlState.isOptimizing}
+          className="h-3.5 w-3.5 rounded border-slate-300 accent-emerald-600 disabled:cursor-not-allowed"
+        />
+        <span>Mevcut dolapları hesaba kat</span>
+      </label>
     </section>
   );
 }

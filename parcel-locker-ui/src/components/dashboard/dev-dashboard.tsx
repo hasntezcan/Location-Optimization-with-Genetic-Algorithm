@@ -23,6 +23,7 @@ function getRecommendationType(solution: ArchiveSolution | null): string {
 
 export type DevDashboardControlState = {
   lockerCount: number;
+  includeExistingLockers: boolean;
   populationSize: number;
   maxGenerations: number;
   mutationRate: number;
@@ -40,6 +41,7 @@ export type DevDashboardControlState = {
 
 export type DevDashboardControlActions = {
   onLockerCountChange: (value: number) => void;
+  onIncludeExistingLockersChange: (value: boolean) => void;
   onPopulationSizeChange: (value: number) => void;
   onMaxGenerationsChange: (value: number) => void;
   onMutationRateChange: (value: number) => void;
@@ -206,7 +208,8 @@ export function DevDashboard({
           />
         </div>
 
-        <DashboardMapPanel
+        <div className="relative col-span-12 xl:col-span-6">
+          <DashboardMapPanel
           candidates={candidates}
           boundary={boundary}
           lockers={lockersForDisplay}
@@ -217,8 +220,20 @@ export function DevDashboard({
           className={`col-span-12 transition-all duration-500 lg:h-[calc(100vh-300px)] lg:min-h-[500px] ${
             focusState.isFocusMode ? "lg:col-span-7" : "lg:col-span-6"
           }`}
-          {...optimizationState}
-        />
+            {...optimizationState}
+          />
+
+          <label className="absolute bottom-4 right-4 z-20 flex cursor-pointer items-center gap-2 rounded-full border border-slate-200/80 bg-white/90 px-3 py-2 text-[10px] font-semibold text-slate-700 shadow-sm backdrop-blur-sm">
+            <input
+              type="checkbox"
+              checked={controlState.includeExistingLockers}
+              onChange={(event) => controlActions.onIncludeExistingLockersChange(event.target.checked)}
+              disabled={controlState.isOptimizing}
+              className="h-3.5 w-3.5 rounded border-slate-300 accent-emerald-600 disabled:cursor-not-allowed"
+            />
+            <span>Mevcut dolapları hesaba kat</span>
+          </label>
+        </div>
 
         <div
           className={`col-span-12 transition-all duration-500 lg:h-[calc(100vh-300px)] lg:min-h-[500px] ${

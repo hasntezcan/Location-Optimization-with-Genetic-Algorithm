@@ -23,7 +23,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Main SPEA2 workflow.
@@ -43,6 +46,8 @@ public class Main {
     private static final String DEFAULT_CANDIDATE_CSV = "data/candidate_points.csv";
     private static final String DEFAULT_DISTANCE_MATRIX = "data/kadikoy_distance_meters_nxn.npy";
     private static final String DEFAULT_OUTPUT_DIRECTORY = "output";
+    private static final int MIN_MAX_GENERATIONS = 500;
+    private static final int MAX_NEW_FACILITIES = 30;
 
     public static void main(String[] args) {
         long startTimeNs = System.nanoTime();
@@ -65,6 +70,8 @@ public class Main {
             double crossoverRate = GAParameters.CROSSOVER_RATE;
             double mutationRate = GAParameters.MUTATION_RATE;
             Long randomSeed = null;
+            List<Integer> manualFixedFacilityIds = new ArrayList<>();
+            boolean includeExistingLockers = false;
 
             for (int i = 0; i < args.length; i++) {
                 switch (args[i]) {
@@ -98,7 +105,36 @@ public class Main {
                     case "--outputDir":
                         outputDirectory = resolvePath(args[++i]);
                         break;
+                    case "--fixedFacilityIds":
+                        if (i + 1 < args.length && !args[i + 1].startsWith("--")) {
+                            manualFixedFacilityIds = parseFixedFacilityIds(args[++i]);
+                        } else {
+                            manualFixedFacilityIds = new ArrayList<>();
+                        }
+                        break;
+                    case "--includeExistingLockers":
+                        includeExistingLockers = true;
+                        break;
+                    default:
+                        if (args[i].startsWith("--fixedFacilityIds=")) {
+                            manualFixedFacilityIds = parseFixedFacilityIds(
+                                    args[i].substring("--fixedFacilityIds=".length()));
+                        }
+                        break;
                 }
+            }
+
+            if (k < 1 || k > MAX_NEW_FACILITIES) {
+                throw new IllegalArgumentException(
+                        "K must be between 1 and " + MAX_NEW_FACILITIES + ": " + k);
+            }
+
+            boolean maxGenerationsWasClamped = maxGenerations < MIN_MAX_GENERATIONS;
+            if (maxGenerationsWasClamped) {
+                System.out.println(
+                        "Max generations clamped from " + maxGenerations +
+                                " to " + MIN_MAX_GENERATIONS + ".");
+                maxGenerations = MIN_MAX_GENERATIONS;
             }
 
             Path initialArchiveCsv = outputDirectory.resolve("initial_archive.csv");
@@ -112,6 +148,17 @@ public class Main {
             repository.finalizeRepository();
 
             System.out.println("Total candidates loaded: " + repository.size());
+
+            validateFixedFacilityIds(manualFixedFacilityIds, repository);
+            List<Integer> existingLockerCandidateIds = includeExistingLockers
+                    ? repository.getCandidateIdsWithExistingLockers()
+                    : new ArrayList<>();
+            int existingPhysicalLockerCount = includeExistingLockers
+                    ? repository.getExistingPhysicalLockerCount()
+                    : 0;
+            List<Integer> effectiveFixedFacilityIds = combineFixedFacilityIds(
+                    existingLockerCandidateIds,
+                    manualFixedFacilityIds);
 
             // 2. Load distance matrix
             double[][] distanceMatrix = distanceMatrixLoader.loadDistanceMatrix(distanceMatrixPath.toString());
@@ -149,6 +196,11 @@ public class Main {
             System.out.println("Crossover rate   : " + crossoverRate);
             System.out.println("Mutation rate    : " + mutationRate);
             System.out.println("Random seed      : " + (randomSeed != null ? randomSeed : "none"));
+            System.out.println("Include existing : " + includeExistingLockers);
+            System.out.println("Existing physical: " + existingPhysicalLockerCount);
+            System.out.println("Existing candidates: " + existingLockerCandidateIds.size());
+            System.out.println("Manual fixed     : " + manualFixedFacilityIds.size());
+            System.out.println("Effective fixed  : " + effectiveFixedFacilityIds.size());
             System.out.println("HV ref point     : (" + referenceObjective1 + ", " + referenceObjective2 + ")");
             System.out.println("========================================");
 
@@ -157,8 +209,17 @@ public class Main {
             // 4. Initialize population
             System.out.println("STAGE Running Java GA");
             List<Integer> candidateIds = repository.getSelectableCandidateIds();
+            if (!effectiveFixedFacilityIds.isEmpty()) {
+                Set<Integer> fixedFacilityIdSet = new HashSet<>(effectiveFixedFacilityIds);
+                candidateIds.removeIf(fixedFacilityIdSet::contains);
+            }
             if (candidateIds.isEmpty()) {
                 throw new IllegalStateException("No selectable candidates found. All candidates may be forbidden.");
+            }
+            if (candidateIds.size() < k) {
+                throw new IllegalStateException(
+                        "Selectable candidate count after removing fixed facilities (" +
+                                candidateIds.size() + ") is less than k (" + k + ").");
             }
             System.out.println("Selectable candidates: " + candidateIds.size());
             List<Individual> population = populationInitializer.initializePopulation(candidateIds, k, populationSize);
@@ -166,7 +227,11 @@ public class Main {
             List<Individual> archive = new ArrayList<>();
 
             // 5. Build dependencies
-            FitnessCalculator fitnessCalculator = new FitnessCalculator(distanceMatrix, repository, beta);
+            FitnessCalculator fitnessCalculator = new FitnessCalculator(
+                    distanceMatrix,
+                    repository,
+                    beta,
+                    effectiveFixedFacilityIds);
 
             ObjectiveNormalizer objectiveNormalizer = new ObjectiveNormalizer();
             Dominance dominance = new Dominance();
@@ -250,7 +315,10 @@ public class Main {
             writeArchiveCsv(initialArchiveSnapshot, initialArchiveCsv);
             writeArchiveCsv(finalArchiveSnapshot, finalArchiveCsv);
             writeRunMetadata(runMetadataJson, k, populationSize, archiveSize, maxGenerations,
-                    beta, crossoverRate, mutationRate, randomSeed, estimatedFunctionEvaluations);
+                    beta, crossoverRate, mutationRate, randomSeed, estimatedFunctionEvaluations,
+                    includeExistingLockers, existingPhysicalLockerCount,
+                    existingLockerCandidateIds.size(), manualFixedFacilityIds,
+                    effectiveFixedFacilityIds, maxGenerationsWasClamped);
 
             // 12. Compute hypervolume — final archive only.
             double finalHypervolume = hypervolumeIndicator.compute(finalArchiveSnapshot);
@@ -328,7 +396,13 @@ public class Main {
                                           int maxGenerations, double beta,
                                           double crossoverRate, double mutationRate,
                                           Long randomSeed,
-                                          long estimatedFunctionEvaluations) throws IOException {
+                                          long estimatedFunctionEvaluations,
+                                          boolean includeExistingLockers,
+                                          int existingPhysicalLockerCount,
+                                          int existingLockerCandidateCount,
+                                          List<Integer> manualFixedFacilityIds,
+                                          List<Integer> effectiveFixedFacilityIds,
+                                          boolean maxGenerationsWasClamped) throws IOException {
         try (BufferedWriter writer = Files.newBufferedWriter(outputPath)) {
             writer.write("{\n");
             writer.write("  \"k\": " + k + ",\n");
@@ -339,6 +413,18 @@ public class Main {
             writer.write("  \"crossoverRate\": " + crossoverRate + ",\n");
             writer.write("  \"mutationRate\": " + mutationRate + ",\n");
             writer.write("  \"randomSeed\": " + (randomSeed != null ? randomSeed : "null") + ",\n");
+            writer.write("  \"includeExistingLockers\": " + includeExistingLockers + ",\n");
+            writer.write("  \"existingPhysicalLockerCount\": " + existingPhysicalLockerCount + ",\n");
+            writer.write("  \"existingLockerCandidateCount\": " + existingLockerCandidateCount + ",\n");
+            writer.write("  \"manualFixedFacilityIds\": " + toJsonArray(manualFixedFacilityIds) + ",\n");
+            writer.write("  \"fixedFacilityIds\": " + toJsonArray(effectiveFixedFacilityIds) + ",\n");
+            writer.write("  \"effectiveFixedFacilityIdsCount\": " + effectiveFixedFacilityIds.size() + ",\n");
+            writer.write("  \"newFacilityCount\": " + k + ",\n");
+            writer.write("  \"totalPhysicalLockerCount\": " + (k + existingPhysicalLockerCount) + ",\n");
+            writer.write("  \"totalEffectiveFacilityCandidateCount\": " +
+                    (k + effectiveFixedFacilityIds.size()) + ",\n");
+            writer.write("  \"minMaxGenerations\": " + MIN_MAX_GENERATIONS + ",\n");
+            writer.write("  \"maxGenerationsWasClamped\": " + maxGenerationsWasClamped + ",\n");
             writer.write("  \"estimatedFunctionEvaluations\": " + estimatedFunctionEvaluations + "\n");
             writer.write("}\n");
         }
@@ -445,6 +531,68 @@ public class Main {
             builder.append(chromosome.get(i));
         }
 
+        return builder.toString();
+    }
+
+    private static List<Integer> parseFixedFacilityIds(String rawValue) {
+        LinkedHashSet<Integer> ids = new LinkedHashSet<>();
+        if (rawValue == null || rawValue.isBlank()) {
+            return new ArrayList<>();
+        }
+
+        String[] tokens = rawValue.split("[,;|]");
+        for (String token : tokens) {
+            String trimmed = token.trim();
+            if (trimmed.isEmpty()) {
+                continue;
+            }
+
+            int id;
+            try {
+                id = Integer.parseInt(trimmed);
+            } catch (NumberFormatException error) {
+                throw new IllegalArgumentException("Invalid fixed facility ID: " + trimmed);
+            }
+
+            if (id <= 0) {
+                throw new IllegalArgumentException("Fixed facility IDs must be positive: " + id);
+            }
+            ids.add(id);
+        }
+
+        return new ArrayList<>(ids);
+    }
+
+    private static void validateFixedFacilityIds(List<Integer> fixedFacilityIds, CandidateRepository repository) {
+        for (int fixedFacilityId : fixedFacilityIds) {
+            if (!repository.containsId(fixedFacilityId)) {
+                throw new IllegalArgumentException("Fixed facility ID does not exist: " + fixedFacilityId);
+            }
+        }
+    }
+
+    private static List<Integer> combineFixedFacilityIds(
+            List<Integer> existingLockerCandidateIds,
+            List<Integer> manualFixedFacilityIds) {
+        LinkedHashSet<Integer> ids = new LinkedHashSet<>();
+        if (existingLockerCandidateIds != null) {
+            ids.addAll(existingLockerCandidateIds);
+        }
+        if (manualFixedFacilityIds != null) {
+            ids.addAll(manualFixedFacilityIds);
+        }
+        return new ArrayList<>(ids);
+    }
+
+    private static String toJsonArray(List<Integer> values) {
+        StringBuilder builder = new StringBuilder("[");
+        for (int i = 0; i < values.size(); i++) {
+            if (i > 0) {
+                builder.append(", ");
+            }
+            builder.append(values.get(i));
+        }
+        builder.append("]");
         return builder.toString();
     }
 

@@ -15,26 +15,61 @@ export async function POST(request: Request) {
     const body = (await request.json()) as RunGaRequestBody;
     const { k } = body;
 
-    if (typeof k !== "number" || k < 1) {
+    if (typeof k !== "number" || !Number.isInteger(k) || k < 1 || k > 30) {
       return new Response(JSON.stringify({ error: "Invalid k value" }), { status: 400 });
     }
 
+    if (
+      body.fixedFacilityIds !== undefined &&
+      (
+        !Array.isArray(body.fixedFacilityIds) ||
+        body.fixedFacilityIds.some((value) => {
+          const id = typeof value === "number" ? value : Number(value);
+          return !Number.isInteger(id) || id <= 0;
+        })
+      )
+    ) {
+      return new Response(JSON.stringify({ error: "Invalid fixedFacilityIds value" }), { status: 400 });
+    }
+
+    if (
+      body.includeExistingLockers !== undefined &&
+      typeof body.includeExistingLockers !== "boolean"
+    ) {
+      return new Response(JSON.stringify({ error: "Invalid includeExistingLockers value" }), { status: 400 });
+    }
+
     const encoder = new TextEncoder();
+    let isStreamClosed = false;
 
     const stream = new ReadableStream({
       async start(controller) {
         function sendEvent(data: StreamEvent) {
-          controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
+          if (isStreamClosed) return;
+          try {
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
+          } catch {
+            isStreamClosed = true;
+          }
         }
 
         try {
           await runGaPipeline(body, runtimeConfig, childEnv, sendEvent);
-          controller.close();
+          if (!isStreamClosed) {
+            isStreamClosed = true;
+            controller.close();
+          }
         } catch (error: unknown) {
           console.error("Optimization error:", error);
           sendEvent(getFailureEvent(error, runtimeConfig));
-          controller.close();
+          if (!isStreamClosed) {
+            isStreamClosed = true;
+            controller.close();
+          }
         }
+      },
+      cancel() {
+        isStreamClosed = true;
       },
     });
 

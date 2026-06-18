@@ -1,5 +1,7 @@
 import type { ArchiveSolution, Locker } from "@/lib/types";
 
+export const MIN_MAX_GENERATIONS = 500;
+
 export function getOptimalParams(k: number): {
   popSize: number;
   maxGenerations: number;
@@ -7,10 +9,12 @@ export function getOptimalParams(k: number): {
   crossoverRate: number;
   archiveSize: number;
 } {
-  if (k <= 4) return { popSize: 200, maxGenerations: 200, mutationRate: 0.4, crossoverRate: 0.9, archiveSize: 100 };
+  // Project-specific K bands from the previous optimizer configuration flow.
+  if (k <= 4) return { popSize: 200, maxGenerations: MIN_MAX_GENERATIONS, mutationRate: 0.4, crossoverRate: 0.9, archiveSize: 100 };
   if (k <= 7) return { popSize: 100, maxGenerations: 500, mutationRate: 0.4, crossoverRate: 0.9, archiveSize: 50 };
   if (k <= 12) return { popSize: 50, maxGenerations: 1600, mutationRate: 0.3, crossoverRate: 0.9, archiveSize: 25 };
   if (k <= 20) return { popSize: 50, maxGenerations: 3000, mutationRate: 0.3, crossoverRate: 0.9, archiveSize: 25 };
+  if (k <= 30) return { popSize: 50, maxGenerations: 5000, mutationRate: 0.3, crossoverRate: 0.9, archiveSize: 25 };
   return { popSize: 50, maxGenerations: 5000, mutationRate: 0.3, crossoverRate: 0.9, archiveSize: 25 };
 }
 
