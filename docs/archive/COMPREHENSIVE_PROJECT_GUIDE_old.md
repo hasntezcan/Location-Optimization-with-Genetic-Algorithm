@@ -1,5 +1,9 @@
 # Comprehensive Project Guide
 
+> Archived V0 technical reference: this file documents historical Kadikoy parcel locker implementation details. It is not authoritative for V1 architecture. Use `AGENTS.md` and the `docs/V1_*` files for current development direction.
+
+> V0 technical state: this guide documents the current Kadikoy parcel locker system, runtime contracts, data preparation workflow, Java SPEA2 implementation, and Next.js dashboard integration. For the new generic grid-based location optimization platform direction, start with `AGENTS.md` and the V1 docs in `docs/V1_ARCHITECTURE.md`.
+
 ## Purpose of this guide
 
 This guide consolidates the repository's guide and README-style documentation into one root-level reference. It preserves the current technical contracts, data preparation workflow, Java SPEA2 implementation details, Python script responsibilities, UI/backend integration notes, deployment limitations, reproducibility constraints, and future-work items documented across the project.
@@ -56,7 +60,7 @@ Important root files:
 - `readme.md`: quick-start guide.
 - `docs/archive/guide.md`: archived shorter project guide.
 - `docs/archive/General_GUIDE.md`: archived detailed report-oriented technical guide.
-- `COMPREHENSIVE_PROJECT_GUIDE.md`: this consolidated guide.
+- `docs/archive/COMPREHENSIVE_PROJECT_GUIDE_old.md`: this archived V0 technical reference.
 - `DEPLOYMENT_PHASE1.md`: local/container deployment notes for the current process-spawning UI integration.
 - `Dockerfile`: one-service image containing Node, Java 17, Maven, Python, the Java project, and the UI.
 - `docker-compose.yml`: local Compose runner with `data`, `output`, and UI mock mounts.
@@ -81,7 +85,7 @@ Location-Optimization-with-Genetic-Algorithm
 │  └─ archive
 │     ├─ guide.md
 │     └─ General_GUIDE.md
-├─ COMPREHENSIVE_PROJECT_GUIDE.md
+├─ docs/archive/COMPREHENSIVE_PROJECT_GUIDE_old.md
 ├─ requirements.txt
 ├─ data
 │  ├─ candidate_points.csv
@@ -3318,7 +3322,7 @@ This section keeps differences rather than deleting them.
 
 For report writing, auditing, or continued development:
 
-1. `COMPREHENSIVE_PROJECT_GUIDE.md`
+1. `docs/archive/COMPREHENSIVE_PROJECT_GUIDE_old.md`
 2. `docs/archive/General_GUIDE.md`
 3. `readme.md`
 4. `src/main/java/app/Main.java`

@@ -1,0 +1,695 @@
+{
+  "schemaVersion": "v1",
+  "scenarioId": "kadikoy-parcel-locker-current-network",
+  "name": "Kadikoy Parcel Locker Current Network",
+  "description": "Default current-network scenario seeded from V0 existing_locker_count.",
+  "useCase": "parcel_locker",
+  "grid": {
+    "candidateSource": "data/candidate_points.csv",
+    "distanceMatrixSource": "data/kadikoy_distance_meters_nxn.npy",
+    "candidateIdOrder": "ascending",
+    "crs": {
+      "display": "EPSG:4326",
+      "metric": "EPSG:32635"
+    }
+  },
+  "settings": {
+    "runType": "current_network",
+    "includeExistingFacilities": true,
+    "targetNewFacilityCount": 0,
+    "targetTotalFacilityCount": null,
+    "objectiveBundle": "parcel_locker_current_baseline"
+  },
+  "facilities": [
+    {
+      "id": "existing-0001",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0001",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9926733290404,
+        "lon": 29.0255386559712,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 672,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Osmanağa Mahallesi",
+        "neighborhoodEnglish": "OSMANAGA"
+      }
+    },
+    {
+      "id": "existing-0002",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0002",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9818701861271,
+        "lon": 29.0252079680594,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 684,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Caferağa Mahallesi",
+        "neighborhoodEnglish": "CAFERAGA"
+      }
+    },
+    {
+      "id": "existing-0003",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0003",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9809699232015,
+        "lon": 29.0251804188439,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 685,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Caferağa Mahallesi",
+        "neighborhoodEnglish": "CAFERAGA"
+      }
+    },
+    {
+      "id": "existing-0004",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0004",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 41.0042930337639,
+        "lon": 29.0306505851662,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 947,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Koşuyolu Mahallesi",
+        "neighborhoodEnglish": "KOSUYOLU"
+      }
+    },
+    {
+      "id": "existing-0005",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0005",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 41.0006710606704,
+        "lon": 29.0317283151133,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 1023,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Acıbadem Mahallesi",
+        "neighborhoodEnglish": "ACIBADEM"
+      }
+    },
+    {
+      "id": "existing-0006",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0006",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9997708043257,
+        "lon": 29.0317006589445,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 1024,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Acıbadem Mahallesi",
+        "neighborhoodEnglish": "ACIBADEM"
+      }
+    },
+    {
+      "id": "existing-0007",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0007",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9925268298333,
+        "lon": 29.0338557654007,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 1176,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Rasimpaşa Mahallesi",
+        "neighborhoodEnglish": "RASIMPASA"
+      }
+    },
+    {
+      "id": "existing-0008",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0008",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 41.0059676588046,
+        "lon": 29.0378362568871,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 1377,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Acıbadem Mahallesi",
+        "neighborhoodEnglish": "ACIBADEM"
+      }
+    },
+    {
+      "id": "existing-0009",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0009",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9987656376375,
+        "lon": 29.037614336489,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 1385,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Acıbadem Mahallesi",
+        "neighborhoodEnglish": "ACIBADEM"
+      }
+    },
+    {
+      "id": "existing-0010",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0010",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9833982502092,
+        "lon": 29.0407069837563,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 1618,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Zühtüpaşa Mahallesi",
+        "neighborhoodEnglish": "ZUHTUPASA"
+      }
+    },
+    {
+      "id": "existing-0011",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0011",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9914373421601,
+        "lon": 29.044521279077,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 1825,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Eğitim Mahallesi",
+        "neighborhoodEnglish": "EGITIM"
+      }
+    },
+    {
+      "id": "existing-0012",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0012",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9923165050836,
+        "lon": 29.0457372436988,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 1896,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Eğitim Mahallesi",
+        "neighborhoodEnglish": "EGITIM"
+      }
+    },
+    {
+      "id": "existing-0013",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0013",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9958541586851,
+        "lon": 29.0494132233323,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 2108,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Fikirtepe Mahallesi",
+        "neighborhoodEnglish": "FIKIRTEPE"
+      }
+    },
+    {
+      "id": "existing-0014",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0014",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9931534166839,
+        "lon": 29.0493295509169,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 2111,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Fikirtepe Mahallesi",
+        "neighborhoodEnglish": "FIKIRTEPE"
+      }
+    },
+    {
+      "id": "existing-0015",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0015",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9948904593291,
+        "lon": 29.0529498841153,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 2325,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Fikirtepe Mahallesi",
+        "neighborhoodEnglish": "FIKIRTEPE"
+      }
+    },
+    {
+      "id": "existing-0016",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0016",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9849877520401,
+        "lon": 29.0526426221241,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 2336,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Eğitim Mahallesi",
+        "neighborhoodEnglish": "EGITIM"
+      }
+    },
+    {
+      "id": "existing-0017",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0017",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9804653506608,
+        "lon": 29.0536909317298,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 2413,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Feneryolu Mahallesi",
+        "neighborhoodEnglish": "FENERYOLU"
+      }
+    },
+    {
+      "id": "existing-0018",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0018",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9957483405282,
+        "lon": 29.0553542191429,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 2468,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 2,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Fikirtepe Mahallesi",
+        "neighborhoodEnglish": "FIKIRTEPE"
+      }
+    },
+    {
+      "id": "existing-0019",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0019",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9912259227499,
+        "lon": 29.056402482539,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 2545,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Fikirtepe Mahallesi",
+        "neighborhoodEnglish": "FIKIRTEPE"
+      }
+    },
+    {
+      "id": "existing-0020",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0020",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9920199946376,
+        "lon": 29.0623711013551,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 2904,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Dumlupınar Mahallesi",
+        "neighborhoodEnglish": "DUMLUPINAR"
+      }
+    },
+    {
+      "id": "existing-0021",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0021",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9830175830476,
+        "lon": 29.0620905129399,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 2914,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Göztepe Mahallesi",
+        "neighborhoodEnglish": "GOZTEPE"
+      }
+    },
+    {
+      "id": "existing-0022",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0022",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9892554288618,
+        "lon": 29.0658511319659,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 3123,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Merdivenköy Mahallesi",
+        "neighborhoodEnglish": "MERDIVENKOY"
+      }
+    },
+    {
+      "id": "existing-0023",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0023",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9928137537543,
+        "lon": 29.0683398510722,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 3263,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Merdivenköy Mahallesi",
+        "neighborhoodEnglish": "MERDIVENKOY"
+      }
+    },
+    {
+      "id": "existing-0024",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0024",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9833802761937,
+        "lon": 29.0918145295354,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 4713,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Sahrayıcedit Mahallesi",
+        "neighborhoodEnglish": "SAHRAYICEDIT"
+      }
+    },
+    {
+      "id": "existing-0025",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0025",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9698791373379,
+        "lon": 29.0913909204763,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 4728,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Kozyatağı Mahallesi",
+        "neighborhoodEnglish": "KOZYATAGI"
+      }
+    },
+    {
+      "id": "existing-0026",
+      "kind": "existing",
+      "status": "enabled",
+      "facilityType": "parcel_locker",
+      "label": "Existing parcel locker 0026",
+      "source": "seed_from_v0_data",
+      "coordinates": {
+        "lat": 40.9596737709555,
+        "lon": 29.1077034402785,
+        "crs": "EPSG:4326"
+      },
+      "snap": {
+        "candidateId": 5747,
+        "snapDistanceMeters": 0,
+        "snapMethod": "seed_from_existing_locker_count",
+        "snapStatus": "snapped"
+      },
+      "metadata": {
+        "physicalCount": 1,
+        "sourceColumn": "existing_locker_count",
+        "neighborhoodTurkish": "Bostancı Mahallesi",
+        "neighborhoodEnglish": "BOSTANCI"
+      }
+    }
+  ],
+  "constraints": {
+    "lockedCandidateIds": [],
+    "disabledCandidateIds": []
+  },
+  "benchmark": {
+    "demandType": "proxy",
+    "coverageThresholdMeters": 500
+  },
+  "metadata": {
+    "createdBy": "script",
+    "source": "existing_locker_count",
+    "sourceCandidateCsv": "data/candidate_points.csv",
+    "effectiveFacilityLocationCount": 26,
+    "physicalFacilityCount": 27,
+    "notes": [
+      "One scenario facility is created per candidate with existing_locker_count > 0.",
+      "physicalCount preserves cases where multiple physical facilities map to one candidate.",
+      "nearby_locker_count is not used."
+    ]
+  }
+}
