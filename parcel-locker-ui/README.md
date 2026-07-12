@@ -317,7 +317,6 @@ parcel-locker-ui/
 │  │     ├─ ga-runner.ts
 │  │     └─ runtime-config.ts
 │  └─ scripts/
-│     ├─ build_candidate_json.py
 │     └─ process_ga_data.py
 ├─ package.json
 ├─ package-lock.json

@@ -11,6 +11,8 @@ export type RuntimeConfig = {
   uiMockDir: string;
   plotScriptPath: string;
   processScriptPath: string;
+  scenarioAdapterScriptPath: string;
+  scenariosDir: string;
   outputLatestPlotPath: string;
   uiLatestPlotPath: string;
   mavenCmd?: string;
@@ -51,6 +53,8 @@ export function getRuntimeConfig(): RuntimeConfig {
     uiMockDir,
     plotScriptPath: path.join(projectRoot, "scripts/plot_archives.py"),
     processScriptPath: path.join(uiRoot, "src/scripts/process_ga_data.py"),
+    scenarioAdapterScriptPath: path.join(projectRoot, "scripts/scenario/derive_optimizer_inputs.py"),
+    scenariosDir: path.join(projectRoot, "data/scenarios"),
     outputLatestPlotPath: path.join(outputDir, "archive_comparison_latest.png"),
     uiLatestPlotPath: path.join(uiMockDir, "archive_comparison_latest.png"),
     mavenCmd: process.env.MAVEN_CMD?.trim(),

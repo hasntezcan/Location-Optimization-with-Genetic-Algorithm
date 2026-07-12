@@ -13,9 +13,37 @@ export async function POST(request: Request) {
     const childEnv = buildChildEnv(runtimeConfig);
 
     const body = (await request.json()) as RunGaRequestBody;
-    const { k } = body;
+    const { k, scenarioPath } = body;
 
-    if (typeof k !== "number" || !Number.isInteger(k) || k < 1 || k > 30) {
+    if (scenarioPath !== undefined && (typeof scenarioPath !== "string" || !scenarioPath.trim())) {
+      return new Response(JSON.stringify({ error: "Invalid scenarioPath value" }), { status: 400 });
+    }
+
+    if (
+      body.forceExistingOff !== undefined &&
+      typeof body.forceExistingOff !== "boolean"
+    ) {
+      return new Response(JSON.stringify({ error: "Invalid forceExistingOff value" }), { status: 400 });
+    }
+
+    if (
+      body.targetTotalFacilityCount !== undefined &&
+      (!Number.isInteger(body.targetTotalFacilityCount) || body.targetTotalFacilityCount < 1)
+    ) {
+      return new Response(
+        JSON.stringify({ error: "Invalid targetTotalFacilityCount value" }),
+        { status: 400 }
+      );
+    }
+
+    // When a scenario drives the run, k/fixedFacilityIds/includeExistingLockers
+    // are derived from the scenario (see ga-runner.ts) and are not required
+    // from the client. The V0 request shape (no scenarioPath) still requires
+    // an explicit, valid k.
+    if (
+      !scenarioPath &&
+      (typeof k !== "number" || !Number.isInteger(k) || k < 1 || k > 30)
+    ) {
       return new Response(JSON.stringify({ error: "Invalid k value" }), { status: 400 });
     }
 

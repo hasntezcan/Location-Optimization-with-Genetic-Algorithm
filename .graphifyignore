@@ -1,0 +1,76 @@
+# Graphify code-only scan
+# Exclude docs, markdown, images, binaries, generated files, raw/archive data.
+
+# markdown/docs that require semantic extraction
+*.md
+docs/
+README.md
+readme.md
+AGENTS.md
+CLAUDE.md
+
+# images / media / documents
+*.qmd
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.svg
+*.pdf
+*.mp4
+*.mov
+
+# binary / data artifacts
+*.npy
+*.npz
+*.gpkg
+*.qgz
+*.xlsx
+*.xls
+*.csv
+
+# generated outputs
+output/
+graphify-out/
+parcel-locker-ui/.next/
+parcel-locker-ui/public/mock/
+sections/figures/final_results/
+target/
+dist/
+build/
+
+# dependencies / caches
+node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# raw / archive / legacy-heavy areas
+data/raw/
+data/archive/
+docs/archive/
+scripts/archive/
+
+# possible extensionless / doc-like root files
+LICENSE
+NOTICE
+CHANGELOG
+CHANGELOG.*
+CONTRIBUTING*
+Dockerfile
+.dockerignore
+
+# case-variant markdown extensions not caught by *.md
+*.MD
+*.Md
+*.mD
+
+# plain-text docs
+requirements.txt
+
+# local/env
+.env
+.env.*

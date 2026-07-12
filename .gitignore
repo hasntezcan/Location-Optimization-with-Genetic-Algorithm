@@ -9,6 +9,8 @@ output/
 # Python
 __pycache__/
 *.pyc
+*.egg-info/
+.pytest_cache/
 
 # Local environment
 .venv/
@@ -31,6 +33,8 @@ output/final_archive.csv
 output/initial_archive.csv
 output/run_metadata.json
 output/archive_comparison_latest.png
+graphify-out/
+.graphify-codeonly/
 
 # Generated UI mock/result files
 parcel-locker-ui/public/mock/ga-results.json

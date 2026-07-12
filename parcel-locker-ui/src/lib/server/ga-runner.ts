@@ -1,12 +1,20 @@
 import { spawn } from "child_process";
 import { promises as fs } from "fs";
+import path from "path";
 import { runPythonScript } from "@/lib/python-runner";
 import type { RuntimeConfig } from "@/lib/server/runtime-config";
+import {
+  deriveOptimizerInputsFromScenario,
+  type ScenarioAdapterResult,
+} from "@/lib/server/scenario-adapter";
 
 export type StreamEvent = Record<string, unknown>;
 
 export type RunGaRequestBody = {
-  k: number;
+  // Required for the V0 request shape (no scenarioPath). When scenarioPath
+  // is present, k/fixedFacilityIds/includeExistingLockers are derived from
+  // the scenario instead and any client-sent values here are ignored.
+  k?: number;
   populationSize?: number;
   maxGenerations?: number;
   mutationRate?: number;
@@ -15,6 +23,10 @@ export type RunGaRequestBody = {
   randomSeed?: number | string | null;
   fixedFacilityIds?: Array<number | string>;
   includeExistingLockers?: boolean;
+  // Scenario-driven request fields (additive; see scenario-adapter.ts).
+  scenarioPath?: string;
+  forceExistingOff?: boolean;
+  targetTotalFacilityCount?: number;
 };
 
 type ResolvedRunGaRequestBody = Omit<RunGaRequestBody, "fixedFacilityIds"> & {
@@ -208,6 +220,46 @@ async function runJavaGa(
   });
 }
 
+function buildScenarioSummary(scenarioResult: ScenarioAdapterResult): Record<string, unknown> {
+  return {
+    scenarioId: scenarioResult.scenarioId,
+    scenarioPath: scenarioResult.scenarioPath,
+    existingEnabled: scenarioResult.existingEnabled,
+    facilityCountMode: scenarioResult.facilityCountMode,
+    targetNewFacilityCount: scenarioResult.targetNewFacilityCount,
+    targetTotalFacilityCount: scenarioResult.targetTotalFacilityCount,
+    physicalFacilityCount: scenarioResult.physicalFacilityCount,
+    effectiveFacilityLocationCount: scenarioResult.effectiveFacilityLocationCount,
+    activeExistingCandidateCount: scenarioResult.activeExistingCandidateIds.length,
+    lockedCandidateCount: scenarioResult.lockedCandidateIds.length,
+    disabledCandidateCount: scenarioResult.disabledCandidateIds.length,
+    optimizerRunRequired: scenarioResult.optimizerRunRequired,
+    adapterWarnings: scenarioResult.warnings,
+  };
+}
+
+/**
+ * Merge scenario metadata into the run_metadata.json Java already wrote,
+ * so a scenario-driven run's metadata is traceable without duplicating
+ * Java's metadata writer. No-op (with a logged warning) if the file is
+ * missing or unreadable — this is best-effort, not a new metadata system.
+ */
+async function mergeScenarioMetadataIntoRunMetadata(
+  runtimeConfig: RuntimeConfig,
+  scenarioResult: ScenarioAdapterResult
+): Promise<void> {
+  const runMetadataPath = path.join(runtimeConfig.outputDir, "run_metadata.json");
+  try {
+    const raw = await fs.readFile(runMetadataPath, "utf-8");
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
+    parsed.scenario = buildScenarioSummary(scenarioResult);
+    await fs.writeFile(runMetadataPath, JSON.stringify(parsed, null, 2) + "\n", "utf-8");
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`Could not merge scenario metadata into ${runMetadataPath}:`, message);
+  }
+}
+
 export async function runGaPipeline(
   body: RunGaRequestBody,
   runtimeConfig: RuntimeConfig,
@@ -216,7 +268,61 @@ export async function runGaPipeline(
 ): Promise<void> {
   sendEvent({ stage: "Starting optimization", message: "Preparing Maven environment..." });
 
-  await runJavaGa(body, runtimeConfig, childEnv, sendEvent);
+  let effectiveBody: RunGaRequestBody = body;
+  let scenarioResult: ScenarioAdapterResult | null = null;
+
+  if (body.scenarioPath) {
+    sendEvent({
+      stage: "Resolving scenario",
+      message: `Deriving optimizer inputs from scenario: ${body.scenarioPath}`,
+    });
+
+    scenarioResult = await deriveOptimizerInputsFromScenario(
+      {
+        scenarioPath: body.scenarioPath,
+        forceExistingOff: body.forceExistingOff,
+        targetTotalFacilityCount: body.targetTotalFacilityCount,
+      },
+      runtimeConfig,
+      childEnv
+    );
+
+    const scenarioSummary = buildScenarioSummary(scenarioResult);
+
+    if (!scenarioResult.optimizerRunRequired || !scenarioResult.javaCliArgs) {
+      sendEvent({
+        stage: "Completed",
+        message:
+          "This scenario represents a current-network evaluation; no optimizer run was required.",
+        success: true,
+        scenario: scenarioSummary,
+      });
+      return;
+    }
+
+    // Scenario data is the source of truth here: active existing facilities
+    // and locked candidates are folded into fixedFacilityIds, and
+    // includeExistingLockers is explicitly forced off so Java never
+    // re-derives existing facilities from existing_locker_count.
+    effectiveBody = {
+      ...body,
+      k: scenarioResult.javaCliArgs.k,
+      fixedFacilityIds: scenarioResult.effectiveFixedCandidateIds,
+      includeExistingLockers: false,
+    };
+
+    sendEvent({
+      stage: "Resolving scenario",
+      message: "Scenario resolved to optimizer inputs.",
+      scenario: scenarioSummary,
+    });
+  }
+
+  await runJavaGa(effectiveBody, runtimeConfig, childEnv, sendEvent);
+
+  if (scenarioResult) {
+    await mergeScenarioMetadataIntoRunMetadata(runtimeConfig, scenarioResult);
+  }
 
   sendEvent({ stage: "Generating plots", message: "Running plot_archives.py..." });
   console.log("Generating Plots...");
@@ -251,6 +357,7 @@ export async function runGaPipeline(
     message: "Optimization completed successfully.",
     success: true,
     paretoInfo,
+    ...(scenarioResult ? { scenario: buildScenarioSummary(scenarioResult) } : {}),
   });
 }
 
@@ -266,6 +373,10 @@ export function getFailureEvent(
 
   if (errorInfo.message.includes("Python command could not be resolved")) {
     stage = "Failed while detecting Python";
+  } else if (errorInfo.scriptPath === runtimeConfig.scenarioAdapterScriptPath) {
+    stage = "Failed while deriving scenario inputs";
+    stderr = errorInfo.stderr || "";
+    errorMessage = errorInfo.message;
   } else if (errorInfo.scriptPath === runtimeConfig.plotScriptPath) {
     stage = "Failed while generating plots";
     stderr = errorInfo.stderr || "";

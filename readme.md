@@ -54,6 +54,7 @@ For AI agents, contributors, and future development work, read these first:
 7. [`docs/V1_MAP_UI_STRATEGY.md`](docs/V1_MAP_UI_STRATEGY.md)
 8. [`docs/V1_ROADMAP.md`](docs/V1_ROADMAP.md)
 9. [`docs/REPO_STRUCTURE.md`](docs/REPO_STRUCTURE.md)
+10. [`docs/PHASE_0_REPO_CLEANUP_PLAN.md`](docs/PHASE_0_REPO_CLEANUP_PLAN.md) — the approved repository-migration plan (current-state inventory, target Python package decision, first migration batch, compatibility/validation/rollback plan). **Phases 1A–1F have implemented this plan** — see `docs/V1_ROADMAP.md`'s "Current Implementation Track" for what's done and the manual validation still required before Phase 2 begins.
 
 For archived V0 implementation history, use:
 
@@ -82,6 +83,7 @@ These contracts must be protected during development:
 Main areas:
 
 * `src/main/java`: Java SPEA2 optimizer, models, loaders, services, and app entry points.
+* `python/src/location_platform`: reusable Python package for scenario validation/seeding/optimizer-input derivation and current-network benchmarking. `scripts/scenario/*.py` and `scripts/validation/benchmark_existing_vs_optimized.py` are thin CLI wrappers over it (Phases 1A–1F; see `docs/V1_ROADMAP.md` for manual validation status).
 * `scripts`: Python data preparation, plotting, validation, benchmark, and research scripts.
 * `data`: candidate CSV, distance matrix, raw GIS/provenance files, and matrix alignment artifacts.
 * `parcel-locker-ui`: Next.js dashboard and local/dev UI integration.
@@ -321,6 +323,8 @@ The long-term V1 direction is:
 ```text
 grid data + scenario facilities + modular objectives + optimization + benchmarking + map sandbox
 ```
+
+**Status note:** the Phase 1 Python package migration (`python/src/location_platform/`) is implemented and has been reviewed by static inspection only — no automated test run and no live CLI execution has confirmed it yet. See `docs/V1_ROADMAP.md`'s "Manual Validation Still Required" section for the exact commands to run. Phase 2 and later-phase work should not begin until that validation passes. This is not a claim of production readiness — see "Important Phase 1 limitations" above, which still apply unchanged.
 
 ## Notes for AI Agents
 
